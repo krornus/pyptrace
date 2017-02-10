@@ -17,8 +17,10 @@ PyObject* pyptrace_Instr_iter(PyObject *self);
 PyObject* pyptrace_Instr_iternext(PyObject *self);
 static PyObject *pyptrace_instructions(PyObject *self, PyObject *args, PyObject *keywd);
 PyMODINIT_FUNC initspam(void);
+int trace(char *fn, char **argv, char *stdin);
 
-int trace(char *fn, char **argv);
+int fd[2];
+
 
 static PyTypeObject pyptrace_InstrType = {
     PyObject_HEAD_INIT(NULL)
@@ -87,7 +89,7 @@ PyObject* pyptrace_Instr_iternext(PyObject *self)
 
 static PyObject *pyptrace_instructions(PyObject *self, PyObject *args, PyObject *keywds)
 {
-    char *fn, **argv, *stdin;
+    char *fn, **argv, *in;
     int child, argc;
 
 	PyObject *obj_argv;
@@ -105,10 +107,21 @@ static PyObject *pyptrace_instructions(PyObject *self, PyObject *args, PyObject 
         return NULL;
     }
 
-	if (!PyArg_ParseTupleAndKeywords(args, keywds, "s|O!s", kwlist, &fn, &obj_argv, &stdin))
+	if (!PyArg_ParseTupleAndKeywords(args, keywds, "s|O!s", kwlist, 
+            &fn, 
+            &PyList_Type, &obj_argv, 
+            &in))
         return NULL;
 
-	if(NULL!=obj_argv && PyList_Check(obj_argv))
+    if(access(fn, F_OK ) == -1)
+    {
+        char err[1024];
+        sprintf(err, "No such file or directory: '%s'", fn);
+        PyErr_SetString(PyExc_IOError, err);
+        return NULL;
+    }
+
+	if(NULL!=obj_argv)
 		argc = PyList_Size(obj_argv);
 
 	if(argc < 1)
@@ -117,7 +130,7 @@ static PyObject *pyptrace_instructions(PyObject *self, PyObject *args, PyObject 
 	}
 	else
 	{
-		argv = malloc(sizeof(char *)*argc);	
+		argv = (char**)malloc(sizeof(char *)*(argc+1));	
 
 		if(NULL == argv)
 			return NULL;
@@ -129,10 +142,11 @@ static PyObject *pyptrace_instructions(PyObject *self, PyObject *args, PyObject 
 			str_arg = PyList_GetItem(obj_argv, i);	
 			argv[i] = PyString_AsString(str_arg);	
 		}
+        argv[argc] = 0;
 	}
 
    
-    child = trace(fn, argv);
+    child = trace(fn, argv, in);
 
     if(child == 0) return NULL;
 
@@ -162,17 +176,26 @@ PyMODINIT_FUNC initpyptrace(void)
 }
 
 
-int trace(char *fn, char **argv)
+int trace(char *fn, char **argv, char *in)
 {
     int child;
-
+    
+    pipe(fd);
     child = fork();
 
     if(child == 0)
     {
+        close(fd[1]);
+        dup2(fd[0], STDIN_FILENO);
+        
         /* attach tracing */
         ptrace(PTRACE_TRACEME, 0, NULL, NULL);
-        execl(fn, fn, argv, NULL);
+        execvp(fn, argv);
+    }
+    else
+    {
+        close(fd[0]);
+        write(fd[1], in, strlen(in));
     }
 
     return child;
