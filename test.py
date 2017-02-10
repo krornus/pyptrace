@@ -1,5 +1,5 @@
 import pyptrace 
 
-for i in pyptrace.instructions("./warmup"):
+for i in pyptrace.instructions("./binaries/warmup"):
     print hex(i)
 
