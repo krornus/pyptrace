@@ -1,4 +1,5 @@
 #include <python2.7/Python.h>
+#include <sys/personality.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/ptrace.h>
@@ -6,6 +7,9 @@
 #include <sys/wait.h>
 #include <sys/user.h>
 #include <syslog.h>
+#include <stdint.h>
+#include <inttypes.h>
+
 
 typedef struct {
     PyObject_HEAD
@@ -65,7 +69,7 @@ PyObject* pyptrace_Instr_iternext(PyObject *self)
 {
     pyptrace_Instr *py_instr;
     struct user_regs_struct regs;
-    unsigned int addr, op;
+    unsigned int op;
 
     py_instr = (pyptrace_Instr *)self;
 
@@ -74,15 +78,35 @@ PyObject* pyptrace_Instr_iternext(PyObject *self)
         return NULL;
     }
 
-    ptrace(PTRACE_GETREGS, py_instr->pid, NULL, &regs);
+    
+    errno = 0;
+    ptrace(PTRACE_GETREGS, py_instr->pid, &regs, &regs);
+    if(errno != 0)
+    {
+        char *err;
+        sprintf(err, "Failed to retrieve registers:\n\tError code %d (%s)\n", 
+            errno, strerror(errno));
+        PyErr_SetString(PyExc_IOError, err);
+        return NULL;
+    }
 
-    addr = regs.rip;
-    op = ptrace(PTRACE_PEEKDATA, py_instr->pid, addr, NULL);
+    errno = 0;
+    op = ptrace(PTRACE_PEEKDATA, py_instr->pid, regs.rip, NULL);
+
+    if(errno != 0)
+    {
+        char *err;
+        sprintf(err, "Failed to retrieve data at address 0x%x:\n\tError code %d (%s)\n", 
+            regs.rip, errno, strerror(errno));
+        PyErr_SetString(PyExc_IOError, err);
+        return NULL;
+    }
+
 
     ptrace(PTRACE_SINGLESTEP, py_instr->pid, NULL, NULL);
     waitpid(py_instr->pid, &py_instr->status, 0);
 
-	return Py_BuildValue("k", addr);
+	return Py_BuildValue("(kkk)", py_instr->pid, regs.rip, op);
 }
 
 
@@ -179,6 +203,8 @@ PyMODINIT_FUNC initpyptrace(void)
 int trace(char *fn, char **argv, char *in)
 {
     int child;
+
+    personality(ADDR_NO_RANDOMIZE);
     
     pipe(fd);
     child = fork();
