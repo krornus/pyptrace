@@ -1,4 +1,5 @@
 #include <python2.7/Python.h>
+
 #define DESC "Foo bar"
 #define MODULE "foo"
 #define ITER_METH "iter"
