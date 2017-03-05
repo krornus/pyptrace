@@ -1,4 +1,4 @@
-import pitrace
+import pyitrace
 
-for x in pitrace.instructions("./binaries/warmup"):
-    print x
+for x in pyitrace.instructions("/bin/ls"):
+    y=x
