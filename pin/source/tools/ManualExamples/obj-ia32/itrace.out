@@ -1,0 +1,7 @@
+A: Source/pin/vm_ia32_l/jit_region_ia32_linux.cpp: XlateSysCall: 37: Sysenter is supported on IA32 only and the expected location is inside Linux Gate
+
+NO STACK TRACE AVAILABLE
+Detach Service Count: 1596
+Pin 3.0
+Copyright (c) 2003-2016, Intel Corporation. All rights reserved.
+@CHARM-VERSION: $Rev: 76887 $

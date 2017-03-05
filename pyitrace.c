@@ -21,14 +21,14 @@
 
 #define ITRACE_SOCK "/tmp/itrace"
 #define PIN_ROOT "./pin/pin"
-#define PIN_TOOL64 "itrace64.so"
-#define PIN_TOOL32 "itrace64.so"
+#define PIN_TOOL64 "./tool/itrace64.so"
+#define PIN_TOOL32 "./tool/itrace32.so"
 #define PINC 4
 
-/*  gcc -shared -I/usr/include/python2.7/ -lpython2.7 -o MODULE.so pyitrace.c -fPIC */
+/*  gcc -Wall -shared -i/usr/include/python2.7/ -lpython2.7 -o module.so pyitrace.c -fpic */
 PyObject* pyitrace_PyITrace_iter(PyObject *self);
 PyObject* pyitrace_PyITrace_next(PyObject *self);
-wordexp_t *expand_str(char *args, wordexp_t *result);
+int expand_str(char *args, wordexp_t *result);
 int init_server(char *path);
 unsigned long read_addr(int sockd);
 char **argvcat(int argc1, char **argv1, int argc2, char **argv2, char ***result);
@@ -95,9 +95,7 @@ PyObject* pyitrace_PyITrace_next(PyObject *self)
     
     addr = read_addr(py_PyITrace->csockd);
 
-
     if(addr == -1) {
-        PYRAISE(PyExc_IOError, "done, %x", addr);
         close(py_PyITrace->csockd);
         return NULL;
     }
@@ -109,14 +107,12 @@ PyObject* pyitrace_PyITrace_next(PyObject *self)
 static PyObject *pyitrace_iterator(PyObject *self, PyObject *args, PyObject *keywds)
 {
     pyitrace_PyITrace *py_PyITrace;
-    int argc, sockd, remsize, csockd;
+    int argc, sockd, csockd, wsuccess;
+    unsigned int remsize;
     char *path, **argv;
     char *pinv[PINC] = { PIN_ROOT, "-t", PIN_TOOL64, "--" };
-    struct sockaddr_un local, remote;
-    PyObject *argvList = NULL;
-    wordexp_t *wargs;
-
-    int argcList = 0;
+    struct sockaddr_un remote;
+    wordexp_t wargs;
 
     static char *kwlist[] = {"path", NULL};
 
@@ -133,20 +129,20 @@ static PyObject *pyitrace_iterator(PyObject *self, PyObject *args, PyObject *key
         return NULL;
     }
 
-    wargs = expand_str(path, wargs);
+    wsuccess = expand_str(path, &wargs);
     
-    if (NULL == wargs || access(wargs->we_wordv[0], F_OK) == -1)
-        PYRAISE(PyExc_IOError, "No such file or directory: '%s'", wargs->we_wordv[0]);
+    if (wsuccess == -1 || access(wargs.we_wordv[0], F_OK) == -1)
+        PYRAISE(PyExc_IOError, "No such file or directory: '%s'", wargs.we_wordv[0]);
 
     if ((sockd = init_server(ITRACE_SOCK)) == -1)
         PYRAISE(PyExc_IOError, "Unable to initiate server:\n\t%s", strerror(errno));
 
     py_PyITrace->serverfd = sockd;
 
-    argc = PINC + wargs->we_wordc;
+    argc = PINC + wargs.we_wordc;
     argv = (char **)malloc(sizeof(char *)*(argc + 1));
 
-    argvcat(PINC, pinv, wargs->we_wordc, wargs->we_wordv, &argv);
+    argvcat(PINC, pinv, wargs.we_wordc, wargs.we_wordv, &argv);
     
     if(fork() == 0) {
         execv(PIN_ROOT, argv);
@@ -179,10 +175,10 @@ PyMODINIT_FUNC initpyitrace(void)
 }
 
 
-wordexp_t *expand_str(char *args, wordexp_t *result)
+int expand_str(char *args, wordexp_t *result)
 {
     if(NULL == args)
-        return NULL;
+        return -1;
 
     switch (wordexp (args, result, 0))
     {
@@ -191,15 +187,15 @@ wordexp_t *expand_str(char *args, wordexp_t *result)
         case WRDE_NOSPACE:
             wordfree (result);
         default:
-            return NULL;
+            return -1;
     }
-    return result;
+    return 0;
 }
 
 int init_server(char *path)
 {
-    struct sockaddr_un local, remote;
     int len, sockfd;
+    struct sockaddr_un local;
 
     if ((sockfd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
         return -1;
