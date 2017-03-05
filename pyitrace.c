@@ -12,10 +12,13 @@
 #define ITER_METH_DESC "Iterate over instructions"
 #define ITER_NAME "pyitrace.PyITrace"
 #define MAX_ERR_LEN  1024
-#define PYRAISE(exception, fmt, ...)  {\
+#define PYERR(exception, fmt, ...)  {\
     char __err_str__[MAX_ERR_LEN];\
     snprintf(__err_str__, MAX_ERR_LEN, fmt, __VA_ARGS__);\
     PyErr_SetString(exception, __err_str__);\
+};
+#define PYRAISE(exception, fmt, ...)  {\
+    PYERR(exception, fmt, __VA_ARGS__);\
     return NULL;\
 };
 
@@ -25,6 +28,10 @@
 #define PIN_TOOL32 "./tool/itrace32.so"
 #define PINC 4
 
+#define ELFCLASS32 1
+#define ELFCLASS64 2
+#define EI_CLASS 4
+
 /*  gcc -Wall -shared -i/usr/include/python2.7/ -lpython2.7 -o module.so pyitrace.c -fpic */
 PyObject* pyitrace_PyITrace_iter(PyObject *self);
 PyObject* pyitrace_PyITrace_next(PyObject *self);
@@ -32,6 +39,8 @@ int expand_str(char *args, wordexp_t *result);
 int init_server(char *path);
 unsigned long read_addr(int sockd);
 char **argvcat(int argc1, char **argv1, int argc2, char **argv2, char ***result);
+int get_arch_bits(char *fn);
+char *get_pin_tool(char *fn);
 
 typedef struct {
     PyObject_HEAD
@@ -107,12 +116,12 @@ PyObject* pyitrace_PyITrace_next(PyObject *self)
 static PyObject *pyitrace_iterator(PyObject *self, PyObject *args, PyObject *keywds)
 {
     pyitrace_PyITrace *py_PyITrace;
-    int argc, sockd, csockd, wsuccess;
+    int argc, sockd, csockd;
     unsigned int remsize;
-    char *path, **argv;
-    char *pinv[PINC] = { PIN_ROOT, "-t", PIN_TOOL64, "--" };
+    char *path, **argv, *pin_tool;
     struct sockaddr_un remote;
     wordexp_t wargs;
+
 
     static char *kwlist[] = {"path", NULL};
 
@@ -129,15 +138,21 @@ static PyObject *pyitrace_iterator(PyObject *self, PyObject *args, PyObject *key
         return NULL;
     }
 
-    wsuccess = expand_str(path, &wargs);
-    
-    if (wsuccess == -1 || access(wargs.we_wordv[0], F_OK) == -1)
+    // get argv and access
+    if (expand_str(path, &wargs) == -1 || access(wargs.we_wordv[0], F_OK) == -1)
         PYRAISE(PyExc_IOError, "No such file or directory: '%s'", wargs.we_wordv[0]);
 
     if ((sockd = init_server(ITRACE_SOCK)) == -1)
         PYRAISE(PyExc_IOError, "Unable to initiate server:\n\t%s", strerror(errno));
 
     py_PyITrace->serverfd = sockd;
+    
+    pin_tool = get_pin_tool(wargs.we_wordv[0]);
+
+    if(NULL == pin_tool)
+        return NULL;
+
+    char *pinv[PINC] = { PIN_ROOT, "-t", pin_tool, "--" };
 
     argc = PINC + wargs.we_wordc;
     argv = (char **)malloc(sizeof(char *)*(argc + 1));
@@ -243,4 +258,72 @@ char **argvcat(int argc1, char **argv1, int argc2, char **argv2, char ***result)
 
     (*result)[argc1+argc2] = NULL;
     return *result;
+}
+
+int get_arch_bits(char *fn)
+{
+    FILE *elf;
+    unsigned char arch[1];
+    unsigned char magic[4] = {
+        '\x7f', 'E', 'L', 'F'
+    };
+
+
+    elf = fopen(fn, "r");
+
+
+    if(NULL==elf)
+    {
+        PYERR(PyExc_IOError, "Unable to open file '%s'\n\t\t(%d): %s", 
+            fn, errno, strerror(errno));
+        return -1;
+    }
+
+    for(int i = 0; i < 4; i++)
+    {
+        char c;
+
+        errno = 0;
+        if(fread(&c, 1, 1, elf) == 0 || errno != 0)
+        {
+            PYERR(PyExc_IOError, "Unable to read from file '%s',\n\t\t(%d): %s", 
+                fn, errno, strerror(errno));
+            return -1;
+        }
+
+        if(c != magic[i])
+        {
+            PYERR(PyExc_IOError, "Invalid header, not a vaid ELF file.\
+                                      \n\tExpected '0x7fELF'\
+                                      \n\tPosition %d, byte '%c'\n", 
+                                      i, c);
+            return -1;
+        }
+    }
+
+    errno = 0;
+    if(fread(arch, 1, 1, elf)==0 || errno != 0)
+    {
+        PYERR(PyExc_IOError, "Unable to read from file '%s',\n\t\t(%d): %s", 
+            fn, errno, strerror(errno));
+        return -1;
+    }
+
+    
+    return arch[0];
+}
+
+char *get_pin_tool(char *fn)
+{
+    switch(get_arch_bits(fn))
+    {
+        case -1:
+            return NULL;
+        case ELFCLASS32:
+            return PIN_TOOL32;
+        case ELFCLASS64:
+            return PIN_TOOL64;
+        default:
+            return NULL;
+    }
 }
