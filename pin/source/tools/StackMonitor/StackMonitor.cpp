@@ -2,7 +2,7 @@
 #include <iostream>
 #include "pin.H"
 
-#define SEND_SIZE 16
+#define SEND_SIZE sizeof(void *)
 
 VOID ShowN(UINT32 n, VOID *ea);
 int init_connection(char path[]);
@@ -25,7 +25,7 @@ INT32 Usage()
     return -1;
 }
 
-VOID StackPtr(VOID * ip, string *out, const CONTEXT * ctxt)
+VOID StackPtr(VOID * ip, const CONTEXT * ctxt)
 {
     ADDRINT sp = (ADDRINT)PIN_GetContextReg( ctxt, REG_STACK_PTR);
     ADDRINT bp = (ADDRINT)PIN_GetContextReg( ctxt, REG_GBP);
@@ -34,38 +34,41 @@ VOID StackPtr(VOID * ip, string *out, const CONTEXT * ctxt)
     send(sockd, (VOID *)&sp, SEND_SIZE, 0);
     send(sockd, (VOID *)&bp, SEND_SIZE, 0);
 
-    //cout << ip << ":\n\t" << *out << endl;
+    cout << ip << ":\n";
     //cout << "\tSP: " << (VOID *)sp << endl;
     //cout << "\tBP: " << (VOID *)bp << endl;
 }
 
-VOID StackMemoryOperation(VOID * ea, UINT32 size)
+VOID StackMemoryOperation(VOID *ea, UINT32 size)
 {
     UINT8 *val;
+    uintptr_t len = size;
+    //static_cast<uintptr_t>(size)
 
-    send(sockd, (VOID *)&size, SEND_SIZE, 0);
+    send(sockd, (VOID *)&len, SEND_SIZE, 0);
 
     if(size > 0 && NULL != ea)
     {
+        printf("\t%p ", ea);
+        ShowN(size, ea);
+        cout << endl;
         send(sockd, (VOID *)&ea, SEND_SIZE, 0);
 
         val = static_cast<UINT8*>(malloc(sizeof(UINT8) * size));
         PIN_SafeCopy(val, static_cast<UINT8*>(ea), size);
         send(sockd, (VOID *)val, size, 0);
+
     }
 
     //cout << "\tREAD: " << ea << ", " << size << " bytes" << endl;
     //cout << "\t\t" << ea << " -> ";
-    //ShowN(size, ea);
     //cout << endl;
 }
 
 VOID Instruction(INS ins, VOID *val)
 {
-    string out = "";
 
-    out = INS_Disassemble(ins);
-    INS_InsertCall( ins, IPOINT_BEFORE, (AFUNPTR)StackPtr, IARG_INST_PTR, IARG_PTR, new string(out), IARG_CONTEXT, IARG_END);
+    INS_InsertCall( ins, IPOINT_BEFORE, (AFUNPTR)StackPtr, IARG_INST_PTR, IARG_CONTEXT, IARG_END);
 
     if (INS_IsStackWrite(ins))
     {

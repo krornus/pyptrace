@@ -4,14 +4,15 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <stdint.h>
 #include <unistd.h>
 
 #define SOCKF "/tmp/stack-monitor"
 #define INSTR_SIZE 32
-#define SEND_SIZE 16
+#define RECV_SIZE sizeof(void *)
 
 struct mem_op_t {
-    int  length;
+    uintptr_t length;
     void *effective_addr;
     unsigned char value[];
 };
@@ -55,9 +56,9 @@ instruction *recv_ins(int sock)
     instruction *ins;
     ins = malloc(sizeof(instruction));
 
-    recv_val(sock, (char *)&ins->ip, SEND_SIZE);
-    recv_val(sock, (char *)&ins->sp, SEND_SIZE);
-    recv_val(sock, (char *)&ins->bp, SEND_SIZE);
+    recv_val(sock, (char *)&ins->ip, RECV_SIZE);
+    recv_val(sock, (char *)&ins->sp, RECV_SIZE);
+    recv_val(sock, (char *)&ins->bp, RECV_SIZE);
 
     ins->write = recv_mem_op(sock);
     ins->read  = recv_mem_op(sock); 
@@ -68,26 +69,19 @@ instruction *recv_ins(int sock)
 
 mem_op *recv_mem_op(int sock)
 {
-    char lenbuf[SEND_SIZE];
-    char eabuf[SEND_SIZE];
-    char *valbuf;
-
-    unsigned int size;
-
     mem_op *op;
+    uintptr_t size;
 
-    recv(sock, lenbuf, SEND_SIZE, 0);
-    size = (unsigned int)*lenbuf;
+    recv(sock, &size, RECV_SIZE, 0);
 
     if(size > 0)
     {
         op = (mem_op *)malloc(sizeof(mem_op)+size);
         op->length = size;
 
-        recv(sock, eabuf, SEND_SIZE, 0);
-        op->effective_addr = *(void **)eabuf;
+        recv(sock, &op->effective_addr, RECV_SIZE, 0);
+        recv(sock, op->value, op->length, 0);
 
-        recv(sock, op->value, size, 0);
 
         return op;
     }
@@ -154,24 +148,18 @@ int main(int argc, char **argv)
         {
             ins = recv_ins(client_sock);
 
-            if ((unsigned long)ins->ip < 0x700000000000)
-            {
-                printf("ip: %p\n", ins->ip);
-                printf("\tsp: %p\n", ins->sp);
-                printf("\tbp: %p\n", ins->bp);
+            if (NULL != ins->write
+                    && (uintptr_t)ins->ip < 0x600000000000
+                    && ins->sp <= ins->bp) {
 
-                if(NULL != ins->write && ins->write->length > 0) {
-                    printf("\twrite (%d bytes): %p->%lu\n", 
-                        ins->write->length, 
-                        ins->write->effective_addr, 
-                        (unsigned long)*ins->write->value);
+                printf("%p:\n", ins->ip);
+                mem_op *op = ins->write;
+                printf("\t%p [", op->effective_addr);
+                for(int i = 0; i < op->length; i++)
+                {
+                    printf("%02x, ", op->value[i]);
                 }
-                if(NULL != ins->read && ins->read->length > 0) {
-                    printf("\tread (%d bytes): %p->%lu\n", 
-                        ins->read->length, 
-                        ins->read->effective_addr, 
-                        (unsigned long)*ins->read->value);
-                }
+                printf("\b\b]\n");
             }
 
             destroy_ins(ins);
