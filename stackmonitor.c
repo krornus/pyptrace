@@ -5,10 +5,15 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <string.h>
+
 
 #define DESC "Stack monitor tracer"
-#define MODULE "stackwatch"
-#define ITER_METH "watch"
+#define MODULE "stackmonitor"
+#define ITER_METH "monitor"
 #define ITER_METH_DESC "iterate over stack actions for given program"
 #define ITER_NAME "stackmonitor.StackMonitor"
 #define MAX_ERR_LEN  1024
@@ -74,6 +79,7 @@ typedef struct {
     PyObject_HEAD
     int csockd;
     int serverfd;
+    int child;
 } stackmonitor_Type;
 
 
@@ -132,8 +138,13 @@ PyObject* stackmonitor_next(PyObject *self)
     py_StackMonitor = (stackmonitor_Type *)self;
 
     ins = recv_ins(py_StackMonitor->csockd);
+
     if(ins == NULL) {
+        int status;
         close(py_StackMonitor->csockd);
+        /* if we are exiting prematurely, kill child */
+        kill(py_StackMonitor->child, SIGTERM);
+        wait(&status);
         return NULL;
     }
 
@@ -154,13 +165,11 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
     struct sockaddr_un remote;
     wordexp_t wargs;
 
-    
     static char *kwlist[] = {"path", "socket", NULL};
 
     py_StackMonitor = PyObject_New(stackmonitor_Type, &stackmonitorType);
 
     if (!PyObject_Init((PyObject *)py_StackMonitor, &stackmonitorType)) {
-        write(2, "failed\n", 8);
         Py_DECREF(py_StackMonitor);
         return NULL;
     }
@@ -192,7 +201,7 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
 
     argvcat(PINC, pinv, wargs.we_wordc, wargs.we_wordv, &argv);
     
-    if(fork() == 0) {
+    if((py_StackMonitor->child = fork()) == 0) {
         execv(PIN_ROOT, argv);
     }
 
@@ -219,7 +228,6 @@ PyMODINIT_FUNC initstackmonitor(void)
 
     Py_INCREF(&stackmonitorType);
     PyModule_AddObject(obj, "StackMonitor", (PyObject *)&stackmonitorType);
-
 }
 
 
@@ -352,20 +360,29 @@ instruction *recv_ins(int sock)
     instruction *ins;
     ins = malloc(sizeof(instruction));
 
-    if(recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE) < 0)
+    if(recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE) < 0) {
+        PYERR(PyExc_IOError, 
+            "Error receiving IP from client \n\t%d: %s", 
+            errno, strerror(errno));
         return NULL;
-    if(recv_val(sock, (unsigned char *)&ins->sp, RECV_SIZE) < 0)
+    }
+    if(recv_val(sock, (unsigned char *)&ins->sp, RECV_SIZE) < 0) {
+        PYERR(PyExc_IOError, 
+            "Error receiving SP from client\n\t%d: %s", 
+            errno, strerror(errno));
         return NULL;
-    if(recv_val(sock, (unsigned char *)&ins->bp, RECV_SIZE) < 0)
+    }
+    if(recv_val(sock, (unsigned char *)&ins->bp, RECV_SIZE) < 0) {
+        PYERR(PyExc_IOError, 
+            "Error receiving BP from client\n\t%d: %s", 
+            errno, strerror(errno));
         return NULL;
+    }
 
     ins->write = recv_mem_op(sock);
     ins->read  = recv_mem_op(sock); 
     ins->read2  = recv_mem_op(sock); 
 
-    if(ins->write == NULL || ins->read == NULL || ins->read == NULL)
-        return NULL;
-    
     return ins;
 }
 
@@ -374,18 +391,30 @@ mem_op *recv_mem_op(int sock)
     mem_op *op;
     uintptr_t size;
 
-    if(recv_val(sock, (unsigned char *)&size, RECV_SIZE) < 0)
+    if(recv_val(sock, (unsigned char *)&size, RECV_SIZE) < 0) {
+        PYERR(PyExc_IOError, 
+            "Error receiving memory operation size from client\n\t%d: %s", 
+            errno, strerror(errno));
         return NULL;
+    }
 
     if(size > 0)
     {
         op = (mem_op *)malloc(sizeof(mem_op)+size);
         op->length = size;
 
-        if(recv_val(sock, (unsigned char *)&op->effective_addr, RECV_SIZE) < 0)
+        if(recv_val(sock, (unsigned char *)&op->effective_addr, RECV_SIZE) < 0) {
+            PYERR(PyExc_IOError, 
+                "Error receiving effective address from client\n\t%d: %s", 
+                errno, strerror(errno));
             return NULL;
-        if(recv_val(sock, op->value, op->length) < 0)
+        }
+        if(recv_val(sock, op->value, op->length) < 0) {
+            PYERR(PyExc_IOError, 
+                "Error receiving memory value from client\n\t%d: %s", 
+                errno, strerror(errno));
             return NULL;
+        }
 
 
         return op;
