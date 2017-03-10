@@ -1,4 +1,4 @@
-import pitrace
+import stackmonitor
 
-for x in pitrace.instructions("./binaries/warmup"):
-    print x
+for x in stackmonitor.watch():
+    print hex(x)

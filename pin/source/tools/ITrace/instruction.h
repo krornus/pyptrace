@@ -1,3 +1,0 @@
-struct instruction {
-    void *ip;
-}

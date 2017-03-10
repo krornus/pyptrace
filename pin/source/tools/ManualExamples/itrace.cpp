@@ -1,87 +1,73 @@
-/*BEGIN_LEGAL 
-Intel Open Source License 
-
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
- 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.  Redistributions
-in binary form must reproduce the above copyright notice, this list of
-conditions and the following disclaimer in the documentation and/or
-other materials provided with the distribution.  Neither the name of
-the Intel Corporation nor the names of its contributors may be used to
-endorse or promote products derived from this software without
-specific prior written permission.
- 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE INTEL OR
-ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-END_LEGAL */
 #include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 #include "pin.H"
 
-// This function is called before every instruction is executed
-// and prints the IP
+#define SEND_SIZE 16
+
+int init_connection(char *path);
+int sockd;
+
 VOID printip(VOID *ip) 
 { 
-    printf("%p\n", ip);
-    //write(STDOUT_FILENO, ip, sizeof(uintptr_t));
+    if(-1==send(sockd, (VOID *)&ip, 16, 0))
+        exit(0);
 }
 
-// Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
 {
-    // Insert a call to printip before every instruction, and pass it the IP
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)printip, IARG_INST_PTR, IARG_END);
 }
 
-// This function is called when the application exits
 VOID Fini(INT32 code, VOID *v)
 {
-    close(STDOUT_FILENO);
+    unsigned long i;
+    i = -1;
+    send(sockd, &i, 16, 0);
+    close(sockd);
 }
-
-/* ===================================================================== */
-/* Print Help Message                                                    */
-/* ===================================================================== */
 
 INT32 Usage()
 {
-    PIN_ERROR("This Pintool prints the IPs of every instruction executed\n" 
+    PIN_ERROR("Connects to /tmp/itrace with unix sockets and sends each encountered IP\n" 
               + KNOB_BASE::StringKnobSummary() + "\n");
     return -1;
 }
 
-/* ===================================================================== */
-/* Main                                                                  */
-/* ===================================================================== */
-
 int main(int argc, char *argv[])
 {
-    // Initialize pin
+    char sockfn[] = "/tmp/itrace";
+    sockd = init_connection(sockfn);
+    
+    if(sockd == -1) {
+        perror("connect");
+        return -1;
+    }
+
     if (PIN_Init(argc, argv)) return Usage();
 
-    // Register Instruction to be called to instrument instructions
     INS_AddInstrumentFunction(Instruction, 0);
-
-    // Register Fini to be called when the application exits
     PIN_AddFiniFunction(Fini, 0);
-    
-    // Start the program, never returns
     PIN_StartProgram();
     
     return 0;
+}
+
+int init_connection(char path[])
+{
+    int sock;
+    struct sockaddr_un remote;
+
+    remote.sun_family = AF_UNIX;
+    strncpy(remote.sun_path, path, sizeof(remote.sun_path)-1);
+
+    sock = socket(AF_UNIX, SOCK_STREAM, 0);
+
+    if(connect(sock, (struct sockaddr *)&remote, sizeof(remote)) == -1)
+        return -1;
+
+    return sock;
 }
