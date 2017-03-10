@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #define SOCKF "/tmp/stack-monitor"
+#define INSTR_SIZE 32
 #define RECV_SIZE sizeof(void *)
 
 struct mem_op_t {
@@ -27,7 +28,6 @@ struct instruction_t {
 
 typedef struct instruction_t instruction;
 typedef struct mem_op_t mem_op;
-typedef struct ins_value_t ins_value;
 
 instruction *recv_ins(int sock);
 mem_op *recv_mem_op(int sock);
@@ -38,6 +38,7 @@ int handle_ins(instruction *ins);
 int recv_client(int sock);
 int init_server(char *path);
 
+void destroy_ins(instruction *ins);
 
 int recv_val(int sock, unsigned char *buf, int size)
 {
@@ -105,6 +106,7 @@ void destroy_ins(instruction *ins)
         free(ins->write);
     free(ins);
 }
+
 
 int handle_ins(instruction *ins)
 {
@@ -236,5 +238,4 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
 
