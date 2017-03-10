@@ -148,9 +148,25 @@ PyObject* stackmonitor_next(PyObject *self)
         return NULL;
     }
 
-    stackObj = Py_BuildValue("k", (uintptr_t)ins->ip);
+    stackObj = Py_BuildValue("{s:k,s:k,s:k, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}}",
+                              "ip", ins->ip,
+                              "sp", ins->sp,
+                              "bp", ins->bp,
+                              "write",
+                                  "length", ins->write->length,
+                                  "addr", ins->write->effective_addr,
+                                  "data", ins->write->value,
+                              "read", 
+                                  "length", ins->read->length,
+                                  "addr", ins->read->effective_addr,
+                                  "data", ins->read->value,
+                              "read2", 
+                                  "length", ins->read2->length,
+                                  "addr", ins->read2->effective_addr,
+                                  "data", ins->read2->value
+                              );
 
-    free(ins);
+    destroy_ins(ins);
 
     return stackObj;
 }
@@ -361,9 +377,6 @@ instruction *recv_ins(int sock)
     ins = malloc(sizeof(instruction));
 
     if(recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE) < 0) {
-        PYERR(PyExc_IOError, 
-            "Error receiving IP from client \n\t%d: %s", 
-            errno, strerror(errno));
         return NULL;
     }
     if(recv_val(sock, (unsigned char *)&ins->sp, RECV_SIZE) < 0) {
@@ -382,6 +395,13 @@ instruction *recv_ins(int sock)
     ins->write = recv_mem_op(sock);
     ins->read  = recv_mem_op(sock); 
     ins->read2  = recv_mem_op(sock); 
+
+    if(ins->write == NULL || ins->read == NULL || ins->read2 == NULL) {
+        PYERR(PyExc_IOError, 
+            "Error receiving memory operation from client \n\t%d: %s", 
+            errno, strerror(errno));
+        return NULL;
+    }
 
     return ins;
 }
@@ -421,7 +441,11 @@ mem_op *recv_mem_op(int sock)
     }
     else
     {
-        return NULL;
+        op = (mem_op *)malloc(sizeof(mem_op) + 1);
+        op->length = 0;
+        op->effective_addr = 0;
+        *op->value = '\x00';
+        return op;
     }
 }
 
@@ -445,7 +469,6 @@ int recv_val(int sock, unsigned char *buf, int size)
     {
         return -2; 
     }
-
 
     return len;
 }
