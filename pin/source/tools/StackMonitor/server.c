@@ -21,6 +21,8 @@ struct instruction_t {
     void *ip;
     void *sp;
     void *bp;
+    uintptr_t disassembly_len;
+    char *disassembly;
     struct mem_op_t *read;
     struct mem_op_t *read2;
     struct mem_op_t *write;
@@ -66,6 +68,13 @@ instruction *recv_ins(int sock)
     recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE);
     recv_val(sock, (unsigned char *)&ins->sp, RECV_SIZE);
     recv_val(sock, (unsigned char *)&ins->bp, RECV_SIZE);
+    recv_val(sock, (unsigned char *)&ins->disassembly_len, RECV_SIZE);
+
+    if(ins->disassembly_len > 0){
+        ins->disassembly = (char *)malloc(ins->disassembly_len * sizeof(char *));
+        recv_val(sock, (unsigned char *)ins->disassembly, ins->disassembly_len);
+    }
+    printf("received disasm len %lu (%s)\n", ins->disassembly_len, ins->disassembly);
 
     ins->write = recv_mem_op(sock);
     ins->read  = recv_mem_op(sock); 

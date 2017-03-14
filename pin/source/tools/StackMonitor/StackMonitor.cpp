@@ -25,14 +25,20 @@ INT32 Usage()
     return -1;
 }
 
-VOID StackPtr(VOID * ip, const CONTEXT * ctxt)
+VOID StackPtr(VOID * ip, const CONTEXT * ctxt, string *disasm)
 {
-    ADDRINT sp = (ADDRINT)PIN_GetContextReg( ctxt, REG_STACK_PTR);
-    ADDRINT bp = (ADDRINT)PIN_GetContextReg( ctxt, REG_GBP);
+    uintptr_t len;
+    ADDRINT sp = (ADDRINT)PIN_GetContextReg(ctxt, REG_STACK_PTR);
+    ADDRINT bp = (ADDRINT)PIN_GetContextReg(ctxt, REG_GBP);
 
     send(sockd, (VOID *)&ip, SEND_SIZE, 0);
     send(sockd, (VOID *)&sp, SEND_SIZE, 0);
     send(sockd, (VOID *)&bp, SEND_SIZE, 0);
+
+    len = (*disasm).length();
+
+    send(sockd, (VOID *)&len, SEND_SIZE, 0);
+    send(sockd, (VOID *)(*disasm).c_str(), len, 0);
 }
 
 VOID StackMemoryOperation(VOID *ea, UINT32 size)
@@ -49,40 +55,57 @@ VOID StackMemoryOperation(VOID *ea, UINT32 size)
         val = static_cast<UINT8*>(malloc(sizeof(UINT8) * size));
         PIN_SafeCopy(val, static_cast<UINT8*>(ea), size);
         send(sockd, (VOID *)val, size, 0);
-
     }
 }
 
 VOID Instruction(INS ins, VOID *val)
 {
+    string disasm;
+    disasm = INS_Disassemble(ins);
 
-    INS_InsertCall( ins, IPOINT_BEFORE, (AFUNPTR)StackPtr, IARG_INST_PTR, IARG_CONTEXT, IARG_END);
+    INS_InsertCall (ins, 
+        IPOINT_BEFORE, (AFUNPTR)StackPtr, 
+        IARG_INST_PTR, IARG_CONTEXT, IARG_PTR, new string(disasm), IARG_END);
 
     if (INS_IsStackWrite(ins))
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, IARG_END);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, IARG_END);
     }
     else
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, IARG_PTR, 0, IARG_UINT32, 0, IARG_END);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IARG_PTR, 0, IARG_UINT32, 0, IARG_END);
     }
 
-    if (INS_IsStackRead(ins) && INS_IsMemoryRead(ins) && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
+    if (INS_IsStackRead(ins) && INS_IsMemoryRead(ins) 
+        && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, IARG_END);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, IARG_END);
     }
     else
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, IARG_PTR, 0, IARG_UINT32, 0, IARG_END);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IARG_PTR, 0, IARG_UINT32, 0, IARG_END);
     }
 
-    if (INS_IsStackRead(ins) && INS_HasMemoryRead2(ins) && INS_IsStandardMemop(ins))
+    if (INS_IsStackRead(ins) && INS_HasMemoryRead2(ins) 
+        && INS_IsStandardMemop(ins))
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, IARG_MEMORYREAD2_EA, IARG_MEMORYREAD_SIZE, IARG_END);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IARG_MEMORYREAD2_EA, IARG_MEMORYREAD_SIZE, IARG_END);
     }
     else
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, IARG_PTR, 0, IARG_UINT32, 0, IARG_END);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IARG_PTR, 0, IARG_UINT32, 0, IARG_END);
     }
 }
 

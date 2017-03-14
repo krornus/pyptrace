@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
-
+#include <stdlib.h>
 
 #define DESC "Stack monitor tracer"
 #define MODULE "stackmonitor"
@@ -51,6 +51,8 @@ struct instruction_t {
     void *ip;
     void *sp;
     void *bp;
+    uintptr_t disassembly_len;
+    char *disassembly;
     struct mem_op_t *read;
     struct mem_op_t *read2;
     struct mem_op_t *write;
@@ -74,6 +76,7 @@ instruction *recv_ins(int sock);
 mem_op *recv_mem_op(int sock);
 void destroy_ins(instruction *ins);
 int recv_val(int sock, unsigned char *buf, int size);
+void cleanup(int status, void *child);
 
 typedef struct {
     PyObject_HEAD
@@ -136,22 +139,18 @@ PyObject* stackmonitor_next(PyObject *self)
     instruction *ins;
 
     py_StackMonitor = (stackmonitor_Type *)self;
-
     ins = recv_ins(py_StackMonitor->csockd);
 
     if(ins == NULL) {
-        int status;
         close(py_StackMonitor->csockd);
-        /* if we are exiting prematurely, kill child */
-        kill(py_StackMonitor->child, SIGTERM);
-        wait(&status);
         return NULL;
     }
 
-    stackObj = Py_BuildValue("{s:k,s:k,s:k, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}}",
+    stackObj = Py_BuildValue("{s:k,s:k,s:k,s:s, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}}",
                               "ip", ins->ip,
                               "sp", ins->sp,
                               "bp", ins->bp,
+                              "disassembly", ins->disassembly,
                               "write",
                                   "length", ins->write->length,
                                   "addr", ins->write->effective_addr,
@@ -221,6 +220,11 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
         execv(PIN_ROOT, argv);
     }
 
+    if(on_exit(cleanup, &py_StackMonitor->child) != 0)
+        PYRAISE(PyExc_IOError, 
+                "Unable to register exit function:\n\t%s", 
+                strerror(errno));
+
     remsize = sizeof(remote);
     if ((csockd = accept(sockd, (struct sockaddr *)&remote, &remsize)) == -1)
         PYRAISE(PyExc_IOError, 
@@ -235,6 +239,7 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
 
 PyMODINIT_FUNC initstackmonitor(void)
 {
+
     PyObject* obj;
 
     stackmonitorType.tp_new = PyType_GenericNew;
@@ -374,7 +379,8 @@ char *get_pin_tool(char *fn)
 instruction *recv_ins(int sock)
 {
     instruction *ins;
-    ins = malloc(sizeof(instruction));
+    ins = (instruction *)malloc(sizeof(instruction));
+
 
     if(recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE) < 0) {
         return NULL;
@@ -392,9 +398,34 @@ instruction *recv_ins(int sock)
         return NULL;
     }
 
+    if(recv_val(sock, (unsigned char *)&ins->disassembly_len, RECV_SIZE) < 0) {
+        PYERR(PyExc_IOError, 
+            "Error receiving instruction length from client\n\t%d: %s", 
+            errno, strerror(errno));
+        return NULL;
+    }
+
+    if(ins->disassembly_len > 0)
+    {
+        ins->disassembly = (char *)malloc(ins->disassembly_len * sizeof(char *) + 1); 
+
+        if(recv_val(sock, (unsigned char *)ins->disassembly, ins->disassembly_len) < 0) {
+            PYERR(PyExc_IOError, 
+                "Error receiving instruction from client\n\t%d: %s", 
+                errno, strerror(errno));
+            return NULL;
+        }
+
+        ins->disassembly[ins->disassembly_len] = '\x00';
+    }
+    else { 
+        ins->disassembly = NULL;
+    }
+
     ins->write = recv_mem_op(sock);
     ins->read  = recv_mem_op(sock); 
     ins->read2  = recv_mem_op(sock); 
+
 
     if(ins->write == NULL || ins->read == NULL || ins->read2 == NULL) {
         PYERR(PyExc_IOError, 
@@ -451,6 +482,8 @@ mem_op *recv_mem_op(int sock)
 
 void destroy_ins(instruction *ins)
 {
+    if(NULL != ins->disassembly)
+        free(ins->disassembly);
     if(NULL != ins->read)
         free(ins->read);
     if(NULL != ins->write)
@@ -471,4 +504,11 @@ int recv_val(int sock, unsigned char *buf, int size)
     }
 
     return len;
+}
+
+void cleanup(int status, void *child)
+{
+    kill(*(size_t *)child, SIGTERM); 
+    wait(&status);
+    exit(status);
 }
