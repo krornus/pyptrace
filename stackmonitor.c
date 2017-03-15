@@ -539,10 +539,9 @@ void handle_child_exit(int pid)
     /* get unreported statuses */
     waitpid(pid, &status, WCONTINUED | WUNTRACED);
 
-
     if(WIFSIGNALED(status)) {
         PYERR(PyExc_IOError, 
-              "Program exited due to signal %s, status:\n\t%d", 
+              "Program exited due to signal, (%s)\n\tstatus: %d", 
               strsignal(WTERMSIG(status)), WEXITSTATUS(status));
     }
 }
