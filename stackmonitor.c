@@ -29,10 +29,11 @@
 
 #define ITRACE_SOCK "/tmp/stack-monitor"
 #define PIN_ROOT "./pin/pin"
-#define PIN_TOOL64 "./tool/StackMonitor.so"
+#define PIN_TOOL64 "./pin/source/tools/StackMonitor/obj-intel64/StackMonitor.so"
  
 /* TODO: Make 32 bit version of tool */
-#define PIN_TOOL32 "./tool/StackMonitor.so"
+#define PIN_TOOL32 "./pin/source/tools/StackMonitor/obj-intel64/StackMonitor.so"
+ 
 #define PINC 6
 
 #define ELFCLASS32 1
@@ -199,11 +200,13 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
     }
 
     // get argv and access
-    if (expand_str(path, &wargs) == -1 || access(wargs.we_wordv[0], F_OK) == -1)
+    if (expand_str(path, &wargs) == -1 || access(wargs.we_wordv[0], F_OK) == -1) {
         PYRAISE(PyExc_IOError, "No such file or directory: '%s'", wargs.we_wordv[0]);
+    }
 
-    if ((sockd = init_server(ITRACE_SOCK)) == -1)
+    if ((sockd = init_server(ITRACE_SOCK)) == -1) {
         PYRAISE(PyExc_IOError, "Unable to initiate server:\n\t%s", strerror(errno));
+    }
 
     py_StackMonitor->serverfd = sockd;
     
@@ -218,21 +221,34 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
     argv = (char **)malloc(sizeof(char *)*(argc + 1));
 
     argvcat(PINC, pinv, wargs.we_wordc, wargs.we_wordv, &argv);
-    
-    if((py_StackMonitor->child = fork()) == 0) {
-        execv(PIN_ROOT, argv);
+
+    if (access(PIN_ROOT, F_OK) == -1) {
+        PYRAISE(PyExc_IOError, "No such file or directory: '%s'", PIN_ROOT);
     }
 
-    if(on_exit(cleanup, &py_StackMonitor->child) != 0)
+    if (access(pin_tool, F_OK) == -1) {
+        PYRAISE(PyExc_IOError, "No such file or directory: '%s'", pin_tool);
+    }
+    
+    if((py_StackMonitor->child = fork()) == 0) {
+        if(execv(PIN_ROOT, argv) == -1) {
+            fprintf(stderr, "Failed to spawn pin tool\n\t%d: %s", 
+                errno, strerror(errno));
+        }
+    }
+
+    if(on_exit(cleanup, &py_StackMonitor->child) != 0) {
         PYRAISE(PyExc_IOError, 
                 "Unable to register exit function:\n\t%s", 
                 strerror(errno));
+    }
 
     remsize = sizeof(remote);
-    if ((csockd = accept(sockd, (struct sockaddr *)&remote, &remsize)) == -1)
+    if ((csockd = accept(sockd, (struct sockaddr *)&remote, &remsize)) == -1) {
         PYRAISE(PyExc_IOError, 
                 "Unable to accept local client for IPC:\n\t%s", 
                 strerror(errno));
+    }
         
     py_StackMonitor->csockd = csockd;
 
@@ -524,8 +540,7 @@ void handle_child_exit(int pid)
     waitpid(pid, &status, WCONTINUED | WUNTRACED);
 
 
-    if(WIFSIGNALED(status))
-    {
+    if(WIFSIGNALED(status)) {
         PYERR(PyExc_IOError, 
               "Program exited due to signal %s, status:\n\t%d", 
               strsignal(WTERMSIG(status)), WEXITSTATUS(status));
