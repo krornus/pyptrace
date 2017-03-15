@@ -149,7 +149,7 @@ PyObject* stackmonitor_next(PyObject *self)
         return NULL;
     }
 
-    stackObj = Py_BuildValue("{s:k,s:k,s:k,s:s, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}, s:{s:k, s:k, s:s}}",
+    stackObj = Py_BuildValue("{s:k,s:k,s:k,s:s, s:{s:k, s:k, s:s#}, s:{s:k, s:k, s:s#}, s:{s:k, s:k, s:s#}}",
                               "ip", ins->ip,
                               "sp", ins->sp,
                               "bp", ins->bp,
@@ -157,15 +157,15 @@ PyObject* stackmonitor_next(PyObject *self)
                               "write",
                                   "length", ins->write->length,
                                   "addr", ins->write->effective_addr,
-                                  "data", ins->write->value,
+                                  "data", ins->write->value, ins->write->length,
                               "read", 
                                   "length", ins->read->length,
                                   "addr", ins->read->effective_addr,
-                                  "data", ins->read->value,
+                                  "data", ins->read->value, ins->write->length,
                               "read2", 
                                   "length", ins->read2->length,
                                   "addr", ins->read2->effective_addr,
-                                  "data", ins->read2->value
+                                  "data", ins->read2->value, ins->write->length
                               );
 
     destroy_ins(ins);
