@@ -1,5 +1,6 @@
 import stackmonitor
 
-for x in stackmonitor.monitor("/bin/ls"):
-    if x['ip'] < 0x600000000000 and x['write']['length'] > 0:
-        print hex(x['ip']), x['write']
+for x in stackmonitor.monitor("/home/spowell/research/pyitrace/tool/binaries/overflow"):
+    print x
+    if x['ip'] == 0x00007effb76c54d0:
+        print x

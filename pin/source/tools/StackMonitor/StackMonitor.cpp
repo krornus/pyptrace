@@ -25,14 +25,19 @@ INT32 Usage()
     return -1;
 }
 
-VOID StackPtr(VOID * ip, const CONTEXT * ctxt)
+VOID StackPtr(VOID * ip, const CONTEXT * ctxt, string *dasm)
 {
+    int dasm_len;
+
+    dasm_len = dasm.length();
     ADDRINT sp = (ADDRINT)PIN_GetContextReg( ctxt, REG_STACK_PTR);
     ADDRINT bp = (ADDRINT)PIN_GetContextReg( ctxt, REG_GBP);
 
     send(sockd, (VOID *)&ip, SEND_SIZE, 0);
     send(sockd, (VOID *)&sp, SEND_SIZE, 0);
     send(sockd, (VOID *)&bp, SEND_SIZE, 0);
+    send(sockd, (VOID *)&dasm_len, SEND_SIZE, 0);
+    send(sockd, dasm, dasm_len, 0);
 }
 
 VOID StackMemoryOperation(VOID *ea, UINT32 size)
@@ -56,7 +61,8 @@ VOID StackMemoryOperation(VOID *ea, UINT32 size)
 VOID Instruction(INS ins, VOID *val)
 {
 
-    INS_InsertCall( ins, IPOINT_BEFORE, (AFUNPTR)StackPtr, IARG_INST_PTR, IARG_CONTEXT, IARG_END);
+    stirng *dasm = INS_Disassemble(ins);
+    INS_InsertCall( ins, IPOINT_BEFORE, (AFUNPTR)StackPtr, IARG_INST_PTR, IARG_CONTEXT, IARG_PTR, dasm, IARG_END);
 
     if (INS_IsStackWrite(ins))
     {

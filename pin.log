@@ -1,3 +1,0 @@
-Pin 3.0 kit 76887
-A:  Source/pin/vm_ia32_l/jit_region_ia32_linux.cpp: XlateSysCall: 37: Sysenter is supported on IA32 only and the expected location is inside Linux Gate
-
