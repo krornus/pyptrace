@@ -77,6 +77,7 @@ mem_op *recv_mem_op(int sock);
 void destroy_ins(instruction *ins);
 int recv_val(int sock, unsigned char *buf, int size);
 void cleanup(int status, void *child);
+void handle_child_exit(int pid);
 
 typedef struct {
     PyObject_HEAD
@@ -143,6 +144,7 @@ PyObject* stackmonitor_next(PyObject *self)
 
     if(ins == NULL) {
         close(py_StackMonitor->csockd);
+        handle_child_exit(py_StackMonitor->child);
         return NULL;
     }
 
@@ -167,6 +169,7 @@ PyObject* stackmonitor_next(PyObject *self)
 
     destroy_ins(ins);
 
+    //PYERR(PyExc_IOError, "debug %s", "\n"); return NULL;
     return stackObj;
 }
 
@@ -511,4 +514,20 @@ void cleanup(int status, void *child)
     kill(*(size_t *)child, SIGTERM); 
     wait(&status);
     exit(status);
+}
+
+void handle_child_exit(int pid)
+{
+    int status;
+
+    /* get unreported statuses */
+    waitpid(pid, &status, WCONTINUED | WUNTRACED);
+
+
+    if(WIFSIGNALED(status))
+    {
+        PYERR(PyExc_IOError, 
+              "Program exited due to signal %s, status:\n\t%d", 
+              strsignal(WTERMSIG(status)), WEXITSTATUS(status));
+    }
 }
