@@ -39,25 +39,24 @@ void destroy_ins(instruction *ins);
 int handle_ins(instruction *ins);
 int recv_client(int sock);
 int init_server(char *path);
-
 void destroy_ins(instruction *ins);
+
 
 int recv_val(int sock, unsigned char *buf, int size)
 {
+    int len;
     errno = 0;
-    int len = 0;
-    if((len = recv(sock, buf, size, 0)) < 0 || errno != 0) {
+    if((len=recv(sock, buf, size, 0)) == 0) {
+        printf("no data received\n");
+        exit(-1);
+    }
+
+    if(errno != 0) {
+        printf("recv addr: %p\n", buf);
         perror("recv()");
         exit(-1);
     }
-    else if(len == 0 && size != 0)
-    {
-        printf("bad exit\n");
-        exit(0);
-    }
 
-
-    return len;
 }
 
 instruction *recv_ins(int sock)
@@ -74,7 +73,6 @@ instruction *recv_ins(int sock)
         ins->disassembly = (char *)malloc(ins->disassembly_len * sizeof(char *));
         recv_val(sock, (unsigned char *)ins->disassembly, ins->disassembly_len);
     }
-    printf("received disasm len %lu (%s)\n", ins->disassembly_len, ins->disassembly);
 
     ins->write = recv_mem_op(sock);
     ins->read  = recv_mem_op(sock); 
@@ -87,17 +85,22 @@ mem_op *recv_mem_op(int sock)
 {
     mem_op *op;
     uintptr_t size;
-
-    recv(sock, &size, RECV_SIZE, 0);
+    recv_val(sock, (unsigned char *)&size, RECV_SIZE);
 
     if(size > 0)
     {
         op = (mem_op *)malloc(sizeof(mem_op)+size);
+
+        if(NULL == op || NULL == op->value)
+        {
+            perror("malloc()");
+            exit(-1);
+        }
         op->length = size;
 
-        recv(sock, &op->effective_addr, RECV_SIZE, 0);
-        recv(sock, op->value, op->length, 0);
-
+        recv_val(sock, (void *)&op->effective_addr, RECV_SIZE);
+        
+        recv_val(sock, (void *)op->value, op->length);
 
         return op;
     }
@@ -113,6 +116,8 @@ void destroy_ins(instruction *ins)
         free(ins->read);
     if(NULL != ins->write)
         free(ins->write);
+    if(NULL != ins->read2)
+        free(ins->read2);
     free(ins);
 }
 
@@ -122,23 +127,21 @@ int handle_ins(instruction *ins)
     /* simulate the stack on heap */
     /* map stack addrs to heap addrs */
 
-    if (NULL != ins->read
-            && (uintptr_t)ins->ip < 0x600000000000
-            && ins->sp <= ins->bp) {
-        printf("%p:\n\tREAD: ", ins->ip);
-        print_op(ins->read);
-        printf("\n");
-    }
-    if (NULL != ins->write
-            && (uintptr_t)ins->ip < 0x600000000000
-            && ins->sp <= ins->bp) {
-        printf("%p:\n\tWRITE: ", ins->ip);
+    if((uintptr_t)ins->ip < 0x4005da || (uintptr_t)ins->ip > 0x4005f3)
+        return 0;
+
+    if (NULL != ins->write) {
+        printf("%p (%s):\n\tWRITE: ", ins->ip, ins->disassembly);
         print_op(ins->write);
         printf("\n");
     }
-
-
     
+    if (NULL != ins->read) {
+        printf("%p (%s):\n\tREAD: ", ins->ip, ins->disassembly);
+        print_op(ins->read);
+        printf("\n");
+    }
+
     return 0;
 }
 
@@ -241,6 +244,7 @@ int main(int argc, char **argv)
             ins = recv_ins(csock);
             ip = (uintptr_t)ins->ip;
         } 
+        printf("exited client loop\n");
 
         close(csock);
     }

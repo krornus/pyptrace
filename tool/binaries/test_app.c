@@ -7,6 +7,7 @@ int main(int argc, char **argv)
 
     char buf[20];
 
+    value = 1;
     value = 0x616161;
 
     if(argc == 0)

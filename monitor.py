@@ -3,51 +3,34 @@ import ctypes
 
 def main():
     s = Stack()
-    for x in stackmonitor.monitor("./tool/test-app"):
-        s.update(x['bp'], x['sp'])
-        if x['write']['length'] > 0 and x['ip'] == 0x0000000000400684:
-            print hex(x['ip']) + ": " + x['disassembly']
-            s.write(x['write']['addr'], x['write']['length'], x['write']['data'])
-        if x['ip'] >= 0x0000000000400666 and x['ip'] <= 0x0000000000400726: 
-            print hex(x['ip']) + ": " + x['disassembly']
-        if x['ip'] == 0x00000000004006c5:
-            print s
-        if x['ip'] == 0x00000000004006ca:
-            print s
+    for x in stackmonitor.monitor("./tool/binaries/test-app"):
+        s.update(x['ip'], x['bp'], x['sp'])
+        s.print_in_range(x, 0x4005e1,0x4005f7)
 
-
-def print_frame(bp, sp):
-    diff = bp - sp
-    if diff > 1000:
-        return
-    for x in range(bp, sp, -4):
-        print hex(x)
-
-    print "="*80 + "\n\n"
-    
-
+        
 class Stack(object):
 
     def __init__(self):
         self.min = None
         self.sp = None
         self.bp = None
+        self.ip = None
+        self.in_range = False
         self.stack = []
 
 
-    def update(self, bp, sp):
+    def update(self, ip, bp, sp):
+        self.ip = ip
         self.bp = bp
         self.sp = sp
     
 
     def write(self, addr, length, value):
-        vp = ctypes.c_char_p(value)
-        print "writing {}".format(vp.contents())
-        ":".join("{:02x}".format(ord(vp[x])) for x in range(length-1))
+        print "WRITE " + hex(addr) + ": " + "".join("{:02x}".format(ord(value[x])) for x in range(length))
         
 
-    def read(self, addr):
-        return 0
+    def read(self, addr, length, value):
+        print "READ " + hex(addr) + ": " + "".join("{:02x}".format(ord(value[x])) for x in range(length))
 
 
     def __repr__(self):
@@ -66,6 +49,28 @@ class Stack(object):
         stack += "bp: " + hex(self.bp) + ", sp: " + hex(self.sp)
 
         return stack
+
+
+    def print_in_range(self, x, p1, p2):
+
+            if not self.in_range and x['ip'] == p1:
+                self.in_range = True
+            elif self.in_range and x['ip'] == p2:
+                self.in_range = False
+
+            if self.in_range: 
+                print "="*80
+                print hex(x['ip']) + ": " + x['disassembly']
+                if x['write']['length'] > 0:
+                    self.write(
+                        x['write']['addr'], x['write']['length'], x['write']['data'])
+                if x['read']['length'] > 0:
+                    self.read(
+                        x['read']['addr'], x['read']['length'], x['read']['data'])
+                if x['read2']['length'] > 0:
+                    self.read2(
+                        x['read2']['addr'], x['read2']['length'], x['read2']['data'])
+                print "="*80
 
 if __name__ == "__main__":
     main()

@@ -149,25 +149,29 @@ PyObject* stackmonitor_next(PyObject *self)
         return NULL;
     }
 
-    stackObj = Py_BuildValue("{s:k,s:k,s:k,s:s, s:{s:k, s:k, s:s#}, s:{s:k, s:k, s:s#}, s:{s:k, s:k, s:s#}}",
-                              "ip", ins->ip,
-                              "sp", ins->sp,
-                              "bp", ins->bp,
-                              "disassembly", ins->disassembly,
-                              "write",
-                                  "length", ins->write->length,
-                                  "addr", ins->write->effective_addr,
-                                  "data", ins->write->value, ins->write->length,
-                              "read", 
-                                  "length", ins->read->length,
-                                  "addr", ins->read->effective_addr,
-                                  "data", ins->read->value, ins->write->length,
-                              "read2", 
-                                  "length", ins->read2->length,
-                                  "addr", ins->read2->effective_addr,
-                                  "data", ins->read2->value, ins->write->length
-                              );
-
+    stackObj = Py_BuildValue("{s:k,s:k,s:k,s:s,\
+                                  s:{s:k, s:k, s:s#},\
+                                  s:{s:k, s:k, s:s#},\
+                                  s:{s:k, s:k, s:s#}}",
+              "ip", ins->ip,
+              "sp", ins->sp,
+              "bp", ins->bp,
+              "disassembly", ins->disassembly,
+              "write",
+                  "length", ins->write->length,
+                  "addr", ins->write->effective_addr,
+                  "data", ins->write->value, ins->write->length,
+              "read", 
+                  "length", ins->read->length,
+                  "addr", ins->read->effective_addr,
+                  "data", ins->read->value, ins->read->length,
+              "read2", 
+                  "length", ins->read2->length,
+                  "addr", ins->read2->effective_addr,
+                  "data", ins->read2->value, ins->read2->length
+            );
+    
+    // TODO: check to make sure Py_BuildValue copies this data so we actually can free it
     destroy_ins(ins);
 
     //PYERR(PyExc_IOError, "debug %s", "\n"); return NULL;
