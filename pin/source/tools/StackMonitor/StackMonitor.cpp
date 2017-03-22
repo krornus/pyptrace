@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <iostream>
+
 #include "pin.H"
 
 #define SEND_SIZE sizeof(void *)
@@ -10,7 +11,8 @@
 #define READ 0x1
 #define READ2 0x2
 
-
+/* TODO: Change how we handle DEBUG */
+/* Low priority, only matters when DEBUG is set */
 #ifdef DEBUG
 #define SEND(fd, buf, len, flags)\
     sent = send(fd, buf, len, flags);\
@@ -32,11 +34,13 @@ typedef struct memory_op_t memory_op;
 /* Access by ADDRINT of instruction */
 static unordered_map<ADDRINT, memory_op *> memory_op_map[3];
 
+
 VOID ShowN(UINT32 n, VOID *ea);
 int init_connection(char path[]);
 VOID StackMemoryOperation(ADDRINT addr, UINT32 type);
 VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type);
 VOID LoadMemoryOperation(ADDRINT addr, UINT32 type, VOID *ea, UINT32 size);
+VOID ForkNotify(THREADID thread, const CONTEXT *ctx, VOID *arg);
 
 static void OnSig(THREADID threadIndex, 
 		CONTEXT_CHANGE_REASON reason, 
@@ -115,7 +119,6 @@ VOID StackMemoryOperation(ADDRINT addr, UINT32 type)
     UINT8 *val;
 
     op = memory_op_map[type][addr];
-    memory_op_map[type].erase(addr);
 
     /* size of (void *) */
     len = op->size;
@@ -253,6 +256,8 @@ VOID Finish(int code, VOID *val)
     SEND(sockd, (VOID *)-1, SEND_SIZE, 0);
     
     close(sockd);
+
+    exit(0);
 }
 
 static void OnSig(THREADID threadIndex, 
@@ -263,6 +268,12 @@ static void OnSig(THREADID threadIndex,
 		VOID *v)
 {
     Finish(sig, 0);
+}
+
+
+VOID ForkNotify(THREADID thread, const CONTEXT *ctx, VOID *arg)
+{
+    Finish(56, 0);
 }
 
 
@@ -314,6 +325,11 @@ int main(int argc, char *argv[])
 
 	PIN_AddFiniFunction(Finish, 0);
 	PIN_AddContextChangeFunction(OnSig, 0);
+    PIN_AddForkFunction(FPOINT_BEFORE, ForkNotify, 0);
+
+    /* TODO: Determine how we are going to multithread forked processes */
+    /* PIN_AddForkFunction(FPOINT_AFTER_IN_PARENT, ForkParent, 0); */
+    /* PIN_AddForkFunction(FPOINT_AFTER_IN_CHILD, ForkChild, 0); */
 
 	INS_AddInstrumentFunction(Instruction, 0);
 

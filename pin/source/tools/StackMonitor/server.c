@@ -11,10 +11,14 @@
 #define INSTR_SIZE 32
 #define RECV_SIZE sizeof(void *)
 
+
+#define MAX_OP_VALUE_SIZE 2048
+#define MAX_DISASS_LENGTH 1024
+
 struct mem_op_t {
     uintptr_t length;
     void *effective_addr;
-    unsigned char value[];
+    unsigned char value[MAX_OP_VALUE_SIZE];
 };
 
 struct instruction_t {
@@ -22,7 +26,7 @@ struct instruction_t {
     void *sp;
     void *bp;
     uintptr_t disassembly_len;
-    char *disassembly;
+    char disassembly[MAX_DISASS_LENGTH];
     struct mem_op_t *read;
     struct mem_op_t *read2;
     struct mem_op_t *write;
@@ -31,15 +35,14 @@ struct instruction_t {
 typedef struct instruction_t instruction;
 typedef struct mem_op_t mem_op;
 
-instruction *recv_ins(int sock);
-mem_op *recv_mem_op(int sock);
+void recv_ins(int sock, instruction *ins);
+int recv_mem_op(int sock, mem_op *op);
 int recv_val(int sock, unsigned char *buf, int size);
 void print_op(mem_op *op);
 void destroy_ins(instruction *ins);
 int handle_ins(instruction *ins);
 int recv_client(int sock);
 int init_server(char *path);
-void destroy_ins(instruction *ins);
 
 
 int recv_val(int sock, unsigned char *buf, int size)
@@ -54,68 +57,68 @@ int recv_val(int sock, unsigned char *buf, int size)
     if(errno != 0) {
         printf("recv addr: %p\n", buf);
         perror("recv()");
-        exit(-1);
     }
 
 }
 
-instruction *recv_ins(int sock)
+void recv_ins(int sock, instruction *ins)
 {
-    instruction *ins;
-    ins = malloc(sizeof(instruction));
 
     recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE);
     recv_val(sock, (unsigned char *)&ins->sp, RECV_SIZE);
     recv_val(sock, (unsigned char *)&ins->bp, RECV_SIZE);
     recv_val(sock, (unsigned char *)&ins->disassembly_len, RECV_SIZE);
 
-    if(ins->disassembly_len > 0){
-        ins->disassembly = (char *)malloc(ins->disassembly_len * sizeof(char *));
+    /* add extra byte for null termination */
+    if(ins->disassembly_len > 0 && ins->disassembly_len < MAX_DISASS_LENGTH - 1){
         recv_val(sock, (unsigned char *)ins->disassembly, ins->disassembly_len);
     }
+    else if(ins->disassembly_len  >= MAX_DISASS_LENGTH) {
+        recv_val(sock, (unsigned char *)ins->disassembly, MAX_DISASS_LENGTH - 2);
+    }
 
-    ins->write = recv_mem_op(sock);
-    ins->read  = recv_mem_op(sock); 
-    ins->read2  = recv_mem_op(sock); 
+    ins->disassembly[ins->disassembly_len] = 0;
 
-    return ins;
+    printf("IP: %p\n\t%s\n", ins->ip, ins->disassembly);
+
+    recv_mem_op(sock, ins->write);
+    recv_mem_op(sock, ins->read); 
+    recv_mem_op(sock, ins->read2); 
 }
 
-mem_op *recv_mem_op(int sock)
+int recv_mem_op(int sock, mem_op *op)
 {
-    mem_op *op;
+    int status;
     uintptr_t size;
+
     recv_val(sock, (unsigned char *)&size, RECV_SIZE);
+    status = 0;
 
     if(size > 0)
     {
-        op = (mem_op *)malloc(sizeof(mem_op)+size);
-
-        if(NULL == op || NULL == op->value)
-        {
-            perror("malloc()");
-            exit(-1);
-        }
         op->length = size;
 
+        if(op->length > MAX_OP_VALUE_SIZE) {
+            printf("\tOP Value overflowed! (%d bytes)\n", op->length);
+            op->length = MAX_OP_VALUE_SIZE - 1;
+            status = -1;
+            exit(-1);
+        }
         recv_val(sock, (void *)&op->effective_addr, RECV_SIZE);
-        
         recv_val(sock, (void *)op->value, op->length);
-
-        return op;
     }
-    else
-    {
-        return NULL;
-    }
+    return status;
 }
 
 void destroy_ins(instruction *ins)
 {
-    if(NULL != ins->read)
-        free(ins->read);
+    printf("freeing\n");
+    if(NULL != ins->disassembly)
+        free(ins->disassembly);
     if(NULL != ins->write)
         free(ins->write);
+    if(NULL != ins->read)
+        free(ins->read);
     if(NULL != ins->read2)
         free(ins->read2);
     free(ins);
@@ -230,19 +233,23 @@ int main(int argc, char **argv)
     while(1)
     {
         int csock;
-        instruction *ins;
+        /* only want to allocate all this once */
+        instruction ins;
+        mem_op write;
+        mem_op read;
+        mem_op read2;
+
+        ins.write = &write;
+        ins.read = &read;
+        ins.read2 = &read2;
         uintptr_t ip;
 
         csock = recv_client(sockfd);
-        ins = recv_ins(csock);
-        ip = (uintptr_t)ins->ip;
-        while(ip != (uintptr_t)-1)
+        recv_ins(csock, &ins);
+        while((long int)ins.ip != -1)
         {
-            handle_ins(ins);
-            destroy_ins(ins);
-
-            ins = recv_ins(csock);
-            ip = (uintptr_t)ins->ip;
+            handle_ins(&ins);
+            recv_ins(csock, &ins);
         } 
         printf("exited client loop\n");
 

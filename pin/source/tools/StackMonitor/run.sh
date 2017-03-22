@@ -3,7 +3,7 @@
 function loop()
 {
     for ((i = 0; i < $1; i++)); do
-        (./server &) && time ../../../pin -t ./obj-intel64/StackMonitor.so -- "/bin/ls"
+        (./server &) && time ../../../pin -t ./obj-intel64/StackMonitor.so -- /usr/bin/tar -xf ./sipcrack.tgz
     done
 }
 
