@@ -22,25 +22,44 @@
 #define SEND(fd, buf, len, flags) send(fd, buf, len, flags);
 #endif
 
+struct proc_mapping_t {
+    long unsigned int low_addr;
+    long unsigned int high_addr;
+    long unsigned int offset;
+    long unsigned int inode;
+    char perms[5];
+    short dev_high;
+    short dev_low;
+    char pathname[1024];
+};
+
+typedef struct proc_mapping_t proc_mapping;
+
 struct memory_op_t {
     VOID *ea;
     UINT32 size;
 };
 
 typedef struct memory_op_t memory_op;
+typedef struct proc_mapping_t proc_mapping;
 
 /* PIN does not guarantee lifetime of variables */
 /* Hash of operations, uses SM_WRITE, SM_READ, SM_READ2 */
 /* Access by ADDRINT of instruction */
 static unordered_map<ADDRINT, memory_op *> memory_op_map[3];
+static proc_mapping proc;
 
 
 VOID ShowN(UINT32 n, VOID *ea);
-int init_connection(char path[]);
-VOID StackMemoryOperation(ADDRINT addr, UINT32 type);
+VOID SendMappedStackOp(ADDRINT addr, UINT32 type);
 VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type);
 VOID LoadMemoryOperation(ADDRINT addr, UINT32 type, VOID *ea, UINT32 size);
 VOID ForkNotify(THREADID thread, const CONTEXT *ctx, VOID *arg);
+int is_stack_op(void *ea);
+proc_mapping get_proc_mapping(int pid);
+int init_connection(char path[]);
+int get_proc_mapping(FILE *fp, proc_mapping *proc);
+FILE *open_proc_mappings(int pid);
 
 static void OnSig(THREADID threadIndex, 
 		CONTEXT_CHANGE_REASON reason, 
@@ -114,7 +133,39 @@ VOID StackPtr(VOID *ip, const CONTEXT *ctxt, string *disasm)
 
 }
 
-VOID StackMemoryOperation(ADDRINT addr, UINT32 type)
+
+VOID SendStackOp(VOID *ea, UINT32 size)
+{
+    uintptr_t len;
+    UINT8 *val;
+
+    /* uintptr_t is size of (VOID *) */
+    len = size;
+#ifdef DEBUG
+    printf("OP Length (%lu): ", len);
+#endif
+    SEND(sockd, (VOID *)&len, SEND_SIZE, 0);
+
+    if(len > 0)
+    {
+#ifdef DEBUG
+        printf("OP Effective address: ");
+#endif
+        SEND(sockd, (VOID *)&ea, SEND_SIZE, 0);
+
+        val = static_cast<UINT8*>(malloc(sizeof(UINT8) * (len)));
+
+        PIN_SafeCopy(val, static_cast<UINT8*>(ea), len);
+
+#ifdef DEBUG
+        printf("OP Value: ");
+#endif
+        SEND(sockd, (VOID *)val, len, 0);
+    }
+}
+
+
+VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
 {
     memory_op *op;
     
@@ -211,12 +262,9 @@ VOID Instruction(INS ins, VOID *val)
         && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
     {
         INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)LoadMemoryOperation, 
-            IARG_ADDRINT, addr, IARG_UINT32, SM_READ,
+            IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
             IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
             IARG_END);
-
-        TryInsertStackOpAfter(ins, addr, SM_READ);
     }
     else
     {
@@ -227,12 +275,9 @@ VOID Instruction(INS ins, VOID *val)
         && INS_IsStandardMemop(ins))
     {
         INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)LoadMemoryOperation, 
-            IARG_ADDRINT, addr, IARG_UINT32, SM_READ2,
-            IARG_MEMORYREAD2_EA, IARG_MEMORYREAD_SIZE, 
+            IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
+            IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
             IARG_END);
-
-        TryInsertStackOpAfter(ins, addr, SM_READ2);
     }
     else
     {
@@ -250,12 +295,12 @@ VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type)
     }
     else if(INS_HasFallThrough(ins)) {
         INS_InsertCall(ins, 
-            IPOINT_AFTER, (AFUNPTR)StackMemoryOperation, 
+            IPOINT_AFTER, (AFUNPTR)SendMappedStackOp, 
             IARG_ADDRINT, addr, IARG_UINT32, type, IARG_END);
     }
     else {
         INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)StackMemoryOperation, 
+            IPOINT_BEFORE, (AFUNPTR)SendMappedStackOp, 
             IARG_ADDRINT, addr, IARG_UINT32, type, IARG_END);
     }
 }
@@ -306,6 +351,13 @@ VOID ShowN(UINT32 n, VOID *ea)
 	}
 }
 
+
+int is_stack_op(void *ea)
+{
+    return (uintptr_t)ea <= proc.low_addr && (uintptr_t)ea >= proc.high_addr;
+}
+
+
 int init_connection(const char path[])
 {
 	int sock;
@@ -323,14 +375,74 @@ int init_connection(const char path[])
 }
 
 
+FILE *open_proc_mappings(int pid)
+{
+    char fn[1024];
+
+    sprintf(fn, "/proc/%d/maps", pid);
+
+    if (access(fn, F_OK) == -1) {
+        fprintf(stderr, "no such file %s\n", fn);
+        exit(1);
+    }
+
+    return fopen(fn, "r");
+}
+
+int get_proc_mapping(FILE *fp, proc_mapping *proc)
+{
+    char line[2048];
+    int res;
+    errno = 0;
+
+    /*
+    * last string in /proc/[pid]/maps is optional
+    * need to consume entire line each read
+    */
+    if(NULL == fgets(line, 2048, fp))
+        return -1;
+
+    res = sscanf(line, "%lx-%lx %s %lu %hu:%hu %lu %s\n",
+        &proc->low_addr, &proc->high_addr, proc->perms,
+        &proc->offset, &proc->dev_high, &proc->dev_low, &proc->inode, proc->pathname);
+
+
+    if(res == EOF || errno != 0)
+        return -1;
+    return 0;
+}
+
+
 int main(int argc, char *argv[])
 {
+    int pid;
+    proc_mapping sproc;
+    FILE *fp;
+
 	PIN_InitSymbols();
 
 	if( PIN_Init(argc,argv) )
 	{
 		return Usage();
 	}
+
+    proc.high_addr = 0;
+    proc.low_addr = 0;
+
+    pid = PIN_GetPid();
+    fp = open_proc_mappings(pid);
+
+    while(get_proc_mapping(fp, &sproc) >= 0) {
+        if(strcmp("[stack]", sproc.pathname) == 0) {
+            proc = sproc;
+            break;
+        }
+    }
+
+    if(proc.high_addr == 0 || proc.low_addr == 0) {
+        fprintf(stderr, "unable to find stack boundaries from proc map\n");
+        return -1;
+    }
 
 	string socket =  KnobSocketFile.Value();
 	sockd = init_connection(socket.c_str());

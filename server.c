@@ -18,8 +18,7 @@ int recv_val(int sock, unsigned char *buf, int size)
     errno = 0;
     status = 0;
 
-    if(recv(sock, buf, size, 0) == 0 && errno != 0) {
-        fprintf(stderr, "ERROR: no data received\n");
+    if(recv(sock, buf, size, 0) <= 0 || errno != 0) {
         status = -1;
     }
 
