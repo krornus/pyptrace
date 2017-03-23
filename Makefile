@@ -1,5 +1,5 @@
 CC=gcc
-DEPS=
+DEPS=server.c
 FLAGS=-Wall -fpic -shared
 
 INC=-I/usr/include/python2.7/
@@ -8,7 +8,7 @@ INC+=-lpython2.7
 CFLAGS=-I. $(INC) $(FLAGS) 
 
 ODIR=obj
-_OBJ=stackmonitor.o
+_OBJ=stackmonitor.o server.o
 OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

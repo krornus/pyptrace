@@ -58,7 +58,6 @@ int recv_val(int sock, unsigned char *buf, int size)
         printf("recv addr: %p\n", buf);
         perror("recv()");
     }
-
 }
 
 void recv_ins(int sock, instruction *ins)
@@ -79,7 +78,6 @@ void recv_ins(int sock, instruction *ins)
 
     ins->disassembly[ins->disassembly_len] = 0;
 
-    printf("IP: %p\n\t%s\n", ins->ip, ins->disassembly);
 
     recv_mem_op(sock, ins->write);
     recv_mem_op(sock, ins->read); 
@@ -89,14 +87,12 @@ void recv_ins(int sock, instruction *ins)
 int recv_mem_op(int sock, mem_op *op)
 {
     int status;
-    uintptr_t size;
 
-    recv_val(sock, (unsigned char *)&size, RECV_SIZE);
+    recv(sock, (unsigned char *)&op->length, RECV_SIZE, 0);
     status = 0;
 
-    if(size > 0)
+    if(op->length > 0)
     {
-        op->length = size;
 
         if(op->length > MAX_OP_VALUE_SIZE) {
             printf("\tOP Value overflowed! (%d bytes)\n", op->length);
@@ -110,40 +106,11 @@ int recv_mem_op(int sock, mem_op *op)
     return status;
 }
 
-void destroy_ins(instruction *ins)
-{
-    printf("freeing\n");
-    if(NULL != ins->disassembly)
-        free(ins->disassembly);
-    if(NULL != ins->write)
-        free(ins->write);
-    if(NULL != ins->read)
-        free(ins->read);
-    if(NULL != ins->read2)
-        free(ins->read2);
-    free(ins);
-}
-
 
 int handle_ins(instruction *ins)
 {
-    /* simulate the stack on heap */
-    /* map stack addrs to heap addrs */
-
-    if((uintptr_t)ins->ip < 0x4005da || (uintptr_t)ins->ip > 0x4005f3)
-        return 0;
-
-    if (NULL != ins->write) {
-        printf("%p (%s):\n\tWRITE: ", ins->ip, ins->disassembly);
-        print_op(ins->write);
-        printf("\n");
-    }
-    
-    if (NULL != ins->read) {
-        printf("%p (%s):\n\tREAD: ", ins->ip, ins->disassembly);
-        print_op(ins->read);
-        printf("\n");
-    }
+    printf("sizes: %lu %lu %lu\n", 
+            ins->write->length, ins->read->length, ins->read2->length);
 
     return 0;
 }

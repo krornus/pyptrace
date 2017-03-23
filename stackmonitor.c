@@ -11,6 +11,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "server.h"
+
 #define DESC "Stack monitor tracer"
 #define MODULE "stackmonitor"
 #define ITER_METH "monitor"
@@ -42,41 +44,15 @@
 
 #define RECV_SIZE sizeof(void *)
 
-struct mem_op_t {
-    uintptr_t length;
-    void *effective_addr;
-    unsigned char value[];
-};
-
-struct instruction_t {
-    void *ip;
-    void *sp;
-    void *bp;
-    uintptr_t disassembly_len;
-    char *disassembly;
-    struct mem_op_t *read;
-    struct mem_op_t *read2;
-    struct mem_op_t *write;
-};
-
-typedef struct instruction_t instruction;
-typedef struct mem_op_t mem_op;
-typedef struct ins_value_t ins_value;
-
 
 /*  gcc -Wall -shared -I/usr/include/python2.7/ -lpython2.7 -o module.so stackmonitor.c -fpic */
 PyObject* stackmonitor_iter(PyObject *self);
 PyObject* stackmonitor_next(PyObject *self);
 int expand_str(char *args, wordexp_t *result);
-int init_server(char *path);
 unsigned long read_addr(int sockd);
 char **argvcat(int argc1, char **argv1, int argc2, char **argv2, char ***result);
 int get_arch_bits(char *fn);
 char *get_pin_tool(char *fn);
-instruction *recv_ins(int sock);
-mem_op *recv_mem_op(int sock);
-void destroy_ins(instruction *ins);
-int recv_val(int sock, unsigned char *buf, int size);
 void cleanup(int status, void *child);
 void handle_child_exit(int pid);
 
@@ -128,6 +104,13 @@ static PyMethodDef StackMonitorMethods[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
+    
+static instruction ins;
+static mem_op op_write;
+static mem_op op_read;
+static mem_op op_read2;
+
+
 PyObject* stackmonitor_iter(PyObject *self)
 {
     Py_INCREF(self);
@@ -138,12 +121,9 @@ PyObject* stackmonitor_next(PyObject *self)
 {
     PyObject *stackObj;
     stackmonitor_Type *py_StackMonitor;
-    instruction *ins;
 
     py_StackMonitor = (stackmonitor_Type *)self;
-    ins = recv_ins(py_StackMonitor->csockd);
-
-    if(ins == NULL) {
+    if(next_ins(py_StackMonitor->csockd, &ins) < 0) {
         close(py_StackMonitor->csockd);
         handle_child_exit(py_StackMonitor->child);
         return NULL;
@@ -153,28 +133,24 @@ PyObject* stackmonitor_next(PyObject *self)
                                   s:{s:k, s:k, s:s#},\
                                   s:{s:k, s:k, s:s#},\
                                   s:{s:k, s:k, s:s#}}",
-              "ip", ins->ip,
-              "sp", ins->sp,
-              "bp", ins->bp,
-              "disassembly", ins->disassembly,
+              "ip", ins.ip,
+              "sp", ins.sp,
+              "bp", ins.bp,
+              "disassembly", ins.disassembly,
               "write",
-                  "length", ins->write->length,
-                  "addr", ins->write->effective_addr,
-                  "data", ins->write->value, ins->write->length,
+                  "length", ins.write->length,
+                  "addr", ins.write->effective_addr,
+                  "data", ins.write->value, ins.write->length,
               "read", 
-                  "length", ins->read->length,
-                  "addr", ins->read->effective_addr,
-                  "data", ins->read->value, ins->read->length,
+                  "length", ins.read->length,
+                  "addr", ins.read->effective_addr,
+                  "data", ins.read->value, ins.read->length,
               "read2", 
-                  "length", ins->read2->length,
-                  "addr", ins->read2->effective_addr,
-                  "data", ins->read2->value, ins->read2->length
+                  "length", ins.read2->length,
+                  "addr", ins.read2->effective_addr,
+                  "data", ins.read2->value, ins.read2->length
             );
     
-    // TODO: check to make sure Py_BuildValue copies this data so we actually can free it
-    destroy_ins(ins);
-
-    //PYERR(PyExc_IOError, "debug %s", "\n"); return NULL;
     return stackObj;
 }
 
@@ -182,10 +158,8 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
 {
     stackmonitor_Type *py_StackMonitor;
     int argc, sockd, csockd;
-    unsigned int remsize;
     char *path, **argv, *pin_tool;
     char *sockfile = ITRACE_SOCK;
-    struct sockaddr_un remote;
     wordexp_t wargs;
 
     static char *kwlist[] = {"path", "socket", NULL};
@@ -247,14 +221,16 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
                 strerror(errno));
     }
 
-    remsize = sizeof(remote);
-    if ((csockd = accept(sockd, (struct sockaddr *)&remote, &remsize)) == -1) {
+    if ((csockd = recv_client(sockd)) == -1) {
         PYRAISE(PyExc_IOError, 
                 "Unable to accept local client for IPC:\n\t%s", 
                 strerror(errno));
     }
         
     py_StackMonitor->csockd = csockd;
+    ins.write = &op_write;
+    ins.read = &op_read;
+    ins.read2 = &op_read2;
 
     return (PyObject *)py_StackMonitor;
 }
@@ -292,32 +268,6 @@ int expand_str(char *args, wordexp_t *result)
     return 0;
 }
 
-int init_server(char *path)
-{
-    int len, sockfd;
-    struct sockaddr_un local;
-
-    if ((sockfd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
-        return -1;
-    }
-
-    local.sun_family = AF_UNIX;
-    strcpy(local.sun_path, path);
-
-    unlink(local.sun_path);
-
-    len = strlen(local.sun_path) + sizeof(local.sun_family);
-
-    if (bind(sockfd, (struct sockaddr *)&local, len) == -1) {
-        return -1;
-    }
-
-    if (listen(sockfd, 1) == -1) {
-        return -1;
-    }
-
-    return sockfd;
-}
 
 char **argvcat(int argc1, char **argv1, int argc2, char **argv2, char ***result)
 {
@@ -397,136 +347,6 @@ char *get_pin_tool(char *fn)
         default:
             return NULL;
     }
-}
-
-instruction *recv_ins(int sock)
-{
-    instruction *ins;
-    ins = (instruction *)malloc(sizeof(instruction));
-
-
-    if(recv_val(sock, (unsigned char *)&ins->ip, RECV_SIZE) < 0) {
-        return NULL;
-    }
-    if(recv_val(sock, (unsigned char *)&ins->sp, RECV_SIZE) < 0) {
-        PYERR(PyExc_IOError, 
-            "Error receiving SP from client\n\t%d: %s", 
-            errno, strerror(errno));
-        return NULL;
-    }
-    if(recv_val(sock, (unsigned char *)&ins->bp, RECV_SIZE) < 0) {
-        PYERR(PyExc_IOError, 
-            "Error receiving BP from client\n\t%d: %s", 
-            errno, strerror(errno));
-        return NULL;
-    }
-
-    if(recv_val(sock, (unsigned char *)&ins->disassembly_len, RECV_SIZE) < 0) {
-        PYERR(PyExc_IOError, 
-            "Error receiving instruction length from client\n\t%d: %s", 
-            errno, strerror(errno));
-        return NULL;
-    }
-
-    if(ins->disassembly_len > 0)
-    {
-        ins->disassembly = (char *)malloc(ins->disassembly_len * sizeof(char *) + 1); 
-
-        if(recv_val(sock, (unsigned char *)ins->disassembly, ins->disassembly_len) < 0) {
-            PYERR(PyExc_IOError, 
-                "Error receiving instruction from client\n\t%d: %s", 
-                errno, strerror(errno));
-            return NULL;
-        }
-
-        ins->disassembly[ins->disassembly_len] = '\x00';
-    }
-    else { 
-        ins->disassembly = NULL;
-    }
-
-    ins->write = recv_mem_op(sock);
-    ins->read  = recv_mem_op(sock); 
-    ins->read2  = recv_mem_op(sock); 
-
-
-    if(ins->write == NULL || ins->read == NULL || ins->read2 == NULL) {
-        PYERR(PyExc_IOError, 
-            "Error receiving memory operation from client \n\t%d: %s", 
-            errno, strerror(errno));
-        return NULL;
-    }
-
-    return ins;
-}
-
-mem_op *recv_mem_op(int sock)
-{
-    mem_op *op;
-    uintptr_t size;
-
-    if(recv_val(sock, (unsigned char *)&size, RECV_SIZE) < 0) {
-        PYERR(PyExc_IOError, 
-            "Error receiving memory operation size from client\n\t%d: %s", 
-            errno, strerror(errno));
-        return NULL;
-    }
-
-    if(size > 0)
-    {
-        op = (mem_op *)malloc(sizeof(mem_op)+size);
-        op->length = size;
-
-        if(recv_val(sock, (unsigned char *)&op->effective_addr, RECV_SIZE) < 0) {
-            PYERR(PyExc_IOError, 
-                "Error receiving effective address from client\n\t%d: %s", 
-                errno, strerror(errno));
-            return NULL;
-        }
-        if(recv_val(sock, op->value, op->length) < 0) {
-            PYERR(PyExc_IOError, 
-                "Error receiving memory value from client\n\t%d: %s", 
-                errno, strerror(errno));
-            return NULL;
-        }
-
-
-        return op;
-    }
-    else
-    {
-        op = (mem_op *)malloc(sizeof(mem_op) + 1);
-        op->length = 0;
-        op->effective_addr = 0;
-        *op->value = '\x00';
-        return op;
-    }
-}
-
-void destroy_ins(instruction *ins)
-{
-    if(NULL != ins->disassembly)
-        free(ins->disassembly);
-    if(NULL != ins->read)
-        free(ins->read);
-    if(NULL != ins->write)
-        free(ins->write);
-    free(ins);
-}
-
-int recv_val(int sock, unsigned char *buf, int size)
-{
-    errno = 0;
-    int len = 0;
-    if((len = recv(sock, buf, size, 0)) < 0 || errno != 0) {
-        return -1;
-    }
-    else if(len == 0 && size != 0)
-    {
-        return -2; 
-    }
-
-    return len;
 }
 
 void cleanup(int status, void *child)
