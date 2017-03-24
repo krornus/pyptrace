@@ -27,6 +27,7 @@ int recv_val(int sock, unsigned char *buf, int size)
 
 int next_ins(int sock, instruction *ins)
 {
+    uintptr_t type;
     int status = 0;
 
     /* dont want to add another if per recv, status will be 0 or -1 */
@@ -47,9 +48,26 @@ int next_ins(int sock, instruction *ins)
 
     ins->disassembly[ins->disassembly_len] = 0;
 
-    status += recv_mem_op(sock, ins->write);
-    status += recv_mem_op(sock, ins->read); 
-    status += recv_mem_op(sock, ins->read2); 
+    
+    /*
+    * PIN IARG_ORDER does not work for NOP ops for an unknown reason
+    * have to recv by type until this issue is resolved 
+    */
+    for(int i = 0; i < 3; i++) {
+        recv(sock, (unsigned char *)&type, RECV_SIZE, MSG_PEEK);
+
+        switch(type) {
+            case SM_WRITE:
+                status += recv_mem_op(sock, ins->write);
+                break;
+            case SM_READ:
+                status += recv_mem_op(sock, ins->read);
+                break;
+            case SM_READ2:
+                status += recv_mem_op(sock, ins->read2);
+                break;
+        }
+    }
 
     return status;
 }
@@ -58,6 +76,7 @@ int recv_mem_op(int sock, mem_op *op)
 {
     int status;
 
+    recv_val(sock, (unsigned char *)&op->type, RECV_SIZE);
     recv_val(sock, (unsigned char *)&op->length, RECV_SIZE);
     status = 0;
 

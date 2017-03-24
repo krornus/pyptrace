@@ -6,6 +6,9 @@
 #include "pin.H"
 
 #define SEND_SIZE sizeof(void *)
+#define SM_WRITE 0
+#define SM_READ  1
+#define SM_READ2 2
 
 /* TODO: Change how we handle DEBUG */
 /* Low priority, only matters when DEBUG is set */
@@ -54,8 +57,9 @@ static proc_addr_list *proc;
 
 
 VOID ShowN(UINT32 n, VOID *ea);
-VOID SendMappedStackOp(ADDRINT addr);
-VOID TryInsertStackOpAfter(INS ins, ADDRINT addr);
+VOID SendMappedStackOp(ADDRINT addr, UINT32 type);
+VOID StackNop(UINT32 type);
+VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type);
 VOID LoadMemoryOperation(ADDRINT addr, VOID *ea, UINT32 size);
 VOID ForkNotify(THREADID thread, const CONTEXT *ctx, VOID *arg);
 int is_stack_op(void *ea);
@@ -137,16 +141,19 @@ VOID StackPtr(VOID *ip, const CONTEXT *ctxt, string *disasm)
 }
 
 
-VOID SendStackOp(VOID *ea, UINT32 size)
+VOID SendStackOp(VOID *ea, UINT32 size, UINT32 type)
 {
+    uintptr_t op_type;
     uintptr_t len;
     UINT8 *val;
 
     /* uintptr_t is size of (VOID *) */
+    op_type = type;
     len = size;
 #ifdef DEBUG
     printf("OP Length (%lu): ", len);
 #endif
+    SEND(sockd, (VOID *)&op_type, SEND_SIZE, 0);
     SEND(sockd, (VOID *)&len, SEND_SIZE, 0);
 
     if(len > 0)
@@ -167,22 +174,29 @@ VOID SendStackOp(VOID *ea, UINT32 size)
     }
 }
 
-VOID SendMappedStackOp(ADDRINT addr)
+VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
 {
     memory_op *op;
     
     /* size of (void *) */
     uintptr_t len;
+    uintptr_t op_type;
 
     UINT8 *val;
 
     op = write_map[addr];
     write_map[addr] = NULL;
 
+    op_type = type;
     if(NULL == op)
         len = 0;
     else
         len = op->size;
+
+#ifdef DEBUG
+    printf("OP Type (%lu): ", type);
+#endif
+    SEND(sockd, (VOID *)&op_type, SEND_SIZE, 0);
 #ifdef DEBUG
     printf("OP Length (%lu): ", len);
 #endif
@@ -208,20 +222,22 @@ VOID SendMappedStackOp(ADDRINT addr)
     delete op;
 }
 
-VOID StackNop(ADDRINT addr)
+VOID StackNop(UINT32 type)
 {
     uintptr_t len;
+    uintptr_t op_type;
+
+    op_type = type;
     len = 0;
+
+#ifdef DEBUG
+    printf("NOP TYPE (%d): ", type);
+#endif
+    SEND(sockd, (VOID *)&op_type, SEND_SIZE, 0);
 #ifdef DEBUG
     printf("NOP Length (%lu): ", len);
 #endif
     SEND(sockd, (VOID *)&len, SEND_SIZE, 0);
-
-    memory_op *op = new memory_op();
-    op->ea = 0;
-    op->size = 0;
-
-    write_map[addr] = op;
 }
 
 VOID LoadMemoryOperation(ADDRINT addr, VOID *ea, UINT32 size)
@@ -245,12 +261,15 @@ VOID Instruction(INS ins, VOID *val)
 {
     string disasm;
     disasm = INS_Disassemble(ins);
-    ADDRINT addr;
 
+    /* send this first */
     INS_InsertCall (ins,
         IPOINT_BEFORE, (AFUNPTR)StackPtr,
-        IARG_INST_PTR, IARG_CONTEXT, IARG_PTR, new string(disasm), IARG_END);
+        IARG_INST_PTR, IARG_CONTEXT, IARG_PTR, new string(disasm), 
+        IARG_CALL_ORDER, CALL_ORDER_FIRST, IARG_END);
 
+
+    ADDRINT addr;
     addr = INS_Address(ins);
 
     if (INS_IsMemoryWrite(ins))
@@ -261,25 +280,28 @@ VOID Instruction(INS ins, VOID *val)
             IARG_ADDRINT, addr, IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, 
             IARG_END);
 
-        TryInsertStackOpAfter(ins, addr);
+        TryInsertStackOpAfter(ins, addr, SM_WRITE);
     }
     else
     {
-        TryInsertStackOpAfter(ins, 0);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_UINT32, SM_WRITE, IARG_END);
     }
 
-    if (INS_IsMemoryRead(ins) && INS_IsMemoryRead(ins) 
+    if (INS_IsMemoryRead(ins) 
         && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
     {
         /* we just send reads (SendStackOp) */
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
             IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
+            IARG_UINT32, SM_READ,
             IARG_END);
     }
     else
     {
-        TryInsertStackOpAfter(ins, 0);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_UINT32, SM_READ, IARG_END);
     }
 
     if (INS_IsMemoryRead(ins) && INS_HasMemoryRead2(ins) 
@@ -288,30 +310,31 @@ VOID Instruction(INS ins, VOID *val)
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
             IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
+            IARG_UINT32, SM_READ2,
             IARG_END);
     }
     else
     {
-        TryInsertStackOpAfter(ins, 0);
+        INS_InsertCall(ins, 
+            IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_UINT32, SM_READ2, IARG_END);
     }
 }
 
-VOID TryInsertStackOpAfter(INS ins, ADDRINT addr)
+VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type)
 {
-    /* Need a flag value for notifying if no fallthrough */
-    if(addr == 0) {
-        INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_END);
-    }
-    else if(INS_HasFallThrough(ins)) {
+    /* only called on WRITE, should always have a fallthrough(?) */
+    
+    if(INS_HasFallThrough(ins)) {
         INS_InsertCall(ins, 
             IPOINT_AFTER, (AFUNPTR)SendMappedStackOp, 
-            IARG_ADDRINT, addr, IARG_END);
+            IARG_ADDRINT, addr,
+            IARG_UINT32, type, IARG_END);
     }
     else {
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)SendMappedStackOp, 
-            IARG_ADDRINT, addr, IARG_END);
+            IARG_ADDRINT, addr, 
+            IARG_UINT32, type, IARG_END);
     }
 }
 

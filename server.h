@@ -5,7 +5,12 @@
 #define MAX_OP_VALUE_SIZE 2048
 #define MAX_DISASS_LENGTH 1024
 
+#define SM_WRITE 0
+#define SM_READ 1
+#define SM_READ2 2
+
 struct mem_op_t {
+    uintptr_t type;
     uintptr_t length;
     void *effective_addr;
     unsigned char value[MAX_OP_VALUE_SIZE];

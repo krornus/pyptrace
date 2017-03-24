@@ -16,6 +16,7 @@
 #define MAX_DISASS_LENGTH 1024
 
 struct mem_op_t {
+    uintptr_t type;
     uintptr_t length;
     void *effective_addr;
     unsigned char value[MAX_OP_VALUE_SIZE];
@@ -88,6 +89,7 @@ int recv_mem_op(int sock, mem_op *op)
 {
     int status;
 
+    recv(sock, (unsigned char *)&op->type, RECV_SIZE, 0);
     recv(sock, (unsigned char *)&op->length, RECV_SIZE, 0);
     status = 0;
 
