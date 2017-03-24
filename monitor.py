@@ -4,46 +4,26 @@ import ctypes
 
 def main():
     s = Stack()
-    hist = []
-    post = -1
     
 
     for x in stackmonitor.monitor("./tool/binaries/test-app"):
         s.update(x)
         s.print_in_range(0x4005e1,0x4005f7)
 
-        hist.append(x)
-        if len(hist) > 5:
-            hist.pop(0)
-
-        '''
-        if(s.bytes_in_op("\x61\x62")):
+        # test input: "when in the course of human events"
+        # apparently gets reads one char (w)
+        # then 16 bytes, then 16 again (maybe 32?)
+        if(s.bytes_in_write("hen")):
             print hex(x['ip']), x['disassembly']
-            print "="*80 + "\n" + "HIST\n" + "="*80 
-            for x in hist:
-                s.print_ops(x)
+            s.print_ops(string=True)
             print "="*80
 
-            s.print_ops(endianness=False)
-
-            print "="*80 + "\n" + "FUTURE\n" + "="*80 
-            post = 0
-        '''
-        if post > -1 and post < 5:
-            print x['disassembly']
-            s.print_ops(endianness=False)
-            post += 1
-        elif post == 5:
-            post += 1
+        if(s.bytes_in_write("events")):
+            print hex(x['ip']), x['disassembly']
+            s.print_ops(string=True)
+            print "strlen: {}".format(x['write']['length'])
             print "="*80
-        
 
-        if(x['disassembly'] == "mov byte ptr [rbx], al"):
-            print "="*37 + "FOUND" + "="*38
-            print x['disassembly']
-            s.print_ops(endianness=False)
-            print "="*37 + "FUTURE" + "="*37
-            post = 0
         
 class Stack(object):
 
@@ -74,43 +54,49 @@ class Stack(object):
         return self.ins['read2']['length'] > 0 and b in self.ins['read2']['data']
 
         
-    def print_ops(self, x=None, endianness=True):
+    def print_ops(self, x=None, endianness=True, string=False):
         if not x:
             x = self.ins
 
-        self.print_write(x, endianness)
-        self.print_read(x, endianness)
-        self.print_read2(x, endianness)
+        self.print_write(x, endianness, string)
+        self.print_read(x, endianness, string)
+        self.print_read2(x, endianness, string)
 
 
-    def print_write(self, i=None, endianness=True):
+    def print_write(self, i=None, endianness=True, string=False):
         if not i:
             i = self.ins
         if(not i or i['write']['length'] == 0):
             print "WRITE: NULL"
-        else:
+        elif not string:
             print "WRITE " + hex(i['write']['addr']) + ": " + \
                 self.print_hex(i['write']['data'], i['write']['length'], endianness)
+        else:
+            print "WRITE :" + i['write']['data']
         
 
-    def print_read(self, i=None, endianness=True):
+    def print_read(self, i=None, endianness=True, string=False):
         if not i:
             i = self.ins
         if(not i or i['read']['length'] == 0):
             print "READ: NULL"
-        else:
+        elif not string:
             print "READ " + hex(i['read']['addr']) + ": " + \
                 self.print_hex(i['read']['data'], i['read']['length'], endianness)
+        else:
+            print "READ :" + i['read']['data']
 
 
-    def print_read2(self, i=None, endianness=True):
+    def print_read2(self, i=None, endianness=True, string=False):
         if not i:
             i = self.ins
         if(not i or i['read2']['length'] == 0):
             print "READ2: NULL"
-        else:
+        elif not string:
             print "READ2 " + hex(i['read2']['addr']) + ": " + \
                 self.print_hex(i['read2']['data'], i['read2']['length'], endianness)
+        else:
+            print "READ2 :" + i['read2']['data']
 
 
     def print_hex(self, s, length, endianness=True):
@@ -122,7 +108,7 @@ class Stack(object):
                 ord(s[x])) for x in range(length))
 
 
-    def print_in_range(self, p1, p2, endianness=True):
+    def print_in_range(self, p1, p2, endianness=True, string=False):
 
             if not self.log and self.ins['ip'] == p1:
                 self.log = True
@@ -132,7 +118,7 @@ class Stack(object):
             if self.log: 
                 print "="*80
                 print hex(self.ins['ip']) + ": " + self.ins['disassembly']
-                self.print_ops(endianness=endianness)
+                self.print_ops(endianness=endianness, string=string)
                 print "="*80
 
 
