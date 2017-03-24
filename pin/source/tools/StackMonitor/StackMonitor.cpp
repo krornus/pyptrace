@@ -33,7 +33,14 @@ struct proc_mapping_t {
     char pathname[1024];
 };
 
+struct proc_addr_list_t {
+    long unsigned int low;
+    long unsigned int high;
+    struct proc_addr_list_t *next;
+};
+
 typedef struct proc_mapping_t proc_mapping;
+typedef struct proc_addr_list_t proc_addr_list;
 
 struct memory_op_t {
     VOID *ea;
@@ -47,7 +54,7 @@ typedef struct proc_mapping_t proc_mapping;
 /* Hash of operations, uses SM_WRITE, SM_READ, SM_READ2 */
 /* Access by ADDRINT of instruction */
 static unordered_map<ADDRINT, memory_op *> memory_op_map[3];
-static proc_mapping proc;
+static proc_addr_list *proc;
 
 
 VOID ShowN(UINT32 n, VOID *ea);
@@ -164,7 +171,6 @@ VOID SendStackOp(VOID *ea, UINT32 size)
     }
 }
 
-
 VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
 {
     memory_op *op;
@@ -225,11 +231,19 @@ VOID StackNop(ADDRINT addr, UINT32 type)
 VOID LoadMemoryOperation(ADDRINT addr, UINT32 type, VOID *ea, UINT32 size)
 {
     memory_op *op = new memory_op();
-    op->ea = ea;
-    op->size = size;
+
+    if(is_stack_op(ea)) {
+        op->ea = ea;
+        op->size = size;
+    } 
+    else {
+        op->ea = 0;
+        op->size = 0;
+    }
 
     memory_op_map[type][addr] = op;
 }
+
 
 VOID Instruction(INS ins, VOID *val)
 {
@@ -243,7 +257,7 @@ VOID Instruction(INS ins, VOID *val)
 
     addr = INS_Address(ins);
 
-    if (INS_IsStackWrite(ins))
+    if (INS_IsMemoryWrite(ins))
     {
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)LoadMemoryOperation, 
@@ -258,7 +272,7 @@ VOID Instruction(INS ins, VOID *val)
         TryInsertStackOpAfter(ins, 0, SM_WRITE);
     }
 
-    if (INS_IsStackRead(ins) && INS_IsMemoryRead(ins) 
+    if (INS_IsMemoryRead(ins) && INS_IsMemoryRead(ins) 
         && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
     {
         INS_InsertCall(ins, 
@@ -271,7 +285,7 @@ VOID Instruction(INS ins, VOID *val)
         TryInsertStackOpAfter(ins, 0, SM_READ);
     }
 
-    if (INS_IsStackRead(ins) && INS_HasMemoryRead2(ins) 
+    if (INS_IsMemoryRead(ins) && INS_HasMemoryRead2(ins) 
         && INS_IsStandardMemop(ins))
     {
         INS_InsertCall(ins, 
@@ -354,7 +368,18 @@ VOID ShowN(UINT32 n, VOID *ea)
 
 int is_stack_op(void *ea)
 {
-    return (uintptr_t)ea <= proc.low_addr && (uintptr_t)ea >= proc.high_addr;
+    proc_addr_list *tmp;
+    tmp = proc;
+    while(tmp != NULL) {
+        /* stack grows downward, h/l are backward */
+        if((uintptr_t)ea >= tmp->low && (uintptr_t)ea <= tmp->high) {
+            return 1;
+        }
+
+        tmp = tmp->next;
+    }
+
+    return 0;
 }
 
 
@@ -417,6 +442,7 @@ int main(int argc, char *argv[])
 {
     int pid;
     proc_mapping sproc;
+    proc_addr_list *tail;
     FILE *fp;
 
 	PIN_InitSymbols();
@@ -426,20 +452,31 @@ int main(int argc, char *argv[])
 		return Usage();
 	}
 
-    proc.high_addr = 0;
-    proc.low_addr = 0;
+    proc = NULL;
+    tail = NULL;
 
     pid = PIN_GetPid();
     fp = open_proc_mappings(pid);
 
     while(get_proc_mapping(fp, &sproc) >= 0) {
         if(strcmp("[stack]", sproc.pathname) == 0) {
-            proc = sproc;
-            break;
+            if(NULL == proc) {
+                proc = new proc_addr_list;
+                tail = proc;
+            }
+            else {
+                tail->next = new proc_addr_list;
+                tail = tail->next;
+            }
+            tail->low = sproc.low_addr;
+            tail->high = sproc.high_addr;
+            tail->next = NULL;
         }
     }
 
-    if(proc.high_addr == 0 || proc.low_addr == 0) {
+    fclose(fp);
+
+    if(NULL == proc) {
         fprintf(stderr, "unable to find stack boundaries from proc map\n");
         return -1;
     }

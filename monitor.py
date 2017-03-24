@@ -12,8 +12,9 @@ def main():
         s.update(x)
         s.print_in_range(0x4005e1,0x4005f7)
 
-        if(x['disassembly'] == "mov byte ptr [rbx], al"):
-            post = 0
+        hist.append(x)
+        if len(hist) > 5:
+            hist.pop(0)
 
         '''
         if(s.bytes_in_op("\x61\x62")):
@@ -36,16 +37,20 @@ def main():
             post += 1
             print "="*80
         
-        hist.append(x)
-        if len(hist) > 5:
-            hist.pop(0)
+
+        if(x['disassembly'] == "mov byte ptr [rbx], al"):
+            print "="*37 + "FOUND" + "="*38
+            print x['disassembly']
+            s.print_ops(endianness=False)
+            print "="*37 + "FUTURE" + "="*37
+            post = 0
         
 class Stack(object):
 
     def __init__(self):
         self.min = None
         self.ins = {}
-        self.in_range = False
+        self.log = False
         self.stack = []
 
 
@@ -119,12 +124,12 @@ class Stack(object):
 
     def print_in_range(self, p1, p2, endianness=True):
 
-            if not self.in_range and self.ins['ip'] == p1:
-                self.in_range = True
-            elif self.in_range and self.ins['ip'] == p2:
-                self.in_range = False
+            if not self.log and self.ins['ip'] == p1:
+                self.log = True
+            elif self.log and self.ins['ip'] == p2:
+                self.log = False
 
-            if self.in_range: 
+            if self.log: 
                 print "="*80
                 print hex(self.ins['ip']) + ": " + self.ins['disassembly']
                 self.print_ops(endianness=endianness)

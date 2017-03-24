@@ -109,8 +109,6 @@ int recv_mem_op(int sock, mem_op *op)
 
 int handle_ins(instruction *ins)
 {
-    printf("sizes: %lu %lu %lu\n", 
-            ins->write->length, ins->read->length, ins->read2->length);
 
     return 0;
 }
