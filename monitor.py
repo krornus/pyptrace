@@ -16,6 +16,7 @@ def main():
         if(s.bytes_in_write("hen")):
             print hex(x['ip']), x['disassembly']
             s.print_ops(string=True)
+            print "strlen: {}".format(x['write']['length'])
             print "="*80
 
         if(s.bytes_in_write("events")):
