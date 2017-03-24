@@ -7,10 +7,6 @@
 
 #define SEND_SIZE sizeof(void *)
 
-#define SM_WRITE 0x0
-#define SM_READ 0x1
-#define SM_READ2 0x2
-
 /* TODO: Change how we handle DEBUG */
 /* Low priority, only matters when DEBUG is set */
 #ifdef DEBUG
@@ -53,14 +49,14 @@ typedef struct proc_mapping_t proc_mapping;
 /* PIN does not guarantee lifetime of variables */
 /* Hash of operations, uses SM_WRITE, SM_READ, SM_READ2 */
 /* Access by ADDRINT of instruction */
-static unordered_map<ADDRINT, memory_op *> memory_op_map[3];
+static unordered_map<ADDRINT, memory_op *> write_map;
 static proc_addr_list *proc;
 
 
 VOID ShowN(UINT32 n, VOID *ea);
-VOID SendMappedStackOp(ADDRINT addr, UINT32 type);
-VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type);
-VOID LoadMemoryOperation(ADDRINT addr, UINT32 type, VOID *ea, UINT32 size);
+VOID SendMappedStackOp(ADDRINT addr);
+VOID TryInsertStackOpAfter(INS ins, ADDRINT addr);
+VOID LoadMemoryOperation(ADDRINT addr, VOID *ea, UINT32 size);
 VOID ForkNotify(THREADID thread, const CONTEXT *ctx, VOID *arg);
 int is_stack_op(void *ea);
 proc_mapping get_proc_mapping(int pid);
@@ -171,7 +167,7 @@ VOID SendStackOp(VOID *ea, UINT32 size)
     }
 }
 
-VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
+VOID SendMappedStackOp(ADDRINT addr)
 {
     memory_op *op;
     
@@ -180,8 +176,8 @@ VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
 
     UINT8 *val;
 
-    op = memory_op_map[type][addr];
-    memory_op_map[type][addr] = NULL;
+    op = write_map[addr];
+    write_map[addr] = NULL;
 
     if(NULL == op)
         len = 0;
@@ -212,7 +208,7 @@ VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
     delete op;
 }
 
-VOID StackNop(ADDRINT addr, UINT32 type)
+VOID StackNop(ADDRINT addr)
 {
     uintptr_t len;
     len = 0;
@@ -225,10 +221,10 @@ VOID StackNop(ADDRINT addr, UINT32 type)
     op->ea = 0;
     op->size = 0;
 
-    memory_op_map[type][addr] = op;
+    write_map[addr] = op;
 }
 
-VOID LoadMemoryOperation(ADDRINT addr, UINT32 type, VOID *ea, UINT32 size)
+VOID LoadMemoryOperation(ADDRINT addr, VOID *ea, UINT32 size)
 {
     memory_op *op = new memory_op();
 
@@ -241,7 +237,7 @@ VOID LoadMemoryOperation(ADDRINT addr, UINT32 type, VOID *ea, UINT32 size)
         op->size = 0;
     }
 
-    memory_op_map[type][addr] = op;
+    write_map[addr] = op;
 }
 
 
@@ -259,22 +255,23 @@ VOID Instruction(INS ins, VOID *val)
 
     if (INS_IsMemoryWrite(ins))
     {
+        /* Load a memory write into static dict (LoadMemoryOperation) */
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)LoadMemoryOperation, 
-            IARG_ADDRINT, addr, IARG_UINT32, SM_WRITE,
-            IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, 
+            IARG_ADDRINT, addr, IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, 
             IARG_END);
 
-        TryInsertStackOpAfter(ins, addr, SM_WRITE);
+        TryInsertStackOpAfter(ins, addr);
     }
     else
     {
-        TryInsertStackOpAfter(ins, 0, SM_WRITE);
+        TryInsertStackOpAfter(ins, 0);
     }
 
     if (INS_IsMemoryRead(ins) && INS_IsMemoryRead(ins) 
         && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
     {
+        /* we just send reads (SendStackOp) */
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
             IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
@@ -282,7 +279,7 @@ VOID Instruction(INS ins, VOID *val)
     }
     else
     {
-        TryInsertStackOpAfter(ins, 0, SM_READ);
+        TryInsertStackOpAfter(ins, 0);
     }
 
     if (INS_IsMemoryRead(ins) && INS_HasMemoryRead2(ins) 
@@ -295,27 +292,26 @@ VOID Instruction(INS ins, VOID *val)
     }
     else
     {
-        TryInsertStackOpAfter(ins, 0, SM_READ2);
+        TryInsertStackOpAfter(ins, 0);
     }
 }
 
-VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type)
+VOID TryInsertStackOpAfter(INS ins, ADDRINT addr)
 {
     /* Need a flag value for notifying if no fallthrough */
     if(addr == 0) {
         INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)StackNop,
-            IARG_ADDRINT, addr, IARG_UINT32, type, IARG_END);
+            IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_END);
     }
     else if(INS_HasFallThrough(ins)) {
         INS_InsertCall(ins, 
             IPOINT_AFTER, (AFUNPTR)SendMappedStackOp, 
-            IARG_ADDRINT, addr, IARG_UINT32, type, IARG_END);
+            IARG_ADDRINT, addr, IARG_END);
     }
     else {
         INS_InsertCall(ins, 
             IPOINT_BEFORE, (AFUNPTR)SendMappedStackOp, 
-            IARG_ADDRINT, addr, IARG_UINT32, type, IARG_END);
+            IARG_ADDRINT, addr, IARG_END);
     }
 }
 
