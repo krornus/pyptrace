@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,13 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-
-/* ===================================================================== */
-/*
-  @ORIGINAL_AUTHOR: Gail Lyons
-*/
-
-/* ===================================================================== */
 /*! @file
  */
 
@@ -42,6 +35,7 @@ END_LEGAL */
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <tool_macros.h>
 
 using namespace std;
 
@@ -72,7 +66,7 @@ BOOL PinAttached()
 
 VOID ImageLoad(IMG img, void *v)
 {
-	RTN rtn = RTN_FindByName(img, "PinAttached");
+	RTN rtn = RTN_FindByName(img, C_MANGLE("PinAttached"));
 	if (RTN_Valid(rtn))
 	{
 		TraceFile << "Replacing PinAttached" << endl;

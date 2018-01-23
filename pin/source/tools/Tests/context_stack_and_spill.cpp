@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,15 +28,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include <stdio.h>
-#include "pin.H"
-#include "instlib.H"
-#include "portability.H"
+#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <cstdlib>
+#include "pin.H"
+#include "instlib.H"
 
 KNOB<BOOL> KnobGetIntContext(KNOB_MODE_WRITEONCE, "pintool", "get_int_context", "0", "get int context");
 KNOB<BOOL> KnobGetPartOfIntContext(KNOB_MODE_WRITEONCE, "pintool", "get_part_of_int_context", "0", "get part of int context");
@@ -96,15 +95,15 @@ disassemble(UINT64 start, UINT64 stop) {
     xed_error_enum_t xed_error;
     xed_decoded_inst_t xedd;
     ostringstream os;
-    if (sizeof(ADDRINT) == 4) 
-        xed_state_init(&dstate,     
+    if (sizeof(ADDRINT) == 4)
+        xed_state_init(&dstate,
                        XED_MACHINE_MODE_LEGACY_32,
-                       XED_ADDRESS_WIDTH_32b, 
+                       XED_ADDRESS_WIDTH_32b,
                        XED_ADDRESS_WIDTH_32b);
     else
         xed_state_init(&dstate,
                        XED_MACHINE_MODE_LONG_64,
-                       XED_ADDRESS_WIDTH_64b, 
+                       XED_ADDRESS_WIDTH_64b,
                        XED_ADDRESS_WIDTH_64b);
 
     /*while( pc < stop )*/ {
@@ -139,7 +138,7 @@ disassemble(UINT64 start, UINT64 stop) {
             os << " ";
             memset(buffer,0,200);
             int dis_okay = xed_format_context(syntax, &xedd, buffer, 200, pc, 0, 0);
-            if (dis_okay) 
+            if (dis_okay)
                 os << buffer << endl;
             else
                 os << "Error disasassembling pc 0x" << std::hex << pc << std::dec << endl;
@@ -164,59 +163,59 @@ ADDRINT eaxReg;
 VOID GetIntRegsFromContext (CONTEXT *ctxt)
 {
     PIN_GetContextReg( ctxt, REG_INST_PTR );
-    
+
     PIN_GetContextReg( ctxt, REG_GAX );
-    
+
     PIN_GetContextReg( ctxt, REG_GBX );
 
     if (KnobGetPartOfIntContext)
     {
         return;
     }
-    
+
     PIN_GetContextReg( ctxt, REG_GCX );
-    
+
     PIN_GetContextReg( ctxt, REG_GDX) ;
-    
+
     PIN_GetContextReg( ctxt, REG_GSI );
-    
+
     PIN_GetContextReg( ctxt, REG_GDI );
-    
-    PIN_GetContextReg( ctxt, REG_GBP ); 
-    
+
+    PIN_GetContextReg( ctxt, REG_GBP );
+
     PIN_GetContextReg( ctxt, REG_STACK_PTR );
-    
+
     PIN_GetContextReg( ctxt, REG_SEG_SS );
-    
+
     PIN_GetContextReg( ctxt, REG_SEG_CS );
-    
+
     PIN_GetContextReg( ctxt, REG_SEG_DS) ;
-    
+
     PIN_GetContextReg( ctxt, REG_SEG_ES );
-    
+
     PIN_GetContextReg( ctxt, REG_SEG_FS) ;
-    
+
     PIN_GetContextReg( ctxt, REG_SEG_GS );
-    
+
     PIN_GetContextReg( ctxt, REG_GFLAGS );
-    
+
 #ifdef TARGET_IA32E
     PIN_GetContextReg( ctxt, REG_R8 );
-    
+
     PIN_GetContextReg( ctxt, REG_R9 );
-    
+
     PIN_GetContextReg( ctxt, REG_R10 );
-    
+
     PIN_GetContextReg( ctxt, REG_R11 );
-    
+
     PIN_GetContextReg( ctxt, REG_R12 );
-    
+
     PIN_GetContextReg( ctxt, REG_R13 );
-    
+
     PIN_GetContextReg( ctxt, REG_R14 );
-    
+
     PIN_GetContextReg( ctxt, REG_R15 );
-    
+
 #endif
 }
 
@@ -224,7 +223,7 @@ CHAR fpContextSpaceForFpConextFromPin[FPSTATE_SIZE+FPSTATE_ALIGNMENT];
 
 VOID GetFpContextFromContext (CONTEXT *ctxt)
 {
-     FPSTATE *fpContextFromPin = 
+     FPSTATE *fpContextFromPin =
         reinterpret_cast<FPSTATE *>
         (( reinterpret_cast<ADDRINT>(fpContextSpaceForFpConextFromPin) + (FPSTATE_ALIGNMENT - 1))
            & (-FPSTATE_ALIGNMENT));
@@ -239,7 +238,7 @@ BOOL CompareIntContext (CONTEXT *context1, CONTEXT *context2)
     ADDRINT regInstPtr2 = PIN_GetContextReg( context2, REG_INST_PTR );
     if (regInstPtr1 != regInstPtr2)
     {
-        printf ("REG_INST_PTR %p   REG_INST_PTR %p\n", 
+        printf ("REG_INST_PTR %p   REG_INST_PTR %p\n",
                 reinterpret_cast<VOID *>(regInstPtr1), reinterpret_cast<VOID *>(regInstPtr2));
         compareOk = FALSE;
     }
@@ -489,7 +488,7 @@ BOOL CompareIntContext (CONTEXT *context1, CONTEXT *context2)
         printf ("REG_BUF_END9 ERROR\n");
         compareOk = FALSE;
     }
-    
+
 #ifdef TARGET_IA32E
     if (PIN_GetContextReg( context1, REG_R8 ) != PIN_GetContextReg( context2, REG_R8 ))
     {
@@ -591,20 +590,20 @@ BOOL CompareIntContext (CONTEXT *context1, CONTEXT *context2)
         printf ("REG_MXCSRMASK ERROR\n");
         compareOk = FALSE;
     }
-    
+
     if (!compareOk)
     {
         string s = disassemble ((regInstPtr1),(regInstPtr1)+15);
         printf ("Failure at %p: %s\n", reinterpret_cast<VOID *>(regInstPtr1), s.c_str());
     }
-    
+
     return (compareOk);
 }
 
 BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
 {
     ADDRINT regInstPtr1 = PIN_GetContextReg( context1, REG_INST_PTR );
-    
+
     BOOL compareOk = TRUE;
     CHAR fpContext1[FPSTATE_SIZE];
     CHAR fpContext2[FPSTATE_SIZE];
@@ -614,7 +613,7 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
     PIN_GetContextFPState(context1, fpVerboseContext1);
     PIN_GetContextFPState(context2, fpVerboseContext2);
 
-    
+
     if ( fpVerboseContext1->fxsave_legacy._fcw != fpVerboseContext2->fxsave_legacy._fcw)
     {
         printf ("fcw ERROR\n");
@@ -647,7 +646,7 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
     {
         printf ("_cs ERROR\n");
         compareOk = FALSE;
-    } 
+    }
     /* the _ds field seems to be changing randomly when running 32on64 linux
        needs further investigation to prove it is not a Pin bug */
     if ( fpVerboseContext1->fxsave_legacy._ds != fpVerboseContext2->fxsave_legacy._ds)
@@ -681,32 +680,12 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
             compareOk = FALSE;
         }
     }
-#ifdef TARGET_MIC
-    for (i=0; i < 32; ++i)
-    {
-        if (fpVerboseContext1->_vstate._zmms[i] != fpVerboseContext2->_vstate._zmms[i])
-        {
-            printf ("_zmms[%d] ERROR\n", i);
-            fflush (stdout);
-            compareOk = FALSE;
-        }
-    }
-    for (i=0; i < 8; ++i)
-    {
-        if ((UINT16)fpVerboseContext1->_vstate._kmasks[i] != (UINT16)fpVerboseContext2->_vstate._kmasks[i])
-        {
-            printf ("_kmasks[%d] ERROR\n", i);
-            fflush (stdout);
-            compareOk = FALSE;
-        }
-    }
-#else // not TARGET_MIC
-    for (i=0; 
-# ifdef TARGET_IA32E
+    for (i=0;
+#ifdef TARGET_IA32E
         i< 16;
-# else
-        i< 8; 
-# endif
+#else
+        i< 8;
+#endif
         i++)
     {
         if ((fpVerboseContext1->fxsave_legacy._xmms[i]._vec64[0] != fpVerboseContext2->fxsave_legacy._xmms[i]._vec64[0]) ||
@@ -721,12 +700,12 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
     if (supportsAvx)
     {
         int k = 0;
-        for (int i = 0; 
-# ifdef TARGET_IA32E
-             i < 16; 
-# else
-             i< 8; 
-# endif
+        for (int i = 0;
+#ifdef TARGET_IA32E
+             i < 16;
+#else
+             i< 8;
+#endif
              ++i)
         {
             for (int j=0; j<16; j++)
@@ -741,7 +720,6 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
             }
         }
     }
-#endif // not TARGET_MIC
 
     if (!compareOk)
     {
@@ -859,6 +837,6 @@ int main(int argc, char *argv[])
 
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

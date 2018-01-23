@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: debugger-protocol
 // <FILE-TYPE>: component public header
 
@@ -36,14 +35,13 @@ END_LEGAL */
 #define DEBUGGER_PROTOCOL_HPP
 
 #include <string>
-#include "fund.hpp"
 #include "util.hpp"
 #include "debugger-protocol/forward.hpp"
 
 #if defined(DEBUGGER_PROTOCOL_BUILD_SHARED)
-#   define DEBUGGER_PROTOCOL_API    FUND_EXPORT
+#   define DEBUGGER_PROTOCOL_API    _STLP_EXPORT_DECLSPEC
 #elif defined(DEBUGGER_PROTOCOL_USE_SHARED)
-#   define DEBUGGER_PROTOCOL_API    FUND_IMPORT
+#   define DEBUGGER_PROTOCOL_API    _STLP_IMPORT_DECLSPEC
 #else
 #   define DEBUGGER_PROTOCOL_API
 #endif
@@ -170,7 +168,7 @@ enum INITIALIZE_FLAG
     INITIALIZE_FLAG_NONE = 0,
     INITIALIZE_FLAG_TCP = (1<<0)        ///< Initialize for a TCP front- or back-end connection.
 };
-typedef FUND::UINT64 INITIALIZE_FLAGS;  ///< Bit mask of INITIALIZE_FLAG's.
+typedef UINT64 INITIALIZE_FLAGS;  ///< Bit mask of INITIALIZE_FLAG's.
 
 /*!
  * Possible O/S types.
@@ -257,9 +255,17 @@ enum FRONTEND_FEATURE
      * front-end is notified with a single call to INOTIFICATIONS::NotifyStopped() and
      * each thread reports its own stop-reason via ICOMMANDS::GetThreadStopReason().
      */
-    FRONTEND_FEATURE_MULTIPLE_STOP_REASONS = (1<<1)
+    FRONTEND_FEATURE_MULTIPLE_STOP_REASONS = (1<<1),
+
+    /*!
+     * The front-end supports the 'N' stop reply packet.
+     * The 'N' packet is sent to the front-end in the special case when all resumed
+     * threads had been terminated, but the process is still running (i.e. has additional
+     * active threads which are stopped by the debugger).
+     */
+    FRONTEND_FEATURE_NO_RESUMED = (1<<2)
 };
-typedef FUND::UINT64 FRONTEND_FEATURES;     ///< Bit mask of FRONTEND_FEATURE's.
+typedef UINT64 FRONTEND_FEATURES;     ///< Bit mask of FRONTEND_FEATURE's.
 
 /*!
  * Possible features supported by a debugger back-end.
@@ -343,7 +349,7 @@ enum BACKEND_FEATURE
      */
     BACKEND_FEATURE_SVR4_LIBRARIES = (1<<11)
 };
-typedef FUND::UINT64 BACKEND_FEATURES;  ///< Bit mask of BACKEND_FEATURE's.
+typedef UINT64 BACKEND_FEATURES;  ///< Bit mask of BACKEND_FEATURE's.
 
 /*!
  * Various properties for debugger transport connection
@@ -416,7 +422,7 @@ enum ENDPOINT_OPTION
      */
     ENDPOINT_OPTION_UNLIMITED_LENGTH_PACKETS = (1<<4)
 };
-typedef FUND::UINT64 ENDPOINT_OPTIONS;      ///< Bit mask of ENDPOINT_OPTION's.
+typedef UINT64 ENDPOINT_OPTIONS;      ///< Bit mask of ENDPOINT_OPTION's.
 
 /*!
  * Back-ends can provide some optional features via interfaces that are obtained
@@ -454,7 +460,7 @@ enum IMAGE_NOTIFICATION
      */
     IMAGE_NOTIFICATION_UNLOAD = (1<<1)
 };
-typedef FUND::UINT64 IMAGE_NOTIFICATIONS;   ///< Bit mask of IMAGE_NOTIFICATION's.
+typedef UINT64 IMAGE_NOTIFICATIONS;   ///< Bit mask of IMAGE_NOTIFICATION's.
 
 /*!
  * Possible notifications that can be enabled with ITHREAD_EXTENSIONS::SetThreadNotifications().
@@ -465,7 +471,7 @@ enum THREAD_NOTIFICATION
     THREAD_NOTIFICATION_START = (1<<0),     ///< Enable STOP_REASON_THREAD_START notifications.
     THREAD_NOTIFICATION_EXIT = (1<<1)       ///< Enable STOP_REASON_THREAD_EXIT notifications.
 };
-typedef FUND::UINT64 THREAD_NOTIFICATIONS;  ///< Bit mask of THREAD_NOTIFICATION's.
+typedef UINT64 THREAD_NOTIFICATIONS;  ///< Bit mask of THREAD_NOTIFICATION's.
 
 
 /*!
@@ -611,7 +617,7 @@ enum INVALIDATE_FLAG
 {
     INVALIDATE_FLAG_REGISTERS = (1<<0)  ///< Invalidate the register values for a single thread.
 };
-typedef FUND::UINT64 INVALIDATE_FLAGS;  ///< Bit mask of INVALIDATE_FLAG's.
+typedef UINT64 INVALIDATE_FLAGS;  ///< Bit mask of INVALIDATE_FLAG's.
 
 
 /*!
@@ -1433,7 +1439,7 @@ public:
      * @par Error Returns (when used by debugger front-end)
      *  Returns FALSE on communication error, or if called during "run mode".
      */
-    virtual bool SetMemoryValue(FUND::ANYADDR addr, const UTIL::DATA &value, size_t *sizeWritten) = 0;
+    virtual bool SetMemoryValue(ANYADDR addr, const UTIL::DATA &value, size_t *sizeWritten) = 0;
 
     /*!
      * A back-end can provide some optional functionality through interfaces returned
@@ -1492,7 +1498,7 @@ public:
      * @par Error Returns (when used by debugger front-end)
      *  Returns FALSE on communication error, or if called during "run mode".
      */
-    virtual bool SetBreakpoint(FUND::ANYADDR addr, size_t bpSize, bool *wasSet) = 0;
+    virtual bool SetBreakpoint(ANYADDR addr, size_t bpSize, bool *wasSet) = 0;
 
     /*!
      * Ask the back-end to clear a breakpoint that was previously set via SetBreakpoint().
@@ -1506,7 +1512,7 @@ public:
      * @par Error Returns (when used by debugger front-end)
      *  Returns FALSE on communication error, or if called during "run mode".
      */
-    virtual bool ClearBreakpoint(FUND::ANYADDR addr, bool *wasCleared) = 0;
+    virtual bool ClearBreakpoint(ANYADDR addr, bool *wasCleared) = 0;
 
 protected:
     virtual ~IBREAKPOINTS() {} ///< Do not call delete on IBREAKPOINTS.
@@ -1608,7 +1614,7 @@ public:
      * @par Error Returns (when used by debugger front-end)
      *  Returns FALSE on communication error, or if called during "run mode".
      */
-    virtual bool KillWithNotification(FUND::INT64 code) = 0;
+    virtual bool KillWithNotification(INT64 code) = 0;
 
 protected:
     virtual ~IKILL_WITH_NOTIFICATION() {} ///< Do not call delete on IKILL_WITH_NOTIFICATION.
@@ -1861,7 +1867,7 @@ public:
      * @par Error Returns (when implemented  by debugger back-end)
      *  Returns FALSE if \a thread did not stop with STOP_REASON_THREAD_EXIT.
      */
-    virtual bool GetThreadExitStatus(THREAD thread, FUND::INT64 *status) = 0;
+    virtual bool GetThreadExitStatus(THREAD thread, INT64 *status) = 0;
 
 protected:
     virtual ~ITHREAD_EXTENSIONS() {} ///< Do not call delete on ITHREAD_EXTENSIONS.
@@ -1896,7 +1902,7 @@ public:
      *  Returns FALSE if:
      *      - Not supported (client interface doesn't exist).
      */
-    virtual bool GetLoaderInfoAddr(FUND::ANYADDR *addr) = 0;
+    virtual bool GetLoaderInfoAddr(ANYADDR *addr) = 0;
 
     /*!
      * Retrieves the target application architecture description.
@@ -1962,7 +1968,7 @@ public:
      * @par Error Returns (when used by debugger back-end)
      *  Returns FALSE on communication error, or if called during "command mode".
      */
-    virtual bool NotifyTerminatedExit(FUND::INT64 code) = 0;
+    virtual bool NotifyTerminatedExit(INT64 code) = 0;
 
     /*!
      * Indicates that the application terminated due to some O/S event (e.g. receiving an

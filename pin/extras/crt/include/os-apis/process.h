@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Yoav Levy
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 
@@ -9,6 +8,8 @@
 
 #ifndef OS_APIS_PROCESS_H
 #define OS_APIS_PROCESS_H
+
+#include "process-core.h"
 
 /*! @ingroup OS_APIS_FILE
  * Opaque object that represents a process that we can wait for its termination
@@ -66,21 +67,6 @@ OS_RETURN_CODE OS_GetEnvironmentBlock(NATIVE_PID pid, CHAR*** block, USIZE* bufS
 NORETURN void OS_ExitProcess(INT code);
 
 /*! @ingroup OS_APIS_PROCESS
- * Retrieves the process ID of the current process.
- *
- * @param[out] pid          Process descriptor
- *
- * @return      Operation status code.
- * @retval      OS_RETURN_CODE_NO_ERROR             If the operation succeeded
- * @retval      OS_RETURN_CODE_PROCESS_QUERY_FAILED If the operation Failed
- *
- * @par Availability:
- *   @b O/S:   Windows, Linux & OS X*\n
- *   @b CPU:   All\n
- */
-OS_RETURN_CODE OS_GetPid(NATIVE_PID* pid);
-
-/*! @ingroup OS_APIS_PROCESS
  * Queries whether the current process is being debugged.
  *
  * @param[out] pid          Process descriptor
@@ -95,6 +81,21 @@ OS_RETURN_CODE OS_GetPid(NATIVE_PID* pid);
  *   @b CPU:   All\n
  */
 OS_RETURN_CODE OS_IsDebuggerPresent(NATIVE_PID pid, BOOL_T* isPresent);
+
+/*! @ingroup OS_APIS_PROCESS
+ * Queries whether the current process is being debugged.
+ *
+ * @param[out] uid          Process descriptor
+ *
+ * @return      Operation status code.
+ * @retval      OS_RETURN_CODE_NO_ERROR             If the operation succeeded
+ * @retval      OS_RETURN_CODE_PROCESS_QUERY_FAILED If the operation Failed
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X*\n
+ *   @b CPU:   All\n
+ */
+OS_RETURN_CODE OS_GetUid(NATIVE_UID* uid);
 
 /*! @ingroup OS_APIS_PROCESS
  * Queries whether the current process is being debugged.
@@ -162,5 +163,28 @@ typedef OS_RETURN_CODE (*OS_FnPtrCreateProcess)(const CHAR* args, NATIVE_FD* std
  *   @b CPU:   All\n
  */
 OS_RETURN_CODE OS_WaitForProcessTermination(OS_PROCESS_WAITABLE_PROCESS process, UINT32* exitStatus);
+
+/*! @ingroup OS_APIS_PROCESS
+ * Trigger a software breakpoint.
+ * When the current process is attached to a debugger, this function will stop the process and
+ * notify the debugger about a breakpoint that was triggered.
+ *
+ * @par Availability:
+ *   @b O/S:   Windows, Linux & OS X*\n
+ *   @b CPU:   All\n
+ */
+VOID OS_TriggerSoftwareBreakpoint();
+
+#ifndef TARGET_WINDOWS
+/*! @ingroup OS_APIS_PROCESS
+ * Notifies the locking machanism about a forked child.
+ *
+ * @par Availability:
+ *   - @b O/S:   Linux & OS X*
+ *   - @b CPU:   All
+ */
+void OS_NotifyFork();
+
+#endif // TARGET_WINDOWS
 
 #endif // file guard

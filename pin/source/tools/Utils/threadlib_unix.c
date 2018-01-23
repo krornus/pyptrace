@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -40,7 +40,26 @@ END_LEGAL */
 #include <unistd.h>
 #include <pthread.h>
 #include <stdio.h>
-#include <assert.h>
+
+#if defined(TARGET_LINUX)
+#include <sys/syscall.h>
+/*
+ * Get thread Id
+ */
+unsigned long GetTid()
+{
+     return (unsigned long)syscall(__NR_gettid);
+}
+#elif defined(TARGET_MAC)
+#include <mach/mach.h>
+/*
+ * Get thread Id
+ */
+unsigned long GetTid()
+{
+     return mach_thread_self();
+}
+#endif
 
 BOOL CreateOneThread(THREAD_HANDLE * pThreadHandle, THREAD_RTN_PTR threadRtn, void * arg)
 {

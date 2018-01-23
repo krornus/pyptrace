@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Barak Nirenberg
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 
@@ -19,6 +18,9 @@ typedef UINT32 (*OS_FnNtCreateFile)(NATIVE_FD* hFile,
                                       UINT32 shareAccess,
                                       UINT32 createDisposition,
                                       UINT32 createOptions);
+typedef UINT32 (*OS_FnNtQueryAttributesFile)(const CHAR * fileName,
+                                               UINT32 objAttributes,
+                                               void *fbi);
 
 typedef struct _FileApiOverrides
 {
@@ -26,17 +28,13 @@ typedef struct _FileApiOverrides
     OS_FnPtrReadFD readFd;
     OS_FnPtrIsConsoleFD isConsoleFd;
     OS_FnNtCreateFile ntCreateFile;
+    OS_FnNtQueryAttributesFile ntQueryAttributesFile;
 } FileApiOverrides;
 
 typedef VOID (*OS_FnPtrSetFileApiOverrides)(FileApiOverrides* overrides);
 typedef FileApiOverrides* (*OS_FnPtrGetFileApiOverrides)();
 
-#ifdef _BUILDING_OSAPIS
-__declspec(dllexport)
-#else
-__declspec(dllimport)
-#endif
-VOID __cdecl OS_SetFileApiOverrides(FileApiOverrides* overrides);
+VOID OS_SetFileApiOverrides(FileApiOverrides* overrides);
 FileApiOverrides* OS_GetFileApiOverrides();
 
 #ifdef __cplusplus

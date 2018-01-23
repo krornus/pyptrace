@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -29,7 +29,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 /*
-  @ORIGINAL_AUTHOR: Robert Muth
   This header file ensures that pin and the pintool will be compiled with compatible
   compilers.
   It relies on the generated file cc_used_XXX.H
@@ -69,14 +68,6 @@ END_LEGAL */
 #  include "cc_used_ia32e_m.CVH"
 # else
 #  error "Unknown target os for the Intel(R) 64 architecture"
-# endif
-
-#elif defined(TARGET_MIC)
-
-# if defined(TARGET_LINUX)
-#  include "cc_used_ia32e_l.CVH"
-# else
-#  error "Unknown target os for the Intel(R) Many Integrated Core architecture"
 # endif
 
 #else
@@ -124,16 +115,3 @@ END_LEGAL */
 #endif
 
 #endif
-
-
-/*
- * On Windows verify that tool is being compiled with /D_SECURE_SCL=0
- * Tool must be compiled this way because otherwise STL containers shared
- * between PIN and the TOOL can have different memory layouts
- */
-#if defined(TARGET_WINDOWS)
-#if !defined(_SECURE_SCL) || (_SECURE_SCL != 0)
-#error PIN is compiled with /D_SECURE_SCL=0 so tool must also be compiled with /D_SECURE_SCL=0
-#endif
-#endif
-

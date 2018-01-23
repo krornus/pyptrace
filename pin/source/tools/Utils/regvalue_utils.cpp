@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -46,6 +46,7 @@ using std::hex;
 /////////////////////
 
 extern "C" bool ProcessorSupportsAvx();
+extern "C" bool SupportsAvx512f();
 
 
 /////////////////////
@@ -54,6 +55,7 @@ extern "C" bool ProcessorSupportsAvx();
 
 // Boolean indicating whether the system supports AVX instructions and registers.
 const bool hasAvxSupport = ProcessorSupportsAvx();
+const bool hasAvx512fSupport = SupportsAvx512f();
 
 
 /////////////////////

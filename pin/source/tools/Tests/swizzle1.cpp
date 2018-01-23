@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,9 +28,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include <stdio.h>
+#include <cstdio>
 #include "pin.H"
-#include "pin_isa.H"
 
 UINT64 icount = 0;
 
@@ -39,18 +38,18 @@ ADDRINT SwizzleAddress(ADDRINT val)
     return val;
 }
 
-    
+
 VOID Instruction(INS ins, VOID *v)
 {
     REG basereg = INS_dec(ins)->basereg;
-        
+
     if (basereg == REG_INVALID())
         return;
-        
+
     // Not allowed to change esp
     if (basereg == REG_ESP)
         return;
-        
+
     INS_InsertCall(ins, IPOINT_BEFORE,
                    (AFUNPTR)SwizzleAddress, IARG_REG_VALUE, basereg, IARG_RETURN_REGS, basereg, IARG_END);
 }
@@ -60,9 +59,9 @@ int main(int argc, char * argv[])
     PIN_Init(argc, argv);
 
     INS_AddInstrumentFunction(Instruction, 0);
-    
+
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

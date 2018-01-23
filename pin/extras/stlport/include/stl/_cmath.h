@@ -489,7 +489,7 @@ inline long double pow(long double __x, int __y) { return (_Pow_int(__x, __y)); 
 #  endif
 #endif
 
-#if (defined (_STLP_MSVC) && !defined (_STLP_WCE) && !defined(__PIN__)) || defined (__ICL) || defined (__sun)
+#if (defined (_STLP_MSVC) && !defined (_STLP_WCE) && !defined(__PIN__))
 #  if defined (_STLP_MSVC) && (_STLP_MSVC >= 1400)
 #    pragma warning (push)
 #    pragma warning (disable : 4996) // hypot is deprecated.

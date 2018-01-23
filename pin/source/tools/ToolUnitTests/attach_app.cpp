@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -135,9 +135,9 @@ void StartPin(list <string>* pinArgs)
 	exit(1);
 }
 
-main(int argc, char * argv[])
+int main(int argc, char * argv[])
 {
-    int i;
+   int i;
 	
    list <string> pinArgs;
    ParseCommandLine(argc, argv, &pinArgs);
@@ -156,4 +156,6 @@ main(int argc, char * argv[])
 		sleep(2);
 	}
     printf("After pause\n");
+
+    return 0;
 }

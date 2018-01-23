@@ -36,6 +36,12 @@ class CLIENT_TLS
     BOOL FreeKey(TLS_KEY tlsKey);
 
     /*! @ingroup PIN_THREAD_PRIVATE
+     * Return TRUE if TLS key is allocated by a previous call to the CreateThreadDataKey() function,
+     * FALSE otherwise
+     */
+    BOOL IsKeyAllocated(TLS_KEY tlsKey);
+
+    /*! @ingroup PIN_THREAD_PRIVATE
      *  Get/Set the value of the specified TLS slot of the given thread.
      *  See PIN_GetThreadData() and PIN_SetThreadData() description.
      *  @param[in]  threadId    Thread ID assigned by pin of the thread for which
@@ -88,6 +94,17 @@ class CLIENT_TLS
     BOOL IsCurrentTlsAllocated(THREADID currentThreadId);
 
     /*! @ingroup PIN_THREAD_PRIVATE
+     *  Check whether the input TLS_KEY is valid.
+     * @param[in] tlsKey                The TLS key
+     * @param[in] currentThreadId   ID of the current thread assigned by pin.
+     * @return TRUE if TLS key is valid, FALSE otherwise
+     */
+    static BOOL IsValidTlsKey(TLS_KEY tlsKey, THREADID threadId)
+    {
+        return m_pSlots[threadId]->IsValidKey(tlsKey) && CLIENT_TLS::Instance()->IsKeyAllocated(tlsKey);
+    }
+
+    /*! @ingroup PIN_THREAD_PRIVATE
      *  Return single instance of this class.
      */
     static CLIENT_TLS * Instance();
@@ -126,7 +143,10 @@ inline TLS_KEY PIN_CreateThreadDataKey(DESTRUCTFUN destruct_func)
                                                                   /* DO NOT EDIT */
 inline BOOL PIN_DeleteThreadDataKey(TLS_KEY key)
 {
-    return CLIENT_TLS::Instance()->FreeKey(key);
+    if (CLIENT_TLS::Instance()->IsKeyAllocated(key))
+        return CLIENT_TLS::Instance()->FreeKey(key);
+    else
+        return FALSE;
 }
 
                                                                   /* DO NOT EDIT */
@@ -144,7 +164,10 @@ inline BOOL PIN_SetThreadData( TLS_KEY key, const VOID * data )
                                                                   /* DO NOT EDIT */
 inline BOOL PIN_SetThreadData( TLS_KEY key, const VOID * data , THREADID threadId)
 {
-    return CLIENT_TLS::SetData( key, data, threadId );
+    if (CLIENT_TLS::IsValidTlsKey(key, threadId))
+        return CLIENT_TLS::SetData( key, data, threadId );
+    else
+        return FALSE;
 }
 
                                                                   /* DO NOT EDIT */
@@ -162,7 +185,10 @@ inline VOID * PIN_GetThreadData( TLS_KEY key )
                                                                   /* DO NOT EDIT */
 inline VOID * PIN_GetThreadData( TLS_KEY key, THREADID threadId )
 {
-    return CLIENT_TLS::GetData( key, threadId );
+    if (CLIENT_TLS::IsValidTlsKey(key, threadId))
+        return CLIENT_TLS::GetData( key, threadId );
+    else
+        return NULL;
 }
 
                                                                   /* DO NOT EDIT */

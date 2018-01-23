@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -41,12 +41,13 @@ END_LEGAL */
 #include "pin.H"
 
 static void *gptr = 0;
+extern "C" int get_mmap_flags();
 
 class TestMMap {
 public:
     TestMMap() 
     {
-        gptr = mmap(0, 4*1024, PROT_READ, MAP_PRIVATE|MAP_ANON, -1, 0);
+        gptr = mmap(0, 4*1024, PROT_READ, get_mmap_flags(), -1, 0);
     }
 };
 
@@ -57,7 +58,7 @@ int main(INT32 argc, CHAR **argv)
 {
     PIN_Init(argc, argv);
 
-    void *p = mmap(0, 4*1024, PROT_READ, MAP_PRIVATE|MAP_ANON, -1, 0);
+    void *p = mmap(0, 4*1024, PROT_READ, get_mmap_flags(), -1, 0);
     if (p == MAP_FAILED || gptr == MAP_FAILED)
     {
         std::cerr << "mmap has failed" << std::endl;

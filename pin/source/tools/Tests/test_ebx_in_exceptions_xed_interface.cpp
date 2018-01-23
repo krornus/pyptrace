@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include "pin.H"
-#include "instlib.H"
-#include "portability.H"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <cstdlib>
+#include "pin.H"
+#include "instlib.H"
+
 using namespace std;
 
 
@@ -66,23 +66,23 @@ extern "C" UINT32 GetInstructionLenAndDisasm (UINT8 *ip, string *str)
 {
     xed_state_t dstate;
     xed_decoded_inst_t xedd;
-    
+
     xed_state_zero(&dstate);
 
-    if (sizeof(ADDRINT) == 4) 
-        xed_state_init(&dstate,     
+    if (sizeof(ADDRINT) == 4)
+        xed_state_init(&dstate,
                        XED_MACHINE_MODE_LEGACY_32,
-                       XED_ADDRESS_WIDTH_32b, 
+                       XED_ADDRESS_WIDTH_32b,
                        XED_ADDRESS_WIDTH_32b);
     else
         xed_state_init(&dstate,
                        XED_MACHINE_MODE_LONG_64,
-                       XED_ADDRESS_WIDTH_64b, 
+                       XED_ADDRESS_WIDTH_64b,
                        XED_ADDRESS_WIDTH_64b);
 
     xed_decoded_inst_zero_set_mode(&xedd, &dstate);
-    
-    
+
+
     xed_error_enum_t xed_error = xed_decode(&xedd, reinterpret_cast<const UINT8*>(ip), 15);
     if (XED_ERROR_NONE != xed_error)
     {
@@ -96,7 +96,7 @@ extern "C" UINT32 GetInstructionLenAndDisasm (UINT8 *ip, string *str)
         char buffer[200];
         unsigned int dec_len = 0;
         unsigned int sp = 0;
-        
+
         os << std::setfill('0')
            << std::hex
            << std::setw(sizeof(ADDRINT)*2)
@@ -107,7 +107,7 @@ extern "C" UINT32 GetInstructionLenAndDisasm (UINT8 *ip, string *str)
            << std::setw(4);
 
         os << xed_extension_enum_t2str(xed_decoded_inst_get_extension(&xedd));
-        
+
         print_hex_line(buffer, reinterpret_cast<UINT8*>(ip), decLen);
         os << " " << buffer;
         for ( sp=dec_len; sp < 12; sp++)     // pad out the instruction bytes
@@ -115,7 +115,7 @@ extern "C" UINT32 GetInstructionLenAndDisasm (UINT8 *ip, string *str)
         os << " ";
         memset(buffer,0,200);
         int dis_okay = xed_format_context(XED_SYNTAX_INTEL, &xedd, buffer, 200, (ADDRINT)ip, 0, 0);
-        if (dis_okay) 
+        if (dis_okay)
             os << buffer << endl;
         else
             os << "Error disasassembling ip 0x" << std::hex << ip << std::dec << endl;

@@ -176,6 +176,8 @@ class KNOB_BASE
 {
   private:
     STATIC KNOB_BASE *_knob_list;
+    STATIC BOOL _parsing_done;
+    STATIC BOOL _developer_flags_enabled; // True when xyzzy is used
 
   protected:
     KNOB_BASE   *_next;
@@ -226,6 +228,12 @@ class KNOB_BASE
     // enable all options with the given family
     STATIC VOID EnableKnobFamily(const string & myfamily);
 
+    // Mark that developer flags are used (xyzzy)
+    STATIC VOID SetDeveloperFlagsEnabled();
+
+    // Return true if developer flags were used (xyzzy)
+    STATIC BOOL WasDeveloperFlagsEnabled();
+
     // disable single options
     STATIC VOID DisableKnob(const string & myname);
 
@@ -243,6 +251,14 @@ class KNOB_BASE
     STATIC KNOB_BASE * FindFamily(const string & name);
 
     STATIC KNOB_BASE * FindEnabledKnob(const string & name);
+
+    // Calling this method indicates that the command line parsing is done.
+    // It is guaranteed that the values of all knobs are consisntent once
+    // the command line parsing is done.
+    STATIC VOID SetParsingDone();
+
+    // Return TRUE when the command line parsing is done.
+    STATIC BOOL WasParsingDone();
 
     int Compare(const KNOB_BASE & k2) const;
 

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -44,6 +44,14 @@ ADDRINT BeforeIP = 0x0;
 
 int failure = 0;
 
+
+THREADID myThread = INVALID_THREADID;
+ 
+ADDRINT IfMyThread(THREADID threadId)
+{
+    return threadId == myThread;
+}
+
 #if defined(TARGET_IA32) || defined(TARGET_IA32E)
 
 VOID PrintContext(const CONTEXT * ctxt)
@@ -72,6 +80,10 @@ VOID CheckFpState(CONTEXT * ctxt)
 {
     FPSTATE fpState;
     FPSTATE fpStateCopy;
+    // need to clear the fp state as Get/Set FP state will not copy over all the state
+    // e.g. in case we are running on machine without AVX/AVX512 support
+    memset(&fpState,0,FPSTATE_SIZE);
+    memset(&fpStateCopy,0,FPSTATE_SIZE);
     PIN_GetContextFPState(ctxt, &fpState);
     PIN_SetContextFPState(ctxt, &fpState);
     PIN_GetContextFPState(ctxt, &fpStateCopy);
@@ -148,28 +160,46 @@ VOID Instruction(INS ins, VOID * v)
 {
     if ( INS_IsBranchOrCall(ins) )
     {
-        INS_InsertCall(ins, IPOINT_BEFORE,
+        INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE,
                        AFUNPTR(SetBeforeContext),
                        IARG_CONTEXT,
                        IARG_END);
 
         if ( INS_IsBranch(ins) && INS_HasFallThrough(ins) )
-            INS_InsertCall(ins, IPOINT_AFTER,
+        {
+            INS_InsertIfCall(ins, IPOINT_AFTER, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+            INS_InsertThenCall(ins, IPOINT_AFTER,
                            AFUNPTR(ShowAfterContext),
                            IARG_CONTEXT,
                            IARG_END);
+        }
 
         if ( INS_IsDirectBranchOrCall(ins) )
-            INS_InsertCall(ins, IPOINT_TAKEN_BRANCH,
+        {
+            INS_InsertIfCall(ins, IPOINT_TAKEN_BRANCH, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+            INS_InsertThenCall(ins, IPOINT_TAKEN_BRANCH,
                            AFUNPTR(ShowTakenBrContext),
                            IARG_CONTEXT,
                            IARG_END);
-
+        }
+                           
         if ( INS_IsIndirectBranchOrCall(ins) )
-            INS_InsertCall(ins, IPOINT_TAKEN_BRANCH,
+        {
+            INS_InsertIfCall(ins, IPOINT_TAKEN_BRANCH, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+            INS_InsertThenCall(ins, IPOINT_TAKEN_BRANCH,
                            AFUNPTR(ShowTakenIndirBrContext),
                            IARG_CONTEXT,
                            IARG_END);
+        }
+    }
+}
+
+VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
+{
+    if (myThread == INVALID_THREADID)
+    {
+        myThread = threadid;
     }
 }
 
@@ -189,8 +219,9 @@ int main(int argc, char * argv[])
     out << hex;
     out.setf(ios::showbase);
     
-    INS_AddInstrumentFunction(Instruction, 0);
-    PIN_AddFiniFunction(Fini, 0);
+    PIN_AddThreadStartFunction(ThreadStart, NULL);
+    INS_AddInstrumentFunction(Instruction, NULL);
+    PIN_AddFiniFunction(Fini, NULL);
     
     // Never returns
     PIN_StartProgram();

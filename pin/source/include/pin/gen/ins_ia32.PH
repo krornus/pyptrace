@@ -95,4 +95,7 @@ extern BOOL INS_hasKnownMemorySize(INS ins);
 extern BOOL INS_ChangeReg(const INS ins, const REG old_reg, const REG new_reg, const BOOL as_read);
 
                                                                   /* DO NOT EDIT */
+extern BOOL INS_IsCacheLineFlush(INS ins);
+
+                                                                  /* DO NOT EDIT */
 

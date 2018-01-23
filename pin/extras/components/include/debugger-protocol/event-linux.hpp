@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: debugger-protocol
 // <FILE-TYPE>: component public header
 
@@ -36,7 +35,6 @@ END_LEGAL */
 #define DEBUGGER_PROTOCOL_EVENT_LINUX_HPP
 
 #include "debugger-protocol.hpp"
-#include "fund.hpp"
 
 
 namespace DEBUGGER_PROTOCOL {
@@ -179,13 +177,13 @@ enum EVENT_INFO_LINUX_VERSION
  */
 struct /*<POD>*/ SIGINFO32
 {
-    FUND::INT32 _signo;
-    FUND::INT32 _errno;
-    FUND::INT32 _code;
+    INT32 _signo;
+    INT32 _errno;
+    INT32 _code;
 
     union
     {
-        FUND::UINT32 _pad[(128 / sizeof(FUND::UINT32)) - 3];    // Total size of SIGINFO32 is 128 bytes
+        UINT32 _pad[(128 / sizeof(UINT32)) - 3];    // Total size of SIGINFO32 is 128 bytes
     };
 };
 
@@ -195,14 +193,14 @@ struct /*<POD>*/ SIGINFO32
  */
 struct /*<POD>*/ SIGINFO64
 {
-    FUND::INT32 _signo;
-    FUND::INT32 _errno;
-    FUND::INT32 _code;
-    FUND::INT32 _pad0;
+    INT32 _signo;
+    INT32 _errno;
+    INT32 _code;
+    INT32 _pad0;
 
     union
     {
-        FUND::UINT32 _pad1[(128 / sizeof(FUND::UINT32)) - 4];    // Total size of SIGINFO64 is 128 bytes
+        UINT32 _pad1[(128 / sizeof(UINT32)) - 4];    // Total size of SIGINFO64 is 128 bytes
     };
 };
 

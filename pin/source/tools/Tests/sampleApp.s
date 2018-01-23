@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -63,6 +63,7 @@ loop3:
 	ret
 
 xlat:
+#ifdef TARGET_IA32
 	movb [table+0],0
 	movb [table+1],1
 	movb [table+2],2
@@ -70,6 +71,15 @@ xlat:
 	movb [table+256+1],8
 	movb [table+256+2],9
 	lea ebx,[table]
+#else
+	movb [rip+table+0],0
+	movb [rip+table+1],1
+	movb [rip+table+2],2
+	movb [rip+table+256+0],7
+	movb [rip+table+256+1],8
+	movb [rip+table+256+2],9
+	lea rbx,[rip+table]
+#endif
 	mov eax,256+1
 	xlat
 	ret

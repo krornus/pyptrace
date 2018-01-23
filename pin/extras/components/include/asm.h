@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -29,7 +29,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 /*
-** <ORIGINAL-AUTHOR>: Greg Lueck
 ** <COMPONENT>: asm
 ** <FILE-TYPE>: component public header
 */
@@ -37,7 +36,6 @@ END_LEGAL */
 #ifndef ASM_H
 #define ASM_H
 
-#include "fund/config.h"
 
 /*
  * This header provides a set of C macros for use in assembly language files.  Using
@@ -112,7 +110,7 @@ END_LEGAL */
  *          Use these to refer to the register that contains a function argument on the
  *          Intel(R) 64 architecture.  These macros help insulate source code from the differences
  *          between the Unix and Windows calling standards.
- *          
+ *
  *      ASM_<type>_SIZE
  *          Size of type <type> in bytes.
  *
@@ -143,21 +141,20 @@ END_LEGAL */
 #define ASM_DWORD_SIZE      4
 #define ASM_QWORD_SIZE      8
 
-#if defined(ASM_TC_GAS) && defined(FUND_HOST_X86)
+
+#if defined(ASM_TC_GAS)
 #   include "asm/gas-x86.h"
-#elif defined(ASM_TC_GAS) && defined(FUND_HOST_IA64)
-#   include "asm/gas-ia64.h"
-#elif defined(ASM_TC_MASM) && defined(FUND_HOST_X86)
+#elif defined(ASM_TC_MASM)
 #   include "asm/masm-x86.h"
-#elif defined(ASM_TC_NASM) && defined(FUND_HOST_X86)
+#elif defined(ASM_TC_NASM)
 #   include "asm/nasm-x86.h"
 #else
 #   error "Must define assembler type and architecture"
 #endif
 
-#if defined(FUND_HOST_WINDOWS) && defined(FUND_HOST_INTEL64)
+#if defined(HOST_IA32E) && defined(TARGET_WINDOWS)
 #   include "asm/windows-intel64.h"
-#elif defined(FUND_HOST_UNIX) && (defined(FUND_HOST_INTEL64) || defined(FUND_HOST_MIC))
+#elif (defined(TARGET_ANDROID) || defined(TARGET_MAC) || defined(TARGET_LINUX)) && defined(HOST_IA32E)
 #   include "asm/unix-intel64.h"
 #endif
 

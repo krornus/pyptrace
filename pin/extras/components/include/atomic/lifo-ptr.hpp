@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component public header
 
 #ifndef ATOMIC_LIFO_PTR_HPP
 #define ATOMIC_LIFO_PTR_HPP
 
-#include "fund.hpp"
 #include "atomic/config.hpp"
 #include "atomic/ops.hpp"
 #include "atomic/idset.hpp"
@@ -114,11 +112,11 @@ template<typename ELEMENT, unsigned int LowBits,
     {
         // Validate that the required low-order bits are zero.
         //
-        FUND::PTRINT intElement = reinterpret_cast<FUND::PTRINT>(element);
+        PTRINT intElement = reinterpret_cast<PTRINT>(element);
         ATOMIC_CHECK_ASSERT(((intElement >> LowBits) << LowBits) == intElement);
 
-        FUND::PTRINT oldHead;
-        FUND::PTRINT newHead;
+        PTRINT oldHead;
+        PTRINT newHead;
         EXPONENTIAL_BACKOFF<STATS> backoff(1, _stats);
         do
         {
@@ -145,8 +143,8 @@ template<typename ELEMENT, unsigned int LowBits,
     {
         ATOMIC_CHECK_ASSERTSLOW(listTail && CheckList(listHead, listTail));
 
-        FUND::PTRINT oldHead;
-        FUND::PTRINT newHead;
+        PTRINT oldHead;
+        PTRINT newHead;
         EXPONENTIAL_BACKOFF<STATS> backoff(1, _stats);
 
         do
@@ -155,7 +153,7 @@ template<typename ELEMENT, unsigned int LowBits,
 
             oldHead = OPS::Load(&_head);
             listTail->_next = reinterpret_cast<ELEMENT*>((oldHead >> LowBits) << LowBits);   // clear any previous "owner"
-            newHead = reinterpret_cast<FUND::PTRINT>(listHead);
+            newHead = reinterpret_cast<PTRINT>(listHead);
 
             // BARRIER_CS_PREV below ensures that all processors will see the write to _next
             // before the element is inserted into the queue.
@@ -186,7 +184,7 @@ template<typename ELEMENT, unsigned int LowBits,
         // Get a unique ID for the calling thread.  We need this to avoid an "A-B-A" problem below.
         // This might fail (return zero) if there are too many threads simultaneously calling Pop().
         //
-        FUND::UINT32 myID;
+        UINT32 myID;
         if (!(myID = _idGenerator.GetID()))
         {
             if (isEmpty)
@@ -194,14 +192,14 @@ template<typename ELEMENT, unsigned int LowBits,
             return 0;
         }
 
-        FUND::PTRINT oldHead;
-        FUND::PTRINT midHead;
-        FUND::PTRINT newHead;
+        PTRINT oldHead;
+        PTRINT midHead;
+        PTRINT newHead;
         ELEMENT *oldHeadPtr;
         EXPONENTIAL_BACKOFF<STATS> backoff(1, _stats);
         do
         {
-            FUND::PTRINT oldHeadBare;
+            PTRINT oldHeadBare;
 
             // Store our unique ID in the low-order bits of the head pointer.  This avoids the "A-B-A"
             // problem below.  It's possible that this will overwrite someone else's unique ID, but that's OK.  
@@ -232,7 +230,7 @@ template<typename ELEMENT, unsigned int LowBits,
             // head and then pushes it back on.
             //
             oldHeadPtr = reinterpret_cast<ELEMENT*>(oldHeadBare);
-            newHead = reinterpret_cast<FUND::PTRINT>(oldHeadPtr->_next);
+            newHead = reinterpret_cast<PTRINT>(oldHeadPtr->_next);
         }
         while (!OPS::CompareAndDidSwap(&_head, midHead, newHead, BARRIER_CS_NEXT));
 
@@ -303,7 +301,7 @@ template<typename ELEMENT, unsigned int LowBits,
      */
     ELEMENT *Head()
     {
-        FUND::PTRINT head = OPS::Load(&_head);
+        PTRINT head = OPS::Load(&_head);
         head = (head >> LowBits) << LowBits;
         return reinterpret_cast<ELEMENT*>(head);
     }
@@ -324,7 +322,7 @@ template<typename ELEMENT, unsigned int LowBits,
      */
     ELEMENT *Clear()
     {
-        FUND::PTRINT oldHead;
+        PTRINT oldHead;
         EXPONENTIAL_BACKOFF<STATS> backoff(1, _stats);
 
         do
@@ -332,7 +330,7 @@ template<typename ELEMENT, unsigned int LowBits,
             backoff.Delay();
             oldHead = OPS::Load(&_head);
         }
-        while (!OPS::CompareAndDidSwap<FUND::PTRINT>(&_head, oldHead, 0, BARRIER_CS_NEXT));
+        while (!OPS::CompareAndDidSwap<PTRINT>(&_head, oldHead, 0, BARRIER_CS_NEXT));
 
         // BARRIER_CS_NEXT above ensures that all processors see that the elements are
         // removed from the list before the caller starts changing them.
@@ -352,7 +350,7 @@ template<typename ELEMENT, unsigned int LowBits,
     {
         ATOMIC_CHECK_ASSERTSLOW(CheckList(list, 0));
 
-        _head = reinterpret_cast<FUND::PTRINT>(list);
+        _head = reinterpret_cast<PTRINT>(list);
     }
 
   private:
@@ -370,7 +368,7 @@ template<typename ELEMENT, unsigned int LowBits,
         ELEMENT *last = 0;
         for (ELEMENT *el = head;  el;  el = el->_next)
         {
-            FUND::PTRINT intEl = reinterpret_cast<FUND::PTRINT>(el);
+            PTRINT intEl = reinterpret_cast<PTRINT>(el);
             if (((intEl >> LowBits) << LowBits) != intEl)
                 return false;
             last = el;
@@ -382,12 +380,12 @@ template<typename ELEMENT, unsigned int LowBits,
     }
 
   private:
-    volatile FUND::PTRINT _head;     // The head of the list
+    volatile PTRINT _head;     // The head of the list
 
     // We use the low-order bits of _head to hold a unique ID (see Pop() method).  This object
     // allows us to generate small, unique IDs that will fit in the low-order bits.
     //
-    static const FUND::UINT32 MaxID = (1 << LowBits) - 1;
+    static const UINT32 MaxID = (1 << LowBits) - 1;
     IDSET<MaxID, STATS> _idGenerator;
 
     STATS *_stats;  // Object which collects statistics, or NULL

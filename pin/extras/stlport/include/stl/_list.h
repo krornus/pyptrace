@@ -80,7 +80,7 @@ public:
 };
 
 struct _List_iterator_base {
-  typedef size_t                     size_type;
+  typedef size_t                     _List_size;
   typedef ptrdiff_t                  difference_type;
   typedef bidirectional_iterator_tag iterator_category;
 
@@ -107,7 +107,7 @@ struct _List_iterator : public _List_iterator_base {
 
   typedef bidirectional_iterator_tag iterator_category;
   typedef _List_node<_Tp> _Node;
-  typedef size_t size_type;
+  typedef size_t _List_size;
   typedef ptrdiff_t difference_type;
 
   explicit _List_iterator(_List_node_base* __x) : _List_iterator_base(__x) {}
@@ -178,15 +178,20 @@ protected:
   typedef _List_node<_Tp> _Node;
   typedef _List_base<_Tp, _Alloc> _Self;
   typedef typename _Alloc_traits<_Node, _Alloc>::allocator_type _Node_allocator_type;
+  typedef size_t _List_size;
+  _List_size _M_size;
 public:
   typedef _STLP_alloc_proxy<_Node_base, _Node, _Node_allocator_type> _AllocProxy;
   typedef _Alloc allocator_type;
+  typedef size_t size_type;
 
   allocator_type get_allocator() const
   { return _STLP_CONVERT_ALLOCATOR((const _Node_allocator_type&)_M_node, _Tp); }
 
   _List_base(const allocator_type& __a) : _M_node(_STLP_CONVERT_ALLOCATOR(__a, _Node), _Node_base())
-  { _M_empty_initialize(); }
+  { 
+    _M_empty_initialize();
+  }
 
 #if !defined (_STLP_NO_MOVE_SEMANTIC)
   _List_base(__move_source<_Self> src) :
@@ -210,6 +215,7 @@ public:
   void _M_empty_initialize() {
     _M_node._M_data._M_next = &_M_node._M_data;
     _M_node._M_data._M_prev = _M_node._M_data._M_next;
+    this->_M_size = 0;
   }
 
 public:
@@ -265,7 +271,7 @@ public:
   typedef const value_type* const_pointer;
   typedef value_type& reference;
   typedef const value_type& const_reference;
-  typedef size_t size_type;
+  typedef size_t _List_size;
   typedef ptrdiff_t difference_type;
   _STLP_FORCE_ALLOCATORS(_Tp, _Alloc)
   typedef typename _Base::allocator_type allocator_type;
@@ -303,16 +309,16 @@ protected:
 
 public:
 #if !defined (_STLP_DONT_SUP_DFLT_PARAM)
-  explicit list(size_type __n, const_reference __val = _STLP_DEFAULT_CONSTRUCTED(value_type),
+  explicit list(_List_size __n, const_reference __val = _STLP_DEFAULT_CONSTRUCTED(value_type),
                 const allocator_type& __a = allocator_type())
 #else
-  explicit list(size_type __n)
+  explicit list(_List_size __n)
     : _STLP_PRIV _List_base<_Tp, _Alloc>(allocator_type())
     { this->insert(begin(), __n, _STLP_DEFAULT_CONSTRUCTED(value_type)); }
-  list(size_type __n, const_reference __val)
+  list(_List_size __n, const_reference __val)
     : _STLP_PRIV _List_base<_Tp, _Alloc>(allocator_type())
     { this->insert(begin(), __n, __val); }
-  list(size_type __n, const_reference __val, const allocator_type& __a)
+  list(_List_size __n, const_reference __val, const allocator_type& __a)
 #endif /*_STLP_DONT_SUP_DFLT_PARAM*/
     : _STLP_PRIV _List_base<_Tp, _Alloc>(__a)
     { this->insert(begin(), __n, __val); }
@@ -376,11 +382,10 @@ public:
   reverse_iterator rend()               { return reverse_iterator(begin()); }
   const_reverse_iterator rend() const   { return const_reverse_iterator(begin()); }
 
-  size_type size() const {
-    size_type __result = _STLP_STD::distance(begin(), end());
-    return __result;
+  _List_size size() const {
+    return this->_M_size;
   }
-  size_type max_size() const { return size_type(-1); }
+  _List_size max_size() const { return _List_size(-1); }
 
   reference front()             { return *begin(); }
   const_reference front() const { return *begin(); }
@@ -411,6 +416,7 @@ public:
       _STLP_STD::swap(this->_M_node._M_data._M_prev->_M_next, __x._M_node._M_data._M_prev->_M_next);
       _STLP_STD::swap(this->_M_node._M_data._M_next->_M_prev, __x._M_node._M_data._M_next->_M_prev);
     }
+    std::swap(this->_M_size, __x._M_size);
   }
 #if defined (_STLP_USE_PARTIAL_SPEC_WORKAROUND) && !defined (_STLP_FUNCTION_TMPL_PARTIAL_ORDER)
   void _M_swap_workaround(_Self& __x) { swap(__x); }
@@ -429,6 +435,7 @@ public:
     __tmp->_M_prev = __p;
     __p->_M_next = __tmp;
     __n->_M_prev = __tmp;
+    this->_M_size++;
     return iterator(__tmp);
   }
 
@@ -495,11 +502,11 @@ private:
   }
 
 public:
-  void insert(iterator __pos, size_type __n, const_reference __x)
+  void insert(iterator __pos, _List_size __n, const_reference __x)
   { _M_fill_insert(__pos, __n, __x); }
 
 private:
-  void _M_fill_insert(iterator __pos, size_type __n, const_reference __x) {
+  void _M_fill_insert(iterator __pos, _List_size __n, const_reference __x) {
     for ( ; __n > 0; --__n)
       insert(__pos, __x);
   }
@@ -523,6 +530,10 @@ public:
     __next_node->_M_prev = __prev_node;
     _STLP_STD::_Destroy(&__n->_M_data);
     this->_M_node.deallocate(__n, 1);
+    if (this->_M_size > 0)
+    {
+        this->_M_size--;
+    }
     return iterator(__next_node);
   }
 
@@ -533,15 +544,21 @@ public:
   }
 
 #if !defined (_STLP_DONT_SUP_DFLT_PARAM)
-  void resize(size_type __new_size, const_reference __x = value_type());
+  void resize(_List_size __new_size, const_reference __x = value_type());
 #else
-  void resize(size_type __new_size, const_reference __x);
-  void resize(size_type __new_size)
+  void resize(_List_size __new_size, const_reference __x);
+  void resize(_List_size __new_size)
   { this->resize(__new_size, _STLP_DEFAULT_CONSTRUCTED(value_type)); }
 #endif /*!_STLP_DONT_SUP_DFLT_PARAM*/
 
-  void pop_front() { erase(begin()); }
+  void pop_front() {
+    if (0 == this->_M_size)
+      return;
+    erase(begin());
+  }
   void pop_back() {
+    if (0 == this->_M_size)
+      return;
     iterator __tmp = end();
     erase(--__tmp);
   }
@@ -552,9 +569,9 @@ public:
   // The range version is a member template, so we dispatch on whether
   // or not the type is an integer.
 
-  void assign(size_type __n, const_reference __val) { _M_fill_assign(__n, __val); }
+  void assign(_List_size __n, const_reference __val) { _M_fill_assign(__n, __val); }
 
-  void _M_fill_assign(size_type __n, const_reference __val);
+  void _M_fill_assign(_List_size __n, const_reference __val);
 
 #if defined (_STLP_MEMBER_TEMPLATES)
   template <class _InputIterator>
@@ -600,6 +617,8 @@ public:
     if (!__x.empty()) {
       if (this->get_allocator() == __x.get_allocator()) {
         _STLP_PRIV _List_global_inst::_Transfer(__pos._M_node, __x.begin()._M_node, __x.end()._M_node);
+        this->_M_size += __x._M_size;
+        __x._M_size = 0;
       }
       else {
         insert(__pos, __x.begin(), __x.end());
@@ -613,6 +632,8 @@ public:
     if (__pos == __i || __pos == __j) return;
     if (this->get_allocator() == __x.get_allocator()) {
       _STLP_PRIV _List_global_inst::_Transfer(__pos._M_node, __i._M_node, __j._M_node);
+      this->_M_size ++;
+      __x._M_size --;
     }
     else {
       insert(__pos, *__i);
@@ -620,9 +641,12 @@ public:
     }
   }
   void splice(iterator __pos, _Self& __x, iterator __first, iterator __last) {
+    int len = std::distance(__first, __last);
     if (__first != __last) {
       if (this->get_allocator() == __x.get_allocator()) {
         _STLP_PRIV _List_global_inst::_Transfer(__pos._M_node, __first._M_node, __last._M_node);
+        this->_M_size += len;
+        __x._M_size -= len;
       }
       else {
         insert(__pos, __first, __last);
@@ -645,8 +669,11 @@ public:
   void unique()
   { _STLP_PRIV _S_unique(*this, equal_to<value_type>()); }
 
-  void merge(_Self& __x)
-  { _STLP_PRIV _S_merge(*this, __x, less<value_type>()); }
+  void merge(_Self& __x) {
+    _STLP_PRIV _S_merge(*this, __x, less<value_type>());
+    this->_M_size += __x.size();
+    __x._M_size = 0;
+  }
 
   void reverse() {
     _Node_base* __p = &this->_M_node._M_data;
@@ -657,8 +684,11 @@ public:
     } while (__tmp != __p);
   }
 
-  void sort()
-  { _STLP_PRIV _S_sort(*this, less<value_type>()); }
+  void sort() {
+    _List_size size = this->_M_size;
+    _STLP_PRIV _S_sort(*this, less<value_type>());
+    this->_M_size = size;
+  }
 
 #if defined (_STLP_MEMBER_TEMPLATES)
   template <class _Predicate>
@@ -672,11 +702,16 @@ public:
   void merge(_Self& __x,
              _StrictWeakOrdering __comp) {
     _STLP_PRIV _S_merge(*this, __x, __comp);
+    this->_M_size += __x.size();
+    __x._M_size = 0;
   }
 
   template <class _StrictWeakOrdering>
-  void sort(_StrictWeakOrdering __comp)
-  { _STLP_PRIV _S_sort(*this, __comp); }
+  void sort(_StrictWeakOrdering __comp) {
+    _List_size size = this->_M_size;
+    _STLP_PRIV _S_sort(*this, __comp);
+    this->_M_size = size;
+  }
 #endif /* _STLP_MEMBER_TEMPLATES */
 };
 

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -38,23 +38,22 @@ END_LEGAL */
 // already without checking for alignment.  I should make this check for
 // misalignment.
 
-#include <assert.h>
-#include <stdio.h>
-#include "pin.H"
-#include "portability.H"
-extern "C" {
-#include "xed-interface.h"
-}
+#include <cassert>
+#include <cstdio>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <string.h>
-
-
+#include <cstring>
+#include <unistd.h>
 
 #if defined(__GNUC__) && !defined(_WIN32)
-# include <stdint.h>
+# include <cstdint>
 #endif
+
+#include "pin.H"
+extern "C" {
+#include "xed-interface.h"
+}
 
 #if defined(_WIN32)
 #  define uint8_t  unsigned __int8
@@ -99,15 +98,15 @@ class sse_aligner_t
 {
   public:
     sse_aligner_t()
-        : knob_output_file(KNOB_MODE_WRITEONCE,"pintool", "o", 
+        : knob_output_file(KNOB_MODE_WRITEONCE,"pintool", "o",
                            "sse-unaligned.out", "specify profile file name"),
-          knob_pid(KNOB_MODE_WRITEONCE, "pintool", "i", 
+          knob_pid(KNOB_MODE_WRITEONCE, "pintool", "i",
                    "0", "append pid to output"),
           knob_loads(KNOB_MODE_WRITEONCE, "pintool", "align-sse-loads",
                      "1", "align unaligned SSE loads"),
-          knob_stores(KNOB_MODE_WRITEONCE, "pintool", "align-sse-stores", 
+          knob_stores(KNOB_MODE_WRITEONCE, "pintool", "align-sse-stores",
                       "1", "align unaligned SSE stores"),
-          knob_verbose(KNOB_MODE_WRITEONCE, "pintool", "align-sse-verbose", 
+          knob_verbose(KNOB_MODE_WRITEONCE, "pintool", "align-sse-verbose",
                        "0", "make the sse aligner verbose")
     {
         num_threads = 0;
@@ -128,13 +127,13 @@ class sse_aligner_t
     KNOB<BOOL>   knob_loads;
     KNOB<BOOL>   knob_stores;
     KNOB<BOOL>   knob_verbose;
-    TLS_KEY tls_key;                     
+    TLS_KEY tls_key;
     uint32_t num_threads;
     uint32_t active_threads;
     bool realign_stores;
     bool realign_loads;
     bool verbose;
-    
+
     void activate()
     {
         //FIXME: only one aligner at a time -- not changing output file
@@ -144,8 +143,10 @@ class sse_aligner_t
         if (knob_verbose)
         {
             string filename =  knob_output_file.Value();
-            if( knob_pid )
-                filename += "." + decstr( getpid_portable() );
+            if (knob_pid)
+            {
+                filename += "." + decstr(getpid());
+            }
             out = new std::ofstream(filename.c_str());
         }
         realign_stores = (knob_stores==1);
@@ -167,7 +168,7 @@ class sse_aligner_t
 
     thread_data_t* get_tls(THREADID tid)
     {
-        thread_data_t* tdata = 
+        thread_data_t* tdata =
             static_cast<thread_data_t*>(PIN_GetThreadData(tls_key, tid));
         return tdata;
     }
@@ -198,11 +199,11 @@ class sse_aligner_t
 
 
 
-    static void rewrite_instruction(INS ins, bool is_read, sse_aligner_t* pthis) 
+    static void rewrite_instruction(INS ins, bool is_read, sse_aligner_t* pthis)
     {
         // Avoid aligning trivially aligned stuff
         const xed_decoded_inst_t* xedd = INS_XedDec(ins);
-        if (xed_decoded_inst_get_memory_operand_length(xedd,0) 
+        if (xed_decoded_inst_get_memory_operand_length(xedd,0)
               > sizeof (sse_aligned_buffer_t))
         {
             return;
@@ -214,9 +215,9 @@ class sse_aligner_t
             *(pthis->out) << "REWRITE "
                           << string(is_read ? "LOAD :" : "STORE:")
                           << std::setw(16)
-                          << std::hex 
-                          << INS_Address(ins) 
-                          << std::dec 
+                          << std::hex
+                          << INS_Address(ins)
+                          << std::dec
                           << " "
                           << INS_Disassemble(ins) << std::endl;
 
@@ -232,7 +233,7 @@ class sse_aligner_t
                            IARG_INST_PTR,
                            IARG_THREAD_ID,
                            IARG_PTR, pthis,
-                           IARG_RETURN_REGS, REG_INST_G0, 
+                           IARG_RETURN_REGS, REG_INST_G0,
                            IARG_END);
         }
         else
@@ -254,7 +255,7 @@ class sse_aligner_t
                            IARG_END);
             INS_InsertCall(ins, IPOINT_AFTER,
                            AFUNPTR(copy_from_aligned_store_buffer),
-                           IARG_REG_VALUE, REG_INST_G1,                           
+                           IARG_REG_VALUE, REG_INST_G1,
                            IARG_MEMORYWRITE_SIZE,
                            IARG_INST_PTR,
                            IARG_THREAD_ID,
@@ -267,8 +268,8 @@ class sse_aligner_t
     }
 
 
-    
-    static bool check_for_sse_memop(INS ins, bool& is_read, sse_aligner_t* pthis) 
+
+    static bool check_for_sse_memop(INS ins, bool& is_read, sse_aligner_t* pthis)
     {
         // return true if the instruction is SSEx and reads/writes memory
         xed_extension_enum_t extension = static_cast<xed_extension_enum_t>(INS_Extension(ins));
@@ -283,7 +284,7 @@ class sse_aligner_t
                 is_read = true;
                 return true;
             }
-            if (pthis->realign_stores && INS_IsMemoryWrite(ins)) 
+            if (pthis->realign_stores && INS_IsMemoryWrite(ins))
             {
                 is_read = false;
                 return true;
@@ -305,7 +306,7 @@ class sse_aligner_t
 
 
 
-    static ADDRINT copy_to_aligned_load_buffer_and_return_pointer(ADDRINT load_addr, 
+    static ADDRINT copy_to_aligned_load_buffer_and_return_pointer(ADDRINT load_addr,
                                                                   ADDRINT byte_len,
                                                                   ADDRINT ip,
                                                                   THREADID tid,
@@ -313,8 +314,8 @@ class sse_aligner_t
     {
         // return the address to use for the SSEx operation
         thread_data_t* tdata = pthis->get_tls(tid);
-        ADDRINT copied = PIN_SafeCopy(tdata->read, 
-                                      reinterpret_cast<uint8_t*>(load_addr), 
+        ADDRINT copied = PIN_SafeCopy(tdata->read,
+                                      reinterpret_cast<uint8_t*>(load_addr),
                                       byte_len);
         if (copied != byte_len)
         {
@@ -324,7 +325,7 @@ class sse_aligner_t
         }
         return reinterpret_cast<ADDRINT>(tdata->read);
     }
-    static ADDRINT return_pointer_to_aligned_store_buffer(ADDRINT store_addr, 
+    static ADDRINT return_pointer_to_aligned_store_buffer(ADDRINT store_addr,
                                                           ADDRINT ip,
                                                           THREADID tid,
                                                           sse_aligner_t* pthis,
@@ -337,15 +338,15 @@ class sse_aligner_t
         return reinterpret_cast<ADDRINT>(tdata->write);
     }
 
-    static void copy_from_aligned_store_buffer(ADDRINT store_addr, 
+    static void copy_from_aligned_store_buffer(ADDRINT store_addr,
                                                ADDRINT byte_len,
                                                ADDRINT ip,
                                                THREADID tid,
                                                sse_aligner_t* pthis)
     {
         thread_data_t* tdata = pthis->get_tls(tid);
-        ADDRINT copied = PIN_SafeCopy(reinterpret_cast<uint8_t*>(store_addr), 
-                                      tdata->write, 
+        ADDRINT copied = PIN_SafeCopy(reinterpret_cast<uint8_t*>(store_addr),
+                                      tdata->write,
                                       byte_len);
 
         if (copied != byte_len)
@@ -378,6 +379,6 @@ int main(int argc, char * argv[])
 
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

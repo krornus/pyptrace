@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: util
 // <FILE-TYPE>: component public header
 
 #ifndef UTIL_ROUND_HPP
 #define UTIL_ROUND_HPP
 
-#include "fund.hpp"
 
 
 namespace UTIL {
@@ -81,7 +79,7 @@ template<typename T> T RoundUp(T val, size_t align)
  */
 template<typename T> T *RoundDown(T *ptr, size_t align)
 {
-    FUND::PTRINT val = reinterpret_cast<FUND::PTRINT>(ptr);
+    PTRINT val = reinterpret_cast<PTRINT>(ptr);
     size_t mod = val % align;
     val -= mod;
     return reinterpret_cast<T*>(val);
@@ -97,7 +95,7 @@ template<typename T> T *RoundDown(T *ptr, size_t align)
  */
 template<typename T> T *RoundUp(T *ptr, size_t align)
 {
-    FUND::PTRINT val = reinterpret_cast<FUND::PTRINT>(ptr);
+    PTRINT val = reinterpret_cast<PTRINT>(ptr);
     size_t mod = val % align;
     if (mod)
         val += (align - mod);
@@ -114,7 +112,7 @@ template<typename T> T *RoundUp(T *ptr, size_t align)
  */
 inline size_t PtrDiff(const void* ptr1, const void* ptr2)
 {
-    return static_cast<const FUND::INT8 *>(ptr1) - static_cast<const FUND::INT8 *>(ptr2);
+    return static_cast<const INT8 *>(ptr1) - static_cast<const INT8 *>(ptr2);
 }
 
 /*!
@@ -127,7 +125,7 @@ inline size_t PtrDiff(const void* ptr1, const void* ptr2)
  */
 inline void *PtrAtOffset(void *ptr, size_t offset)
 {
-    return static_cast<FUND::INT8 *>(ptr) + offset;
+    return static_cast<INT8 *>(ptr) + offset;
 }
 
 /*!
@@ -140,7 +138,23 @@ inline void *PtrAtOffset(void *ptr, size_t offset)
  */
 inline const void *PtrAtOffset(const void* ptr, size_t offset)
 {
-    return static_cast<const FUND::INT8 *>(ptr) + offset;
+    return static_cast<const INT8 *>(ptr) + offset;
+}
+
+/*!
+ * Return pointer of type <T> whose offset, in bytes, from <ptr> is <offset>
+ */
+template <typename T> T * PtrAtOffset(void * ptr, size_t offset)
+{
+    return static_cast<T *>(PtrAtOffset(ptr, offset));
+}
+
+/*!
+  Return const pointer of type <T> whose offset, in bytes, from <ptr> is <offset>
+ */
+template <typename T> const T * PtrAtOffset(const void * ptr, size_t offset)
+{
+    return static_cast<const T *>(PtrAtOffset(ptr, offset));
 }
 
 

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -54,7 +54,7 @@ VOID DoSmcCheck(VOID * traceAddr,
     {
         smcCount++;
         free(traceCopyAddr);
-        CODECACHE_InvalidateTraceAtProgramAddress((ADDRINT)traceAddr);
+        PIN_RemoveInstrumentationInRange((ADDRINT)traceAddr, (ADDRINT)traceAddr);
         PIN_ExecuteAt(ctxP);
     }
 }
@@ -65,7 +65,7 @@ VOID InstrumentTrace(TRACE trace, VOID *v)
     VOID *  traceAddr;
     VOID *  traceCopyAddr;
     USIZE traceSize;
-    
+
     traceAddr = (VOID *)TRACE_Address(trace);
 
 #if 0
@@ -73,15 +73,15 @@ VOID InstrumentTrace(TRACE trace, VOID *v)
         return;
     fprintf(stderr,"Instrumenting trace at %p\n",traceAddr);
 #endif
-    
+
     traceSize = TRACE_Size(trace);
     traceCopyAddr = malloc(traceSize);
 
-    if (traceCopyAddr != 0) 
+    if (traceCopyAddr != 0)
     {
         memcpy(traceCopyAddr, traceAddr, traceSize);
         // Insert a call to DoSmcCheck before every trace
-        TRACE_InsertCall(trace, IPOINT_BEFORE, (AFUNPTR)DoSmcCheck,   
+        TRACE_InsertCall(trace, IPOINT_BEFORE, (AFUNPTR)DoSmcCheck,
                          IARG_PTR, traceAddr,
                          IARG_PTR, traceCopyAddr,
                          IARG_UINT32 , traceSize,
@@ -109,10 +109,10 @@ int main(int argc, char * argv[])
 
     // Register application exit call back
     PIN_AddFiniFunction(Fini, 0);
-    
+
     // Start the program, never returns
     PIN_StartProgram();
-    
+
     return 0;
 }
 

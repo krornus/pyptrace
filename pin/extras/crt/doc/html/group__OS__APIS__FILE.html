@@ -38,17 +38,19 @@
 <br>
 &nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_WRITE</b> =  (1&lt;&lt;1), 
 <br>
-&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_APPEND</b> =  (1&lt;&lt;2), 
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_EXECUTE</b> =  (1&lt;&lt;2), 
 <br>
-&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_TRUNCATE</b> =  (1&lt;&lt;3), 
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_APPEND</b> =  (1&lt;&lt;3), 
 <br>
-&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_CREATE</b> =  (1&lt;&lt;4), 
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_TRUNCATE</b> =  (1&lt;&lt;4), 
 <br>
-&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_CREATE_EXCL</b> =  (1&lt;&lt;5), 
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_CREATE</b> =  (1&lt;&lt;5), 
 <br>
-&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_DELETE</b> =  (1&lt;&lt;6), 
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_CREATE_EXCL</b> =  (1&lt;&lt;6), 
 <br>
-&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_CLOSE_ON_EXEC</b> =  (1&lt;&lt;7)
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_DELETE</b> =  (1&lt;&lt;7), 
+<br>
+&nbsp;&nbsp;<b>OS_FILE_OPEN_TYPE_CLOSE_ON_EXEC</b> =  (1&lt;&lt;8)
 <br>
  }</td></tr>
 
@@ -136,6 +138,20 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#g19599627ff820ad26d81d0aa887e3d74">OS_RenameFile</a> (const CHAR *oldPath, const CHAR *newPath)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#gdf0626b407af278851863044e10e31fc">OS_FileUniqueID</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> fd, <a class="el" href="struct__OS__FILE__UNIQUE__ID.html">OS_FILE_UNIQUE_ID</a> *uniqueId)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#g49a854421122ef45c7b1175902cc9c4c">OS_DuplicateFD</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> fd, <a class="el" href="group__OS__APIS__TYPES.html#g4b232cbc1ba7648e8617b0673d33b863">BOOL_T</a> dupCloseOnExec, <a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *outFd)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#ge055be56ef72c4ee927e2eae686dcb85">OS_Ftruncate</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> fd, INT64 length)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#g98d8fa4b38393a18cdd06327bdc2e3a4">OS_ReportFileOpen</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> fd)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#ga67547e3fdb8e6491b1d68f3ec23226b">OS_ReportFileClose</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> fd)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#ga062fd788c29833bc9cb19a5d58fa2f9">OS_GetLowestFileDescriptorToUse</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#g3335a72f994034681db4701fa7524917">OS_RelocateAndReportFileOpen</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *fd)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__OS__APIS__TYPES.html#g4b232cbc1ba7648e8617b0673d33b863">BOOL_T</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__FILE.html#g99dea8d822f9fe14acc2203f41e5e826">OS_WasFileReportedOpen</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> fd)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -556,6 +572,66 @@ Delete a file by name<p>
     </td>
   </tr>
 </table>
+<a class="anchor" name="g49a854421122ef45c7b1175902cc9c4c"></a><!-- doxytag: member="file.h::OS_DuplicateFD" ref="g49a854421122ef45c7b1175902cc9c4c" args="(NATIVE_FD fd, BOOL_T dupCloseOnExec, NATIVE_FD *outFd)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_DuplicateFD           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__OS__APIS__TYPES.html#g4b232cbc1ba7648e8617b0673d33b863">BOOL_T</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>dupCloseOnExec</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>outFd</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Creates a copy of a file descriptor using the lowest available free file descriptor. This function considers the value returned from <a class="el" href="group__OS__APIS__FILE.html#ga062fd788c29833bc9cb19a5d58fa2f9">OS_GetLowestFileDescriptorToUse()</a> when duplicating the descriptor.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fd</em>&nbsp;</td><td>File descriptor to duplicate an ID. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>dupCloseOnExec</em>&nbsp;</td><td>TRUE to duplicate the close-on-exec property of the descriptor, FALSE otherwise. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>outFd</em>&nbsp;</td><td>Result duplicated file descriptor.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Return values:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_NO_ERROR</em>&nbsp;</td><td>If the operation succeeded </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_FILE_OPERATION_FAILED</em>&nbsp;</td><td>If the operation failed</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g1685e0a7e334b5dbe817e915462483a0"></a><!-- doxytag: member="file.h::OS_FilePermissionsFD" ref="g1685e0a7e334b5dbe817e915462483a0" args="(NATIVE_FD fd, OS_FILE_PERMISSION_TYPE *permissions)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -759,6 +835,59 @@ Flush the object referenced by the descriptor <b>fd</b>.<p>
     </td>
   </tr>
 </table>
+<a class="anchor" name="ge055be56ef72c4ee927e2eae686dcb85"></a><!-- doxytag: member="file.h::OS_Ftruncate" ref="ge055be56ef72c4ee927e2eae686dcb85" args="(NATIVE_FD fd, INT64 length)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_Ftruncate           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>fd</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>INT64&nbsp;</td>
+          <td class="mdname" nowrap> <em>length</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Truncates a file referenced by fd to a size of length bytes. If the original file size is bigger than length, the extra data is lost. If the original file size is smaller than length,the file extended.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fd</em>&nbsp;</td><td>File descriptor to change his size. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>length</em>&nbsp;</td><td>File new length.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Return values:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_NO_ERROR</em>&nbsp;</td><td>If the operation succeeded </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_FILE_OPERATION_FAILED</em>&nbsp;</td><td>If the operation failed</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Windows &amp; Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g4052d334b244ff4e7451e33c5b6d104d"></a><!-- doxytag: member="file.h::OS_GetFDAccessMode" ref="g4052d334b244ff4e7451e33c5b6d104d" args="(NATIVE_FD fd, OS_FILE_OPEN_TYPE *mode)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -913,6 +1042,43 @@ Query file attributes of the file denoted by <b>path</b> <p>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Windows, Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga062fd788c29833bc9cb19a5d58fa2f9"></a><!-- doxytag: member="file.h::OS_GetLowestFileDescriptorToUse" ref="ga062fd788c29833bc9cb19a5d58fa2f9" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> OS_GetLowestFileDescriptorToUse           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Getter function to retrieve the lowest value of file descriptor that OS-APIs should use. OS-APIs will attempt to only use file descriptors which are larger or equal to the value that this function returns.<p>
+This function is implemented as a weak reference symbol so libraries linked with OS-APIs may provide their own implementation of this function and return a different value.<p>
+<dl compact><dt><b>Return values:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>Lowest</em>&nbsp;</td><td>file descriptor to use.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X* <br>
  <b>CPU:</b> All <br>
  </dd></dl>
     </td>
@@ -1335,6 +1501,43 @@ Reads the symbolic link pointed by <b>path</b>. Returns the path that the symlin
     </td>
   </tr>
 </table>
+<a class="anchor" name="g3335a72f994034681db4701fa7524917"></a><!-- doxytag: member="file.h::OS_RelocateAndReportFileOpen" ref="g3335a72f994034681db4701fa7524917" args="(NATIVE_FD *fd)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void OS_RelocateAndReportFileOpen           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>fd</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Relocate the file descriptor to the range permitted according to <a class="el" href="group__OS__APIS__FILE.html#ga062fd788c29833bc9cb19a5d58fa2f9">OS_GetLowestFileDescriptorToUse()</a>, then record a file descriptor as opened by OS-APIs. Later, we allow to query whether a certain file descriptor was opened by OS-APIs or not.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in,out]</tt>&nbsp;</td><td valign="top"><em>fd</em>&nbsp;</td><td>File descriptor to relocate and record.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g19599627ff820ad26d81d0aa887e3d74"></a><!-- doxytag: member="file.h::OS_RenameFile" ref="g19599627ff820ad26d81d0aa887e3d74" args="(const CHAR *oldPath, const CHAR *newPath)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1383,6 +1586,80 @@ Renamed the file <b>oldPath</b> to <b>newPath</b> <p>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Windows, Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga67547e3fdb8e6491b1d68f3ec23226b"></a><!-- doxytag: member="file.h::OS_ReportFileClose" ref="ga67547e3fdb8e6491b1d68f3ec23226b" args="(NATIVE_FD fd)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void OS_ReportFileClose           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a>&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>fd</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Record that a file descriptor opened by OS-APIs is not longer valid, and it is closed. Later, we allow to query whether a certain file descriptor was opened by OS-APIs or not.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fd</em>&nbsp;</td><td>File descriptor to record.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="g98d8fa4b38393a18cdd06327bdc2e3a4"></a><!-- doxytag: member="file.h::OS_ReportFileOpen" ref="g98d8fa4b38393a18cdd06327bdc2e3a4" args="(NATIVE_FD fd)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void OS_ReportFileOpen           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a>&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>fd</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Record a file descriptor as opened by OS-APIs. Later, we allow to query whether a certain file descriptor was opened by OS-APIs or not.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fd</em>&nbsp;</td><td>File descriptor to record.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X* <br>
  <b>CPU:</b> All <br>
  </dd></dl>
     </td>
@@ -1450,6 +1727,43 @@ Reposition the offset of the file descriptor <b>fd</b> to the an offset in, the 
     </td>
   </tr>
 </table>
+<a class="anchor" name="g99dea8d822f9fe14acc2203f41e5e826"></a><!-- doxytag: member="file.h::OS_WasFileReportedOpen" ref="g99dea8d822f9fe14acc2203f41e5e826" args="(NATIVE_FD fd)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#g4b232cbc1ba7648e8617b0673d33b863">BOOL_T</a> OS_WasFileReportedOpen           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a>&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>fd</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Queries whether a certain file descriptor was opened by OS-APIs or not.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fd</em>&nbsp;</td><td>File descriptor to query.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X* <br>
+ <b>CPU:</b> All <br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g67c9610544e6e75e332ff2b45a70b88d"></a><!-- doxytag: member="file.h::OS_WriteFD" ref="g67c9610544e6e75e332ff2b45a70b88d" args="(NATIVE_FD fd, const VOID *buffer, USIZE *count)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1512,7 +1826,7 @@ Attempts to write <b>count</b> bytes of data to the object referenced by the des
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:21:02 2016 for PinCRT by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:29:31 2017 for PinCRT by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

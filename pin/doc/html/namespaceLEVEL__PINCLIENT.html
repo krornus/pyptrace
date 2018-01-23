@@ -34,20 +34,6 @@
 <tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef map&lt; SYM, ADDRINT &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#064f1cffbe0833f653a0220e012e31c1">SYM_RESOLVER_VS_ACTUAL_ADDRESS_IFUNC_MAP</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g0650fbca62cb2b9cbab67e03a167476f">CODECACHE_NOARG_CALLBACK</a> )()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g82af67ae80f0e32df5a9e3ea770cf59c">CODECACHE_CACHEBLOCK_CALLBACK</a> )(USIZE new_block_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gf4feed5d90f646051a5d91b8debf4b9a">CODECACHE_FULL_CALLBACK</a> )(USIZE trace_size, USIZE stub_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#ge018fe6a6eb8565b1db1ab6ffa10f9f7">CODECACHE_ENTEREXIT_CALLBACK</a> )(ADDRINT cache_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gce17d419e491ef60197773de4e1960ba">CODECACHE_LINKED_CALLBACK</a> )(ADDRINT branch_pc, ADDRINT target_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g02318d763590176a9a61b9b49f2fe93c">CODECACHE_UNLINKED_CALLBACK</a> )(ADDRINT branch_pc, ADDRINT stub_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g57a902525ea351b9a31440aea9570a13">CODECACHE_TRACEINVALIDATED_CALLBACK</a> )(ADDRINT orig_pc, ADDRINT cache_pc, BOOL success)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef LEVEL_BASE::CHILD_PROCESS_CLASS *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CHILD__PROCESS__API.html#g104e2b5e1bfd80e62cb3cd8f50ddfdf2">CHILD_PROCESS</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef BOOL(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CHILD__PROCESS__API.html#gcb01db8476fb5a6b4d86f09a336fe15f">FOLLOW_CHILD_PROCESS_CALLBACK</a> )(<a class="el" href="group__CHILD__PROCESS__API.html#g104e2b5e1bfd80e62cb3cd8f50ddfdf2">CHILD_PROCESS</a> childProcess, VOID *val)</td></tr>
@@ -83,6 +69,8 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#fd62761063369139ae3c774377bf2c09">TRACEGENCODE_CALLBACK</a> )(<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace, VOID *v)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef TRACE_CLASS *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#gded96c9f11fdf3661de2955d0f7e3209">PIN_CONFIGURATION_INFO</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef COMPLEX_CALLBACKVAL_BASE *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a></td></tr>
 
@@ -233,6 +221,13 @@
 <br>
  }</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#ga914893637116591bdabe20cd632649c">ATTACH_STATUS</a> { <br>
+&nbsp;&nbsp;<a class="el" href="group__PIN__CONTROL.html#gga914893637116591bdabe20cd632649ca92d63ff537c8fa03f658c5a763e1026">ATTACH_INITIATED</a>, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__PIN__CONTROL.html#gga914893637116591bdabe20cd632649cc16e23e87ba0c3ebf7bae318728f88cb">ATTACH_FAILED_DETACH</a>
+<br>
+ }</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><b>CONDINSTSTATE</b> { <br>
 &nbsp;&nbsp;<b>CONDINST_NORMAL</b>, 
 <br>
@@ -286,6 +281,8 @@ LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>AppAuxVal
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2e302e090c6ed65bfb7271cac706554d"></a><!-- doxytag: member="LEVEL_PINCLIENT::LoaderAddress" ref="2e302e090c6ed65bfb7271cac706554d" args="()" -->
 LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>LoaderAddress</b> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#c0b2817e4492556f8edb942249d8765c">VdsoAddress</a> ()</td></tr>
+
 <tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="73966974dcd5f6c24e342074630a11fc"></a><!-- doxytag: member="LEVEL_PINCLIENT::ValidateLoaderInfo" ref="73966974dcd5f6c24e342074630a11fc" args="(LOADERINFO loaderInfo)" -->
 template&lt;typename LOADERINFO&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">LOCALTEMPLATEFUN BOOL&nbsp;</td><td class="memTemplItemRight" valign="bottom"><b>ValidateLoaderInfo</b> (LOADERINFO loaderInfo)</td></tr>
@@ -310,9 +307,6 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>ProcessLoade
 template&lt;typename PTR&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">LOCALTEMPLATEFUN PTR&nbsp;</td><td class="memTemplItemRight" valign="bottom"><b>TranslateMemoryPointer</b> (PTR ptr)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fb5df59ce99b7ecd9df2cda8c5b7642d"></a><!-- doxytag: member="LEVEL_PINCLIENT::FindImageOffset" ref="fb5df59ce99b7ecd9df2cda8c5b7642d" args="(const string filename, ADDRINT loadAddr, void *arg)" -->
-LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>FindImageOffset</b> (const string filename, ADDRINT loadAddr, void *arg)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#4c038211455f2a905645c8488eae4063">ScanLibrariesUnlocked</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#2d2b2a981a9427e437e4bacdb257cc50">ScanLibrariesLocked</a> ()</td></tr>
@@ -330,11 +324,13 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>OnLoaderBrea
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="860adfafff691548ba02cb126ddc5340"></a><!-- doxytag: member="LEVEL_PINCLIENT::MainImageLoadOffset" ref="860adfafff691548ba02cb126ddc5340" args="(CHAR const *file)" -->
 LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>MainImageLoadOffset</b> (CHAR const *file)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#aea6031f08320afebbd1cbcaa28ddc9f">ScanLibraries</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#162c02d22e09d1f32a5e7b71aac44b0f">ImageInitialize</a> (BOOL forReplay)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#9e943322cba0d0ff2967eabbff059594">ImageUnInitialize</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#2e0ad7b8e1be9c2b7857827ae2b40c18">RTN_CheckFixups</a> (RTN rtn, UINT32 probe_size)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#82c1b7ba2796719ca349c220b725ce1d">RTN_CheckFixups</a> (RTN rtn, INS target_ins, UINT32 probe_size)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#a8ba7316f32f79cc20e0248ca006001a">ImageInstrument</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
@@ -343,6 +339,11 @@ LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>MainImage
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#8aa50f020f753dfc777e849da3b397a2">IMG_FreeDebugInfo</a> (IMG img)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#5eb472b944d448e714e3d09fd4a38c3b">NotifyDataRanges</a> (IMG img, <a class="el" href="namespaceLEVEL__PINCLIENT.html#0eefbda43523c1adaff6dd670372cdff">CODE_RANGES</a> *rangeMap)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#4bf11e7df21d5f8386b883360905307f">IMG_GetSubprogramsInfo</a> (IMG img, map&lt; ADDRINT, SymbolDebugInfo &gt; &amp;routines)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="df69f6122890622435827b585c55555b"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobDisablePLTSyms" ref="df69f6122890622435827b585c55555b" args="(KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;disable_plt_syms&quot;,&quot;0&quot;,&quot;Disable synthesizing symbols for PLT entries&quot;)" -->
+LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobDisablePLTSyms</b> (KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;disable_plt_syms&quot;,&quot;0&quot;,&quot;Disable synthesizing symbols for PLT entries&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="67b5a1dd532a80696c28ae6aba99e28e"></a><!-- doxytag: member="LEVEL_PINCLIENT::operator&lt;" ref="67b5a1dd532a80696c28ae6aba99e28e" args="(const SYM_BASIC_INFO &amp;lhs, const SYM_BASIC_INFO &amp;rhs)" -->
 LOCALNSFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>operator&lt;</b> (const SYM_BASIC_INFO &amp;lhs, const SYM_BASIC_INFO &amp;rhs)</td></tr>
@@ -363,6 +364,13 @@ template&lt;typename SYMBOL_TYPE&gt; </td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2ce7d5c66ca779a8f824dc5ef64a8d17"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookSymIfuncSec" ref="2ce7d5c66ca779a8f824dc5ef64a8d17" args="(IMG img, SYM ifunc_resolver, const SYMREC *symrec, SYM_RESOLVER_VS_ACTUAL_ADDRESS_IFUNC_MAP *sym_resolver_vs_actual_address_ifunc_map)" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>CookSymIfuncSec</b> (IMG img, SYM ifunc_resolver, const SYMREC *symrec, <a class="el" href="namespaceLEVEL__PINCLIENT.html#064f1cffbe0833f653a0220e012e31c1">SYM_RESOLVER_VS_ACTUAL_ADDRESS_IFUNC_MAP</a> *sym_resolver_vs_actual_address_ifunc_map)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c0215d74d2f08dd6dc40b8882a2cb864"></a><!-- doxytag: member="LEVEL_PINCLIENT::GetPltSec" ref="c0215d74d2f08dd6dc40b8882a2cb864" args="(IMG img, SEC *plt_sec, SEC *relocation_Sec)" -->
+LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetPltSec</b> (IMG img, SEC *plt_sec, SEC *relocation_Sec)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="63634bb010aa665943d58c6e250fb98f"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookSymPltSec" ref="63634bb010aa665943d58c6e250fb98f" args="(IMG img, const SYMBOL_TYPE *array, const CHAR *string_table)" -->
+template&lt;typename SYMBOL_TYPE&gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">LOCALTEMPLATEFUN VOID&nbsp;</td><td class="memTemplItemRight" valign="bottom"><b>CookSymPltSec</b> (IMG img, const SYMBOL_TYPE *array, const CHAR *string_table)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="5c31a89f0cd125b378b0dcb7337dcf41"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookSymSec" ref="5c31a89f0cd125b378b0dcb7337dcf41" args="(set&lt; SYM_BASIC_INFO &gt; &amp;symbolSet, SEC sec_symtab, SEC sec_strtab, BOOL dynamic, SYM_RESOLVER_VS_ACTUAL_ADDRESS_IFUNC_MAP *sym_resolver_vs_actual_address_ifunc_map)" -->
 template&lt;typename SYMBOL_TYPE&gt; </td></tr>
@@ -406,120 +414,6 @@ LOCALFUN string&nbsp;</td><td class="memItemRight" valign="bottom"><b>cplus_dema
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#783309f729f772c5b75875881515fc68">AotiInstrumentationExists</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#e364d214bd4f5d2698f6608fa5f19568">AotiRemoveImageInstrumentation</a> (IMG img)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g928ea574ccdb4938e194e3e59e5e4e18">CODECACHE_AddCacheInitFunction</a> (<a class="el" href="group__CODECACHE__API.html#g0650fbca62cb2b9cbab67e03a167476f">CODECACHE_NOARG_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g7dc0a6914461a25a859e17b6091a78ff">CODECACHE_AddCacheBlockFunction</a> (<a class="el" href="group__CODECACHE__API.html#g82af67ae80f0e32df5a9e3ea770cf59c">CODECACHE_CACHEBLOCK_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g0de20d84496651fec529ceea45308b36">CODECACHE_AddFullCacheFunction</a> (<a class="el" href="group__CODECACHE__API.html#gf4feed5d90f646051a5d91b8debf4b9a">CODECACHE_FULL_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#b115c9a18cef7092f2d83c80e6ca1a5f">CODECACHE_AddFullBlockFunction</a> (<a class="el" href="group__CODECACHE__API.html#gf4feed5d90f646051a5d91b8debf4b9a">CODECACHE_FULL_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g4ddcb3104eacce51d0224acf7eaf4d82">CODECACHE_AddCacheFlushedFunction</a> (<a class="el" href="group__CODECACHE__API.html#g0650fbca62cb2b9cbab67e03a167476f">CODECACHE_NOARG_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g60ebb929e128ab5cda520f9ce9ac8177">CODECACHE_AddCodeCacheEnteredFunction</a> (<a class="el" href="group__CODECACHE__API.html#ge018fe6a6eb8565b1db1ab6ffa10f9f7">CODECACHE_ENTEREXIT_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g4e9b85fef7632417b9520eb8ee3e747c">CODECACHE_AddCodeCacheExitedFunction</a> (<a class="el" href="group__CODECACHE__API.html#ge018fe6a6eb8565b1db1ab6ffa10f9f7">CODECACHE_ENTEREXIT_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gdbbd691bc637e089f43606047663fe32">CODECACHE_AddTraceLinkedFunction</a> (<a class="el" href="group__CODECACHE__API.html#gce17d419e491ef60197773de4e1960ba">CODECACHE_LINKED_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g5a5767e61862d57e76711b3848b442d1">CODECACHE_AddTraceUnlinkedFunction</a> (<a class="el" href="group__CODECACHE__API.html#g02318d763590176a9a61b9b49f2fe93c">CODECACHE_UNLINKED_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g0f492ca9ac4bee7d6b455203ac5162ec">CODECACHE_AddTraceInvalidatedFunction</a> (<a class="el" href="group__CODECACHE__API.html#g57a902525ea351b9a31440aea9570a13">CODECACHE_TRACEINVALIDATED_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g5560890aca1e8607ddad1707026bc527">CODECACHE_InvalidateTraceAtProgramAddress</a> (ADDRINT app_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#4e15e2ab7462fc49c315279f7a04ced3">CODECACHE_InvalidateTraceAtCacheAddress</a> (ADDRINT cache_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gefd9d0fe567d1d9f79c74d71552d310f">CODECACHE_CodeMemReserved</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g2449877197423a8f000f5c8d91d32910">CODECACHE_DirectoryMemUsed</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g1925463f6422bc560463400ac23c3bdc">CODECACHE_CodeMemUsed</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g1ce5ce32ae7aaef91aa5f9ab893e0298">CODECACHE_ExitStubBytes</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g980754d2a9e859467f839d77b95b5510">CODECACHE_LinkBytes</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g6d78b2244b1972ae1cf4fad8c3a7fa66">CODECACHE_CacheSizeLimit</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g9cbf214155f1a42c704ac0909a6d7989">CODECACHE_BlockSize</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g8168c74ab03baf600588869bab38d12e">CODECACHE_NumTracesInCache</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g5299e58b3b7737bc4ec34a0871d7c5d1">CODECACHE_NumExitStubsInCache</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gc13290c14cd71b4add6d8b1e175f75fa">CODECACHE_CreateNewCacheBlock</a> (USIZE block_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gfd9f8d21e8d9ca4ba748e40204e21083">CODECACHE_ChangeCacheLimit</a> (USIZE cache_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g483f87cde62ba854c125e90389f930b5">CODECACHE_ChangeBlockSize</a> (USIZE block_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g68943e1ad4c5938e02fd926f6e042b7b">CODECACHE_ChangeMaxInsPerTrace</a> (UINT32 max_ins)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gd1ec79d8de4aa25dca2abb885407a558">CODECACHE_ChangeMaxBblsPerTrace</a> (UINT32 max_basic_blocks)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#e25f772eb23640ed41aa6d8032ccf7c0">CODECACHE_NumTracesInBlock</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#f5a8107215aae47136ebb16b74441ca8">CODECACHE_NumHits</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#7f2c708ab4eece407bf8049ff64f9382">CODECACHE_NumMisses</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gafb0363b47365792d19edeaf0479eb5f">CODECACHE_FlushCache</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gef086e43aaa039bd0c0e936b32e19869">CODECACHE_InvalidateRange</a> (ADDRINT start, ADDRINT end)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g0bc79e1b84af23dcaee4709502944822">INS_CodeCacheAddress</a> (INS ins)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g3cf669dcabe251ebc5071b7c4ef67c4c">BBL_CodeCacheAddress</a> (BBL bbl)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gc1fb515ac93650e6ae50ed366dd8fcb7">TRACE_CodeCacheAddress</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#gf2b7f0e90b276d177695f844b2e4943f">INS_CodeCacheSize</a> (INS ins)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g749be87c563fdd21f2a6e75b5e5b64e0">BBL_CodeCacheSize</a> (BBL bbl)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g453920c22d5c1b4f87b03bc8df75b6c3">TRACE_CodeCacheSize</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#g83946eff31ccb3275439be0975382a22">CODECACHE_OriginalAddress</a> (ADDRINT cache_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#e561a040d0010efa4dbf5c4076e9f95b">CODECACHE_FlushBlock</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#ga36853e09296bf40b9056c8bd8168438">PIN_MemoryAllocatedForPin</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="099ece3f9c83d716427c2ce8e6ad02b0"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoPostCacheInit" ref="099ece3f9c83d716427c2ce8e6ad02b0" args="()" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoPostCacheInit</b> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f5f1d829728676421ca574cf4178ab48"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoCacheBlockCreated" ref="f5f1d829728676421ca574cf4178ab48" args="(USIZE block_size)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoCacheBlockCreated</b> (USIZE block_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1d649cec5ecc0b4ea80d6905f3a128b0"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoCacheBlockIsFull" ref="1d649cec5ecc0b4ea80d6905f3a128b0" args="(USIZE trace_size, USIZE stub_size)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoCacheBlockIsFull</b> (USIZE trace_size, USIZE stub_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="23ca4cabc89b3b4d27f62939c72d030d"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoCacheIsFull" ref="23ca4cabc89b3b4d27f62939c72d030d" args="(USIZE trace_size, USIZE stub_size)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoCacheIsFull</b> (USIZE trace_size, USIZE stub_size)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="abfa17d85beec229fcef216128ff2bee"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoPostCacheFlush" ref="abfa17d85beec229fcef216128ff2bee" args="()" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoPostCacheFlush</b> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="faaf63fd747c6317d36df8e29110475c"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoCodeCacheEntered" ref="faaf63fd747c6317d36df8e29110475c" args="(ADDRINT cache_pc)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoCodeCacheEntered</b> (ADDRINT cache_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d0f59783c1cc61539b54ef6f5b10809c"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoCodeCacheExited" ref="d0f59783c1cc61539b54ef6f5b10809c" args="(ADDRINT cache_pc)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoCodeCacheExited</b> (ADDRINT cache_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="690e8b98285c899783218e4d7a196c2b"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoTraceLinked" ref="690e8b98285c899783218e4d7a196c2b" args="(ADDRINT branch_pc, ADDRINT target_pc)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoTraceLinked</b> (ADDRINT branch_pc, ADDRINT target_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="45d11533ce0655bd6c61f231eb2a7d51"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoTraceUnlinked" ref="45d11533ce0655bd6c61f231eb2a7d51" args="(ADDRINT branch_pc, ADDRINT stub_pc)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoTraceUnlinked</b> (ADDRINT branch_pc, ADDRINT stub_pc)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0f46a89a541f4f216b5867674ac8701f"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoTraceInvalidated" ref="0f46a89a541f4f216b5867674ac8701f" args="(ADDRINT orig_pc, ADDRINT cache_pc, BOOL success)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoTraceInvalidated</b> (ADDRINT orig_pc, ADDRINT cache_pc, BOOL success)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#9980c5b2f7fbb3200b0e1c01897786d7">InitializeCacheClient</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#bfd6c9c3b418cd0af8daacece35396a3">CheckNoCodeCacheCallbacks</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g4f667d78b5533ec07b15ef4df0d7a78e">PIN_AddFollowChildProcessFunction</a> (<a class="el" href="group__CHILD__PROCESS__API.html#gcb01db8476fb5a6b4d86f09a336fe15f">FOLLOW_CHILD_PROCESS_CALLBACK</a> fun, VOID *val)</td></tr>
 
@@ -608,6 +502,14 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>CallSignalIn
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g7a996be7fec85f2a67e171ef767172c7">RTN_ReplaceWithUninstrumentedRoutine</a> (RTN replacedRtn, AFUNPTR replacementFun)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#gc85ec1aa943c014de513f41963640cd9">CODECACHE_FlushCache</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g46ad3447eb641e38011d06180a4557ae">CODECACHE_InvalidateTraceAtProgramAddress</a> (ADDRINT app_pc)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g3b37b055020debc48476cf92d9c1b8f3">CODECACHE_InvalidateRange</a> (ADDRINT start, ADDRINT end)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#gb4765f06b2fba80cf7c0df5ba64a0364">TRACE_Original</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2b138d5d15ed3fbc38f3e24a8d8765f6"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobSymFamily" ref="2b138d5d15ed3fbc38f3e24a8d8765f6" args="(&quot;pintool:sym&quot;,&quot;Symbols controls&quot;)" -->
 LOCALVAR KNOB_COMMENT&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobSymFamily</b> (&quot;pintool:sym&quot;,&quot;Symbols controls&quot;)</td></tr>
 
@@ -616,6 +518,12 @@ LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5c3d49682faee9cd7b7b99cc84a15d1d"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobShortName" ref="5c3d49682faee9cd7b7b99cc84a15d1d" args="(KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;short_name&quot;,&quot;0&quot;,&quot;Use the shortest name for the RTN. &quot;&quot;Names with version substrings are preferred over the same name without the substring.&quot;)" -->
 LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobShortName</b> (KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;short_name&quot;,&quot;0&quot;,&quot;Use the shortest name for the RTN. &quot;&quot;Names with version substrings are preferred over the same name without the substring.&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="976a0da3dae34f78aa21a832258ba298"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobIgnoreDebugInfo" ref="976a0da3dae34f78aa21a832258ba298" args="(KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;ignore_debug_info&quot;,&quot;0&quot;,&quot;Ignore debug info for the image. Symbols are taken from the symbol tables.&quot;)" -->
+LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobIgnoreDebugInfo</b> (KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;ignore_debug_info&quot;,&quot;0&quot;,&quot;Ignore debug info for the image. Symbols are taken from the symbol tables.&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6730073eeb14132980d2cb7464352465"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobReduceRtnSizeMode" ref="6730073eeb14132980d2cb7464352465" args="(KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;reduce_rtn_size_mode&quot;,&quot;auto&quot;,&quot;Mode for RTN size reduction: delete trailing instructions after RET if there is no &quot;&quot;jump to the rtn part after the RET. &quot;&quot;Possible modes are: auto/never/always&quot;)" -->
+LOCALVAR KNOB&lt; string &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobReduceRtnSizeMode</b> (KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;reduce_rtn_size_mode&quot;,&quot;auto&quot;,&quot;Mode for RTN size reduction: delete trailing instructions after RET if there is no &quot;&quot;jump to the rtn part after the RET. &quot;&quot;Possible modes are: auto/never/always&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#598a612bc7e5ea1f418dd2ab671ca97c">KnobJitApi</a> (KNOB_MODE_WRITEONCE,&quot;pintool:sym&quot;,&quot;support_jit_api&quot;,&quot;0&quot;,&quot;Enables the Jitted Functions Support&quot;)</td></tr>
 
@@ -659,6 +567,8 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>IMG_is_shado
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#g5504f9b495f40a5ed84d09523ac5dd15">IMG_IsInterpreter</a> (IMG x)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#g9049891c13cbc87c8427cf7ccc2f501a">IMG_IsStaticExecutable</a> (IMG x)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#gbc25391738a84c3f6c887e3a1b118633">IMG_IsVDSO</a> (IMG img)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#geac301624abebcbc103447306bf0037b">IMG_NumRegions</a> (IMG img)</td></tr>
 
@@ -880,6 +790,9 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DsUpdatesDue
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f2c4fdca9beecabf6adc46ac8bd96831"></a><!-- doxytag: member="LEVEL_PINCLIENT::handleIfuncSymbol" ref="f2c4fdca9beecabf6adc46ac8bd96831" args="(ADDRINT actualFuncAddr, SYM resolver, IMG img)" -->
 LOCALFUN RTN&nbsp;</td><td class="memItemRight" valign="bottom"><b>handleIfuncSymbol</b> (ADDRINT actualFuncAddr, SYM resolver, IMG img)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5e97c9faf56ca2009f5b32c9d664868a"></a><!-- doxytag: member="LEVEL_PINCLIENT::FixSymbolsFromDebugInfo" ref="5e97c9faf56ca2009f5b32c9d664868a" args="(IMG img)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>FixSymbolsFromDebugInfo</b> (IMG img)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="dd47b89249742e41a22a4f73392eb841"></a><!-- doxytag: member="LEVEL_PINCLIENT::ImgLoad" ref="dd47b89249742e41a22a4f73392eb841" args="(const string &amp;filename, const CHAR *trueFilename, ADDRINT load_offset, UINT32 flags, BOOL *unmapAfterProcessing, void *arg)" -->
 LOCALFUN IMG&nbsp;</td><td class="memItemRight" valign="bottom"><b>ImgLoad</b> (const string &amp;filename, const CHAR *trueFilename, ADDRINT load_offset, UINT32 flags, BOOL *unmapAfterProcessing, void *arg)</td></tr>
 
@@ -892,9 +805,6 @@ LOCALFUN IMG&nbsp;</td><td class="memItemRight" valign="bottom"><b>ImgLoad</b> (
 <tr><td class="memItemLeft" nowrap align="right" valign="top">IMG&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#gbe4609c85b9795a1d57e9d6bfc3f5f23">IMG_Open</a> (const string &amp;filename)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#gb260d0d2298aefe76f041595fe918fd0">IMG_Close</a> (IMG img)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7f226845fe155af6ebf19212186bab33"></a><!-- doxytag: member="LEVEL_PINCLIENT::NewThread" ref="7f226845fe155af6ebf19212186bab33" args="()" -->
-LOCALFUN THREAD_CONTEXT&nbsp;</td><td class="memItemRight" valign="bottom"><b>NewThread</b> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0b893dbfeb06e574334240f82230a130"></a><!-- doxytag: member="LEVEL_PINCLIENT::ImageLoadProbes" ref="0b893dbfeb06e574334240f82230a130" args="(IMG img)" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>ImageLoadProbes</b> (IMG img)</td></tr>
@@ -1019,10 +929,6 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_InsertPr
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#0b19d6710b2f62db97b79d8624103f52">INS_SetNativeCall</a> (INS ins)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#68b8a7d4fcf85183f5a4d66246d45063">CatchEndInstrumentation</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#d4a791e2d1da0a57f243770d37b336f9">BeginInstrumentedExecution</a> (RTN rtn)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g4eaf8017949dc10cb62476e6d0bceda5">PIN_IsProbeMode</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#gf9553939b8b4f4aa966dedd6ce64f661">PIN_IsAttaching</a> ()</td></tr>
@@ -1032,22 +938,21 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>CheckInsSequ
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#f65d5d63926fc7cf54a842e11f6b037b">BBL_InvalidForProbe</a> (BBL bbl)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#d2a0bb30b870acbeb102f30ff69569a3">RTN_CheckRtnSizeForProbe</a> (RTN rtn, BOOL checkForPadding, BOOL *didcheckForPadding, UINT32 probe_size)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#0837321082fea832d59f5add7c6a6970">RTN_CheckRtnSizeForProbe</a> (RTN rtn, INS target_ins, BOOL checkForPadding, UINT32 probe_size)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#45309e6bd43fc38b5cb3b12115178a25">RTN_ProbeMayOverwriteBranchTarget</a> (RTN rtn, UINT32 probe_size, BOOL *mayOverwriteUnidentifiedBranchTarget)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#eca19bb2b12b0eb5e55f7dcb7eacf24b">ProbeMayOverwriteBranchTarget</a> (INS target_ins, UINT32 probe_size, BOOL *mayOverwriteUnidentifiedBranchTarget)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#7e79b848b975ff17bd601f06494d6888">RTN_CheckForPreviousProbe</a> (RTN rtn)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a3d3f1ee27f714efd6ee27f2c947b884"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckProbeSafety" ref="a3d3f1ee27f714efd6ee27f2c947b884" args="(RTN rtn, BOOL checkForPadding, BOOL *didcheckForPadding, UINT32 probe_size)" -->
-LOCALFUN PROBE_TAG&nbsp;</td><td class="memItemRight" valign="bottom"><b>CheckProbeSafety</b> (RTN rtn, BOOL checkForPadding, BOOL *didcheckForPadding, UINT32 probe_size)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN PROBE_TAG&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#2b61a7fd92e6942bc20014e6ce62b917">CheckProbeSafetyStatically</a> (INS ins, RTN rtn, BOOL checkForPadding, UINT32 probe_size)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="40c00bdf35c865e0e9c3a78a62655604"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_IsRelocatable" ref="40c00bdf35c865e0e9c3a78a62655604" args="(RTN rtn)" -->
 LOCALFUN PROBE_TAG&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_IsRelocatable</b> (RTN rtn)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#a698f1be08bcc9a9625e4cbcd945254e">DeleteRtnCheckHistory</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN PROBE_TAG&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#74686129597cb0e374d1f5b56af4795d">CheckForProbeOverlap</a> (INS ins, USIZE probe_size, BOOL allowPOP)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a5536a5a13ac7203f9ca4ea3527a5926"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckForSafeProbe" ref="a5536a5a13ac7203f9ca4ea3527a5926" args="(RTN rtn, BOOL allowPOP, PROBE_TAG *tagptr, USIZE *probe_size, PROBE_MODE mode, BOOL checkForPadding)" -->
-LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_CheckForSafeProbe</b> (RTN rtn, BOOL allowPOP, PROBE_TAG *tagptr, USIZE *probe_size, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode, BOOL checkForPadding)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN PROBE_TAG&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#b81c9d19d6a2cb0313f18e4701ad3407">CheckForSafeProbe</a> (INS ins, BOOL allowPOP, USIZE *probe_size, USIZE suggested_probe_size, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode, BOOL checkForPadding)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1508cacaac4d0ba9b928b3e6631a3e46"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckForSafeProbe" ref="1508cacaac4d0ba9b928b3e6631a3e46" args="(RTN rtn, BOOL allowPOP, PROBE_TAG *tagptr, USIZE *probe_size, USIZE suggested_probe_size, PROBE_MODE mode, BOOL checkForPadding)" -->
+LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_CheckForSafeProbe</b> (RTN rtn, BOOL allowPOP, PROBE_TAG *tagptr, USIZE *probe_size, USIZE suggested_probe_size, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode, BOOL checkForPadding)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__RTN__BASIC__API.html#g59b4507c13286cfad2195de5659a1783">RTN_IsSafeForProbedInsertion</a> (RTN rtn)</td></tr>
 
@@ -1057,8 +962,14 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_CheckFor
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__RTN__BASIC__API.html#gc7988500a690993150dd71349fa6fefc">RTN_IsSafeForProbedReplacementEx</a> (RTN rtn, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fcf07fde0817c20d17c6ef8a75168c43"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookArguments" ref="fcf07fde0817c20d17c6ef8a75168c43" args="(va_list argList, ADDRINT instAddress)" -->
-LOCALFUN <a class="el" href="group__INST__ARGS.html#g71f6833136d66657723c6630ed144fb8">IARGLIST</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>CookArguments</b> (va_list argList, ADDRINT instAddress)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="19ad12f548cd67018a86b23ed43e9757"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookArguments" ref="19ad12f548cd67018a86b23ed43e9757" args="(va_list argList, ADDRINT instAddress, BOOL addReturnReg)" -->
+LOCALFUN <a class="el" href="group__INST__ARGS.html#g71f6833136d66657723c6630ed144fb8">IARGLIST</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>CookArguments</b> (va_list argList, ADDRINT instAddress, BOOL addReturnReg)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1003f45d348f43d4b72515a8be0f8fc1"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookArgumentsRTN" ref="1003f45d348f43d4b72515a8be0f8fc1" args="(va_list argList, RTN rtn)" -->
+LOCALFUN <a class="el" href="group__INST__ARGS.html#g71f6833136d66657723c6630ed144fb8">IARGLIST</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>CookArgumentsRTN</b> (va_list argList, RTN rtn)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6ae9638c8cda4a1027339f40b94c2748"></a><!-- doxytag: member="LEVEL_PINCLIENT::CookArgumentsINS" ref="6ae9638c8cda4a1027339f40b94c2748" args="(va_list argList, INS ins)" -->
+LOCALFUN <a class="el" href="group__INST__ARGS.html#g71f6833136d66657723c6630ed144fb8">IARGLIST</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>CookArgumentsINS</b> (va_list argList, INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ae82620774a26e65ccefd03b83b11937"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_ReplaceSignatureProbedImpl" ref="ae82620774a26e65ccefd03b83b11937" args="(RTN orgRtn, AFUNPTR replacement, PROBE_MODE mode, va_list argList)" -->
 LOCALFUN AFUNPTR&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_ReplaceSignatureProbedImpl</b> (RTN orgRtn, AFUNPTR replacement, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode, va_list argList)</td></tr>
@@ -1069,10 +980,11 @@ LOCALFUN AFUNPTR&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_Repla
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#498cd509d5928c5ee1a5a09b461f4129">INS_ReplaceSignatureProbed</a> (INS orgIns, AFUNPTR replacementFunptr,...)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#22021dbc5ee8da05238cf097ee69c90e">TRACE_Oaddr</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">AFUNPTR&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#081ab58c8dcd42ab607207e8d17f8d4b">RTN_InsertProbe</a> (RTN rtn, AFUNPTR replacement, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8aec7fe98a178af00aaaa2be75a346bf"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_InsertCallProbedImpl" ref="8aec7fe98a178af00aaaa2be75a346bf" args="(RTN rtn, IPOINT action, AFUNPTR funptr, PROBE_MODE mode, va_list argList)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_InsertCallProbedImpl</b> (RTN rtn, <a class="el" href="group__INST__ARGS.html#ga46cc1807fc61addd9afe69ee6736a21">IPOINT</a> action, AFUNPTR funptr, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode, va_list argList)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#8aec7fe98a178af00aaaa2be75a346bf">RTN_InsertCallProbedImpl</a> (RTN rtn, <a class="el" href="group__INST__ARGS.html#ga46cc1807fc61addd9afe69ee6736a21">IPOINT</a> action, AFUNPTR funptr, <a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a> mode, va_list argList)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__RTN__BASIC__API.html#g14e777b8f3dca1049dd035df0f900a5f">RTN_InsertCallProbed</a> (RTN orgRtn, <a class="el" href="group__INST__ARGS.html#ga46cc1807fc61addd9afe69ee6736a21">IPOINT</a> action, AFUNPTR funptr,...)</td></tr>
 
@@ -1109,7 +1021,7 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_RemoveTo
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4886f2a8503517a39a1578dbea23baab"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobProfile" ref="4886f2a8503517a39a1578dbea23baab" args="(KNOB_MODE_WRITEONCE,&quot;supported:stat&quot;,&quot;profile&quot;,&quot;0&quot;,&quot;print amount of memory dynamically allocated but not yet freed by the tool&quot;)" -->
 LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobProfile</b> (KNOB_MODE_WRITEONCE,&quot;supported:stat&quot;,&quot;profile&quot;,&quot;0&quot;,&quot;print amount of memory dynamically allocated but not yet freed by the tool&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#803aaca717b5d93e5dac74037fb170c0">IsThreadInFiniCallback</a> (<a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a> sysId)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#803aaca717b5d93e5dac74037fb170c0">IsThreadInFiniCallback</a> (<a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a> sysId)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#5f09b10ca6967c4708f4e8c4485387e0">Shutdown</a> (INT32 exitCode)</td></tr>
 
@@ -1122,9 +1034,9 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>CheckNoJITCa
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1e9098e4a2efb319f15657c60e36094c"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckNoProbeCallbacks" ref="1e9098e4a2efb319f15657c60e36094c" args="()" -->
 LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>CheckNoProbeCallbacks</b> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALINLINE <a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#685681f02994155a16dd1f8b4cd3a808">GetCurrentSysId</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALINLINE <a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#685681f02994155a16dd1f8b4cd3a808">GetCurrentSysId</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#3acf9b2974d069552c48a9a2934906cb">GetCurrentSysIdById</a> (<a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a> tid)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#3acf9b2974d069552c48a9a2934906cb">GetCurrentSysIdById</a> (<a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a> tid)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3f256375fbae1af663b7fcca2ceaab70"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobCheckLocks" ref="3f256375fbae1af663b7fcca2ceaab70" args="(KNOB_MODE_WRITEONCE,&quot;supported:message&quot;,&quot;checklocks&quot;,&quot;1&quot;,&quot;Check locks are used correctly&quot;)" -->
 LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobCheckLocks</b> (KNOB_MODE_WRITEONCE,&quot;supported:message&quot;,&quot;checklocks&quot;,&quot;1&quot;,&quot;Check locks are used correctly&quot;)</td></tr>
@@ -1140,15 +1052,13 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>InitClientLo
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#380eabb845a436f5359fcba351816d48">PIN_TryClientLock</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#1ff6b5f93566358d0fb11e216823b926">PIN_CallerOwnsClientMutex</a> (<a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a> osid)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#1ff6b5f93566358d0fb11e216823b926">PIN_CallerOwnsClientMutex</a> (<a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a> osid)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#8d2adc71371f488c3d759420632f6db6">PIN_CallerOwnsClientMutex</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#e452842da6146745fbc83214f0783c53">EnterPinClientMasterMode</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#3987af32238008426ac922ae09682692">ExitPinClientMasterMode</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALDLLFUN PINCLIENTINT *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#dd8e5edcd2496eeca4d27e2ba85009bf">ClientInt</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALDLLCFUN PINCLIENTINT *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#e2c225e7228027d1257a3704c15ec985">ClientIntC</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="236f05229aae7116f66c02d434d85470"></a><!-- doxytag: member="LEVEL_PINCLIENT::TraceWithFunctionReplacement" ref="236f05229aae7116f66c02d434d85470" args="(TRACE trace)" -->
 LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>TraceWithFunctionReplacement</b> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
@@ -1166,9 +1076,6 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>ReSetInTrace
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#7e85b1d8759aa15306d7a6c865ba2a40">CallTraceCallbacks</a> (REGION *region)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">INS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#7fbc97767465a78117608323b5a07e52">TraceFirstIns</a> (ADDRINT currTraceAddr)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="45344999ebbf7e8057ad929ca99ba724"></a><!-- doxytag: member="LEVEL_PINCLIENT::DoTraceInserted" ref="45344999ebbf7e8057ad929ca99ba724" args="(REGION *region)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoTraceInserted</b> (REGION *region)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#56fc6a403835656fae9147a1cda535d3">CallFinis</a> (INT32 code)</td></tr>
 
@@ -1256,16 +1163,11 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DoInstrument
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g2d32e98b83c1d8e31a836fd49c50711a">PIN_FindAlternateAppStack</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0135d1d6c7c428e9012569dfd9151877"></a><!-- doxytag: member="LEVEL_PINCLIENT::InitializeCallBacks" ref="0135d1d6c7c428e9012569dfd9151877" args="()" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>InitializeCallBacks</b> ()</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CALLBACKS.html#g2bcaa089e557326db9b1a9274bd3451c">CALLBACK_SetExecutionPriority</a> (<a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a> callback, INT32 priority)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">INT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CALLBACKS.html#g658864225c8670585c13bc2641a334f8">CALLBACK_GetExecutionPriority</a> (<a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a> callback)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g0261da0abe384db4e2f97cd31cf986f7">TRACE_AddInstrumentFunction</a> (<a class="el" href="group__TRACE__BASIC__API.html#g927e6010210856a2b60b757460e53f15">TRACE_INSTRUMENT_CALLBACK</a> fun, VOID *val)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CODECACHE__API.html#ge514aeab57d383efa6a1586bf41fc13c">CODECACHE_AddTraceInsertedFunction</a> (<a class="el" href="group__TRACE__BASIC__API.html#g927e6010210856a2b60b757460e53f15">TRACE_INSTRUMENT_CALLBACK</a> fun, VOID *val)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__INST__API.html#gad5fd5cdd6c1cd37e57a1264e93b0435">INS_AddInstrumentFunction</a> (<a class="el" href="group__INS__INST__API.html#gd83539eedf8c29f0603bcb61e8d1df33">INS_INSTRUMENT_CALLBACK</a> fun, VOID *val)</td></tr>
 
@@ -1321,15 +1223,17 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>InitializeCa
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#gaee2fe5932a3cc759d9968820be6e15d">PIN_RemoveInstrumentation</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g175e01c994e6ed6c8d340f59b0bba267">PIN_RemoveInstrumentationInRange</a> (ADDRINT start, ADDRINT end)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g80c35ab4c9835fa66947ecd50f09fd59">PIN_RemoveFiniFunctions</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g0f3537980bb5ab3b0411a83426a32370">PIN_Detach</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g8919fb04f3e22f200bdd3d1577782401">PIN_Attach</a> (<a class="el" href="group__PIN__CONTROL.html#g67eaa9f1c68aa7b1f9b089701f79539a">ATTACH_CALLBACK</a> fun, VOID *val)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CONTROL.html#ga914893637116591bdabe20cd632649c">ATTACH_STATUS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#gb193cf4b17e0dacb026d8d7c38f069d6">PIN_Attach</a> (<a class="el" href="group__PIN__CONTROL.html#g67eaa9f1c68aa7b1f9b089701f79539a">ATTACH_CALLBACK</a> fun, VOID *val)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g12d2f1c80491b151ce004ba459c5695e">PIN_DetachProbed</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#gcfca774907868814fc1b1fbe3f16e265">PIN_AttachProbed</a> (<a class="el" href="group__PIN__CONTROL.html#g7d76d5f60f83d8564bb7d75198055059">ATTACH_PROBED_CALLBACK</a> fun, VOID *val)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CONTROL.html#ga914893637116591bdabe20cd632649c">ATTACH_STATUS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#ga7e8c55440e6361f3496739e7910311a">PIN_AttachProbed</a> (<a class="el" href="group__PIN__CONTROL.html#g7d76d5f60f83d8564bb7d75198055059">ATTACH_PROBED_CALLBACK</a> fun, VOID *val)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="090ec9903dc8d279786f2869a5277ce3"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckAndUpdateCondInstState" ref="090ec9903dc8d279786f2869a5277ce3" args="(char const *typeName, CONDINSTSTATE &amp;lastState, CONDINSTSTATE currState)" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>CheckAndUpdateCondInstState</b> (char const *typeName, CONDINSTSTATE &amp;lastState, CONDINSTSTATE currState)</td></tr>
@@ -1353,12 +1257,16 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>CheckAndUpda
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="68a4f1e73c17fcb23778c6dcf8404384"></a><!-- doxytag: member="LEVEL_PINCLIENT::StartProgram" ref="68a4f1e73c17fcb23778c6dcf8404384" args="()" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>StartProgram</b> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__CONTROL.html#gded96c9f11fdf3661de2955d0f7e3209">PIN_CONFIGURATION_INFO</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g53f4bc36c7bf66e9b0e47d96711edeca">PIN_CreateDefaultConfigurationInfo</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g05dc22acc5bfcea58d7599b3c1777d71">PIN_SetAllowedConcurrentCallbacks</a> (<a class="el" href="group__PIN__CONTROL.html#gded96c9f11fdf3661de2955d0f7e3209">PIN_CONFIGURATION_INFO</a> options, <a class="el" href="group__PIN__CONTROL.html#ged9e5afa6aff8e63c4e09b3c88bd3b7c">PIN_CALLBACK_TYPE</a> callbackType)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram</a> (<a class="el" href="group__PIN__CONTROL.html#gded96c9f11fdf3661de2955d0f7e3209">PIN_CONFIGURATION_INFO</a> options=PIN_CreateDefaultConfigurationInfo())</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g7de96e728655962e8ecb4cfe49bd6c2c">PIN_StartProgramProbed</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a9343dd049e8f62aee5e5a0413a1e7f4"></a><!-- doxytag: member="LEVEL_PINCLIENT::DumpCharmVersion" ref="a9343dd049e8f62aee5e5a0413a1e7f4" args="()" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DumpCharmVersion</b> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="db05eb3206d1c9510207512ac18d38b3"></a><!-- doxytag: member="LEVEL_PINCLIENT::DumpPinVersion" ref="db05eb3206d1c9510207512ac18d38b3" args="()" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>DumpPinVersion</b> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f931b4a6091bde108d175e3e7498f6cd"></a><!-- doxytag: member="LEVEL_PINCLIENT::KnobPintoolFamily" ref="f931b4a6091bde108d175e3e7498f6cd" args="(&quot;pintool&quot;,&quot;Pin tools switches&quot;)" -->
 LOCALVAR KNOB_COMMENT&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobPintoolFamily</b> (&quot;pintool&quot;,&quot;Pin tools switches&quot;)</td></tr>
@@ -1416,6 +1324,13 @@ LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="52f23913782b408f0c174acfd48c1693"></a><!-- doxytag: member="LEVEL_PINCLIENT::PIN_ParseCommandLine" ref="52f23913782b408f0c174acfd48c1693" args="(int xargc, CHAR **xargv, BOOL standAlone)" -->
 LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_ParseCommandLine</b> (int xargc, CHAR **xargv, BOOL standAlone)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0135d1d6c7c428e9012569dfd9151877"></a><!-- doxytag: member="LEVEL_PINCLIENT::InitializeCallBacks" ref="0135d1d6c7c428e9012569dfd9151877" args="()" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>InitializeCallBacks</b> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">SECTION_END GLOBALDLLFUN PINCLIENTINT *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#8bf32b15d86f42225e2f5c42b376d6b9">ClientInt</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALDLLCFUN PINCLIENTINT *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#e2c225e7228027d1257a3704c15ec985">ClientIntC</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__CONTROL.html#g078bed712e6822f3b42a7b4815ba5c0a">PIN_Init</a> (INT32 argc, CHAR **argv)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#708cf91fa398ebda7d6e0327691cd573">PIN_SetReplayMode</a> (UINT32 flags)</td></tr>
@@ -1440,8 +1355,6 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_ParseCom
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BBL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g840294a6e7ab1e4400783817516485a6">TRACE_BblTail</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g72eec4cf390f5ef28ba66538ccd4505d">TRACE_Original</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g16d75a72655e20adb7529796f9b4ac1b">TRACE_Address</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g3b6c8e9549dc99d2a7b2768906e97101">TRACE_Size</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
@@ -1453,8 +1366,6 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_ParseCom
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g8da44516942db541f0ae0aa1d4d92881">TRACE_NumBbl</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g011b24d5319f8c19f0151755a1378fe5">TRACE_NumIns</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#gb102072213b6734135b7c63296ac5ee2">TRACE_StubSize</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__BBL__BASIC__API.html#g5fba2db08badc1f77616c8f41ce31884">BBL_InsertCall</a> (BBL bbl, <a class="el" href="group__INST__ARGS.html#ga46cc1807fc61addd9afe69ee6736a21">IPOINT</a> action, AFUNPTR funptr,...)</td></tr>
 
@@ -1479,6 +1390,8 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_ParseCom
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#g1ecb72b47dc52ed2f5f440d134ce5c33">PIN_SetContextFPState</a> (<a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxt, const FPSTATE *fpstate)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#g614266cd822667f28d9365a40de601be">PIN_GetContextFPState</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxt, FPSTATE *fpstate)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__REG__CPU__IA32.html#g7a3ddfd5132200b9c8ed5d93dd8291eb">REGSET</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#gd17b1429a8e8f63ec8f64dd0e1145158">PIN_GetFullContextRegsSet</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#g5eaae6fe4719308c1024a27d37b81be6">PIN_SaveContext</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxtFrom, <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxtTo)</td></tr>
 
@@ -1506,7 +1419,7 @@ LOCALFUN BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>PIN_ParseCom
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__EXCEPTION__API.html#g40302a79ed756094abf1af155b6d3a0b">PIN_RaiseException</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxt, <a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a> tid, const <a class="el" href="group__EXCEPTION__API.html#gdd29f27899c5a5f3e140bbe3af31759f">EXCEPTION_INFO</a> *pExceptInfo)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#d96929757b22bc06974749c1c24ea9cd">PIN_ClientFork</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#d96929757b22bc06974749c1c24ea9cd">PIN_ClientFork</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#a2b64629c1958915cc355913419328c6">PIN_SpawnApplicationThread</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxt)</td></tr>
 
@@ -1621,13 +1534,13 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>PinJitApiNot
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__STOPPED__THREAD__API.html#gd72b1d245293ae95ea177688ae180650">PIN_GetStoppedThreadWriteableContext</a> (<a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a> tid)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g59c4b41428ad9d7af82e9f235af116bd">PIN_GetTid</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g59c4b41428ad9d7af82e9f235af116bd">PIN_GetTid</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g2d4f56d399e36e3cbe5687658d793fec">PIN_ThreadId</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g4241be5be9711468c54c1a19ee391a01">PIN_THREAD_UID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g5d3d91803513a24104400d94943d7124">PIN_ThreadUid</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g9d69c31157c904d96305a6b2b2c1cda5">PIN_GetParentTid</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g9d69c31157c904d96305a6b2b2c1cda5">PIN_GetParentTid</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g9b72c188dec1cc5a3866d59e8609b817">PIN_Sleep</a> (UINT32 milliseconds)</td></tr>
 
@@ -1640,8 +1553,6 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>PinJitApiNot
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#gfd5cff0307f8c70eaa3bff5f8b758969">PIN_IsApplicationThread</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#gbbbfe111d0087c0e21b8b7bffbc341c5">PIN_WaitForThreadTermination</a> (const <a class="el" href="group__PIN__THREAD__API.html#g4241be5be9711468c54c1a19ee391a01">PIN_THREAD_UID</a> &amp;threadUid, UINT32 milliseconds, INT32 *pExitCode)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#28e71d973c42f6ca44a77276e600eb27">PIN_RegisterNewThread</a> (THREAD_CONTEXT *pContext)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__PIN__THREAD__API.html#g48422bbc491485657227fe94386b964c">TLS_KEY</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__PIN__THREAD__API.html#g36b79c1845d1874b1d6fbe7c8e7f3e91">PIN_CreateThreadDataKey</a> (DESTRUCTFUN destruct_func)</td></tr>
 
@@ -1691,6 +1602,15 @@ LOCALTYPE typedef pair&lt; string,<br>
 LOCALTYPE typedef set&lt; SYM_BASIC_INFO <br>
 &gt;::const_iterator&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYMSET_CONST_ITERATOR</b></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="35e176deebdfafe342b850d1c57cdbbf"></a><!-- doxytag: member="LEVEL_PINCLIENT::PLT0_ENTRY_SIZE" ref="35e176deebdfafe342b850d1c57cdbbf" args="" -->
+LOCALVAR const INT&nbsp;</td><td class="memItemRight" valign="bottom"><b>PLT0_ENTRY_SIZE</b> = 16</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3952d332447e69c7405e80c7185d1b6c"></a><!-- doxytag: member="LEVEL_PINCLIENT::PLT_ENTRY_SIZE" ref="3952d332447e69c7405e80c7185d1b6c" args="" -->
+LOCALVAR const INT&nbsp;</td><td class="memItemRight" valign="bottom"><b>PLT_ENTRY_SIZE</b> = 16</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6c251973a9342478d694dd7edab77907"></a><!-- doxytag: member="LEVEL_PINCLIENT::RELC_INDEX_OFFSET" ref="6c251973a9342478d694dd7edab77907" args="" -->
+LOCALVAR const INT&nbsp;</td><td class="memItemRight" valign="bottom"><b>RELC_INDEX_OFFSET</b> = 7</td></tr>
+
 <tr><td class="memItemLeft" nowrap><a class="anchor" name="7ca61e498048f364864ab34e8a826151"></a><!-- doxytag: member="LEVEL_PINCLIENT::sanitizations" ref="7ca61e498048f364864ab34e8a826151" args="[]" -->
 struct {</td></tr>
 
@@ -1711,85 +1631,6 @@ LOCALTYPE typedef map&lt; ADDRINT,<br>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7255a73ddd00572b638ffbd48d3ed3dc"></a><!-- doxytag: member="LEVEL_PINCLIENT::imap" ref="7255a73ddd00572b638ffbd48d3ed3dc" args="" -->
 LOCALVAR IMAP&nbsp;</td><td class="memItemRight" valign="bottom"><b>imap</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3d78d66c482867710387e4328ec8ac6b"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_NOARG_CALLBACKVAL" ref="3d78d66c482867710387e4328ec8ac6b" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#g0650fbca62cb2b9cbab67e03a167476f">CODECACHE_NOARG_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_NOARG_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="56d3a4f53212e5bcd5d57f9dfb3c6cac"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_NOARG_CALLBACKFUNS" ref="56d3a4f53212e5bcd5d57f9dfb3c6cac" args="" -->
-LOCALTYPE typedef CODECACHE_NOARG_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_NOARG_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="dbfb155d1e7193be7742c768f22402e1"></a><!-- doxytag: member="LEVEL_PINCLIENT::postCacheInitList" ref="dbfb155d1e7193be7742c768f22402e1" args="" -->
-LOCALVAR CODECACHE_NOARG_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>postCacheInitList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="11e9537f4f0b5df2543b030a3a0860a2"></a><!-- doxytag: member="LEVEL_PINCLIENT::postCacheFlushList" ref="11e9537f4f0b5df2543b030a3a0860a2" args="" -->
-LOCALVAR CODECACHE_NOARG_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>postCacheFlushList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a0b149986efc1962a8338857bcdd0b6d"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_CACHEBLOCK_CALLBACKVAL" ref="a0b149986efc1962a8338857bcdd0b6d" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#g82af67ae80f0e32df5a9e3ea770cf59c">CODECACHE_CACHEBLOCK_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_CACHEBLOCK_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a6b172b82d50bbe5805ebe0b64095071"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_CACHEBLOCK_CALLBACKFUNS" ref="a6b172b82d50bbe5805ebe0b64095071" args="" -->
-LOCALTYPE typedef CODECACHE_CACHEBLOCK_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_CACHEBLOCK_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="435e028f02ddb1b43bdeef2ea907aeb5"></a><!-- doxytag: member="LEVEL_PINCLIENT::cacheBlockCreatedList" ref="435e028f02ddb1b43bdeef2ea907aeb5" args="" -->
-LOCALVAR CODECACHE_CACHEBLOCK_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>cacheBlockCreatedList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="995397964ac8cd746789201e66aa1f59"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_FULL_CALLBACKVAL" ref="995397964ac8cd746789201e66aa1f59" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#gf4feed5d90f646051a5d91b8debf4b9a">CODECACHE_FULL_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_FULL_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="479d5b7f7350a1a8d1b57ee5e3247250"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_FULL_CALLBACKFUNS" ref="479d5b7f7350a1a8d1b57ee5e3247250" args="" -->
-LOCALTYPE typedef CODECACHE_FULL_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_FULL_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="19078fa0ca26529db9d9b781e8b3ed2d"></a><!-- doxytag: member="LEVEL_PINCLIENT::cacheFullList" ref="19078fa0ca26529db9d9b781e8b3ed2d" args="" -->
-LOCALVAR CODECACHE_FULL_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>cacheFullList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="616ee6badde9f4236bd6781e991bb3a0"></a><!-- doxytag: member="LEVEL_PINCLIENT::cacheBlockFullList" ref="616ee6badde9f4236bd6781e991bb3a0" args="" -->
-LOCALVAR CODECACHE_FULL_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>cacheBlockFullList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="2d7d32eb7541f4bead8bde2a61bee65e"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_ENTEREXIT_CALLBACKVAL" ref="2d7d32eb7541f4bead8bde2a61bee65e" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#ge018fe6a6eb8565b1db1ab6ffa10f9f7">CODECACHE_ENTEREXIT_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_ENTEREXIT_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a146456ab4844fdc0fcbe6c110782710"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_ENTEREXIT_CALLBACKFUNS" ref="a146456ab4844fdc0fcbe6c110782710" args="" -->
-LOCALTYPE typedef CODECACHE_ENTEREXIT_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_ENTEREXIT_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fdc72966d6b181c3cafb2e31b059df9f"></a><!-- doxytag: member="LEVEL_PINCLIENT::cacheEnterList" ref="fdc72966d6b181c3cafb2e31b059df9f" args="" -->
-LOCALVAR CODECACHE_ENTEREXIT_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>cacheEnterList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bcb41efc1796ec8f98adca1ad4dd5887"></a><!-- doxytag: member="LEVEL_PINCLIENT::cacheExitList" ref="bcb41efc1796ec8f98adca1ad4dd5887" args="" -->
-LOCALVAR CODECACHE_ENTEREXIT_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>cacheExitList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="11ecb2c36ea33d83a2825f5cfabc2cb1"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_LINKED_CALLBACKVAL" ref="11ecb2c36ea33d83a2825f5cfabc2cb1" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#gce17d419e491ef60197773de4e1960ba">CODECACHE_LINKED_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_LINKED_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="569ab88223bdc444fed8a2e8144108ab"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_LINKED_CALLBACKFUNS" ref="569ab88223bdc444fed8a2e8144108ab" args="" -->
-LOCALTYPE typedef CODECACHE_LINKED_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_LINKED_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7455998ca288c7d161440aab8e3e2e91"></a><!-- doxytag: member="LEVEL_PINCLIENT::traceLinkedList" ref="7455998ca288c7d161440aab8e3e2e91" args="" -->
-LOCALVAR CODECACHE_LINKED_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>traceLinkedList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="18d4bced4409183b6a0acd293acb5efe"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_UNLINKED_CALLBACKVAL" ref="18d4bced4409183b6a0acd293acb5efe" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#g02318d763590176a9a61b9b49f2fe93c">CODECACHE_UNLINKED_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_UNLINKED_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a34965234bb0e001121a461859f83f1d"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_UNLINKED_CALLBACKFUNS" ref="a34965234bb0e001121a461859f83f1d" args="" -->
-LOCALTYPE typedef CODECACHE_UNLINKED_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_UNLINKED_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="71c0e4dd88fa650e7dcb07e933a0af81"></a><!-- doxytag: member="LEVEL_PINCLIENT::traceUnlinkedList" ref="71c0e4dd88fa650e7dcb07e933a0af81" args="" -->
-LOCALVAR CODECACHE_UNLINKED_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>traceUnlinkedList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="8cc015c2017e954a8032f1dbab9fae5b"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_TRACEINVALIDATED_CALLBACKVAL" ref="8cc015c2017e954a8032f1dbab9fae5b" args="" -->
-LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
- <a class="el" href="group__CODECACHE__API.html#g57a902525ea351b9a31440aea9570a13">CODECACHE_TRACEINVALIDATED_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_TRACEINVALIDATED_CALLBACKVAL</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a7d6c7fa0e3b86571441c93544d6aa07"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_TRACEINVALIDATED_CALLBACKFUNS" ref="a7d6c7fa0e3b86571441c93544d6aa07" args="" -->
-LOCALTYPE typedef CODECACHE_TRACEINVALIDATED_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>CODECACHE_TRACEINVALIDATED_CALLBACKFUNS</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d46bef4aa39b1b87ec034de85016ce1f"></a><!-- doxytag: member="LEVEL_PINCLIENT::traceInvalidatedList" ref="d46bef4aa39b1b87ec034de85016ce1f" args="" -->
-LOCALVAR CODECACHE_TRACEINVALIDATED_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>traceInvalidatedList</b></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="566cb65642ea0ec61f5d6aaf15d36318"></a><!-- doxytag: member="LEVEL_PINCLIENT::FOLLOW_CHILD_PROCESS_CALLBACKVAL" ref="566cb65642ea0ec61f5d6aaf15d36318" args="" -->
 LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
@@ -1971,14 +1812,12 @@ LOCALVAR std::list&lt; IMAGE_LOAD_OP2 &gt;&nbsp;</td><td class="memItemRight" va
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__PINCLIENT.html#3253ea7060c2ea491bfaf92eede1bd40">MAX_IEH_CALLBACKS</a> = 32</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="be1d2421a1545c6e24e3332d9ab9b8a9"></a><!-- doxytag: member="LEVEL_PINCLIENT::rtnHistory" ref="be1d2421a1545c6e24e3332d9ab9b8a9" args="" -->
-LOCALVAR RTN_CHECK_HISTORY&nbsp;</td><td class="memItemRight" valign="bottom"><b>rtnHistory</b></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="702b3f51306bf4cdfbdfac8d4dd805a7"></a><!-- doxytag: member="LEVEL_PINCLIENT::syscallCallbacksRWLock" ref="702b3f51306bf4cdfbdfac8d4dd805a7" args="" -->
+LOCALVAR PINVM::PINSYNC_RWLOCK&nbsp;</td><td class="memItemRight" valign="bottom"><b>syscallCallbacksRWLock</b></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALVAR PINCLIENTINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>ClientIntData</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5d2dd560e4c5f071de65dd7d0146d37b"></a><!-- doxytag: member="LEVEL_PINCLIENT::INS_INSTRUMENT_CALLBACKVAL" ref="5d2dd560e4c5f071de65dd7d0146d37b" args="" -->
-SECTION_END LOCALTYPE typedef <br>
-COMPLEX_CALLBACKVAL&lt; <a class="el" href="group__INS__INST__API.html#gd83539eedf8c29f0603bcb61e8d1df33">INS_INSTRUMENT_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_INSTRUMENT_CALLBACKVAL</b></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b05dee3999636c67edfa613e924fbe3d"></a><!-- doxytag: member="LEVEL_PINCLIENT::INS_INSTRUMENT_CALLBACKVAL" ref="b05dee3999636c67edfa613e924fbe3d" args="" -->
+LOCALTYPE typedef COMPLEX_CALLBACKVAL&lt;<br>
+ <a class="el" href="group__INS__INST__API.html#gd83539eedf8c29f0603bcb61e8d1df33">INS_INSTRUMENT_CALLBACK</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_INSTRUMENT_CALLBACKVAL</b></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="968a7dae18bee43935a64a87c704631f"></a><!-- doxytag: member="LEVEL_PINCLIENT::INS_INSTRUMENT_CALLBACKFUNS" ref="968a7dae18bee43935a64a87c704631f" args="" -->
 LOCALTYPE typedef INS_INSTRUMENT_CALLBACKVAL::FUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_INSTRUMENT_CALLBACKFUNS</b></td></tr>
@@ -1995,9 +1834,6 @@ LOCALTYPE typedef TRACE_INSTRUMENT_CALLBACKVAL::FUNS&nbsp;</td><td class="memIte
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6e3b00d128845813afa839402062c46e"></a><!-- doxytag: member="LEVEL_PINCLIENT::traceList" ref="6e3b00d128845813afa839402062c46e" args="" -->
 LOCALVAR TRACE_INSTRUMENT_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>traceList</b></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f316194d0822216be6c1cbd438079e7d"></a><!-- doxytag: member="LEVEL_PINCLIENT::traceInsertList" ref="f316194d0822216be6c1cbd438079e7d" args="" -->
-LOCALVAR TRACE_INSTRUMENT_CALLBACKFUNS&nbsp;</td><td class="memItemRight" valign="bottom"><b>traceInsertList</b></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c5d46918ba57d3d8076d1f171704a494"></a><!-- doxytag: member="LEVEL_PINCLIENT::outOfMemoryFun" ref="c5d46918ba57d3d8076d1f171704a494" args="" -->
 LOCALVAR <a class="el" href="group__PIN__CONTROL.html#gde47352f7f71df0632aa847aae16a274">OUT_OF_MEMORY_CALLBACK</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>outOfMemoryFun</b> = 0</td></tr>
@@ -2244,11 +2080,14 @@ LOCALVAR INT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>ToolArgc</b
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cef9f6d597e2f547806e3805e627b27e"></a><!-- doxytag: member="LEVEL_PINCLIENT::ToolArgv" ref="cef9f6d597e2f547806e3805e627b27e" args="" -->
 LOCALVAR CHAR **&nbsp;</td><td class="memItemRight" valign="bottom"><b>ToolArgv</b></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a2779aa70f69fb39026b3e644818f30b"></a><!-- doxytag: member="LEVEL_PINCLIENT::pinStartOptions" ref="a2779aa70f69fb39026b3e644818f30b" args="" -->
+LOCALVAR PIN_CONFIGURATION&nbsp;</td><td class="memItemRight" valign="bottom"><b>pinStartOptions</b></td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d75bbf73a069f12d44f5996373ba91de"></a><!-- doxytag: member="LEVEL_PINCLIENT::processExiting" ref="d75bbf73a069f12d44f5996373ba91de" args="" -->
 LOCALVAR volatile BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>processExiting</b> = FALSE</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="998a8eae8a7fd009878529bda9363645"></a><!-- doxytag: member="LEVEL_PINCLIENT::IdOfThreadInFiniCallback" ref="998a8eae8a7fd009878529bda9363645" args="" -->
-LOCALVAR <a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>IdOfThreadInFiniCallback</b> = 0</td></tr>
+LOCALVAR <a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>IdOfThreadInFiniCallback</b> = 0</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a5f43d2d702629297b4b61067d2e49aa"></a><!-- doxytag: member="LEVEL_PINCLIENT::PinClientMutex" ref="a5f43d2d702629297b4b61067d2e49aa" args="" -->
 LOCALVAR PIN_CLIENT_MUTEX&nbsp;</td><td class="memItemRight" valign="bottom"><b>PinClientMutex</b></td></tr>
@@ -2264,6 +2103,8 @@ LOCALVAR CONDINSTSTATE&nbsp;</td><td class="memItemRight" valign="bottom"><b>con
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0c13229ad5c0c281afbadc6d2b480a66"></a><!-- doxytag: member="LEVEL_PINCLIENT::insLastIfPredicate" ref="0c13229ad5c0c281afbadc6d2b480a66" args="" -->
 LOCALVAR <a class="el" href="group__INS__BASIC__API__GEN__IA32.html#g86f7fb67313713de42a734956e27cf0e">PREDICATE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>insLastIfPredicate</b> = PREDICATE_ALWAYS_TRUE</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALVAR PINCLIENTINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>ClientIntData</b></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bf87bd979f3573f64eebbbb27fc7b82e"></a><!-- doxytag: member="LEVEL_PINCLIENT::condInstStateForTrace" ref="bf87bd979f3573f64eebbbb27fc7b82e" args="" -->
 LOCALVAR CONDINSTSTATE&nbsp;</td><td class="memItemRight" valign="bottom"><b>condInstStateForTrace</b> = CONDINST_NORMAL</td></tr>
@@ -2673,7 +2514,7 @@ Replayer will handle image ops. </td></tr>
 <p>
 If "condFun" is non-zero, then this analysis call will be invoked only if condFun (which is an analysis function called immediately before "funptr") returns a non-zero value.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -2732,7 +2573,7 @@ If "condFun" is non-zero, then this analysis call will be invoked only if condFu
 
 <p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -3021,34 +2862,6 @@ This routine tests whether the basic block can be replaced with probe The functi
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>The type of the basic block </dd></dl>
     </td>
-  </tr>
-</table>
-<a class="anchor" name="d4a791e2d1da0a57f243770d37b336f9"></a><!-- doxytag: member="LEVEL_PINCLIENT::BeginInstrumentedExecution" ref="d4a791e2d1da0a57f243770d37b336f9" args="(RTN rtn)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_PINCLIENT::BeginInstrumentedExecution           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">RTN&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>rtn</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Insert a probe into the PIN_ExecuteInstrumented routine in the application to transition from original code execution to jitted code execution     </td>
   </tr>
 </table>
 <a class="anchor" name="f224a237e6e8dcad6311613fdad47ee0"></a><!-- doxytag: member="LEVEL_PINCLIENT::CallAllBufferFullCallbacks" ref="f224a237e6e8dcad6311613fdad47ee0" args="(THREADID tid, CONTEXT *ctxt)" --><p>
@@ -4202,18 +4015,33 @@ Call Thread Start callbacks     </td>
 Walk the list of trace instrumentors and call them     </td>
   </tr>
 </table>
-<a class="anchor" name="68b8a7d4fcf85183f5a4d66246d45063"></a><!-- doxytag: member="LEVEL_PINCLIENT::CatchEndInstrumentation" ref="68b8a7d4fcf85183f5a4d66246d45063" args="(TRACE trace)" --><p>
+<a class="anchor" name="74686129597cb0e374d1f5b56af4795d"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckForProbeOverlap" ref="74686129597cb0e374d1f5b56af4795d" args="(INS ins, USIZE probe_size, BOOL allowPOP)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_PINCLIENT::CatchEndInstrumentation           </td>
+          <td class="md" nowrap valign="top">LOCALFUN PROBE_TAG LEVEL_PINCLIENT::CheckForProbeOverlap           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>trace</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>USIZE&nbsp;</td>
+          <td class="mdname" nowrap> <em>probe_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>allowPOP</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
         </tr>
       </table>
     </td>
@@ -4227,20 +4055,63 @@ Walk the list of trace instrumentors and call them     </td>
     <td>
 
 <p>
-If this is a call to PIN_ExecuteUninstrumented, then transfer control to original code     </td>
+CheckForProbeOverlap - Tests if a probe already exists for a code location<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>ins</em>&nbsp;</td><td>the instruction where the probe should be inserted </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>probe_size</em>&nbsp;</td><td>the size of the probe </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>allowPOP</em>&nbsp;</td><td>is POP (probe on probe) allowed</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>tag which indicates whether code location can be probed Possible values: PROBE_TAG_OK PROBE_TAG_PREV_PROBE </dd></dl>
+    </td>
   </tr>
 </table>
-<a class="anchor" name="bfd6c9c3b418cd0af8daacece35396a3"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckNoCodeCacheCallbacks" ref="bfd6c9c3b418cd0af8daacece35396a3" args="()" --><p>
+<a class="anchor" name="b81c9d19d6a2cb0313f18e4701ad3407"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckForSafeProbe" ref="b81c9d19d6a2cb0313f18e4701ad3407" args="(INS ins, BOOL allowPOP, USIZE *probe_size, USIZE suggested_probe_size, PROBE_MODE mode, BOOL checkForPadding)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::CheckNoCodeCacheCallbacks           </td>
+          <td class="md" nowrap valign="top">LOCALFUN PROBE_TAG LEVEL_PINCLIENT::CheckForSafeProbe           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>allowPOP</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>USIZE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>probe_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>USIZE&nbsp;</td>
+          <td class="mdname" nowrap> <em>suggested_probe_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>checkForPadding</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
         </tr>
       </table>
     </td>
@@ -4254,7 +4125,19 @@ If this is a call to PIN_ExecuteUninstrumented, then transfer control to origina
     <td>
 
 <p>
-Check that no code-cache callback was registered     </td>
+Makes the various probe tests.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>ins</em>&nbsp;</td><td>The instruction where the probe should be inserted </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>allowPOP</em>&nbsp;</td><td>Probe on probe is allowed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>probe_size</em>&nbsp;</td><td>An output parameter. The size of the probe that was tested for safety. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>suggested_probe_size</em>&nbsp;</td><td>A suggested probe size. If USIZE_INVALID() is passed then PIN will choose the smaller probe size (6 bytes) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>The probe mode (PROBE_MODE_DEFAULT /PROBE_MODE_ALLOW_RELOCATION) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkForPadding</em>&nbsp;</td><td>Check that the bytes which follow the first RTN_Size bytes up to the RTN_Range are all nops </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>tag The PROBE_TAG is set to describe why the function cannot be probed, or PROBE_OK or PROBE_RELOCATABLE. </dd></dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="95adcb0e41b514c219a7f3c15c549c12"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckNotInCallback" ref="95adcb0e41b514c219a7f3c15c549c12" args="(THREADID tid, const char *function)" --><p>
@@ -4331,7 +4214,7 @@ Check that a Pin client user interface call has been made from an analysis funct
 <p>
 Check that we have the client lock.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -4364,13 +4247,71 @@ Check that we have the client lock.<p>
 Raise an error if pin has not been initialized. Call this from pin api functions to ensure that <a class="el" href="group__PIN__CONTROL.html#g078bed712e6822f3b42a7b4815ba5c0a">PIN_Init()</a> has been called first.     </td>
   </tr>
 </table>
-<a class="anchor" name="dd8e5edcd2496eeca4d27e2ba85009bf"></a><!-- doxytag: member="LEVEL_PINCLIENT::ClientInt" ref="dd8e5edcd2496eeca4d27e2ba85009bf" args="()" --><p>
+<a class="anchor" name="2b61a7fd92e6942bc20014e6ce62b917"></a><!-- doxytag: member="LEVEL_PINCLIENT::CheckProbeSafetyStatically" ref="2b61a7fd92e6942bc20014e6ce62b917" args="(INS ins, RTN rtn, BOOL checkForPadding, UINT32 probe_size)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">GLOBALDLLFUN PINCLIENTINT* LEVEL_PINCLIENT::ClientInt           </td>
+          <td class="md" nowrap valign="top">LOCALFUN PROBE_TAG LEVEL_PINCLIENT::CheckProbeSafetyStatically           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>RTN&nbsp;</td>
+          <td class="mdname" nowrap> <em>rtn</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>checkForPadding</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>probe_size</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+CheckProbeSafetyStatically - Tests if the given RTN is a candidate for function insertion using probes.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>ins</em>&nbsp;</td><td>the instruction where the probe should be inserted </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rtn</em>&nbsp;</td><td>the routine to be checked for replacement </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkForPadding</em>&nbsp;</td><td>checkForPadding rtn boundaries to its annotated size, otherwise next SYM address defines the size. </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>tag which indicates whether function can be probed. Possible values: PROBE_TAG_OK PROBE_TAG_TOO_SMALL PROBE_TAG_BRANCH_TARGET PROBE_TAG_POSSIBLE_UNIDENTIFIED_BRANCH_TARGET PROBE_TAG_RUNTIME_FIXUP </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="8bf32b15d86f42225e2f5c42b376d6b9"></a><!-- doxytag: member="LEVEL_PINCLIENT::ClientInt" ref="8bf32b15d86f42225e2f5c42b376d6b9" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">SECTION_END GLOBALDLLFUN PINCLIENTINT* LEVEL_PINCLIENT::ClientInt           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -4446,205 +4387,6 @@ x     </td>
 Close the given RTN.     </td>
   </tr>
 </table>
-<a class="anchor" name="b115c9a18cef7092f2d83c80e6ca1a5f"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_AddFullBlockFunction" ref="b115c9a18cef7092f2d83c80e6ca1a5f" args="(CODECACHE_FULL_CALLBACK fun, VOID *val)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__CALLBACKS.html#g0a4ffb30eef7af84cb12b46e37ac4074">PIN_CALLBACK</a> LEVEL_PINCLIENT::CODECACHE_AddFullBlockFunction           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__CODECACHE__API.html#gf4feed5d90f646051a5d91b8debf4b9a">CODECACHE_FULL_CALLBACK</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>fun</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>VOID *&nbsp;</td>
-          <td class="mdname" nowrap> <em>val</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Adds a function that gets called whenever a cache block fills up.<p>
-<dl compact><dt><b>Returns:</b></dt><dd>PIN_CALLBACK A handle to a callback that can be used to further modify this callback's properties</dd></dl>
-<dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
-<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
- <b>CPU:</b> All<br>
- </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="e561a040d0010efa4dbf5c4076e9f95b"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_FlushBlock" ref="e561a040d0010efa4dbf5c4076e9f95b" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::CODECACHE_FlushBlock           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-This routine flushes a given cache block, and removes the relevant inter-block links <dl compact><dt><b>Returns:</b></dt><dd>Boolean success if the given block was successfully flushed </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="4e15e2ab7462fc49c315279f7a04ced3"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_InvalidateTraceAtCacheAddress" ref="4e15e2ab7462fc49c315279f7a04ced3" args="(ADDRINT cache_pc)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::CODECACHE_InvalidateTraceAtCacheAddress           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">ADDRINT&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>cache_pc</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Invalidates the trace starting at the given code cache address <dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>cache_pc</em>&nbsp;</td><td>The code cache address (must be the start of a trace) </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>Success if trace exists at location indicated and is invalidated</dd></dl>
-<dl compact><dt><b>Note:</b></dt><dd>The vm lock is obtained during the call of this API.</dd></dl>
-<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
- <b>CPU:</b> All<br>
- </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="f5a8107215aae47136ebb16b74441ca8"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_NumHits" ref="f5a8107215aae47136ebb16b74441ca8" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">UINT32 LEVEL_PINCLIENT::CODECACHE_NumHits           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>Number of code cache hits </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="7f2c708ab4eece407bf8049ff64f9382"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_NumMisses" ref="7f2c708ab4eece407bf8049ff64f9382" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">UINT32 LEVEL_PINCLIENT::CODECACHE_NumMisses           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>Number of code cache misses </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="e25f772eb23640ed41aa6d8032ccf7c0"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_NumTracesInBlock" ref="e25f772eb23640ed41aa6d8032ccf7c0" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">UINT32 LEVEL_PINCLIENT::CODECACHE_NumTracesInBlock           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>Number of traces in the given code cache block</dd></dl>
-<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
- <b>CPU:</b> All<br>
- </dd></dl>
-    </td>
-  </tr>
-</table>
 <a class="anchor" name="e743e5fcb67304db3aa325a5df3c2325"></a><!-- doxytag: member="LEVEL_PINCLIENT::CompleteImageLoad" ref="e743e5fcb67304db3aa325a5df3c2325" args="(IMG img, void *arg)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -4679,7 +4421,7 @@ Invalidates the trace starting at the given code cache address <dl compact><dt><
     <td>
 
 <p>
-When the application loads a new image, do some bookeeping.     </td>
+When the application loads a new image, do some bookkeeping.     </td>
   </tr>
 </table>
 <a class="anchor" name="fde19488ce7dbdda6777aa19412c7c01"></a><!-- doxytag: member="LEVEL_PINCLIENT::CompleteProbesInstrumentationForCurrentModule" ref="fde19488ce7dbdda6777aa19412c7c01" args="(IMG img)" --><p>
@@ -4773,33 +4515,6 @@ cook .symtab, like IMG_CookRegsym, but less error checking so it won't assert on
 
 <p>
 Initialize the client library call-backs for the application-level debugger API's.     </td>
-  </tr>
-</table>
-<a class="anchor" name="a698f1be08bcc9a9625e4cbcd945254e"></a><!-- doxytag: member="LEVEL_PINCLIENT::DeleteRtnCheckHistory" ref="a698f1be08bcc9a9625e4cbcd945254e" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_PINCLIENT::DeleteRtnCheckHistory           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Clear history of routine check     </td>
   </tr>
 </table>
 <a class="anchor" name="420b29c16e7549c18b9ed34dec3ce1df"></a><!-- doxytag: member="LEVEL_PINCLIENT::DeprecatedCallSignalAfters" ref="420b29c16e7549c18b9ed34dec3ce1df" args="(THREADID threadIndex, const CONTEXT *from, const CONTEXT *to)" --><p>
@@ -5418,7 +5133,7 @@ Find the filename of a .gnu_debug_link section. Return the filename of the debug
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">LOCALINLINE <a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a> LEVEL_PINCLIENT::GetCurrentSysId           </td>
+          <td class="md" nowrap valign="top">LOCALINLINE <a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a> LEVEL_PINCLIENT::GetCurrentSysId           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -5446,7 +5161,7 @@ Find the filename of a .gnu_debug_link section. Return the filename of the debug
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a> LEVEL_PINCLIENT::GetCurrentSysIdById           </td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a> LEVEL_PINCLIENT::GetCurrentSysIdById           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a>&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>tid</em>          </td>
@@ -5665,7 +5380,7 @@ Call a client function to get a document that describes the target machine's reg
 <p>
 Get the vm lock.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -5943,11 +5658,11 @@ Find image by address. Given an address, it is considered belonging to an image 
     <td>
 
 <p>
-Find image by the address which the loader uses when it frees the memory of an image. For Linux, OS X* and Android, for each image, check if the address equals to the start address of the text segment. For Windows, for each image, check if the address equals to the start of the Image. This function should be used to determined if ProcessImageUnload should be called when unmapping an address.<p>
+Find image by the address which the loader uses when it frees the memory of an image. For Linux and OS X*, for each image, check if the address equals to the start address of the text segment. For Windows, for each image, check if the address equals to the start of the Image. This function should be used to determined if ProcessImageUnload should be called when unmapping an address.<p>
 <dl compact><dt><b>Returns:</b></dt><dd>IMG object, valid or invalid</dd></dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS &amp; Android<br>
+ <b>O/S</b>: Linux, Windows &amp; MacOS<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -6092,6 +5807,43 @@ Gets a read-only copy of loader information for the image which is used in PIN A
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="4bf11e7df21d5f8386b883360905307f"></a><!-- doxytag: member="LEVEL_PINCLIENT::IMG_GetSubprogramsInfo" ref="4bf11e7df21d5f8386b883360905307f" args="(IMG img, map&lt; ADDRINT, SymbolDebugInfo &gt; &amp;routines)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::IMG_GetSubprogramsInfo           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">IMG&nbsp;</td>
+          <td class="mdname" nowrap> <em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>map&lt; ADDRINT, SymbolDebugInfo &gt; &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>routines</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return subprograms debug info for an image.     </td>
   </tr>
 </table>
 <a class="anchor" name="d39750018c98a35ca1fd1b3ec5823bb6"></a><!-- doxytag: member="LEVEL_PINCLIENT::IMG_IsStandardGccLibrary" ref="d39750018c98a35ca1fd1b3ec5823bb6" args="(IMG img)" --><p>
@@ -6335,7 +6087,7 @@ Remove all image notification functions     </td>
     <td>
 
 <p>
-Replays the image load of an IMG object (created by <a class="el" href="namespaceLEVEL__PINCLIENT.html#c226e8c7cca942b48a9fd396df246e37">IMG_CreateAt()</a>). This means that all the image load callbacks will be called for the specified IMG object. If <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram()</a> wasn't called yet, PIN will enqueue this request and will process this request after <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram()</a> was called<p>
+Replays the image load of an IMG object (created by <a class="el" href="namespaceLEVEL__PINCLIENT.html#c226e8c7cca942b48a9fd396df246e37">IMG_CreateAt()</a>). This means that all the image load callbacks will be called for the specified IMG object. If <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram()</a> wasn't called yet, PIN will enqueue this request and will process this request after <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram()</a> was called<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>img</em>&nbsp;</td><td>The image object to replay its load</td></tr>
@@ -6478,33 +6230,6 @@ Initialize an dynamic code image after it has been allocated. An dynamic code im
 
 <p>
 Initialize app for usage     </td>
-  </tr>
-</table>
-<a class="anchor" name="9980c5b2f7fbb3200b0e1c01897786d7"></a><!-- doxytag: member="LEVEL_PINCLIENT::InitializeCacheClient" ref="9980c5b2f7fbb3200b0e1c01897786d7" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_PINCLIENT::InitializeCacheClient           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Call back function that passes no arguments     </td>
   </tr>
 </table>
 <a class="anchor" name="7cca4a9e9f08dda102d3df55c1dd6922"></a><!-- doxytag: member="LEVEL_PINCLIENT::InitializeClientTls" ref="7cca4a9e9f08dda102d3df55c1dd6922" args="(THREADID threadIndex)" --><p>
@@ -7052,7 +6777,7 @@ Check to see if the current process is about to exit.<p>
         <tr>
           <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::IsThreadInFiniCallback           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>sysId</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -7957,7 +7682,7 @@ Open the given RTN.     </td>
 <p>
 This API is useful for Pin tools that emulate registers that do not exist in the host machine's ISA. If an application debugger is attached to Pin, this API informs the debugger about the extended registers, allowing users to display and manipulate the emulated registers as though they were native registers. Of course, not all debuggers have this capability. Calling this API for such a non-conforming debugger is legal, but ineffective. A non-conforming debugger will ignore the emulated registers and just display the native ones.<p>
 When using this API, the set of registers presented to the debugger is specified in two redundant ways, and it is the tool's responsibility to ensure that they are consistent. One specification is a text document that the debugger reads. This document can have any format that the tool and the debugger agree upon, and could convey information about the registers, how they should be displayed in the debugger, etc. The tool provides this document via the <em>getDescriptionFun</em> call-back. The second register specification is through the <em>registerDescriptions</em> parameter, which Pin uses when communicating the register values to the debugger.<p>
-If this API is called, it must be called before calling <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram()</a>. Also, a tool can install only one debugger register emulator, so a call to <a class="el" href="namespaceLEVEL__PINCLIENT.html#68a4173dc9649381353502748f429c9d">PIN_AddDebuggerRegisterEmulator()</a> will overwrite any previous call.<p>
+If this API is called, it must be called before calling <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram()</a>. Also, a tool can install only one debugger register emulator, so a call to <a class="el" href="namespaceLEVEL__PINCLIENT.html#68a4173dc9649381353502748f429c9d">PIN_AddDebuggerRegisterEmulator()</a> will overwrite any previous call.<p>
 When used with GDB, this API is effective only for versions of GDB that support register extensions in the XML "feature document". This includes GDB versions 7.2 and later, as well as some distributions of earlier GDB versions.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -7977,6 +7702,38 @@ When used with GDB, this API is effective only for versions of GDB that support 
     </td>
   </tr>
 </table>
+<a class="anchor" name="8d2adc71371f488c3d759420632f6db6"></a><!-- doxytag: member="LEVEL_PINCLIENT::PIN_CallerOwnsClientMutex" ref="8d2adc71371f488c3d759420632f6db6" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::PIN_CallerOwnsClientMutex           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return TRUE if calling thread is the owner of the lock.<p>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="1ff6b5f93566358d0fb11e216823b926"></a><!-- doxytag: member="LEVEL_PINCLIENT::PIN_CallerOwnsClientMutex" ref="1ff6b5f93566358d0fb11e216823b926" args="(OS_THREAD_ID osid)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -7985,7 +7742,7 @@ When used with GDB, this API is effective only for versions of GDB that support 
         <tr>
           <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::PIN_CallerOwnsClientMutex           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a>&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>osid</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -8009,7 +7766,7 @@ Return TRUE if calling thread is the owner of the lock.<p>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -8021,7 +7778,7 @@ Return TRUE if calling thread is the owner of the lock.<p>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#gab34d1953888d943b66400fd065e7af6">OS_THREAD_ID</a> LEVEL_PINCLIENT::PIN_ClientFork           </td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#g9a94858efaece0a1442be6ba345cf232">OS_THREAD_ID</a> LEVEL_PINCLIENT::PIN_ClientFork           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -8041,7 +7798,7 @@ Return TRUE if calling thread is the owner of the lock.<p>
 <p>
 Allow a Pintool to safely fork. Call the fork system call and notify the VM appropriately. <dl compact><dt><b>Returns:</b></dt><dd>Parent: ID of the child, child: 0, INVALID_THREADID if fork failed</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux &amp; MacOS<br>
+ <b>O/S</b>: Linux &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -8147,43 +7904,6 @@ A tool can set only one "intercept" function for a particular event, so a new fu
  <b>O/S</b>: Linux, Windows<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="28e71d973c42f6ca44a77276e600eb27"></a><!-- doxytag: member="LEVEL_PINCLIENT::PIN_RegisterNewThread" ref="28e71d973c42f6ca44a77276e600eb27" args="(THREAD_CONTEXT *pContext)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a> LEVEL_PINCLIENT::PIN_RegisterNewThread           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">THREAD_CONTEXT *&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>pContext</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Register the current application thread in the Pin thread database.<p>
-This function is called when an application, which runs under Pin in probe mode, requests Pin to create a thread context suitable for JITing and instrumentation. The application calls the PIN_NewThread() function (in the pinapp library) which is intercepted by a probe and redirected to <a class="el" href="namespaceLEVEL__PINCLIENT.html#28e71d973c42f6ca44a77276e600eb27">PIN_RegisterNewThread()</a>. The context created by this function is then passed to the PIN_ExecuteInstrumented function that starts JIT-instrumented execution of the thread.<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>pContext</em>&nbsp;</td><td>pointer to the variable that receives context of the new thread on return from this function. If this parameter is NULL, the context is not returned. </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>ID of the current thread or INVALID_THREADID upon failure</dd></dl>
-<dl compact><dt><b>Note:</b></dt><dd>This function is intended for advanced users only. Public Pin API does not support switching between JIT and probe mode. </dd></dl>
     </td>
   </tr>
 </table>
@@ -8578,7 +8298,7 @@ This API can be called from an analysis routine or a replacement routine, but no
 Tell Pin to execute different sets of operations in replay mode.<p>
 The only flag currently supported is REPLAY_MODE_IMAGEOPS which disables Pin's normal detection of image load and unload events, which are expected to be replayed through the <a class="el" href="namespaceLEVEL__PINCLIENT.html#709b0b1b790ce6e49b35936030265ec8">PIN_ReplayImageLoad</a> and <a class="el" href="namespaceLEVEL__PINCLIENT.html#0955efae5ae55dc5a33930a85b29b827">PIN_ReplayImageUnload</a> calls. It also avoids Pin loading information about the initial image given on the command line.<p>
 Other flags may be added as required in the future.<p>
-Must be called before <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram</a><p>
+Must be called before <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram</a><p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>flags</em>&nbsp;</td><td>A mask created from the PIN_REPLAY_MODE_FLAGS enum describing the operations the replayer will take control of.</td></tr>
@@ -8749,6 +8469,49 @@ Return TRUE if PIN was successfully reserved the neccessary memory at applicatio
 Return reference to the instance of the PIN_CLIENT_STATE singleton     </td>
   </tr>
 </table>
+<a class="anchor" name="eca19bb2b12b0eb5e55f7dcb7eacf24b"></a><!-- doxytag: member="LEVEL_PINCLIENT::ProbeMayOverwriteBranchTarget" ref="eca19bb2b12b0eb5e55f7dcb7eacf24b" args="(INS target_ins, UINT32 probe_size, BOOL *mayOverwriteUnidentifiedBranchTarget)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN BOOL LEVEL_PINCLIENT::ProbeMayOverwriteBranchTarget           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>target_ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>probe_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL *&nbsp;</td>
+          <td class="mdname" nowrap> <em>mayOverwriteUnidentifiedBranchTarget</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This routine tests to see if the probe may overwrite the target of a branch/call     </td>
+  </tr>
+</table>
 <a class="anchor" name="5a1ab30ed65b0535cd1ec7e1aac7f172"></a><!-- doxytag: member="LEVEL_PINCLIENT::ProcessImageLoad" ref="5a1ab30ed65b0535cd1ec7e1aac7f172" args="(const string &amp;filename, const CHAR *trueFilename, ADDRINT load_offset, UINT32 flags, void *arg)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -8873,7 +8636,7 @@ When the application loads a new image, do some bookeeping.<p>
     <td>
 
 <p>
-When the application loads a new image, do some bookeeping.<p>
+When the application loads a new image, do some bookkeeping.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>filename</em>&nbsp;</td><td>The filename seen by the user </td></tr>
@@ -9028,7 +8791,7 @@ Read the elf header of a binary     </td>
 <p>
 Release the vm lock.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -9122,7 +8885,7 @@ Resolve IFUNC address by calling its resolver.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="2e0ad7b8e1be9c2b7857827ae2b40c18"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckFixups" ref="2e0ad7b8e1be9c2b7857827ae2b40c18" args="(RTN rtn, UINT32 probe_size)" --><p>
+<a class="anchor" name="82c1b7ba2796719ca349c220b725ce1d"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckFixups" ref="82c1b7ba2796719ca349c220b725ce1d" args="(RTN rtn, INS target_ins, UINT32 probe_size)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -9132,6 +8895,12 @@ Resolve IFUNC address by calling its resolver.<p>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">RTN&nbsp;</td>
           <td class="mdname" nowrap> <em>rtn</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>target_ins</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -9165,35 +8934,7 @@ Return TRUE if fixup bytes intercept replaced bytes of the rtn entry point probe
     </td>
   </tr>
 </table>
-<a class="anchor" name="7e79b848b975ff17bd601f06494d6888"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckForPreviousProbe" ref="7e79b848b975ff17bd601f06494d6888" args="(RTN rtn)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::RTN_CheckForPreviousProbe           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">RTN&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>rtn</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-This routine checks if there was a probe previously placed at this address by Pin or the pin tool. Two probes cannot be placed at the same address at the same time. When a library is unloaded, the probes for that library are removed.     </td>
-  </tr>
-</table>
-<a class="anchor" name="d2a0bb30b870acbeb102f30ff69569a3"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckRtnSizeForProbe" ref="d2a0bb30b870acbeb102f30ff69569a3" args="(RTN rtn, BOOL checkForPadding, BOOL *didcheckForPadding, UINT32 probe_size)" --><p>
+<a class="anchor" name="0837321082fea832d59f5add7c6a6970"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CheckRtnSizeForProbe" ref="0837321082fea832d59f5add7c6a6970" args="(RTN rtn, INS target_ins, BOOL checkForPadding, UINT32 probe_size)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -9207,14 +8948,14 @@ This routine checks if there was a probe previously placed at this address by Pi
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>BOOL&nbsp;</td>
-          <td class="mdname" nowrap> <em>checkForPadding</em>, </td>
+          <td class="md" nowrap>INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>target_ins</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>BOOL *&nbsp;</td>
-          <td class="mdname" nowrap> <em>didcheckForPadding</em>, </td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>checkForPadding</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -9239,7 +8980,7 @@ This routine checks if there was a probe previously placed at this address by Pi
     <td>
 
 <p>
-This routine tests the size of a function to ensure that a probe will not overflow its bounds. The function returns TRUE in case rtn size is not fit for probe.     </td>
+This routine tests the size of a function, starting at the probe target instruction, to ensure that a probe will not overflow its bounds. The function returns TRUE in case rtn size is not fit for probe.     </td>
   </tr>
 </table>
 <a class="anchor" name="afa81f8f08250d7bbb6ccc4ff03d4fe4"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_CreateJitFunction" ref="afa81f8f08250d7bbb6ccc4ff03d4fe4" args="(IMG img, ADDRINT address, const string &amp;name, USIZE size)" --><p>
@@ -9368,6 +9109,71 @@ Destroy a Jitted function object at the given address.<p>
  <b>O/S</b>: Linux, Windows &amp; MacOS<br>
  <b>CPU:</b> All<br>
  </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="8aec7fe98a178af00aaaa2be75a346bf"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_InsertCallProbedImpl" ref="8aec7fe98a178af00aaaa2be75a346bf" args="(RTN rtn, IPOINT action, AFUNPTR funptr, PROBE_MODE mode, va_list argList)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN VOID LEVEL_PINCLIENT::RTN_InsertCallProbedImpl           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">RTN&nbsp;</td>
+          <td class="mdname" nowrap> <em>rtn</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__INST__ARGS.html#ga46cc1807fc61addd9afe69ee6736a21">IPOINT</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>action</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>AFUNPTR&nbsp;</td>
+          <td class="mdname" nowrap> <em>funptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__RTN__BASIC__API.html#gf191d518e93cfce6bf6e43d0b2bf3d81">PROBE_MODE</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>va_list&nbsp;</td>
+          <td class="mdname" nowrap> <em>argList</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Insert a probe at a routine enty<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>orgRtn</em>&nbsp;</td><td>The application routine to instrument </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>action</em>&nbsp;</td><td>Use IPOINT_BEFORE or IPOINT_AFTER to call funptr before or after execution. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>funptr</em>&nbsp;</td><td>The analysis function </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mode</em>&nbsp;</td><td>The probe mode (PROBE_MODE_DEFAULT /PROBE_MODE_ALLOW_RELOCATION) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>argList</em>&nbsp;</td><td>a signature of "replacement" specified as a variable list of arguments </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -9522,33 +9328,17 @@ Open the given rtn and fetch all the instructions<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="45309e6bd43fc38b5cb3b12115178a25"></a><!-- doxytag: member="LEVEL_PINCLIENT::RTN_ProbeMayOverwriteBranchTarget" ref="45309e6bd43fc38b5cb3b12115178a25" args="(RTN rtn, UINT32 probe_size, BOOL *mayOverwriteUnidentifiedBranchTarget)" --><p>
+<a class="anchor" name="aea6031f08320afebbd1cbcaa28ddc9f"></a><!-- doxytag: member="LEVEL_PINCLIENT::ScanLibraries" ref="aea6031f08320afebbd1cbcaa28ddc9f" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">LOCALFUN BOOL LEVEL_PINCLIENT::RTN_ProbeMayOverwriteBranchTarget           </td>
+          <td class="md" nowrap valign="top">LOCALFUN VOID LEVEL_PINCLIENT::ScanLibraries           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">RTN&nbsp;</td>
-          <td class="mdname" nowrap> <em>rtn</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>UINT32&nbsp;</td>
-          <td class="mdname" nowrap> <em>probe_size</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>BOOL *&nbsp;</td>
-          <td class="mdname" nowrap> <em>mayOverwriteUnidentifiedBranchTarget</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
         </tr>
       </table>
     </td>
@@ -9562,7 +9352,7 @@ Open the given rtn and fetch all the instructions<p>
     <td>
 
 <p>
-This routine tests to see if the probe may overwrite the target of a branch/call     </td>
+Search for DLLs that Pin hasn't yet seen.     </td>
   </tr>
 </table>
 <a class="anchor" name="2d2b2a981a9427e437e4bacdb257cc50"></a><!-- doxytag: member="LEVEL_PINCLIENT::ScanLibrariesLocked" ref="2d2b2a981a9427e437e4bacdb257cc50" args="()" --><p>
@@ -10187,6 +9977,35 @@ Compile and put trace in the code cache.<p>
     </td>
   </tr>
 </table>
+<a class="anchor" name="22021dbc5ee8da05238cf097ee69c90e"></a><!-- doxytag: member="LEVEL_PINCLIENT::TRACE_Oaddr" ref="22021dbc5ee8da05238cf097ee69c90e" args="(TRACE trace)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN ADDRINT LEVEL_PINCLIENT::TRACE_Oaddr           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a>&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>trace</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This routine determines the starting code cache address of a trace (Note: Only valid after code cache space has been allocated for this trace - normally after the instrumentation phase.) <dl compact><dt><b>Returns:</b></dt><dd>Code Cache Address </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="04c81e8750b01807a367b9d2b4750991"></a><!-- doxytag: member="LEVEL_PINCLIENT::TRACE_RelocateOriginalInsAddr" ref="04c81e8750b01807a367b9d2b4750991" args="(ADDRINT addr)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -10305,6 +10124,33 @@ Returns the first instruction in the given trace.     </td>
 Uninitialize app     </td>
   </tr>
 </table>
+<a class="anchor" name="c0b2817e4492556f8edb942249d8765c"></a><!-- doxytag: member="LEVEL_PINCLIENT::VdsoAddress" ref="c0b2817e4492556f8edb942249d8765c" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN ADDRINT LEVEL_PINCLIENT::VdsoAddress           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return VDSO image base address     </td>
+  </tr>
+</table>
 <a class="anchor" name="e85f66d0e50f6222e2dd97d64fbb70ea"></a><!-- doxytag: member="LEVEL_PINCLIENT::VmFunctionNotInitialized" ref="e85f66d0e50f6222e2dd97d64fbb70ea" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -10377,10 +10223,11 @@ Allocator of TLS keys in client TLS.     </td>
 
 <p>
 <b>Initial value:</b><div class="fragment"><pre class="fragment">
-{
+    {
     
     
-    PINCLIENTINT::MAGIC
+    PINCLIENTINT::MAGIC,
+    InitializeCallBacks
 }
 </pre></div>    </td>
   </tr>
@@ -10431,7 +10278,7 @@ Maximum number of internal exception handling callbacks     </td>
 Single instance of the allocator of TLS keys in client TLS.     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:47 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:12 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

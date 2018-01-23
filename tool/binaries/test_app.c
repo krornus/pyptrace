@@ -22,8 +22,9 @@ int main(int argc, char **argv)
         }
     }
 
+    printf("Enter input: ");
     gets(buf);
     printf("buf: '%s' (len %lu)\n", buf, strlen(buf));
-    
+
     return 0;
 }

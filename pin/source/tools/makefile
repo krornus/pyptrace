@@ -5,12 +5,12 @@
 # All directories which contain tests should be placed here.
 # Please maintain alphabetical order.
 
-ALL_TEST_DIRS := AVX AVX2 AlignChk AndroidTests AttachDetach Buffer CacheClient ChildProcess Cpp11Tests CrossIa32Intel64 \
-                 Debugger DebugInfo DebugTrace GracefulExit I18N IArg ImageTests InlinedFuncsOpt Insmix InstLibExamples \
-                 InstructionTests InstrumentationOrderAndVersion JitProfilingApiTests MacTests ManualExamples           \
-                 MaskVector Memory MemTrace MemTranslate Mix Mmx MyPinTool Probes Regvalue Replay RtnTests SegTrace     \
-                 SegmentsVirtualization SignalTests SimpleExamples Smc SyncTests SyscallsEmulation Tests ToolUnitTests  \
-                 Tsx XyzzyKnobs CRT NonInlinedFuncsOpt
+ALL_TEST_DIRS := AVX AVX2 AlignChk AttachDetach Buffer ChildProcess CodeCache Cpp11Tests CrossIa32Intel64 CRT Debugger	 \
+                 DebugInfo DebugTrace GracefulExit I18N IArg ImageTests InlinedFuncsOpt Insmix InstLibExamples           \
+                 InstructionTests InstrumentationOrderAndVersion JitProfilingApiTests LinuxTests MacTests ManualExamples \
+                 MaskVector Memory MemTrace MemTranslate Mix Mmx MyPinTool NonInlinedFuncsOpt Probes Regvalue Replay     \
+                 RtnTests SegTrace SegmentsVirtualization SignalTests SimpleExamples Smc SyncTests SyscallsEmulation     \
+                 Tests ToolUnitTests Tsx XyzzyKnobs
 
 # All directories which contain utilities for the test system should be placed here.
 # Please maintain alphabetical order.

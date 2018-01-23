@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,17 +28,16 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include <stdio.h>
-#include <string.h>
-#include "pin.H"
-#include "instlib.H"
-#include "portability.H"
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <cstdlib>
 #include <map>
+#include "pin.H"
+#include "instlib.H"
 
 std::map<ADDRINT, std::string> disAssemblyMap;
 
@@ -76,15 +75,15 @@ disassemble(UINT64 start, UINT64 stop) {
     xed_error_enum_t xed_error;
     xed_decoded_inst_t xedd;
     ostringstream os;
-    if (sizeof(ADDRINT) == 4) 
-        xed_state_init(&dstate,     
+    if (sizeof(ADDRINT) == 4)
+        xed_state_init(&dstate,
                        XED_MACHINE_MODE_LEGACY_32,
-                       XED_ADDRESS_WIDTH_32b, 
+                       XED_ADDRESS_WIDTH_32b,
                        XED_ADDRESS_WIDTH_32b);
     else
         xed_state_init(&dstate,
                        XED_MACHINE_MODE_LONG_64,
-                       XED_ADDRESS_WIDTH_64b, 
+                       XED_ADDRESS_WIDTH_64b,
                        XED_ADDRESS_WIDTH_64b);
 
     /*while( pc < stop )*/ {
@@ -119,7 +118,7 @@ disassemble(UINT64 start, UINT64 stop) {
             os << " ";
             memset(buffer,0,200);
             int dis_okay = xed_format_context(syntax, &xedd, buffer, 200, pc, 0, 0);
-            if (dis_okay) 
+            if (dis_okay)
                 os << buffer << endl;
             else
                 os << "Error disasassembling pc 0x" << std::hex << pc << std::dec << endl;
@@ -142,7 +141,7 @@ disassemble(UINT64 start, UINT64 stop) {
 
 VOID ImageLoad(IMG img, VOID *v)
 {
-    
+
     printf ("ImageLoad %s\n", IMG_Name(img).c_str());
     for (SEC sec = IMG_SecHead(img); SEC_Valid(sec); sec = SEC_Next(sec))
     {
@@ -168,11 +167,11 @@ VOID ImageLoad(IMG img, VOID *v)
 
 static VOID AtBranch(ADDRINT ip, ADDRINT target, BOOL taken)
 {
-    
+
     if (target >= dl_debug_state_Addr && target < dl_debug_state_AddrEnd)
     {
         string s = disassemble ((ip),(ip)+15);
-        
+
         printf ("  branch %s   branches to range of interest %p  taken %d\n", s.c_str(), reinterpret_cast<void *>(target), taken);
         fflush (stdout);
     }
@@ -182,13 +181,13 @@ static VOID AtBranch(ADDRINT ip, ADDRINT target, BOOL taken)
         printf ("  instruction in range of interest executed %s\n", s.c_str());
         fflush (stdout);
     }
-    
+
 }
 
 
 static VOID AtNonBranch(ADDRINT ip)
 {
-    
+
     if (ip >= dl_debug_state_Addr && ip < dl_debug_state_AddrEnd)
     {
         string s = disassemble ((ip),(ip)+15);

@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Barak Nirenberg
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 
@@ -11,11 +10,40 @@
 #define OS_APIS_SIGNALS_H
 
 #include "os-apis.h"
+#include "signals-core.h"
 
-/*! @ingroup OS_APIS_SIGNALS
- * Represents a set of signals
- */
-typedef UINT64 SIGSET_T;
+/*!
+* Retrun the Max number of signals possible
+*/
+int OS_MaxSignalNumber();
+
+/*!
+* This enum is used only for the OS_PinSigactionToKernelSigaction function
+*  you cannot use these values directly in other OS-APIs functions or system calls
+*/
+typedef enum
+{
+    SIGACTION_SIGINFO,
+    SIGACTION_NODEFER,
+    SIGACTION_RESETHAND,
+    SIGACTION_ONSTACK,
+    SIGACTION_NOCLDSTOP,
+    SIGACTION_RESTART,
+    SIGACTION_RESTORER
+}SigactionDefines ;
+
+/*
+* This function is used to convert the defines into the right
+* value according to the OS (bit map value)
+*/
+UINT64 OS_PinSigactionToKernelSigaction(SigactionDefines input);
+
+#ifdef TARGET_MAC
+typedef void(*OS_SIGTRAP_PTR)(void *, unsigned int, int, void *, void *);
+
+void OS_SigReturn(void *uctx, int infostyle);
+
+#endif
 
 /*! @ingroup OS_APIS_SIGNALS
  * Specifies an action to OS_SigAction()
@@ -24,13 +52,30 @@ struct SIGACTION {
  union {
      void (*_sa_handler)(int);                   //! Signal handle function (old way)
      void (*_sa_sigaction)(int, void *, void *); //! Signal handle function (new way)
-     void *_sa_handler_ptr;                      //! Convinience void* pointer to the signal handler.
+     void *_sa_handler_ptr;                      //! Convenience void* pointer to the signal handler.
  } _u;
  SIGSET_T sa_mask;                               //! Mask of signals to block during the handling of the signal
  unsigned long sa_flags;                         //! Additional flags (OS specific).
 
  void (*sa_restorer)(void);                      //! Signal restorer.
 };
+
+#ifdef TARGET_MAC
+struct SIGACTION_WITH_TRAMP {
+    struct SIGACTION act;
+    void(*sa_tramp)(void *, unsigned int, int, void *, void *);
+ };
+#endif
+
+
+
+#ifdef TARGET_MAC
+/**
+ *  Same as OS_SigAction but the specified act contains a trampoline (meaning don't use the default Pin trampoline
+ *  but the the one that is exists in act)
+ */
+OS_RETURN_CODE OS_SigActionWithTrampoline(INT signum, const struct SIGACTION_WITH_TRAMP *actWithTramp, struct SIGACTION *oldact);
+#endif
 
 
 /*! @ingroup OS_APIS_SIGNALS
@@ -49,25 +94,6 @@ struct SIGACTION {
  */
 OS_RETURN_CODE OS_SigAction(INT signum, const struct SIGACTION *act, struct SIGACTION *oldact);
 
-/*! @ingroup OS_APIS_SIGNALS
- * Change the signal mask, the set of currently blocked signals for the current thread.
- * This function is compatible with POSIX sigprocmask().
- *
- * @param[in]  how          Specifies how to alter the blocked signals mask:
- *                          SIG_BLOCK: The set of blocked signals is the union of the current set and the set argument.
-                            SIG_UNBLOCK: The signals in set are removed from the current set of blocked signals.
-                                It is legal to attempt to unblock a signal which is not blocked.
-                            SIG_SETMASK: The set of blocked signals is set to the argument set.
- * @param[in]  set          The signal set to alter.
- * @param[in]  oldset       The previous blocked signals set.
- *
- * @return     Operation status code.
- *
- * @par Availability:
- *   @b O/S:   Linux & OS X*\n
- *   @b CPU:   All\n
- */
-OS_RETURN_CODE OS_SigProcMask(INT how, const SIGSET_T *set, SIGSET_T *oldset);
 
 /*! @ingroup OS_APIS_SIGNALS
  * Temporarily  replaces  the  signal  mask of the calling process with the mask given
@@ -99,34 +125,21 @@ OS_RETURN_CODE OS_SigSuspend(const SIGSET_T *mask);
  */
 OS_RETURN_CODE OS_SigPending(const SIGSET_T *set);
 
-/*! @ingroup OS_APIS_SIGNALS
- * Send signal to a process.
- * This function is compatible with POSIX kill().
- *
- * @param[in]  pid          The process to send signal to.
- * @param[in]  signal       The signal to send.
- *
- * @return     Operation status code.
- *
- * @par Availability:
- *   @b O/S:   Linux & OS X*\n
- *   @b CPU:   All\n
- */
-OS_RETURN_CODE OS_SendSignalToProcess(NATIVE_PID pid, INT signal);
 
 /*! @ingroup OS_APIS_SIGNALS
- * Send signal to a particular thread inside a process.
- *
- * @param[in]  pid          The process ID where the thread is running.
- * @param[in]  tid          The thread ID to send the signal to.
- * @param[in]  signal       The signal to send.
- *
- * @return     Operation status code.
- *
- * @par Availability:
- *   @b O/S:   Linux & OS X*\n
- *   @b CPU:   All\n
- */
+* Send signal to a particular thread inside a process.
+*
+* @param[in]  pid          The process ID where the thread is running.if it's INVALID_NATIVE_PID then we
+ignore the pid.
+* @param[in]  tid          The thread ID to send the signal to.
+* @param[in]  signal       The signal to send.
+*
+* @return     Operation status code.
+*
+* @par Availability:
+*   @b O/S:   Linux & OS X*\n
+*   @b CPU:   All\n
+*/
 OS_RETURN_CODE OS_SendSignalToThread(NATIVE_PID pid, NATIVE_TID tid, UINT32 signal);
 
 #endif // OS_APIS_SIGNALS_H

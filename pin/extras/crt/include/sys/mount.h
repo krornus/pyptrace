@@ -39,7 +39,10 @@ __BEGIN_DECLS
 #define MNT_DETACH	2	/* Detach from tree only */
 #define MNT_EXPIRE	4	/* Mark for expiry */
 
+#ifndef _FSID_T
+# define _FSID_T
 typedef struct fsid { int32_t val[2]; } fsid_t;        /* DARWIN file system id type */
+#endif // _FSID_T
 
 extern int mount(const char*, const char*, const char*, unsigned long, const void*);
 extern int umount(const char*);

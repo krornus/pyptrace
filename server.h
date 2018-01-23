@@ -31,8 +31,10 @@ typedef struct instruction_t instruction;
 typedef struct mem_op_t mem_op;
 
 int next_ins(int sock, instruction *ins);
+int is_new_connection(int sock);
 int recv_mem_op(int sock, mem_op *op);
 int recv_val(int sock, unsigned char *buf, int size);
+int peek_val(int sock, unsigned char *buf, int size);
 int handle_ins(instruction *ins);
 int recv_client(int sock);
 int init_server(char *path);

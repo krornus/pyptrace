@@ -86,6 +86,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#g9049891c13cbc87c8427cf7ccc2f501a">LEVEL_PINCLIENT::IMG_IsStaticExecutable</a> (IMG x)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#gbc25391738a84c3f6c887e3a1b118633">LEVEL_PINCLIENT::IMG_IsVDSO</a> (IMG img)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#geac301624abebcbc103447306bf0037b">LEVEL_PINCLIENT::IMG_NumRegions</a> (IMG img)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__IMG__BASIC__API.html#g61dbd928707746c08ad1e60aab39b944">LEVEL_PINCLIENT::IMG_RegionHighAddress</a> (IMG img, UINT32 n)</td></tr>
@@ -727,6 +729,45 @@ On operating systems that have the concept of loader image. (i.e. another progra
     </td>
   </tr>
 </table>
+<a class="anchor" name="gbc25391738a84c3f6c887e3a1b118633"></a><!-- doxytag: member="LEVEL_PINCLIENT::IMG_IsVDSO" ref="gbc25391738a84c3f6c887e3a1b118633" args="(IMG img)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::IMG_IsVDSO           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">IMG&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>img</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+On Linux this function return TRUE for the image of the VDSO. On other operating systems return FALSE for all images.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>img</em>&nbsp;</td><td>The Pin image handle.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>TRUE if this is the VDSO image.</dd></dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
+ <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g0b1ec819cfdc6ab668335c8ef923e595"></a><!-- doxytag: member="LEVEL_PINCLIENT::IMG_LoadOffset" ref="g0b1ec819cfdc6ab668335c8ef923e595" args="(IMG img)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -825,7 +866,7 @@ Tells the lowest address of any code or data loaded by the image.<p>
     <td>
 
 <p>
-<dl compact><dt><b>Returns:</b></dt><dd>Name of image, Image names are encoded in UTF8 (a superset of ASCII), this is supported for Linux (only for locales encoded in UTF8) and Windows</dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>Fully qualified actual file name of image. Image names are encoded in UTF8 (a superset of ASCII), this is supported for Linux (only for locales encoded in UTF8) and Windows</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
  <b>O/S</b>: Linux, Windows &amp; MacOS<br>
  <b>CPU:</b> All<br>
@@ -1306,7 +1347,7 @@ On <a class="el" href="group__IMG__BASIC__API.html#gbe4609c85b9795a1d57e9d6bfc3f
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

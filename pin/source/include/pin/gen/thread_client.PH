@@ -22,8 +22,8 @@ extern VOID PIN_Sleep(UINT32 milliseconds);
 extern VOID PIN_Yield();
 
                                                                   /* DO NOT EDIT */
-extern THREADID PIN_SpawnInternalThread(ROOT_THREAD_FUNC * pThreadFunc, 
-                                           VOID * arg, 
+extern THREADID PIN_SpawnInternalThread(ROOT_THREAD_FUNC * pThreadFunc,
+                                           VOID * arg,
                                            size_t stackSize,
                                            PIN_THREAD_UID * pThreadUid);
 
@@ -34,7 +34,7 @@ extern VOID PIN_ExitThread(INT32 exitCode);
 extern BOOL PIN_IsApplicationThread();
 
                                                                   /* DO NOT EDIT */
-extern BOOL PIN_WaitForThreadTermination(const PIN_THREAD_UID & threadUid, 
+extern BOOL PIN_WaitForThreadTermination(const PIN_THREAD_UID & threadUid,
                                             UINT32 milliseconds,
                                             INT32 * pExitCode);
 

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -33,8 +33,6 @@ END_LEGAL */
  * more than once in the command line as long as their values are exactly
  * the same.  This scenario occurs, for example, when the user enters the
  * same knob twice by mistake in the command line.
- *
- * ORIGINAL_AUTHOR: Alon Gafni
  */
 
 #include "pin.H"

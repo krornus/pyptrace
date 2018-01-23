@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Barak Nirenberg
 // <COMPONENT>: libc
 // <FILE-TYPE>: component private header
 

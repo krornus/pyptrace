@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -49,8 +49,8 @@ _start:
         
 # Test different string comparison
         inc     %rbx
-	lea	one, %rsi
-	lea	two, %rdi
+	lea	one(%rip), %rsi
+	lea	two(%rip), %rdi
 	mov     $strlen,%rcx
 	repe cmpsb
         cmp     $(strlen-2),%rcx                # Should fail at second byte
@@ -58,8 +58,8 @@ _start:
 
 # Test same string comparison
         inc     %rbx
-	lea	one, %rsi
-	lea	one, %rdi
+	lea	one(%rip), %rsi
+	lea	one(%rip), %rdi
 	mov     $strlen,%rcx
 	repe cmpsb 
         test    %rcx,%rcx                       # Should run full length
@@ -67,8 +67,8 @@ _start:
 
 # Test same string comparison, but with no count...
         inc     %rbx
-	lea	one, %rsi
-	lea	one, %rdi
+	lea	one(%rip), %rsi
+	lea	one(%rip), %rdi
         xor     %rcx,%rcx
 	repe cmpsb 
         test    %rcx,%rcx                       # Should still be zero
@@ -76,15 +76,15 @@ _start:
 
 # Test scasd
         inc     %rbx
-	mov	one, %rax
-	lea	two, %rdi
+	mov	one(%rip), %rax
+	lea	two(%rip), %rdi
 	scasw
 	mov     %rax,%rcx
 	
 # Test same string comparison, but with no count...
         inc     %rbx
-        lea     one, %rsi
-        lea     one, %rdi
+        lea     one(%rip), %rsi
+        lea     one(%rip), %rdi
         xor     %rcx,%rcx
         repe cmpsb
         test    %rcx,%rcx                       # Should still be zero
@@ -92,8 +92,8 @@ _start:
 
 # Test scasd
         inc     %rbx
-        mov     one, %rax
-        lea     two, %rdi
+        mov     one(%rip), %rax
+        lea     two(%rip), %rdi
         scasw
         mov     %rax,%rcx
 

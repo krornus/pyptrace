@@ -28,21 +28,27 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef <a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#gc90110049c7e39e8701f3a3e8f02008e">OS_FnPtrCreateProcess</a> )(const CHAR *args, <a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *stdFiles, <a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *closeFiles, char **environ, <a class="el" href="group__OS__APIS__FILE.html#g3c0f2cb38add8e0b67ae758d1aa98cb3">OS_PROCESS_WAITABLE_PROCESS</a> *process)</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g44856e8c3fd154f082002b5ef7b14a62">OS_GetCommandLine</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> pid, USIZE *argc, CHAR ***argv, USIZE *bufsize)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#ga911d11963cdc74ed8d104381481b5c2">OS_GetPid</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> *pid)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g25909548469c4b670b7aeea4f5566ef4">OS_GetEnvironmentBlock</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> pid, CHAR ***block, USIZE *bufSize)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g44856e8c3fd154f082002b5ef7b14a62">OS_GetCommandLine</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> pid, USIZE *argc, CHAR ***argv, USIZE *bufsize)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g25909548469c4b670b7aeea4f5566ef4">OS_GetEnvironmentBlock</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> pid, CHAR ***block, USIZE *bufSize)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">NORETURN void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g650b56e4dc6fb4c74003df7287b9ea2c">OS_ExitProcess</a> (INT code)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#ga911d11963cdc74ed8d104381481b5c2">OS_GetPid</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> *pid)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g7deed558a64937fe4622747d55005df9">OS_IsDebuggerPresent</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> pid, <a class="el" href="group__OS__APIS__TYPES.html#g4b232cbc1ba7648e8617b0673d33b863">BOOL_T</a> *isPresent)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g7deed558a64937fe4622747d55005df9">OS_IsDebuggerPresent</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> pid, <a class="el" href="group__OS__APIS__TYPES.html#g4b232cbc1ba7648e8617b0673d33b863">BOOL_T</a> *isPresent)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g8d59ca939dfa32ef8f3c79986bc27196">OS_GetUid</a> (NATIVE_UID *uid)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g689c686e2efa6dc95c018f792fcd70f2">OS_FindStdFiles</a> (<a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *files)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#gbe12b90cea450a57d3b45cd7992c2211">OS_CreateProcess</a> (const CHAR *args, <a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *stdFiles, <a class="el" href="group__OS__APIS__TYPES.html#gd22a4a28c640a6ee38d31d001d59d5b7">NATIVE_FD</a> *closeFiles, char **environ, <a class="el" href="group__OS__APIS__FILE.html#g3c0f2cb38add8e0b67ae758d1aa98cb3">OS_PROCESS_WAITABLE_PROCESS</a> *process)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g6ee71bc9c98df8e6dfdf05685c5cd6f6">OS_WaitForProcessTermination</a> (<a class="el" href="group__OS__APIS__FILE.html#g3c0f2cb38add8e0b67ae758d1aa98cb3">OS_PROCESS_WAITABLE_PROCESS</a> process, UINT32 *exitStatus)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#gc437f54cd5650ee303bce71401f5caa4">OS_TriggerSoftwareBreakpoint</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__PROCESS.html#g2eef7a3f1df57eb7a0216d60ebf664d8">OS_NotifyFork</a> ()</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -235,7 +241,7 @@ Queries whether the current process is being debugged.<p>
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_GetCommandLine           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>pid</em>, </td>
         </tr>
         <tr>
@@ -303,7 +309,7 @@ Retrieve the command line for a given process.<p>
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_GetEnvironmentBlock           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>pid</em>, </td>
         </tr>
         <tr>
@@ -357,7 +363,7 @@ Retrieve pointer to process environment variables block encoded in UTF8.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="ga911d11963cdc74ed8d104381481b5c2"></a><!-- doxytag: member="process.h::OS_GetPid" ref="ga911d11963cdc74ed8d104381481b5c2" args="(NATIVE_PID *pid)" --><p>
+<a class="anchor" name="ga911d11963cdc74ed8d104381481b5c2"></a><!-- doxytag: member="process-core.h::OS_GetPid" ref="ga911d11963cdc74ed8d104381481b5c2" args="(NATIVE_PID *pid)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -365,7 +371,7 @@ Retrieve pointer to process environment variables block encoded in UTF8.<p>
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_GetPid           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>pid</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -401,6 +407,50 @@ Retrieves the process ID of the current process.<p>
     </td>
   </tr>
 </table>
+<a class="anchor" name="g8d59ca939dfa32ef8f3c79986bc27196"></a><!-- doxytag: member="process.h::OS_GetUid" ref="g8d59ca939dfa32ef8f3c79986bc27196" args="(NATIVE_UID *uid)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_GetUid           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">NATIVE_UID *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>uid</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Queries whether the current process is being debugged.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>uid</em>&nbsp;</td><td>Process descriptor</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>Operation status code. </dd></dl>
+<dl compact><dt><b>Return values:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_NO_ERROR</em>&nbsp;</td><td>If the operation succeeded </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_PROCESS_QUERY_FAILED</em>&nbsp;</td><td>If the operation Failed</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Linux &amp; OS X*<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g7deed558a64937fe4622747d55005df9"></a><!-- doxytag: member="process.h::OS_IsDebuggerPresent" ref="g7deed558a64937fe4622747d55005df9" args="(NATIVE_PID pid, BOOL_T *isPresent)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -409,7 +459,7 @@ Retrieves the process ID of the current process.<p>
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_IsDebuggerPresent           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>pid</em>, </td>
         </tr>
         <tr>
@@ -449,6 +499,68 @@ Queries whether the current process is being debugged.<p>
     <tr><td valign="top"></td><td valign="top"><em>OS_RETURN_CODE_PROCESS_QUERY_FAILED</em>&nbsp;</td><td>If the operation Failed</td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Windows, Linux &amp; OS X*<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="g2eef7a3f1df57eb7a0216d60ebf664d8"></a><!-- doxytag: member="process.h::OS_NotifyFork" ref="g2eef7a3f1df57eb7a0216d60ebf664d8" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void OS_NotifyFork           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Notifies the locking machanism about a forked child.<p>
+<dl compact><dt><b>Availability:</b></dt><dd><ul>
+<li><b>O/S</b>: Linux &amp; OS X*</li><li><b>CPU:</b> All </li></ul>
+</dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="gc437f54cd5650ee303bce71401f5caa4"></a><!-- doxytag: member="process.h::OS_TriggerSoftwareBreakpoint" ref="gc437f54cd5650ee303bce71401f5caa4" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID OS_TriggerSoftwareBreakpoint           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Trigger a software breakpoint. When the current process is attached to a debugger, this function will stop the process and notify the debugger about a breakpoint that was triggered.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>O/S</b>: Windows, Linux &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
@@ -509,7 +621,7 @@ Wait for process termination.<p>
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:21:02 2016 for PinCRT by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:29:31 2017 for PinCRT by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

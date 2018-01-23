@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -75,13 +75,26 @@ VOID CheckCopyAndReset (unsigned char *src, unsigned char *dst)
     }
 }
 
+ADDRINT imgStartAdd;
+USIZE imgSize;
+
 VOID Instruction(INS ins, VOID *v)
 {
-    
-    
-    INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)MyMemCpy, IARG_PTR, &src,  IARG_PTR, &dst,  IARG_UINT32, 128, IARG_END);
-    INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)CheckCopyAndReset, IARG_PTR, &src,  IARG_PTR, &dst, IARG_END);
-       
+    //instrument if ins is app instruction
+    if (INS_Address(ins) >= imgStartAdd && INS_Address(ins) < (imgStartAdd + imgSize))
+    {
+        INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)MyMemCpy, IARG_PTR, &src,  IARG_PTR, &dst,  IARG_UINT32, 128, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)CheckCopyAndReset, IARG_PTR, &src,  IARG_PTR, &dst, IARG_END);
+    }
+}
+
+VOID ImageLoad(IMG img, VOID *v)
+{
+    if (IMG_IsMainExecutable(img))
+    {
+        imgStartAdd = IMG_StartAddress(img);
+        imgSize = IMG_SizeMapped(img);
+    }
 }
 
 int main(int argc, char * argv[])
@@ -108,11 +121,13 @@ int main(int argc, char * argv[])
         }
     }
 
-    INS_AddInstrumentFunction(Instruction, 0);
+    INS_AddInstrumentFunction(Instruction, NULL);
+
+    IMG_AddInstrumentFunction(ImageLoad, NULL);
     
     // Never returns
     PIN_StartProgram();
     
-    return 0;
+    return 1;
 }
 

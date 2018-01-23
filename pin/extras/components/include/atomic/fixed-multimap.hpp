@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component public header
 
 #ifndef ATOMIC_FIXED_MULTIMAP_HPP
 #define ATOMIC_FIXED_MULTIMAP_HPP
 
-#include "fund.hpp"
 #include "atomic/config.hpp"
 #include "atomic/ops.hpp"
 #include "atomic/exponential-backoff.hpp"
@@ -96,7 +94,7 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
      */
     FIXED_MULTIMAP(STATS *stats=0) : _highWaterMark(0), _freeLocationHint(0), _stats(stats)
     {
-        for (FUND::UINT32 i = 0;  i < Capacity;  i++)
+        for (UINT32 i = 0;  i < Capacity;  i++)
             _map[i] = KeyAvailable;
     }
 
@@ -118,7 +116,7 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
         _highWaterMark = 0;
         _freeLocationHint = 0;
 
-        for (FUND::UINT32 i = 0;  i < Capacity;  i++)
+        for (UINT32 i = 0;  i < Capacity;  i++)
             _map[i] = KeyAvailable;
     }
 
@@ -138,15 +136,15 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
     {
         ATOMIC_CHECK_ASSERT(key != KeyAvailable && key != KeyReserved);
 
-        FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
-        FUND::UINT32 freeHint = OPS::Load(&_freeLocationHint);
+        UINT32 highWater = OPS::Load(&_highWaterMark);
+        UINT32 freeHint = OPS::Load(&_freeLocationHint);
 
-        for (FUND::UINT32 i = freeHint;  i < highWater;  i++)
+        for (UINT32 i = freeHint;  i < highWater;  i++)
         {
             if (OPS::Load(&_map[i]) == KeyAvailable && AddAt(i, key, userObj))
                 return &_objects[i];
         }
-        for (FUND::UINT32 i = 0;  i < Capacity;  i++)
+        for (UINT32 i = 0;  i < Capacity;  i++)
         {
             if (OPS::Load(&_map[i]) == KeyAvailable && AddAt(i, key, userObj))
                 return &_objects[i];
@@ -173,8 +171,8 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
     {
         ATOMIC_CHECK_ASSERT(key != KeyAvailable && key != KeyReserved);
 
-        FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
-        for (FUND::UINT32 i = 0;  i < highWater;  i++)
+        UINT32 highWater = OPS::Load(&_highWaterMark);
+        for (UINT32 i = 0;  i < highWater;  i++)
         {
             // This BARRIER_LD_NEXT works in conjunction with the other barrier marked (A).
             // They ensure that the contents of _object[i] are visible on this processor,
@@ -204,8 +202,8 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
      */
     template<typename PRED> OBJECT *FindIf(PRED pred)
     {
-        FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
-        for (FUND::UINT32 i = 0;  i < highWater;  i++)
+        UINT32 highWater = OPS::Load(&_highWaterMark);
+        for (UINT32 i = 0;  i < highWater;  i++)
         {
             // This BARRIER_LD_NEXT works in conjunction with the other barrier marked (A).
             // They ensure that the contents of _object[i] are visible on this processor,
@@ -236,8 +234,8 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
     {
         ATOMIC_CHECK_ASSERT(key != KeyAvailable && key != KeyReserved);
 
-        FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
-        for (FUND::UINT32 i = 0;  i < highWater;  i++)
+        UINT32 highWater = OPS::Load(&_highWaterMark);
+        for (UINT32 i = 0;  i < highWater;  i++)
         {
             if (OPS::Load(&_map[i]) == key)
             {
@@ -261,8 +259,8 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
      */
     template<typename PRED> void RemoveIf(PRED pred)
     {
-        FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
-        for (FUND::UINT32 i = 0;  i < highWater;  i++)
+        UINT32 highWater = OPS::Load(&_highWaterMark);
+        for (UINT32 i = 0;  i < highWater;  i++)
         {
             KEY key = OPS::Load(&_map[i]);
             if (key != KeyAvailable && key != KeyReserved)
@@ -288,8 +286,8 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
      */
     template<typename BINARY> void ForEach(BINARY func)
     {
-        FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
-        for (FUND::UINT32 i = 0;  i < highWater;  i++)
+        UINT32 highWater = OPS::Load(&_highWaterMark);
+        for (UINT32 i = 0;  i < highWater;  i++)
         {
             // This BARRIER_LD_NEXT works in conjunction with the other barrier marked (A).
             // They ensure that the contents of _object[i] are visible on this processor,
@@ -306,7 +304,7 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
      * Attempt to add a new element at the given location.  Return TRUE if it could
      * be added there, FALSE if not.
      */
-    bool AddAt(FUND::UINT32 index, KEY key, const OBJECT &userObj)
+    bool AddAt(UINT32 index, KEY key, const OBJECT &userObj)
     {
         // If this location is available, mark it as reserved.
         //
@@ -334,7 +332,7 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
         // assuming that the next location is more likely to be free than this
         // one.
         //
-        FUND::UINT32 highWater;
+        UINT32 highWater;
         EXPONENTIAL_BACKOFF<STATS> backoff(1, _stats);
         do
         {
@@ -358,7 +356,7 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
     /*
      * If the given element contains the given key, remove it.
      */
-    void RemoveAt(FUND::UINT32 index, KEY key)
+    void RemoveAt(UINT32 index, KEY key)
     {
         // Unless someone else removes this element first, mark the location as reserved.
         //
@@ -379,7 +377,7 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
             // This ensures that the write to _highWaterMark is made visible on other processors
             // before _map[index] is marked available.
             //
-            FUND::UINT32 highWater = OPS::Load(&_highWaterMark);
+            UINT32 highWater = OPS::Load(&_highWaterMark);
             if (index != highWater-1 || !OPS::CompareAndDidSwap(&_highWaterMark, highWater, index, BARRIER_CS_NEXT))
             {
                 OPS::Store(&_map[index], KeyAvailable);
@@ -411,11 +409,11 @@ template<typename KEY, typename OBJECT, KEY InvalidKey1, KEY InvalidKey2,
 
     // This is an index into the map.  All entries at this location and above are invalid.
     //
-    volatile FUND::UINT32 _highWaterMark;
+    volatile UINT32 _highWaterMark;
 
     // This is a hint to a location in the map that is probably available.
     //
-    volatile FUND::UINT32 _freeLocationHint;
+    volatile UINT32 _freeLocationHint;
 
     STATS *_stats;  // Object which collects statistics, or NULL
 };

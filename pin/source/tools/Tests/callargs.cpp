@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -90,7 +90,8 @@ VOID Ins(INS ins, VOID *v)
         && INS_DirectBranchOrCallTargetAddress(ins) == foobarAddress)
     {
         TraceFile << "Instrument call to foobar" << endl;
-        INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(FoobarArgs), IARG_G_ARG0_CALLER, IARG_G_ARG1_CALLER, IARG_END);
+        INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(FoobarArgs), IARG_FUNCARG_CALLSITE_VALUE, 0, IARG_FUNCARG_CALLSITE_VALUE, 1,
+                       IARG_END);
     }
 
     static BOOL first = true;
@@ -100,7 +101,7 @@ VOID Ins(INS ins, VOID *v)
 
     first = false;
 
-    INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(CallArgs),  IARG_G_ARG0_CALLER, IARG_END);
+    INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(CallArgs),  IARG_FUNCARG_CALLSITE_VALUE, 0, IARG_END);
     
 }
 
@@ -112,7 +113,10 @@ VOID Image(IMG img, VOID *v)
     if (RTN_Valid(mmapRtn))
     {
         RTN_Open(mmapRtn);
-        RTN_InsertCall(mmapRtn, IPOINT_BEFORE, AFUNPTR(MmapArgs), IARG_RETURN_IP, IARG_G_ARG0_CALLEE, IARG_G_ARG1_CALLEE, IARG_G_ARG2_CALLEE, IARG_G_ARG3_CALLEE, IARG_G_ARG4_CALLEE, IARG_G_ARG5_CALLEE, IARG_END);
+        RTN_InsertCall(mmapRtn, IPOINT_BEFORE, AFUNPTR(MmapArgs), IARG_RETURN_IP,
+                       IARG_FUNCARG_ENTRYPOINT_VALUE, 0, IARG_FUNCARG_ENTRYPOINT_VALUE, 1, IARG_FUNCARG_ENTRYPOINT_VALUE, 2,
+                       IARG_FUNCARG_ENTRYPOINT_VALUE, 3, IARG_FUNCARG_ENTRYPOINT_VALUE, 4, IARG_FUNCARG_ENTRYPOINT_VALUE, 5,
+                       IARG_END);
         RTN_Close(mmapRtn);
     }
     RTN foobarRtn = RTN_FindByName(img, FUNC_PREFIX "foobar");
@@ -121,7 +125,8 @@ VOID Image(IMG img, VOID *v)
         foobarAddress = RTN_Address(foobarRtn);
         
         RTN_Open(foobarRtn);
-        RTN_InsertCall(foobarRtn, IPOINT_BEFORE, AFUNPTR(FoobarArgs), IARG_G_ARG0_CALLEE, IARG_G_ARG1_CALLEE, IARG_END);
+        RTN_InsertCall(foobarRtn, IPOINT_BEFORE, AFUNPTR(FoobarArgs), IARG_FUNCARG_ENTRYPOINT_VALUE, 0,
+                       IARG_FUNCARG_ENTRYPOINT_VALUE, 1, IARG_END);
         RTN_Close(foobarRtn);
     }
 
@@ -129,7 +134,9 @@ VOID Image(IMG img, VOID *v)
     if (RTN_Valid(bazRtn))
     {
         RTN_Open(bazRtn);
-        RTN_InsertCall(bazRtn, IPOINT_BEFORE, AFUNPTR(BazArg), IARG_FUNCARG_ENTRYPOINT_REFERENCE, 0, IARG_FUNCARG_ENTRYPOINT_REFERENCE, 1, IARG_FUNCARG_ENTRYPOINT_REFERENCE, 2, IARG_END);
+        RTN_InsertCall(bazRtn, IPOINT_BEFORE, AFUNPTR(BazArg),
+                       IARG_FUNCARG_ENTRYPOINT_REFERENCE, 0, IARG_FUNCARG_ENTRYPOINT_REFERENCE, 1,
+                       IARG_FUNCARG_ENTRYPOINT_REFERENCE, 2, IARG_END);
         RTN_Close(bazRtn);
     }
 

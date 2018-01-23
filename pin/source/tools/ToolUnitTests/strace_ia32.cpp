@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -36,14 +36,10 @@ END_LEGAL */
 #include <fstream>
 #include <stdlib.h>
 
-#if defined(TARGET_MAC) || defined(TARGET_BSD) || defined(TARGET_ANDROID)
+#if defined(TARGET_MAC)
 #include <sys/syscall.h>
 #else
 #include <syscall.h>
-#endif
-
-#ifdef TARGET_ANDROID
-#define SYS_mmap __NR_mmap
 #endif
 
 #include "pin.H"
@@ -56,9 +52,9 @@ ofstream trace;
 VOID SysBefore(ADDRINT ip, ADDRINT num, ADDRINT arg0, ADDRINT arg1, ADDRINT arg2,
                ADDRINT arg3, ADDRINT arg4, ADDRINT arg5)
 {
-#if defined(TARGET_IA32) 
-    // On ia32, there are only 5 registers for passing system call arguments, 
-    // but mmap needs 6. For mmap on ia32, the first argument to the system call 
+#if defined(TARGET_IA32)
+    // On ia32, there are only 5 registers for passing system call arguments,
+    // but mmap needs 6. For mmap on ia32, the first argument to the system call
     // is a pointer to an array of the 6 arguments
     if (num == SYS_mmap)
     {
@@ -83,8 +79,8 @@ VOID SysAfter( ADDRINT value, INT32 err, UINT32 gax )
 {
     int error = 0;
     ADDRINT neg_one = (ADDRINT)(0-1);
-    
-    if ( err == 0 ) 
+
+    if ( err == 0 )
     {
         if ( gax != value )
             error = 1;
@@ -99,12 +95,12 @@ VOID SysAfter( ADDRINT value, INT32 err, UINT32 gax )
 
     if ( error == 0 )
         trace << "Success: value=0x" << hex << value << ", errno=" << dec << err << endl;
-    else 
+    else
     {
         trace << "Failure " << error << ": value=0x" << hex << value << ", errno=" << dec << err;
         trace << ", gax=0x" << hex << gax << endl;
     }
-    
+
     trace << endl;
 }
 
@@ -143,7 +139,7 @@ VOID Instruction(INS ins, VOID *v)
                        IARG_SYSARG_VALUE, 2, IARG_SYSARG_VALUE, 3,
                        IARG_SYSARG_VALUE, 4, IARG_SYSARG_VALUE, 5,
                        IARG_END);
-        
+
         // return value only available after
         INS_InsertCall(ins, IPOINT_AFTER, AFUNPTR(SysAfter),
                        IARG_SYSRET_VALUE, IARG_SYSRET_ERRNO,
@@ -165,7 +161,7 @@ int main(int argc, char *argv[])
     PIN_Init(argc, argv);
 
     trace.open( "strace.out" );
-    if ( ! trace.is_open() ) 
+    if ( ! trace.is_open() )
     {
         cout << "Could not open strace.out" << endl;
         exit(1);
@@ -179,6 +175,6 @@ int main(int argc, char *argv[])
 
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

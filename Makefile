@@ -1,22 +1,25 @@
 CC=gcc
 DEPS=server.c
-FLAGS=-Wall -fpic -shared
 
-INC=-I/usr/include/python2.7/
-INC+=-lpython2.7
+FLAGS=-Wall -fPIC -shared
 
-CFLAGS=-I. $(INC) $(FLAGS) 
+PYINC=-I/usr/include/python2.7/
+PYINC+=-lpython2.7
 
-ODIR=obj
-_OBJ=stackmonitor.o server.o
-OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+CFLAGS=-I. $(FLAGS)
 
+.PHONY: pin
 
-$(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+all: pin stackmonitor
 
-stackmonitor.so: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+stackmonitor:
+	$(CC) $(PYINC) $(CFLAGS) -c -o stackmonitor.o stackmonitor.c
+	$(CC) $(CFLAGS) -c -o server.o server.c
+	$(CC) $(PYINC) $(CFLAGS) -o stackmonitor.so stackmonitor.o server.o
 
-clean: 
+pin:
+	cd ./pin/source/tools/StackMonitor/ && make
+
+clean:
 	rm -f $(ODIR)/*.o $(ODIR)/*.so stackmonitor.so
+	$(MAKE) -C ./pin/source/tools/StackMonitor clean

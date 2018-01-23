@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,13 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component public header
 
 #ifndef ATOMIC_EXPONENTIAL_BACKOFF_HPP
 #define ATOMIC_EXPONENTIAL_BACKOFF_HPP
 
-#include "fund.hpp"
+#include "util.hpp"
 #include "atomic/nullstats.hpp"
 #include "atomic/private/backoff-impl.hpp"
 
@@ -73,7 +72,7 @@ template<typename STATS=NULLSTATS> class /*<UTILITY>*/ EXPONENTIAL_BACKOFF
      * @param[in] freeIterations    Number of times through loop before Delay() does anything.
      * @param[in] stats             Object to keep track of statistics, or NULL
      */
-    EXPONENTIAL_BACKOFF(FUND::UINT32 freeIterations = 1, STATS *stats = 0)
+    EXPONENTIAL_BACKOFF(UINT32 freeIterations = 1, STATS *stats = 0)
     :
         _freeIterations(freeIterations), _iteration(0), _stats(stats)
     {}
@@ -103,10 +102,10 @@ template<typename STATS=NULLSTATS> class /*<UTILITY>*/ EXPONENTIAL_BACKOFF
         if (_iteration++ < _freeIterations)
             return;
 
-        FUND::UINT32 fixed = 1 << (_iteration - 1 - _freeIterations);
-        FUND::UINT32 mask = fixed - 1;
-        FUND::UINT32 random = (reinterpret_cast<FUND::PTRINT>(&random) >> 4) & mask;
-        FUND::UINT32 delay = fixed + random;
+        UINT32 fixed = 1 << (_iteration - 1 - _freeIterations);
+        UINT32 mask = fixed - 1;
+        UINT32 random = (reinterpret_cast<PTRINT>(&random) >> 4) & mask;
+        UINT32 delay = fixed + random;
 
         ATOMIC_SpinDelay(delay);
     }
@@ -114,14 +113,14 @@ template<typename STATS=NULLSTATS> class /*<UTILITY>*/ EXPONENTIAL_BACKOFF
     /*!
      * @return  The number of times Delay() has been called since the last Reset().
      */
-    FUND::UINT32 GetIterationCount()
+    UINT32 GetIterationCount()
     {
         return _iteration;
     }
 
   private:
-    const FUND::UINT32 _freeIterations; // number "free" iterations before we start to delay
-    FUND::UINT32 _iteration;            // current iteration
+    const UINT32 _freeIterations; // number "free" iterations before we start to delay
+    UINT32 _iteration;            // current iteration
     STATS *_stats;                      // points to object which collects statistics, or NULL
 };
 

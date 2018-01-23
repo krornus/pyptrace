@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component public header
 
 #ifndef ATOMIC_LIFO_CTR_HPP
 #define ATOMIC_LIFO_CTR_HPP
 
-#include "fund.hpp"
 #include "atomic/config.hpp"
 #include "atomic/ops.hpp"
 #include "atomic/nullstats.hpp"
@@ -280,8 +278,8 @@ template<typename ELEMENT, typename HEAP, unsigned int IndexBits, unsigned int C
 
     // This is the head of the lifo queue.
     //
-    // NOTE: This is defined as a union with _word to avoid a compiler bug with the Itanium(R) version
-    // of GCC 4.0.0.  See the SVN commit log r3543 for more details.
+    // NOTE: This is defined as a union with _word to avoid a compiler bug.
+    //       See the SVN commit log r3543 for more details.
     //
     union HEAD
     {

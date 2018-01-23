@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 #include <windows.h>
 #include <stdio.h>
-int readln (FILE *fp, char *target) 
+int readln (FILE *fp, char *target)
 {
 	int i = 0;
 	while (1) {
@@ -55,9 +55,7 @@ int readln (FILE *fp, char *target)
 	}
     return (EOF+1);
 }
-/*
-../../build/Source/pin/pin-windows-intel64/pin.exe -slow_asserts  C:\Users\tevi\Documents\work\pin\pin_mc_malloc_2_9\build\Source\pin\pin-W-X-Y-ia32_intel64-windows\/Tests/obj-intel64/cp-pin.exe makefile makefile.winapp_ru
-*/
+
 int main (int argc, char *argv[])
 {
     char correctCmdLine[1024];
@@ -69,14 +67,14 @@ int main (int argc, char *argv[])
     readln (fp, correctCmdLine);
     correctCmdLineChar = strlen (correctCmdLine);
     correctCmdLine[correctCmdLineChar] = ' ';
-    
+
     for (i=1; i<argc; i++)
     {
         strcat (correctCmdLine, " ");
         strcat (correctCmdLine, (argv[i]));
     }
     correctCmdLineChar = 0;
-    
+
     while (correctCmdLine[correctCmdLineChar] != 0)
     {
         if (correctCmdLine[correctCmdLineChar] == '/')
@@ -89,6 +87,6 @@ int main (int argc, char *argv[])
         }
         correctCmdLineChar++;
     }
-    
+
     printf ("%s\n", correctCmdLine);
 }

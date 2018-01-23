@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Barak Nirenberg
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 /// @file memory.h

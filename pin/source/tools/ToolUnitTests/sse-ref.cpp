@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,10 +28,9 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include "pin.H"
-#include "pin_isa.H"
 #include <iostream>
 #include <iomanip>
+#include "pin.H"
 
 UINT64 icount = 0;
 
@@ -41,7 +40,7 @@ extern "C" void mmx_restore(char* buf);
 #endif
 
 VOID mmx_arg(PIN_REGISTER* r, UINT32 opnd_indx, UINT32 regno)
-{ 
+{
     char buffer[512+16];
     char* aligned_bufp =reinterpret_cast<char*>(((reinterpret_cast<ADDRINT>(buffer) + 16) >> 4)<<4);
 #if defined(PIN_GNU_COMPATIBLE)
@@ -67,11 +66,11 @@ VOID mmx_arg(PIN_REGISTER* r, UINT32 opnd_indx, UINT32 regno)
     mmx_restore(aligned_bufp);
 #endif
 
-    icount++; 
+    icount++;
 }
 
 VOID xmm_arg(PIN_REGISTER* r, UINT32 opnd_indx, UINT32 regno)
-{ 
+{
 #if defined(DEBUG_SSE_REF)
     cout << "XMM" << regno << " operand_index: " << opnd_indx << " ";
     for(unsigned int i=0;i< MAX_DWORDS_PER_PIN_REG;i++)
@@ -92,7 +91,7 @@ CONTEXT *gctxtx;
 VOID TestConstContext(CONTEXT *ctxt)
 {
     gctxtx = ctxt;
-    
+
 }
 
 int dummy=2;
@@ -170,12 +169,12 @@ VOID Img(IMG img, VOID *v)
         }
     }
 }
-    
+
 VOID Fini(INT32 code, VOID *v)
 {
     // Don't output icount as part of the reference output
     // because the dynamic loader may also use xmm insts.
-    
+
     //std::cout << "Count: " << icount << endl;
 }
 
@@ -186,9 +185,9 @@ int main(int argc, char * argv[])
 
     IMG_AddInstrumentFunction(Img, 0);
     PIN_AddFiniFunction(Fini, 0);
-    
+
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

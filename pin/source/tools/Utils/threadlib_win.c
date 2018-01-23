@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -38,7 +38,6 @@ END_LEGAL */
 #include <stdlib.h>
 #include <malloc.h>
 #include <windows.h>
-#include <assert.h>
 
 // Structure passed to the start routine in Windows
 typedef struct WIN_THREAD_RTN_ARG_
@@ -79,8 +78,7 @@ BOOL JoinOneThread(THREAD_HANDLE threadHandle)
     HANDLE winThreadHandle = (HANDLE)threadHandle;
     DWORD waitStatus;
     waitStatus = WaitForSingleObject(winThreadHandle, INFINITE);
-    assert(waitStatus != WAIT_TIMEOUT);
-    return TRUE;
+    return (waitStatus == WAIT_OBJECT_0);
 }
 
 void ExitCurrentThread()

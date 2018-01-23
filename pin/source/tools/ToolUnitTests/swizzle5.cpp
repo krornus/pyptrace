@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -43,7 +43,7 @@ UINT64 icount = 0;
 VOID Image(IMG img, VOID *v)
 {
     //fprintf(stderr, "Loading %s\n",IMG_name(img));
-    
+
     for (SEC sec = IMG_SecHead(img); SEC_Valid(sec); sec = SEC_Next(sec))
     {
         //fprintf(stderr, "  sec %s\n", SEC_name(sec).c_str());
@@ -51,11 +51,11 @@ VOID Image(IMG img, VOID *v)
         {
             //fprintf(stderr, "    rtn %s\n", RTN_name(rtn).c_str());
             // Swizzle the return value of MyAlloc
-            
+
             if (RTN_Name(rtn) == "MyAlloc")
             {
                 RTN_Open(rtn);
-                
+
                 fprintf(stderr, "Adding Swizzle to %s\n", "MyAlloc");
                 RTN_InsertCall(rtn, IPOINT_AFTER, AFUNPTR(SwizzleRef), IARG_FUNCRET_EXITPOINT_REFERENCE, IARG_END);
                 RTN_Close(rtn);
@@ -76,7 +76,7 @@ VOID Image(IMG img, VOID *v)
 VOID RewriteIns(INS ins)
 {
     //fprintf(stderr,"Rewriting %p\n",(void*)INS_Address(ins));
-    
+
     for (UINT32 memopIdx=0; memopIdx < INS_MemoryOperandCount(ins); memopIdx++)
     {
         REG scratchReg = REG(int(REG_INST_G0)+memopIdx);
@@ -85,7 +85,7 @@ VOID RewriteIns(INS ins)
                        AFUNPTR(Unswizzle),
                        IARG_MEMORYOP_EA, memopIdx,
                        IARG_RETURN_REGS, scratchReg, IARG_END);
-        INS_RewriteMemoryOperand(ins, memopIdx, scratchReg); 
+        INS_RewriteMemoryOperand(ins, memopIdx, scratchReg);
     }
 }
 
@@ -96,28 +96,28 @@ BOOL SegvHandler(THREADID, INT32, CONTEXT *ctxt, BOOL, const EXCEPTION_INFO *, v
     ADDRINT address = PIN_GetContextReg(ctxt, REG_INST_PTR);
 
     //fprintf(stderr, "Fault at %p\n",(void*)address);
-    
+
     if (SwizzleRefs.find(address) != SwizzleRefs.end())
     {
         return true;
     }
-    
+
     // The next time we see this address, it requires swizzling
     SwizzleRefs.insert(address);
-    
+
     // Invalidate this instruction in code cache so it will be reinstrumented
-    CODECACHE_InvalidateRange(address, address + 20);
+    PIN_RemoveInstrumentationInRange(address, address + 20);
 
     // returning from the signal handler will re-execute the instruction
     // this time it will be swizzled
     return false;
 }
 
-    
+
 VOID Trace(TRACE trace, VOID *v)
 {
     BOOL rewrite = false;
-    
+
     for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl))
     {
         for (INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins))
@@ -125,7 +125,7 @@ VOID Trace(TRACE trace, VOID *v)
             // If we see an instruction that needs rewriting, then rewrite all
             if (SwizzleRefs.find(INS_Address(ins)) != SwizzleRefs.end())
                 rewrite = true;
-        
+
             if (rewrite)
             {
                 // If we suspect this instruction needs to be swizzled, generate safe, but slow code
@@ -142,7 +142,7 @@ int main(int argc, char * argv[])
 
     TRACE_AddInstrumentFunction(Trace, 0);
     IMG_AddInstrumentFunction(Image, 0);
-    
+
     if (!PIN_InterceptSignal(SIGSEGV, SegvHandler, 0))
 	{
 		fprintf (stderr, "InterceptSignal failed\n");
@@ -151,6 +151,6 @@ int main(int argc, char * argv[])
 
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

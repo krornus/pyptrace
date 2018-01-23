@@ -388,7 +388,7 @@ public:
   }
 
 #if __cplusplus > 199711L
-// bnirenbe: added this method to build LLVM demangler
+// PIN: added this method to build LLVM demangler
   template< class... Args >
   void emplace_back( Args&&... args )
   {

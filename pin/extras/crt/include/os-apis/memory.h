@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Tevi Devor
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 
@@ -148,7 +147,7 @@ OS_RETURN_CODE OS_FreeMemory(NATIVE_PID processId, VOID *base, USIZE size);
 
 
 /*! @ingroup OS_APIS_MEMORY
- * Query the system page size. 
+ * Query the system page size.
  *
  * @param[out] size    System page size
  *
@@ -169,6 +168,10 @@ OS_RETURN_CODE OS_GetPageSize(USIZE *size);
  * @param[in]  memoryAddr         Target memory address. This memory address can reside
  *                                inside the page.
  * @param[out] info               The address information
+ *                                On Unix, if there is no mapped memory block that contains @b memoryAddr
+ *                                         the next mapped memory block will be returned.
+ *                                         If no such mapped memory block exists, an empty memory block will be returned
+ *                                On Windows, we return the containing memory block regardless if it is mapped or not.
  *
  * @retval     OS_RETURN_CODE_NO_ERROR      If the operation succeeded
  * @retval     OS_RETURN_CODE_QUERY_FAILED  If the operation failed
@@ -179,7 +182,7 @@ OS_RETURN_CODE OS_GetPageSize(USIZE *size);
  *      On Unix system, memory can only be queried for the current process.\n
  *      The given pid is expected to be that of the current process.
  *      Hence the behavior of this function in case 'processId' is not of the current
- *      process is not defined.
+ *      process is not defined.\n
  *  @b Windows: \n
  *      Windows supports memory query on a different process memory space.
  *

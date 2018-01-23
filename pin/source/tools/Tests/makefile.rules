@@ -17,20 +17,19 @@
 # This defines tests which run tools of the same name.  This is simply for convenience to avoid
 # defining the test name twice (once in TOOL_ROOTS and again in TEST_ROOTS).
 # Tests defined here should not be defined in TOOL_ROOTS and TEST_ROOTS.
-TEST_TOOL_ROOTS := after hello icount1 icount2 icount3 icount4 icount5 \
-                   context-pc icountcheck sequence sequencecheck reg brtaken verify bblnull sec callargs malloc new \
-                   removeinstrumentation rtnNumIns rtn_create_at_dup IARGList inscount_per_image imageLoadBackward \
-                   bblCache traceOriginal finiRemove bblFallThrough detach imageLoad parse_executed_rtns \
-                   const_context_at_ins set_df_flag_tool clear_df_flag_tool set_status_flags_tool
+TEST_TOOL_ROOTS := after hello icount1 icount2 icount3 icount4 icount5 context-pc icountcheck sequence sequencecheck reg \
+                   brtaken verify bblnull sec callargs malloc new removeinstrumentation rtnNumIns rtn_create_at_dup \
+                   IARGList inscount_per_image imageLoadBackward finiRemove bblFallThrough detach imageLoad \
+                   parse_executed_rtns const_context_at_ins set_df_flag_tool clear_df_flag_tool set_status_flags_tool
 
 # This defines the tests to be run that were not already defined in TEST_TOOL_ROOTS.
 TEST_ROOTS := icount1_jit_recursion verify-nocmov check_env jecxz helpmsg helpmsg_nofilename helpmsg_tool \
-              helpmsg_tool_nofilename
+              helpmsg_tool_nofilename on_stack_context_pc
 
 # This defines the tools which will be run during the the tests, and were not already defined in
 # TEST_TOOL_ROOTS.
-TOOL_ROOTS := segv probe traceusage rtn_insert_call_probed tracecount smc_check \
-              multipleinstrumentation inscount2_mt_debuginfo cflowcheck
+TOOL_ROOTS := segv probe traceusage rtn_insert_call_probed tracecount smc_check multipleinstrumentation cflowcheck \
+               inscount2_mt_debuginfo
 
 # This defines the static analysis tools which will be run during the the tests. They should not
 # be defined in TEST_TOOL_ROOTS. If a test with the same name exists, it should be defined in
@@ -70,11 +69,6 @@ endif
 
 ###### Place OS-specific definitions here ######
 
-# Android
-ifeq ($(TARGET_OS),android)
-    TEST_ROOTS += helpmsg_app helpmsg_app_nofilename
-endif
-
 # Linux
 ifeq ($(TARGET_OS),linux)
     TEST_TOOL_ROOTS += reg_ref_inlined ifunc_tst exitProcess context_stack_and_spill ifuncmemcpy callargs_probe_tool
@@ -86,8 +80,7 @@ ifeq ($(TARGET_OS),linux)
                  strcmp_app
     DLL_ROOTS += sourceLocation_img1 sourceLocation_img2
     ifeq ($(TARGET),ia32)
-        TEST_TOOL_ROOTS += limitedTraces thread symOutOfBound util prefix  \
-                           insMix xedReg rep_ip_at_ipoint_after_tool
+        TEST_TOOL_ROOTS += thread symOutOfBound util prefix insMix xedReg rep_ip_at_ipoint_after_tool
         TEST_ROOTS += verify-ia32 verify-ia32-nocmov
         APP_ROOTS += loop threadApp prefixApp insMixApp rep_ip_at_ipoint_after_app_$(OS_TYPE)
     endif
@@ -129,35 +122,14 @@ ifneq ($(KIT),1)
     APP_ROOTS := $(filter-out launcher_app, $(APP_ROOTS))
 endif
 
-# TODO: These tests fail - fix and remove the following:
-# For sourceLocation see Mantis 2960.
-# For context_stack_and_spill and context_stack_and_spill_noinline_bridge see Mantis 3073.
-# For ifunc_tst see Mantis 3080.
-# For launcher_linux see Matis 3081.
-# For all the rest see Mantis 2963.
-ifeq ($(TARGET),mic)
-    TEST_TOOL_ROOTS := $(filter-out ifunc_tst context_stack_and_spill imageLoad imageLoadBackward, $(TEST_TOOL_ROOTS))
-    TEST_ROOTS := $(filter-out launcher_linux context_stack_and_spill_noinline_bridge imageLoader sourceLocation, \
-                               $(TEST_ROOTS))
-    TOOL_ROOTS := $(filter-out launcher_tool sourceLocation_tool, $(TOOL_ROOTS))
-    APP_ROOTS := $(filter-out launcher_app sourceLocation_app, $(APP_ROOTS))
-endif
-
-# See Mantis 3181.
-ifeq ($(TARGET_OS),android)
-    TEST_TOOL_ROOTS := $(filter-out util symOutOfBound ifunc_tst, $(TEST_TOOL_ROOTS))
-    TEST_ROOTS := $(filter-out launcher_android imageLoader, $(TEST_ROOTS))
-    APP_ROOTS := $(filter-out strcmp_app, $(APP_ROOTS))
-endif
-
 # For check_env see Mantis 3077.
 ifeq ($(TARGET_OS),windows)
     TEST_ROOTS := $(filter-out check_env, $(TEST_ROOTS))
-    # See mantis #3612 for why these tests are disabled.
-    ifeq ($(WIN_VER_MAJOR),10)
-        TEST_TOOL_ROOTS := $(filter-out reg_ref_inlined, $(TEST_TOOL_ROOTS))
-        ifeq ($(TARGET),ia32)
-            TEST_TOOL_ROOTS := $(filter-out checkaddress, $(TEST_TOOL_ROOTS))
+    ifeq ($(TARGET),intel64)
+        ifeq ($(VisualStudioVersion),15.0)
+            # See Mantis 4213
+            TEST_TOOL_ROOTS := $(filter-out context-pc, $(TEST_TOOL_ROOTS))
+            TEST_ROOTS := $(filter-out on_stack_context_pc, $(TEST_ROOTS))
         endif
     endif
 endif
@@ -316,6 +288,12 @@ context-pc.test: $(OBJDIR)context-pc$(PINTOOL_SUFFIX) $(TESTAPP)
 	  -- $(TESTAPP) makefile $(OBJDIR)context-pc.makefile.copy
 	$(CMP) makefile $(OBJDIR)context-pc.makefile.copy
 	$(RM) $(OBJDIR)context-pc.makefile.copy $(OBJDIR)context-pc.out
+	
+on_stack_context_pc.test: $(OBJDIR)context-pc$(PINTOOL_SUFFIX) $(TESTAPP)
+	$(PIN) -xyzzy -sa_canonical 0 -t $(OBJDIR)context-pc$(PINTOOL_SUFFIX) -o $(OBJDIR)on_stack_context_pc.out \
+	  -- $(TESTAPP) makefile $(OBJDIR)on_stack_context_pc.makefile.copy
+	$(CMP) makefile $(OBJDIR)on_stack_context_pc.makefile.copy
+	$(RM) $(OBJDIR)on_stack_context_pc.makefile.copy $(OBJDIR)on_stack_context_pc.out
 
 toolwithoutso.test: $(OBJDIR)callargs$(PINTOOL_SUFFIX) $(OBJDIR)foobar$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)callargs -- $(OBJDIR)foobar$(EXE_SUFFIX)
@@ -432,7 +410,6 @@ helpmsg.test: | $(OBJDIR)
 	$(PIN) -help -logfile $(OBJDIR)$(@:.test=.log) > $(OBJDIR)$(@:.test=.out) 2>&1
 	$(QGREP) "General switches" $(OBJDIR)$(@:.test=.out)
 	$(RM) $(OBJDIR)$(@:.test=.out)
-	$(RM) -f pin.log $(OBJDIR)$(@:.test=.log)
 
 helpmsg_nofilename.test: | $(OBJDIR)
 	-$(PIN) -help -logfile > $(OBJDIR)$(@:.test=.out) 2>&1
@@ -445,7 +422,6 @@ helpmsg_tool.test: | $(OBJDIR)
 	  > $(OBJDIR)$(@:.test=.out) 2>&1
 	$(QGREP) "General switches" $(OBJDIR)$(@:.test=.out)
 	$(RM) $(OBJDIR)$(@:.test=.out)
-	$(RM) -f pin.log $(OBJDIR)$(@:.test=.log)
 
 helpmsg_tool_nofilename.test: | $(OBJDIR)
 	-$(PIN) -help -logfile -t $(OBJDIR)this_tool_does_not_exist$(PINTOOL_SUFFIX) > $(OBJDIR)$(@:.test=.out) 2>&1
@@ -458,7 +434,6 @@ helpmsg_app.test: | $(OBJDIR)
 	  > $(OBJDIR)$(@:.test=.out) 2>&1
 	$(QGREP) "General switches" $(OBJDIR)$(@:.test=.out)
 	$(RM) $(OBJDIR)$(@:.test=.out)
-	$(RM) -f pin.log $(OBJDIR)$(@:.test=.log)
 
 helpmsg_app_nofilename.test: | $(OBJDIR)
 	-$(PIN) -help -logfile -- $(OBJDIR)this_app_does_not_exist$(EXE_SUFFIX) > $(OBJDIR)$(@:.test=.out) 2>&1
@@ -491,7 +466,7 @@ $(OBJDIR)clear_df_flag_tool$(PINTOOL_SUFFIX): $(OBJDIR)clear_df_flag_tool$(OBJ_S
 
 # This executable is currently checked in to source control. No need to rebuild it, only
 # copy it to the relevant directory.
-# The originl build rule is left here as a reference.
+# The original build rule is left here as a reference.
 #
 # $(OBJDIR)winapp_runs_pin$(EXE_SUFFIX): winapp_runs_pin.cpp
 # ifeq ($(TARGET),intel64)
@@ -501,8 +476,8 @@ $(OBJDIR)clear_df_flag_tool$(PINTOOL_SUFFIX): $(OBJDIR)clear_df_flag_tool$(OBJ_S
 #	devenv winapp_runs_pin.sln /Rebuild "Release|ia32"
 #	cp ia32/Release/winapp_runs_pin$(EXE_SUFFIX) $(OBJDIR)winapp_runs_pin$(EXE_SUFFIX)
 # endif
-$(OBJDIR)winapp_runs_pin$(EXE_SUFFIX): winapp_runs_pin_$(TARGET).xex
-	cp winapp_runs_pin_$(TARGET).xex $(OBJDIR)winapp_runs_pin$(EXE_SUFFIX)
+$(OBJDIR)winapp_runs_pin$(EXE_SUFFIX):
+	cp winapp_runs_pin_$(TARGET)$(EXE_SUFFIX) $(OBJDIR)winapp_runs_pin$(EXE_SUFFIX)
 
 $(OBJDIR)child_sig_while_execv_app$(EXE_SUFFIX): child_sig_while_execv_app.c
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
@@ -550,7 +525,7 @@ $(OBJDIR)insMixApp$(EXE_SUFFIX): insMixApp$(ASM_SUFFIX)
 	$(ASMBLR) $(ASM_FLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS)
 
 $(OBJDIR)checkaddressapp$(EXE_SUFFIX): checkaddressapp$(ASM_SUFFIX)
-	$(ASMBLR) $(ASM_FLAGS) $(COMP_EXE)$@ $<
+	$(ASMBLR) $(ASM_FLAGS) $(LDFLAGS_DEFAULT_NO_PIE) $(COMP_EXE)$@ $<
 
 $(OBJDIR)statdyn_app$(EXE_SUFFIX): statdyn_app.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) -Wl,--export-dynamic $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)

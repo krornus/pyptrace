@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Yoav Levy
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 /// @file threads.h
@@ -12,12 +11,17 @@
 #define OS_APIS_THREAD_H
 
 #define OS_APIS_TLS_SLOT_TLS_AND_STACK_START_ADDRESS 4
+#define OS_APIS_TLS_SLOT_TLS_AND_STACK_SIZE 5
 
 /*! @ingroup OS_APIS_THREAD
  * Create a new thread in the current process.
  *
  * @param[in]   ThreadMainFunction Thread start address
  * @param[in]   ThreadParam        Thread optional parameter
+ * @param[in]   stackBottom        The base address of the thread's stack.
+ *                                 This argument can be NULL. In that case this function will
+ *                                 allocate the stack according to the @b stackSize argument.
+ * @param[in]   stackSize          The size of the thread's stack.
  * @param[out]  td                 The descriptor of newly created thread.
  *
  * @retval      OS_RETURN_CODE_NO_ERROR             If the operation succeeded
@@ -28,7 +32,8 @@
  *   @b O/S:   Windows, Linux & OS X*\n
  *   @b CPU:   All\n
  */
-OS_RETURN_CODE OS_CreateThread(INT (*ThreadMainFunction)(VOID*), VOID *ThreadParam, NATIVE_TID* td);
+OS_RETURN_CODE OS_CreateThread(VOID (*ThreadMainFunction)(VOID*), VOID *ThreadParam,
+                                     VOID* stackBottom, ADDRINT stackSize, NATIVE_TID* td);
 
 /*! @ingroup OS_APIS_THREAD
  * Causes a running thread to exit.
@@ -44,6 +49,23 @@ OS_RETURN_CODE OS_CreateThread(INT (*ThreadMainFunction)(VOID*), VOID *ThreadPar
  *   @b CPU:   All\n
  */
 OS_RETURN_CODE OS_ExitThread(NATIVE_TID td);
+
+/*! @ingroup OS_APIS_THREAD
+ *
+ * This function clears a word and then exits the calling thread.  It guaranteess that it will use only
+ * register state (no memory) once \a word is cleared.
+ *
+ *  @param[in] code          The thread exit code as passed from the caller
+ *  @param[out] dwordToReset This memory location is cleared (set to zero).
+ *
+ * @retval      OS_RETURN_CODE_THREAD_EXIT_FAILED   If the operation Failed
+ * @return      Operation status code.
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X*\n
+ *   @b CPU:   All\n
+ */
+OS_RETURN_CODE OS_ThreadExitAndClear(void* stackAddr, ADDRINT stackSize, INT32* dwordToReset);
 
 /*! @ingroup OS_APIS_THREAD
  * Suspends a running thread.
@@ -133,34 +155,5 @@ OS_RETURN_CODE OS_Yield(void);
  *   @b CPU:   All\n
  */
 OS_RETURN_CODE OS_RaiseException(NATIVE_TID td, UINT32 code);
-
-/*! @ingroup OS_APIS_THREAD
- * Register bsd thread start callback.
- *
- * @param[in]  thread_start       Callback function for thread start
- * @param[in]  start_wqthread     Callback function for work-queue thread start
- * @param[in]  pthread_size       The size of a pthread object.
- * @param[in]  arg3               OS specific argument (depends on the version of OS X*).
- * @param[in]  arg4               OS specific argument (depends on the version of OS X*).
- * @param[in]  arg5               OS specific argument (depends on the version of OS X*).
- * @param[out] pthread_features   Return value from the bsdthread_register syscall.
- *                                This is a bitmask of supported kernel pthread features.
- *
- * @retval      OS_RETURN_CODE_NO_ERROR             If the operation succeeded
- * @retval      OS_RETURN_CODE_THREAD_CREATE_FAILED If the operation Failed
- * @return      Operation status code.
- *
- * @par Availability:
- *   @b O/S:   OS X*\n
- *   @b CPU:   All\n
- */
-OS_RETURN_CODE OS_RegisterMacThreadStartFunction(
-                                              void* thread_start,
-                                              void* start_wqthread,
-                                              int pthread_size, // size of pthread struct
-                                              ADDRINT arg3,
-                                              ADDRINT arg4,
-                                              ADDRINT arg5,
-                                              int* pthread_features);
 
 #endif // file guard

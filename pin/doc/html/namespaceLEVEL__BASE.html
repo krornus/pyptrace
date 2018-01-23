@@ -150,7 +150,9 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<a class="el" href="namespaceLEVEL__BASE.html#55c5a88d592fec1fb9ee06d744437fb636932d3af76a1daeb7bf9d5ba0341adb">STAT_TYPE_BA</a>, 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__BASE.html#55c5a88d592fec1fb9ee06d744437fb68b0bf71f1f1bd57bd2dfe3e63539e4c8">STAT_TYPE_NORM</a>
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__BASE.html#55c5a88d592fec1fb9ee06d744437fb68b0bf71f1f1bd57bd2dfe3e63539e4c8">STAT_TYPE_NORM</a>, 
+<br>
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__BASE.html#55c5a88d592fec1fb9ee06d744437fb6f88fe5b15236757217c68fa14f770959">STAT_TYPE_DIST</a>
 <br>
  }</td></tr>
 
@@ -230,28 +232,57 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<b>CPU_FEATURE_AVX512F</b>, 
 <br>
-&nbsp;&nbsp;<b>CPU_FEATURE_LAST</b> =  CPU_FEATURE_AVX512F
+&nbsp;&nbsp;<b>CPU_FEATURE_AVX512BW</b>, 
+<br>
+&nbsp;&nbsp;<b>CPU_FEATURE_LAST</b> =  CPU_FEATURE_AVX512BW
+<br>
+ }</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#4c25dcf3de95f2f1e9cfbda35354461c">CPU_XFEATURE</a> { <br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_X87</b> =  0, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_SSE</b> =  1, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_AVX</b> =  2, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_FIRST</b> =  CPU_XFEATURE_AVX, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_BNDREGS</b> =  3, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_BNDCSR</b> =  4, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_OPMASK</b> =  5, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_ZMM_HI256</b> =  6, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_HI16_ZMM</b> =  7, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_LAST</b> =  CPU_XFEATURE_ZMM_HI256
 <br>
  }</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#557e08221f3032f166c26701a862e0b8">CPU_XFEATURE_BIT</a> { <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_X87</b> =  (1 &lt;&lt; 0), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_X87</b> =  (1 &lt;&lt; CPU_XFEATURE_X87), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_SSE</b> =  (1 &lt;&lt; 1), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_SSE</b> =  (1 &lt;&lt; CPU_XFEATURE_SSE), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_AVX</b> =  (1 &lt;&lt; 2), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_AVX</b> =  (1 &lt;&lt; CPU_XFEATURE_AVX), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_BNDREGS</b> =  (1 &lt;&lt; 3), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_BNDREGS</b> =  (1 &lt;&lt; CPU_XFEATURE_BNDREGS), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_BNDCSR</b> =  (1 &lt;&lt; 4), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_BNDCSR</b> =  (1 &lt;&lt; CPU_XFEATURE_BNDCSR), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_OPMASK</b> =  (1 &lt;&lt; 5), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_OPMASK</b> =  (1 &lt;&lt; CPU_XFEATURE_OPMASK), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_ZMM_HI256</b> =  (1 &lt;&lt; 6), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_ZMM_HI256</b> =  (1 &lt;&lt; CPU_XFEATURE_ZMM_HI256), 
 <br>
-&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_HI16_ZMM</b> =  (1 &lt;&lt; 7), 
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_HI16_ZMM</b> =  (1 &lt;&lt; CPU_XFEATURE_HI16_ZMM), 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__BASE.html#557e08221f3032f166c26701a862e0b81a26c740d232e1681d8e3f3456688908">CPU_XFEATURE_BIT_AVX512F</a> =  CPU_XFEATURE_BIT_OPMASK | CPU_XFEATURE_BIT_ZMM_HI256 | CPU_XFEATURE_BIT_HI16_ZMM
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_AVX512F</b>, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_LEGACY</b> =  CPU_XFEATURE_BIT_X87 | CPU_XFEATURE_BIT_SSE, 
+<br>
+&nbsp;&nbsp;<b>CPU_XFEATURE_BIT_ALL</b>
 <br>
  }</td></tr>
 
@@ -383,28 +414,6 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<b>REG_MM_LAST</b> =  REG_MM7, 
 <br>
-&nbsp;&nbsp;<b>REG_EMM_BASE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM0</b> =  REG_EMM_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM1</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM2</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM3</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM4</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM5</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM6</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM7</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM_LAST</b> =  REG_EMM7, 
-<br>
-&nbsp;&nbsp;<b>REG_X87</b>, 
-<br>
 &nbsp;&nbsp;<b>REG_XMM_BASE</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_FIRST_FP_REG</b> =  REG_XMM_BASE, 
@@ -511,6 +520,52 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<b>REG_ORIG_GAX</b> =  REG_ORIG_EAX, 
 <br>
+&nbsp;&nbsp;<b>REG_FPST_BASE</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPSTATUS_BASE</b> =  REG_FPST_BASE, 
+<br>
+&nbsp;&nbsp;<b>REG_FPCW</b> =  REG_FPSTATUS_BASE, 
+<br>
+&nbsp;&nbsp;<b>REG_FPSW</b>, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6411ac4a83a9a538d9e03d70f486b6c8bdf">REG_FPTAG</a>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPIP_OFF</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPIP_SEL</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPOPCODE</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPDP_OFF</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPDP_SEL</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPSTATUS_LAST</b> =  REG_FPDP_SEL, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e641febeb10711f41ae4b22413a11ad48aac">REG_FPTAG_FULL</a>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST_BASE</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST0</b> =  REG_ST_BASE, 
+<br>
+&nbsp;&nbsp;<b>REG_ST1</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST2</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST3</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST4</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST5</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST6</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST7</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST_LAST</b> =  REG_ST7, 
+<br>
+&nbsp;&nbsp;<b>REG_FPST_LAST</b> =  REG_ST_LAST, 
+<br>
 &nbsp;&nbsp;<b>REG_DR_BASE</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_DR0</b> =  REG_DR_BASE, 
@@ -565,53 +620,7 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<b>REG_TR_LAST</b> =  REG_TR7, 
 <br>
-&nbsp;&nbsp;<b>REG_FPST_BASE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPSTATUS_BASE</b> =  REG_FPST_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_FPCW</b> =  REG_FPSTATUS_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_FPSW</b>, 
-<br>
-&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6411ac4a83a9a538d9e03d70f486b6c8bdf">REG_FPTAG</a>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPIP_OFF</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPIP_SEL</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPOPCODE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPDP_OFF</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPDP_SEL</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPSTATUS_LAST</b> =  REG_FPDP_SEL, 
-<br>
-&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e641febeb10711f41ae4b22413a11ad48aac">REG_FPTAG_FULL</a>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST_BASE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST0</b> =  REG_ST_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_ST1</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST2</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST3</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST4</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST5</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST6</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST7</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST_LAST</b> =  REG_ST7, 
-<br>
-&nbsp;&nbsp;<b>REG_FPST_LAST</b> =  REG_ST_LAST, 
-<br>
-&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6418100e22c2df07ae0bad29cd53f1e4795">REG_SEG_GS_BASE</a>, 
+&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6418100e22c2df07ae0bad29cd53f1e4795">REG_SEG_GS_BASE</a> =  REG_TOOL_BASE, 
 <br>
 &nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6416702dddc7a08f8be29632868160fa2e3">REG_SEG_FS_BASE</a>, 
 <br>
@@ -729,7 +738,9 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<b>REG_BUF_LAST</b> =  REG_BUF_ENDLAST, 
 <br>
-&nbsp;&nbsp;<b>REG_INST_SCRATCH_LAST</b> =  REG_BUF_ENDLAST, 
+&nbsp;&nbsp;<b>REG_INST_SCRATCH_LAST</b> =  REG_BUF_LAST, 
+<br>
+&nbsp;&nbsp;<b>REG_TOOL_LAST</b> =  REG_BUF_LAST, 
 <br>
 &nbsp;&nbsp;<b>REG_LAST</b>
 <br>
@@ -755,8 +766,6 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
 &nbsp;&nbsp;<b>REGWIDTH_512</b>, 
 <br>
-&nbsp;&nbsp;<b>REGWIDTH_FPSTATE</b>, 
-<br>
 &nbsp;&nbsp;<b>REGWIDTH_INVALID</b>, 
 <br>
 &nbsp;&nbsp;<b>REGWIDTH_NATIVE</b> = REGWIDTH_64
@@ -781,8 +790,6 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 &nbsp;&nbsp;<b>REG_CLASS_SEG</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_MM</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_CLASS_EMM</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_XMM</b>, 
 <br>
@@ -811,8 +818,6 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 &nbsp;&nbsp;<b>REG_CLASS_STATUS_FLAGS</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_DFLAG</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_CLASS_X87</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_MXCSR</b>, 
 <br>
@@ -843,8 +848,6 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 &nbsp;&nbsp;<b>REG_CLASS_PIN_ZMM</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_PIN_K</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_CLASS_PIN_X87</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_PIN_MXCSR</b>, 
 <br>
@@ -877,49 +880,6 @@ typedef UINT16&nbsp;</td><td class="memItemRight" valign="bottom"><b>OPCODE</b><
 <br>
  }</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gcbcd51158c7cac507781c6f91b6f3e98">REG_ALLOC_TYPE</a> { <br>
-&nbsp;&nbsp;<b>REG_ALLOC_NONE</b> =  0, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_PART</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_ANY_GR</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_IDENT</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_CR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_DR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_TR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_ST</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_MM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_EMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_XMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_YMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_ZMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_K</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_SEG</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_STACK_PTR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_X87</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_FLAGS</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_STATUS_FLAGS</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_DFLAG</b> =  REG_ALLOC_IDENT
-<br>
- }</td></tr>
-
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="31f2cd704038c0272768bc5a31a0ba18"></a><!-- doxytag: member="LEVEL_BASE::MEGA" ref="31f2cd704038c0272768bc5a31a0ba18" args="(INT32 v)" -->
 LOCALFUN INT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>MEGA</b> (INT32 v)</td></tr>
@@ -944,6 +904,9 @@ LOCALVAR <a class="el" href="namespaceLEVEL__BASE.html#a51525aac5f2870ebcb747630
 <tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#081f45914b4a85190524ede87ef16331">STAT_WaitTime_COMPLEXLOCK</a> (&quot;pin&quot;,&quot;time&quot;,&quot;complexlock_wait&quot;,&quot;&quot;,&amp;TimerApp)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ATOMIC_STATS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#38b7832221f6bf51a6759bfb169e8687">STAT_Backoff_COMPLEXLOCK</a> (&quot;pin&quot;,&quot;complexlock&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fab969dcd2abec37396f5ce989daf664"></a><!-- doxytag: member="LEVEL_BASE::SlowGetTid" ref="fab969dcd2abec37396f5ce989daf664" args="()" -->
+NATIVE_TID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SlowGetTid</b> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="976dbf12b0aaa9440cb5203b25d1aaa4"></a><!-- doxytag: member="LEVEL_BASE::SeverityToString" ref="976dbf12b0aaa9440cb5203b25d1aaa4" args="(int num)" -->
 LOCALCONST char *&nbsp;</td><td class="memItemRight" valign="bottom"><b>SeverityToString</b> (int num)</td></tr>
@@ -980,8 +943,6 @@ LOCALVAR KNOB_COMMENT&nbsp;</td><td class="memItemRight" valign="bottom"><b>Knob
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; UINT32 &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#1115abcba131044348012b8f9070b15f">KnobWaitingInjector</a> (KNOB_MODE_WRITEONCE,&quot;internal&quot;,&quot;waiting_injector&quot;,&quot;0&quot;,&quot;PID of waiting injector process&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; string &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#195ece7ec9d0afc44c14e3f9117e6cd6">KnobInjectorPipes</a> (KNOB_MODE_WRITEONCE,&quot;internal&quot;,&quot;injector_pipes&quot;,&quot;&quot;,&quot;Pipes to interact with injector launcher&quot;)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; UINT32 &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#b5cf12b056c7226769c57a2a13cfeb54">KnobSigChildHandler</a> (KNOB_MODE_WRITEONCE,&quot;internal&quot;,&quot;sigchld_handler&quot;,&quot;0&quot;,&quot;PID of waiting injector process&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; string &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#f164eaf5d0761e30a7c839f167c705d1">KnobErrorFile</a> (KNOB_MODE_WRITEONCE,&quot;user&quot;,&quot;error_file&quot;,&quot;&quot;,&quot;The error file name&quot;)</td></tr>
@@ -1009,8 +970,6 @@ LOCALVAR KNOB_COMMENT&nbsp;</td><td class="memItemRight" valign="bottom"><b>Knob
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#9ba61b0f0b61865087efa2ded136430d">KnobHelp</a> (KNOB_MODE_WRITEONCE,&quot;user&quot;,&quot;help&quot;,&quot;0&quot;,&quot;Print help message&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#85bc357e6143cd2908d09224749c9ca5">KnobVersion</a> (KNOB_MODE_WRITEONCE,&quot;user&quot;,&quot;version&quot;,&quot;0&quot;,&quot;Print version message&quot;)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#bdf254536fd93c660f7c9b1cbfd5f355">KnobVersionLong</a> (KNOB_MODE_WRITEONCE,&quot;user&quot;,&quot;version_long&quot;,&quot;0&quot;,&quot;Print version/diagnostic message&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__LOCK.html#ga07949dcd22a1c5d8fe209767b4dd490">PIN_InitLock</a> (PIN_LOCK *lock)</td></tr>
 
@@ -1103,6 +1062,9 @@ LOCALVAR KNOB_COMMENT&nbsp;</td><td class="memItemRight" valign="bottom"><b>Knob
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="93a9860dd313a2283ed16dda152a0d3e"></a><!-- doxytag: member="LEVEL_BASE::PauseAbortKnob" ref="93a9860dd313a2283ed16dda152a0d3e" args="(KNOB_MODE_WRITEONCE,&quot;supported:basic&quot;,&quot;pause_abort&quot;,&quot;0&quot;,&quot;Pause and print pid so gdb can attach before pin aborts&quot;)" -->
 LOCALVAR KNOB&lt; UINT32 &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>PauseAbortKnob</b> (KNOB_MODE_WRITEONCE,&quot;supported:basic&quot;,&quot;pause_abort&quot;,&quot;0&quot;,&quot;Pause and print pid so gdb can attach before pin aborts&quot;)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="937616c9a7584d8846802473241fe5f1"></a><!-- doxytag: member="LEVEL_BASE::PrintPinStackTrace" ref="937616c9a7584d8846802473241fe5f1" args="(ostream &amp;os)" -->
+GLOBALCFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>PrintPinStackTrace</b> (ostream &amp;os)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#4fa6c4f598c6d4f834e4e702a3bf677e">BreakMe</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#94d3ed072f4c251ab32e2dc329f9a664">DivZero</a> (UINT32 x)</td></tr>
@@ -1112,6 +1074,8 @@ LOCALVAR KNOB&lt; UINT32 &gt;&nbsp;</td><td class="memItemRight" valign="bottom"
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#20903d7d15f9835283e4c30f3f198c23">SignalHandler</a> (int arg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#66e853784b39951fc0cdae5a759684b3">InstallSignalHandlers</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#a1fda7eb253e52736823c61d849c92a3">SlowAssertsEnabled</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; string &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#b96be0ac229a08a4ade397971f1ec2dd">KnobMesgOn</a> (KNOB_MODE_APPEND,&quot;supported:message&quot;,&quot;mesgon&quot;,&quot;&quot;,&quot;enable given message type&quot;)</td></tr>
 
@@ -1149,6 +1113,34 @@ LOCALVAR STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><b>TimerOt
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#9f0d7da5125a13e59002728916095229">TimerVm</a> (&quot;pin&quot;,&quot;time&quot;,&quot;vm&quot;,&quot;&quot;,&amp;TimerApp)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#2676fbba84ccc578a5ba3a36e248d04d">STAT_vm_enter_count</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;vmenter_count&quot;,&quot;&quot;, NULL)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#7bad68e76f3130696e36d4407a8ffecb">STAT_time_vm_enter_to_leave</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_in_vm&quot;,&quot;&quot;,&amp;STAT_vm_enter_count)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#cea59e0ebb3cfdfc2a72933986c17459">STAT_time_vm_past_enter</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_in_vm_past_enter&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#3d003577dc7db3bf399fd29dcf5d219c">STAT_time_vm_locked</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_locked&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#fafcdfa3545c191267fee1c989ecd2c7">STAT_acquire_vm_lock_count</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;get_lock_count&quot;,&quot;&quot;, NULL)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#48359c7c9c843071f4050fdcb51de160">STAT_time_wait_for_vm_lock</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_wait_for_lock&quot;,&quot;&quot;,&amp;STAT_acquire_vm_lock_count)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#9ae1ad6eeb209945a2413d968f5dbe47">STAT_time_vm_threads</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_all_threads&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#61bc2c6d6e5cbb614b77e88dc046f14a">STAT_time_VMSVC_EMU</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_EMU&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#800e702259605adb31cb8c976f2d123c">STAT_time_VMSVC_XFER</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#68b64d0c393b3b7343bbc35a09400108">STAT_time_VMSVC_XFER_INDIRECT</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER_INDIRECT&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#0ba9c511b3a82f94786d213344556957">STAT_time_VMSVC_XFER_NATIVE</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER_NATIVE&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#3b56c3c47f076b68cab884a3da56444a">STAT_time_VMSVC_SMC</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_SMC&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#9063064932866508f5652ef539b2aa74">STAT_time_VMSVC_SELF_HANDLER</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_SELF_HANDLER&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#6f3b51beb93b6dbd11b454bc1184b21b">STAT_time_VMSVC_XFER_BRIDGE</a> (&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER_BRIDGE&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#cca09e14551c4a54b0692ee0bc6b46a6">TimerCompile</a> (&quot;pin&quot;,&quot;time&quot;,&quot;Compile&quot;,&quot;&quot;,&amp;TimerVm)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#773352daf858d396dc281747fc3620a1">TimerMakeRegion</a> (&quot;pin&quot;,&quot;time&quot;,&quot;MakeRegion&quot;,&quot;&quot;,&amp;TimerCompile)</td></tr>
@@ -1166,6 +1158,10 @@ LOCALVAR STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><b>TimerOt
 <tr><td class="memItemLeft" nowrap align="right" valign="top">CHAR *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#44140bdf77c3e578cfecbe59fc289b3e">GetAppCmdLine</a> (const CHAR *pinCmdLine)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#03774a94c0391f9007db66cfa04407dc">SplitString</a> (string *input, const string &amp;delimiter=&quot; &quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#dffa1756ceea7128bedcff1236b27c7d">EndsWith</a> (const CHAR *in, const CHAR *post)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#cef3840cd2b109a3308962d796f81397">StartsWith</a> (const CHAR *in, const CHAR *pre)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__MISC__PRINT.html#gf6f94806c76e6d4ec1b79b37b79913af">SetAddress0x</a> (BOOL val)</td></tr>
 
@@ -1201,6 +1197,8 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>InsertCommas
 <tr><td class="memItemLeft" nowrap align="right" valign="top">INT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__MISC__PARSE.html#g0dc2bc7a1e366f862201143bea8e1622">Int32FromString</a> (const string &amp;s)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__MISC__PARSE.html#g78a5edcaf731cb94c74a2e2f07622e5b">Uint32FromString</a> (const string &amp;s)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">INT64&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__MISC__PARSE.html#gb4debf7e0dc1a7e62a5999006aab9385">Int64FromString</a> (const string &amp;s)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__MISC__PARSE.html#g4b88888b41d6e656efc7440c674a8bca">Uint64FromString</a> (const string &amp;s)</td></tr>
 
@@ -1363,10 +1361,9 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>MEMORY_WriteUint64</b
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#71a13126422b10e2ed2a2af2682fd2c6">PtrDiff</a> (const VOID *ptr1, const VOID *ptr2)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#6fc03520ecea5071e8c32740ff9651b8">PtrAtOffset</a> (VOID *ptr, size_t offset)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#663a4d155ae8fa698ba64b39080482b3">PtrAtOffset</a> (VOID *ptr, size_t offset)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b9ee0809697a4d4f52725360b47a4b30"></a><!-- doxytag: member="LEVEL_BASE::PtrAtOffset" ref="b9ee0809697a4d4f52725360b47a4b30" args="(const VOID *ptr, size_t offset)" -->
-const VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><b>PtrAtOffset</b> (const VOID *ptr, size_t offset)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#6e7a682079dca093a94ec8e0b22f5904">PtrAtOffset</a> (const VOID *ptr, size_t offset)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename T&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">GLOBALTEMPLATEFUN VOID *&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#1f4025822c56bcd94d0e4b729f752b53">PushDataToStack</a> (VOID *stack, const T *data, size_t alignment=1, size_t size=sizeof(T))</td></tr>
@@ -1385,35 +1382,31 @@ const VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><b>PtrAtOffset</
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALVAR STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#3187f0801cc106f1f74629a55e6bb5a1">StatOtherBytes</a> (&quot;mem&quot;,&quot;bytes&quot;,&quot;other&quot;,&quot;&quot;,&amp;StatRawMmapBytes, TRUE)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#36542c9ab18b6c106218194a3ae394ca">GetRawMmapBytes</a> ()</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#d4a169f54aa992d972f7580341927403">UpdateRawMmapBytes</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#69df05dbd5ec3e35ce3247e12d09df5a">PullinPinMalloc</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const CHAR *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#5ff7f00b0f8df67e1e3878510cf5765d">GetEnvFromArray</a> (const CHAR *envArray[], const CHAR *name)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#1028f2ab52a68f89ef1e053bd157d632">VersionShort</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const string &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#b11c55a0618a519376db895c488a41e8">ReleaseFamily</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#4a5aed8c30520d346c6b0f5dcc58d714">ReleaseShort</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#dce0abeab201f6c466f4fbb2cac4b832">PinCommitHash</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#de74545e566b6462d7b68b0ca7811bb6">VersionLong</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALDLLCFUN const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#0104f2ac9a77db1fe37d5f55d5401c9d">PinCommitHashC</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#52af97a874397f20ed23a84be69a3448">ReleaseLong</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const string &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#3f5828ba30a4bb2a8e76061f1f467f36">CommitCounter</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">SECTION_END const CHAR *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#28383774aa259ea4faef2ee04b18fcfc">CharmVersion</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN const string &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#2ac483b5ebf1687c650d6fa945f56c2a">CopyRight</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="180e963d9ba02ae33117bdbe77e7ad45"></a><!-- doxytag: member="LEVEL_BASE::CharmVersionC" ref="180e963d9ba02ae33117bdbe77e7ad45" args="()" -->
-GLOBALDLLCFUN const CHAR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>CharmVersionC</b> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#441065ce61299c3531f8cbfc9cb44d76">VersionDetailed</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#7192618dd8e52fcf1c44129daa220c15">VersionFancy</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const string &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#ae72cd8a6d89e43a37e960147de13d6f">PrintablePinVersion</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#5aa07515c4ceb78698cdda2c0e961a2c">FunctionCodeAddress</a> (void(*fp)())</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a71e9313be72d5c75421ffb21d87dd6c"></a><!-- doxytag: member="LEVEL_BASE::KnobAllowAvxSupport" ref="a71e9313be72d5c75421ffb21d87dd6c" args="(KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;allow_AVX_support&quot;,&quot;1&quot;,&quot;allow AVX support&quot;)" -->
 LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobAllowAvxSupport</b> (KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;allow_AVX_support&quot;,&quot;1&quot;,&quot;allow AVX support&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f65a63e94e3dd3fea6e7d024d8f009e2"></a><!-- doxytag: member="LEVEL_BASE::KnobAllowAvx512Support" ref="f65a63e94e3dd3fea6e7d024d8f009e2" args="(KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;allow_AVX512_support&quot;,&quot;1&quot;,&quot;Allow using AVX-512 instructions&quot;)" -->
+LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobAllowAvx512Support</b> (KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;allow_AVX512_support&quot;,&quot;1&quot;,&quot;Allow using AVX-512 instructions&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">CPU_INFO &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#f054310ce2c7b295c0ee65d7fb42ee72">Cpu</a> ()</td></tr>
 
@@ -1430,13 +1423,11 @@ LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#5c58d1ae5ac05fa941caa7a50f7ef1dd">HaveAvx512FSupport</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6dc79ef1cf484bba33c95d37a29a6906"></a><!-- doxytag: member="LEVEL_BASE::DetermineVectorRegisterSet" ref="6dc79ef1cf484bba33c95d37a29a6906" args="()" -->
-LOCALFUN VECTOR_REGISTER_SET&nbsp;</td><td class="memItemRight" valign="bottom"><b>DetermineVectorRegisterSet</b> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCFUN ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#c5550276c7a6214d15c2064b3b1f5deb">HaveAvx512BWSupport</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VECTOR_REGISTER_SET&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#6dc79ef1cf484bba33c95d37a29a6906">DetermineVectorRegisterSet</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VECTOR_REGISTER_SET&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#82a33949b38c9f9a8812b6319629feab">SupportedVectorRegisterSet</a> ()</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g826d59a81bdaf643e1d42993616f3951"></a><!-- doxytag: member="LEVEL_BASE::InitRegTables" ref="g826d59a81bdaf643e1d42993616f3951" args="()" -->
-VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>InitRegTables</b> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g559a4ad1ae85717fd5fb7b2881b133f9"></a><!-- doxytag: member="LEVEL_BASE::REG_is_reg" ref="g559a4ad1ae85717fd5fb7b2881b133f9" args="(REG reg)" -->
 BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_reg</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
@@ -1466,21 +1457,20 @@ BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_pseudo</b> (<a
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g2b832fe49c1c200f5c5e754ab5a34886">REG_is_fr_for_get_context</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#ge2cff46ea9715074f23996d1151e918a">REG_is_fr_or_x87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e2cff46ea9715074f23996d1151e918a"></a><!-- doxytag: member="LEVEL_BASE::REG_is_fr_or_x87" ref="e2cff46ea9715074f23996d1151e918a" args="(REG reg)" -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_fr_or_x87</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g9cbc6eb5258fcc1fcee307cdfaac9f44">REG_is_mxcsr</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g9922e72637a0d4c4ec341c776332a4fc">REG_is_any_mxcsr</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g1fe16f59d7cc1dcf4af4188260ff18ba">REG_is_any_x87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1fe16f59d7cc1dcf4af4188260ff18ba"></a><!-- doxytag: member="LEVEL_BASE::REG_is_any_x87" ref="1fe16f59d7cc1dcf4af4188260ff18ba" args="(REG reg)" -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_any_x87</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="97541979b43d16d57bf978947c7bf421"></a><!-- doxytag: member="LEVEL_BASE::REG_st_return_reg" ref="97541979b43d16d57bf978947c7bf421" args="()" -->
 <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_st_return_reg</b> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g49946aeb91a5feeecfed3da44fe4bd33">REG_is_mm</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="db3622457273002861d036718e81c2ec"></a><!-- doxytag: member="LEVEL_BASE::REG_is_emm" ref="db3622457273002861d036718e81c2ec" args="(REG reg)" -->
-BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_emm</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gd7f8adfc48d612467160d2f1681953f5">REG_is_xmm</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
@@ -1514,9 +1504,7 @@ BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_tr</b> (<a cla
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gd96fee69a3eb37dbcd27c18621615900">REG_is_st</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#ga211747fe08d39c3d562736c99ff7ee9">REG_is_fpst</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g13d97c6de11565981757df4aec9359d6">REG_is_in_X87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#13d97c6de11565981757df4aec9359d6">REG_is_in_X87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g96b25e4076a3c1f6f0f1e2df3700beaf">REG_is_machine</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
@@ -1594,7 +1582,8 @@ BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_tr</b> (<a cla
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g0e9b8a8c0b93707c1f4cf3f77cebd0f0">REG_is_representative_reg</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g5934cb7498caa40afde0b7e32765311d">REG_is_x87_reg</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5934cb7498caa40afde0b7e32765311d"></a><!-- doxytag: member="LEVEL_BASE::REG_is_x87_reg" ref="5934cb7498caa40afde0b7e32765311d" args="(REG reg)" -->
+BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>REG_is_x87_reg</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gdffbdc05738251b2faf9d4fcba00167b">REG_is_pin_inst</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
@@ -1749,11 +1738,7 @@ LOCALVAR BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>Address0x</b
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cf07a0b2d5991e7a6d8e1063e4c888db"></a><!-- doxytag: member="LEVEL_BASE::HexTab" ref="cf07a0b2d5991e7a6d8e1063e4c888db" args="[]" -->
 LOCALVAR const CHAR&nbsp;</td><td class="memItemRight" valign="bottom"><b>HexTab</b> [] = &quot;0123456789abcdef&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c0794726976bfbe322b36a9137aa238d"></a><!-- doxytag: member="LEVEL_BASE::Version" ref="c0794726976bfbe322b36a9137aa238d" args="[]" -->
-LOCALVAR const CHAR&nbsp;</td><td class="memItemRight" valign="bottom"><b>Version</b> [] = &quot;$Rev: 76887 $&quot;</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="50cb6b6918bfaf530b8eb0058b759c87"></a><!-- doxytag: member="LEVEL_BASE::charmVersion" ref="50cb6b6918bfaf530b8eb0058b759c87" args="[]" -->
-LOCALVAR const CHAR&nbsp;</td><td class="memItemRight" valign="bottom"><b>charmVersion</b> [] = &quot;@CHARM-VERSION: $Rev: 76887 $&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST XSAVE_LAYOUT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#17f78703448e386c41bae279b3987443">FPSTATE_layout</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="400db5d3878d92b05717a4bb2732784b"></a><!-- doxytag: member="LEVEL_BASE::cpuSupportsCMOV" ref="400db5d3878d92b05717a4bb2732784b" args="" -->
 LOCALVAR BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>cpuSupportsCMOV</b> = Cpu().Supports(CPU_FEATURE_CMOV)</td></tr>
@@ -1770,11 +1755,14 @@ LOCALVAR BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>cpuSupportsA
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="05db2511c69bbf63f857d62ddb5a70b3"></a><!-- doxytag: member="LEVEL_BASE::cpuSupportsAVX512F" ref="05db2511c69bbf63f857d62ddb5a70b3" args="" -->
 LOCALVAR BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>cpuSupportsAVX512F</b> = Cpu().Supports(CPU_FEATURE_AVX512F)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="78c2c83b55fc89e02b8013bbf48ac0d4"></a><!-- doxytag: member="LEVEL_BASE::cpuSupportsAVX512BW" ref="78c2c83b55fc89e02b8013bbf48ac0d4" args="" -->
+LOCALVAR BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>cpuSupportsAVX512BW</b> = Cpu().Supports(CPU_FEATURE_AVX512BW)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="094f867a65da5e16ba635fbfb06a013b"></a><!-- doxytag: member="LEVEL_BASE::AC_FLAG_BIT" ref="094f867a65da5e16ba635fbfb06a013b" args="" -->
 GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>AC_FLAG_BIT</b> = 0x40000</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bc1c3039a0326fa4bd5d3687954af47f"></a><!-- doxytag: member="LEVEL_BASE::NUM_PHYSICAL_REGS" ref="bc1c3039a0326fa4bd5d3687954af47f" args="" -->
-GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>NUM_PHYSICAL_REGS</b> = REG_PHYSICAL_CONTEXT_END - REG_PHYSICAL_CONTEXT_BEGIN + 1</td></tr>
+GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>NUM_PHYSICAL_REGS</b> = REG_PHYSICAL_INTEGER_END - REG_PHYSICAL_INTEGER_BASE + 1</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="38cd5166a3971b3ff325162e384030eb"></a><!-- doxytag: member="LEVEL_BASE::NUM_SCRATCH_REGS" ref="38cd5166a3971b3ff325162e384030eb" args="" -->
 GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>NUM_SCRATCH_REGS</b> = REG_INST_SCRATCH_LAST - REG_INST_SCRATCH_BASE + 1</td></tr>
@@ -1783,47 +1771,17 @@ GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>NUM_SC
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#dfe0a2389bf0a5212cef434367beebb4">NUM_CONTEXT_INT_REGS</a> = NUM_PHYSICAL_REGS + <a class="el" href="namespaceLEVEL__BASE.html#f0d68d07a3254c7f788d9a3b8cb85a9f">NUM_SPECIAL_REGS</a></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#f3121f567482944241b15c9864780b8d">NUM_CONTEXT_REGS</a> = REG_LAST_CONTEXT_REG + 1</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#267e6702faca9bbc7f9a4b26a99beaa8">ARCH_STATE_SIZE</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#4c1eb02ddbb61fe60d31b8eb79316cc3">NUM_BUFFER_REGS</a> = REG_BUF_LAST - REG_BUF_BASE0 + 1</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const REGDEF_ENTRY&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g76f5a683a0d448a097824a5b6472cb2c">_regDefTable</a> []</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g33b1cae396184f7cddf569d52bb3356d"></a><!-- doxytag: member="LEVEL_BASE::_regClassBitMapTable" ref="g33b1cae396184f7cddf569d52bb3356d" args="[REG_LAST]" -->
-UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regClassBitMapTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gfc4500bb938cbeacdb40d91ba71d242f"></a><!-- doxytag: member="LEVEL_BASE::_regSubClassBitMapTable" ref="gfc4500bb938cbeacdb40d91ba71d242f" args="[REG_LAST]" -->
-UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regSubClassBitMapTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gbb2178eb1e6db25d6cb1cb52ea6bd44d"></a><!-- doxytag: member="LEVEL_BASE::_regSpillSizeTable" ref="gbb2178eb1e6db25d6cb1cb52ea6bd44d" args="[REG_LAST]" -->
-UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regSpillSizeTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g1004fca7bd7b034e70d1dd615ef2b67d"></a><!-- doxytag: member="LEVEL_BASE::_regWidthTable" ref="g1004fca7bd7b034e70d1dd615ef2b67d" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regWidthTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g616842562f4ac4610c844c31ff424938"></a><!-- doxytag: member="LEVEL_BASE::_regAllocTypeTable" ref="g616842562f4ac4610c844c31ff424938" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#gcbcd51158c7cac507781c6f91b6f3e98">REG_ALLOC_TYPE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regAllocTypeTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gbe756952458558ed86f398adca4533d8"></a><!-- doxytag: member="LEVEL_BASE::_regFullNameTable" ref="gbe756952458558ed86f398adca4533d8" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regFullNameTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ged654b3fd3f4b3c83bf2acfda722b98a"></a><!-- doxytag: member="LEVEL_BASE::_regMachineNameTable" ref="ged654b3fd3f4b3c83bf2acfda722b98a" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regMachineNameTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g5de1dcdadd8ae89794d228c137aea880"></a><!-- doxytag: member="LEVEL_BASE::_regPinNameTable" ref="g5de1dcdadd8ae89794d228c137aea880" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regPinNameTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">INT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>_regWidthToBitWidth</b> []</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#cc01955d0a99847e6d932ea99679eed4">OPCODE_TABLE_NREADS</a> = (11)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__BASE.html#b1561b63cba3591b2cb892074158e6c3">OPCODE_TABLE_NWRITES</a> = (9)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g82d1e4bfb9a5f4fc71f26ad8f38fc980">REGCBIT_APP_ALL</a></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g45b35269b427f38c64d83b8de277c305">REGCBIT_PIN_ALL</a></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g69ea0c5b4b2d573297be7f76afff0cea">REGCBIT_ALL_REGS</a> = <a class="el" href="group__REG__CPU__IA32.html#g82d1e4bfb9a5f4fc71f26ad8f38fc980">REGCBIT_APP_ALL</a> | <a class="el" href="group__REG__CPU__IA32.html#g45b35269b427f38c64d83b8de277c305">REGCBIT_PIN_ALL</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g201fbfeb9edcd5e06810e65d5bf9bc72">REGCBIT_APP_FLAGS</a></td></tr>
 
@@ -2078,6 +2036,29 @@ UINT64 single value stat.
 Types of CPU features     </td>
   </tr>
 </table>
+<a class="anchor" name="4c25dcf3de95f2f1e9cfbda35354461c"></a><!-- doxytag: member="LEVEL_BASE::CPU_XFEATURE" ref="4c25dcf3de95f2f1e9cfbda35354461c" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">enum <a class="el" href="namespaceLEVEL__BASE.html#4c25dcf3de95f2f1e9cfbda35354461c">LEVEL_BASE::CPU_XFEATURE</a>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+These values specify processor states that are enabled on the processor. They are related to parts of the extended state that should be saved/restored by XSAVE/XRSTORE instructions. See IA-32 manual, vol.3, section 2.6. and vol 2B. XSAVE/XRSTOR     </td>
+  </tr>
+</table>
 <a class="anchor" name="557e08221f3032f166c26701a862e0b8"></a><!-- doxytag: member="LEVEL_BASE::CPU_XFEATURE_BIT" ref="557e08221f3032f166c26701a862e0b8" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -2098,13 +2079,7 @@ Types of CPU features     </td>
     <td>
 
 <p>
-Bits of the XFEATURE_ENABLED_MASK in the extended control register XCR0. These bits specify processor states that are enabled on the processor. A combination of these bits also specifies which part of the extended state should be saved/restored by XSAVE/XRSTORE instructions. See IA-32 manual, vol.3, section 2.6. and vol 2B. XSAVE/XRSTOR <dl compact><dt><b>Enumerator: </b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" name="557e08221f3032f166c26701a862e0b81a26c740d232e1681d8e3f3456688908"></a><!-- doxytag: member="CPU_XFEATURE_BIT_AVX512F" ref="557e08221f3032f166c26701a862e0b81a26c740d232e1681d8e3f3456688908" args="" -->CPU_XFEATURE_BIT_AVX512F</em>&nbsp;</td><td>
-Enumerator covering all three bits necessary for enabling AVX512 foundation. </td></tr>
-</table>
-</dl>
-    </td>
+Bits of the XFEATURE_ENABLED_MASK in the extended control register XCR0. These bits specify processor states that are enabled on the processor. A combination of these bits also specifies which part of the extended state should be saved/restored by XSAVE/XRSTORE instructions. See IA-32 manual, vol.3, section 2.6. and vol 2B. XSAVE/XRSTOR     </td>
   </tr>
 </table>
 <a class="anchor" name="e3f619906f771f5752285e0017fb5db8"></a><!-- doxytag: member="LEVEL_BASE::LOGTYPE" ref="e3f619906f771f5752285e0017fb5db8" args="" --><p>
@@ -2238,7 +2213,9 @@ Holds static and dynamic count. </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="55c5a88d592fec1fb9ee06d744437fb636932d3af76a1daeb7bf9d5ba0341adb"></a><!-- doxytag: member="STAT_TYPE_BA" ref="55c5a88d592fec1fb9ee06d744437fb636932d3af76a1daeb7bf9d5ba0341adb" args="" -->STAT_TYPE_BA</em>&nbsp;</td><td>
 Holds a before and after count. </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="55c5a88d592fec1fb9ee06d744437fb68b0bf71f1f1bd57bd2dfe3e63539e4c8"></a><!-- doxytag: member="STAT_TYPE_NORM" ref="55c5a88d592fec1fb9ee06d744437fb68b0bf71f1f1bd57bd2dfe3e63539e4c8" args="" -->STAT_TYPE_NORM</em>&nbsp;</td><td>
-Holds a count normalized to another stat, displayed as a ratio </td></tr>
+Holds a count normalized to another stat, displayed as a ratio. </td></tr>
+<tr><td valign="top"><em><a class="anchor" name="55c5a88d592fec1fb9ee06d744437fb6f88fe5b15236757217c68fa14f770959"></a><!-- doxytag: member="STAT_TYPE_DIST" ref="55c5a88d592fec1fb9ee06d744437fb6f88fe5b15236757217c68fa14f770959" args="" -->STAT_TYPE_DIST</em>&nbsp;</td><td>
+Holds a distribution. </td></tr>
 </table>
 </dl>
     </td>
@@ -2470,13 +2447,13 @@ x     </td>
     </td>
   </tr>
 </table>
-<a class="anchor" name="28383774aa259ea4faef2ee04b18fcfc"></a><!-- doxytag: member="LEVEL_BASE::CharmVersion" ref="28383774aa259ea4faef2ee04b18fcfc" args="()" --><p>
+<a class="anchor" name="3f5828ba30a4bb2a8e76061f1f467f36"></a><!-- doxytag: member="LEVEL_BASE::CommitCounter" ref="3f5828ba30a4bb2a8e76061f1f467f36" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">SECTION_END const CHAR* LEVEL_BASE::CharmVersion           </td>
+          <td class="md" nowrap valign="top">const string&amp; LEVEL_BASE::CommitCounter           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -2494,7 +2471,34 @@ x     </td>
     <td>
 
 <p>
-Return pointer to contents of .charmversion section     </td>
+Returns the number of commits in the current branch with an adjustment of 90000 to differentiate from SVN revisions. This is not a unique identifier of a Pin version, it may appear in multiple branches. For a full-blown version identifier, this number should be combined with the major and minor numbers (see PinVersion). Example: pin-3.3-98765: 8765 commits in the Pin 3.3 branch (since the beginning of time). pin-3.4-98765: 8765 commits in the Pin 3.4 branch (since the beginning of time). Alternatively one can use the git commit hash as a truly unique identifier.     </td>
+  </tr>
+</table>
+<a class="anchor" name="2ac483b5ebf1687c650d6fa945f56c2a"></a><!-- doxytag: member="LEVEL_BASE::CopyRight" ref="2ac483b5ebf1687c650d6fa945f56c2a" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN const string&amp; LEVEL_BASE::CopyRight           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns Pin's copyright string.     </td>
   </tr>
 </table>
 <a class="anchor" name="f054310ce2c7b295c0ee65d7fb42ee72"></a><!-- doxytag: member="LEVEL_BASE::Cpu" ref="f054310ce2c7b295c0ee65d7fb42ee72" args="()" --><p>
@@ -2580,6 +2584,34 @@ Return reference to the CPU_INFO instance.     </td>
 Create a temporary file name     </td>
   </tr>
 </table>
+<a class="anchor" name="6dc79ef1cf484bba33c95d37a29a6906"></a><!-- doxytag: member="LEVEL_BASE::DetermineVectorRegisterSet" ref="6dc79ef1cf484bba33c95d37a29a6906" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN VECTOR_REGISTER_SET LEVEL_BASE::DetermineVectorRegisterSet           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>Returns the widest register set supported by the host CPU. </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="94d3ed072f4c251ab32e2dc329f9a664"></a><!-- doxytag: member="LEVEL_BASE::DivZero" ref="94d3ed072f4c251ab32e2dc329f9a664" args="(UINT32 x)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -2606,6 +2638,51 @@ Create a temporary file name     </td>
 
 <p>
 x     </td>
+  </tr>
+</table>
+<a class="anchor" name="dffa1756ceea7128bedcff1236b27c7d"></a><!-- doxytag: member="LEVEL_BASE::EndsWith" ref="dffa1756ceea7128bedcff1236b27c7d" args="(const CHAR *in, const CHAR *post)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::EndsWith           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const CHAR *&nbsp;</td>
+          <td class="mdname" nowrap> <em>in</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const CHAR *&nbsp;</td>
+          <td class="mdname" nowrap> <em>post</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Find if string ends with another string<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>in</em>&nbsp;</td><td>- input string. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>post</em>&nbsp;</td><td>- the postfix the we check</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>TRUE/FALSE </dd></dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="5aa07515c4ceb78698cdda2c0e961a2c"></a><!-- doxytag: member="LEVEL_BASE::FunctionCodeAddress" ref="5aa07515c4ceb78698cdda2c0e961a2c" args="(void(*fp)())" --><p>
@@ -2810,33 +2887,6 @@ Find value of environment variable     </td>
 Get the address of the page that addr is in     </td>
   </tr>
 </table>
-<a class="anchor" name="36542c9ab18b6c106218194a3ae394ca"></a><!-- doxytag: member="LEVEL_BASE::GetRawMmapBytes" ref="36542c9ab18b6c106218194a3ae394ca" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">USIZE LEVEL_BASE::GetRawMmapBytes           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Get StatRawMmapBytes - the number of bytes allocated by Pin. Note that this returns bytes currently allocated, not all bytes that have ever been allocated. Basically, this value will rise and fall during execution.     </td>
-  </tr>
-</table>
 <a class="anchor" name="3c5cc27980b745f18fe54cfc1fad7602"></a><!-- doxytag: member="LEVEL_BASE::GetSp" ref="3c5cc27980b745f18fe54cfc1fad7602" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -2989,6 +3039,35 @@ Function to incrementally construct a hash value.<p>
     </td>
   </tr>
 </table>
+<a class="anchor" name="c5550276c7a6214d15c2064b3b1f5deb"></a><!-- doxytag: member="LEVEL_BASE::HaveAvx512BWSupport" ref="c5550276c7a6214d15c2064b3b1f5deb" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">GLOBALCFUN ADDRINT LEVEL_BASE::HaveAvx512BWSupport           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>TRUE if this CPU supports AVX512 Byte and Word instructions and Pin is prepared to support AVX512 </dd></dl>
+<dl compact><dt><b>Note:</b></dt><dd>it may be called from assembly routines also - so it is a GLOBALCFUN </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="5c58d1ae5ac05fa941caa7a50f7ef1dd"></a><!-- doxytag: member="LEVEL_BASE::HaveAvx512FSupport" ref="5c58d1ae5ac05fa941caa7a50f7ef1dd" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -3014,7 +3093,7 @@ Function to incrementally construct a hash value.<p>
 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>TRUE if this CPU supports AVX512 foundation and Pin is prepared to support AVX512 </dd></dl>
-<dl compact><dt><b>Note:</b></dt><dd>it is called from assembly routines also - so it is a GLOBALCFUN </dd></dl>
+<dl compact><dt><b>Note:</b></dt><dd>it may be called from assembly routines also - so it is a GLOBALCFUN </dd></dl>
     </td>
   </tr>
 </table>
@@ -3908,61 +3987,6 @@ Print help message     </td>
 Knob for skipping a warning message about unsupported platforms; It also converts some error messages to warnings to try to allow further progress.     </td>
   </tr>
 </table>
-<a class="anchor" name="195ece7ec9d0afc44c14e3f9117e6cd6"></a><!-- doxytag: member="LEVEL_BASE::KnobInjectorPipes" ref="195ece7ec9d0afc44c14e3f9117e6cd6" args="(KNOB_MODE_WRITEONCE,&quot;internal&quot;,&quot;injector_pipes&quot;,&quot;&quot;,&quot;Pipes to interact with injector launcher&quot;)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">KNOB&lt;string&gt; LEVEL_BASE::KnobInjectorPipes           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">KNOB_MODE_WRITEONCE&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;internal&quot;&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;injector_pipes&quot;&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;Pipes to interact with injector launcher&quot;&nbsp;</td>
-          <td class="mdname" nowrap></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Pipes to interact with parent injector process that waits for injection completion. These are used in case of Pin injector restarts due to cross arch support.     </td>
-  </tr>
-</table>
 <a class="anchor" name="cf2936e9134101590ee5db442eae9e74"></a><!-- doxytag: member="LEVEL_BASE::KnobLateInjection" ref="cf2936e9134101590ee5db442eae9e74" args="(KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;late_injection&quot;,&quot;0&quot;,&quot;Late injection (after initialization APC) on Windows&quot;)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -4566,61 +4590,6 @@ indicates that the pid should be added to the log file name.     </td>
 
 <p>
 Print version message     </td>
-  </tr>
-</table>
-<a class="anchor" name="bdf254536fd93c660f7c9b1cbfd5f355"></a><!-- doxytag: member="LEVEL_BASE::KnobVersionLong" ref="bdf254536fd93c660f7c9b1cbfd5f355" args="(KNOB_MODE_WRITEONCE,&quot;user&quot;,&quot;version_long&quot;,&quot;0&quot;,&quot;Print version/diagnostic message&quot;)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">KNOB&lt;BOOL&gt; LEVEL_BASE::KnobVersionLong           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">KNOB_MODE_WRITEONCE&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;user&quot;&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;version_long&quot;&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;0&quot;&nbsp;</td>
-          <td class="mdname" nowrap>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&quot;Print version/diagnostic message&quot;&nbsp;</td>
-          <td class="mdname" nowrap></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Print version/diagnostic message     </td>
   </tr>
 </table>
 <a class="anchor" name="1115abcba131044348012b8f9070b15f"></a><!-- doxytag: member="LEVEL_BASE::KnobWaitingInjector" ref="1115abcba131044348012b8f9070b15f" args="(KNOB_MODE_WRITEONCE,&quot;internal&quot;,&quot;waiting_injector&quot;,&quot;0&quot;,&quot;PID of waiting injector process&quot;)" --><p>
@@ -6187,6 +6156,61 @@ Specify Pin binary for 32-bit applications     </td>
 Specify Pin binary for 64-bit (IA32E) applications     </td>
   </tr>
 </table>
+<a class="anchor" name="dce0abeab201f6c466f4fbb2cac4b832"></a><!-- doxytag: member="LEVEL_BASE::PinCommitHash" ref="dce0abeab201f6c466f4fbb2cac4b832" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">const char* LEVEL_BASE::PinCommitHash           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the git commit hash of the current (unmodified) source code.     </td>
+  </tr>
+</table>
+<a class="anchor" name="0104f2ac9a77db1fe37d5f55d5401c9d"></a><!-- doxytag: member="LEVEL_BASE::PinCommitHashC" ref="0104f2ac9a77db1fe37d5f55d5401c9d" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">GLOBALDLLCFUN const char* LEVEL_BASE::PinCommitHashC           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the git commit hash of the current (unmodified) source code.<p>
+C-style version of this function.     </td>
+  </tr>
+</table>
 <a class="anchor" name="575e2412b3edafc26c996c3c8cc536b5"></a><!-- doxytag: member="LEVEL_BASE::PinStatusGetInjectionType" ref="575e2412b3edafc26c996c3c8cc536b5" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -6329,6 +6353,33 @@ template&lt;typename T&gt; </td>
 Convert a pointer to an ADDRINT.     </td>
   </tr>
 </table>
+<a class="anchor" name="ae72cd8a6d89e43a37e960147de13d6f"></a><!-- doxytag: member="LEVEL_BASE::PrintablePinVersion" ref="ae72cd8a6d89e43a37e960147de13d6f" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">const string&amp; LEVEL_BASE::PrintablePinVersion           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns a fully descriptive Pin version and copyright notice.     </td>
+  </tr>
+</table>
 <a class="anchor" name="fee1a0f2fecf9109aa4802f5e306ab76"></a><!-- doxytag: member="LEVEL_BASE::ProgramEntry" ref="fee1a0f2fecf9109aa4802f5e306ab76" args="(const ImageLoaderInfo *mainImage, const ImageLoaderInfo *loader)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -6366,13 +6417,50 @@ Convert a pointer to an ADDRINT.     </td>
 Return the entry point of a program (either that of the main image or of the dynamic loader)     </td>
   </tr>
 </table>
-<a class="anchor" name="6fc03520ecea5071e8c32740ff9651b8"></a><!-- doxytag: member="LEVEL_BASE::PtrAtOffset" ref="6fc03520ecea5071e8c32740ff9651b8" args="(VOID *ptr, size_t offset)" --><p>
+<a class="anchor" name="6e7a682079dca093a94ec8e0b22f5904"></a><!-- doxytag: member="LEVEL_BASE::PtrAtOffset" ref="6e7a682079dca093a94ec8e0b22f5904" args="(const VOID *ptr, size_t offset)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">VOID* LEVEL_BASE::PtrAtOffset           </td>
+          <td class="md" nowrap valign="top">GLOBALTEMPLATEFUN const T * LEVEL_BASE::PtrAtOffset           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const VOID *&nbsp;</td>
+          <td class="mdname" nowrap> <em>ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>size_t&nbsp;</td>
+          <td class="mdname" nowrap> <em>offset</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return const pointer whose offset, in bytes, from &lt;ptr&gt; is &lt;offset&gt;     </td>
+  </tr>
+</table>
+<a class="anchor" name="663a4d155ae8fa698ba64b39080482b3"></a><!-- doxytag: member="LEVEL_BASE::PtrAtOffset" ref="663a4d155ae8fa698ba64b39080482b3" args="(VOID *ptr, size_t offset)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">GLOBALTEMPLATEFUN T * LEVEL_BASE::PtrAtOffset           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">VOID *&nbsp;</td>
           <td class="mdname" nowrap> <em>ptr</em>, </td>
@@ -6738,6 +6826,35 @@ Return the lower 16-bit version of reg     </td>
 
 <p>
 Return the lower 32-bit version of reg     </td>
+  </tr>
+</table>
+<a class="anchor" name="13d97c6de11565981757df4aec9359d6"></a><!-- doxytag: member="LEVEL_BASE::REG_is_in_X87" ref="13d97c6de11565981757df4aec9359d6" args="(REG reg)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::REG_is_in_X87           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>reg</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>true if reg is ST0-7, MM0-7(MMX) or ST control/status register </dd></dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="30f64f7c2fdc2812bb5d503be94ed077"></a><!-- doxytag: member="LEVEL_BASE::REG_IsVectorRegSupported" ref="30f64f7c2fdc2812bb5d503be94ed077" args="(const REG reg)" --><p>
@@ -7491,13 +7608,13 @@ Return the ymm reg part of the zmm reg (or the ymm itself).     </td>
 return the register width given a width in bytes     </td>
   </tr>
 </table>
-<a class="anchor" name="52af97a874397f20ed23a84be69a3448"></a><!-- doxytag: member="LEVEL_BASE::ReleaseLong" ref="52af97a874397f20ed23a84be69a3448" args="()" --><p>
+<a class="anchor" name="b11c55a0618a519376db895c488a41e8"></a><!-- doxytag: member="LEVEL_BASE::ReleaseFamily" ref="b11c55a0618a519376db895c488a41e8" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">string LEVEL_BASE::ReleaseLong           </td>
+          <td class="md" nowrap valign="top">const string&amp; LEVEL_BASE::ReleaseFamily           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -7515,34 +7632,7 @@ return the register width given a width in bytes     </td>
     <td>
 
 <p>
-return full CVS based version string     </td>
-  </tr>
-</table>
-<a class="anchor" name="4a5aed8c30520d346c6b0f5dcc58d714"></a><!-- doxytag: member="LEVEL_BASE::ReleaseShort" ref="4a5aed8c30520d346c6b0f5dcc58d714" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">string LEVEL_BASE::ReleaseShort           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return Pin-release version string.     </td>
+Returns the Pin release family number. The release family includes the initial release and all subsequent patch releases with the same major and minor numbers.     </td>
   </tr>
 </table>
 <a class="anchor" name="4606a19cb645cfcd76198da9f7054625"></a><!-- doxytag: member="LEVEL_BASE::ResourceInfo" ref="4606a19cb645cfcd76198da9f7054625" args="()" --><p>
@@ -8118,6 +8208,33 @@ Sign extend from origSize to extendedSize and check if it fits in a field of ext
     </td>
   </tr>
 </table>
+<a class="anchor" name="a1fda7eb253e52736823c61d849c92a3"></a><!-- doxytag: member="LEVEL_BASE::SlowAssertsEnabled" ref="a1fda7eb253e52736823c61d849c92a3" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::SlowAssertsEnabled           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return TRUE if slow-asserts are enabled.     </td>
+  </tr>
+</table>
 <a class="anchor" name="03774a94c0391f9007db66cfa04407dc"></a><!-- doxytag: member="LEVEL_BASE::SplitString" ref="03774a94c0391f9007db66cfa04407dc" args="(string *input, const string &amp;delimiter=&quot; &quot;)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -8188,6 +8305,106 @@ Split string into 2 sub strings. Example1: prefix = SplitString(input = "aaa bbb
 
 <p>
 Start the application timer     </td>
+  </tr>
+</table>
+<a class="anchor" name="cef3840cd2b109a3308962d796f81397"></a><!-- doxytag: member="LEVEL_BASE::StartsWith" ref="cef3840cd2b109a3308962d796f81397" args="(const CHAR *in, const CHAR *pre)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::StartsWith           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const CHAR *&nbsp;</td>
+          <td class="mdname" nowrap> <em>in</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const CHAR *&nbsp;</td>
+          <td class="mdname" nowrap> <em>pre</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Find if string starts with another string<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>in</em>&nbsp;</td><td>- input string. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pre</em>&nbsp;</td><td>- the prefix the we check</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>TRUE/FALSE </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="fafcdfa3545c191267fee1c989ecd2c7"></a><!-- doxytag: member="LEVEL_BASE::STAT_acquire_vm_lock_count" ref="fafcdfa3545c191267fee1c989ecd2c7" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;get_lock_count&quot;,&quot;&quot;, NULL)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_acquire_vm_lock_count           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;get_lock_count&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>NULL&nbsp;</td>
+          <td class="mdname" nowrap></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+A counter for the number of times acquiring the VM lock     </td>
   </tr>
 </table>
 <a class="anchor" name="38b7832221f6bf51a6759bfb169e8687"></a><!-- doxytag: member="LEVEL_BASE::STAT_Backoff_COMPLEXLOCK" ref="38b7832221f6bf51a6759bfb169e8687" args="(&quot;pin&quot;,&quot;complexlock&quot;)" --><p>
@@ -8274,6 +8491,666 @@ Exponential backoff statistics while incrementing recursive count.     </td>
 
 <p>
 Max number of Yield() spins for a single lock attempt.     </td>
+  </tr>
+</table>
+<a class="anchor" name="7bad68e76f3130696e36d4407a8ffecb"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_vm_enter_to_leave" ref="7bad68e76f3130696e36d4407a8ffecb" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_in_vm&quot;,&quot;&quot;,&amp;STAT_vm_enter_count)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_vm_enter_to_leave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_in_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_vm_enter_count</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent in the VM including the time waiting for the VM lock     </td>
+  </tr>
+</table>
+<a class="anchor" name="3d003577dc7db3bf399fd29dcf5d219c"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_vm_locked" ref="3d003577dc7db3bf399fd29dcf5d219c" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_locked&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_vm_locked           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_locked&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent in the VM executing code while being locked under the VM lock     </td>
+  </tr>
+</table>
+<a class="anchor" name="cea59e0ebb3cfdfc2a72933986c17459"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_vm_past_enter" ref="cea59e0ebb3cfdfc2a72933986c17459" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_in_vm_past_enter&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_vm_past_enter           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_in_vm_past_enter&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent in the VM excluding the time waiting for the VM lock     </td>
+  </tr>
+</table>
+<a class="anchor" name="9ae1ad6eeb209945a2413d968f5dbe47"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_vm_threads" ref="9ae1ad6eeb209945a2413d968f5dbe47" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_all_threads&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_vm_threads           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_all_threads&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The total time spent by all VM threads     </td>
+  </tr>
+</table>
+<a class="anchor" name="61bc2c6d6e5cbb614b77e88dc046f14a"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_EMU" ref="61bc2c6d6e5cbb614b77e88dc046f14a" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_EMU&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_EMU           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_EMU&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the EMU flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="9063064932866508f5652ef539b2aa74"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_SELF_HANDLER" ref="9063064932866508f5652ef539b2aa74" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_SELF_HANDLER&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_SELF_HANDLER           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_SELF_HANDLER&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the SELF_HANDLER flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="3b56c3c47f076b68cab884a3da56444a"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_SMC" ref="3b56c3c47f076b68cab884a3da56444a" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_SMC&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_SMC           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_SMC&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the SMC flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="800e702259605adb31cb8c976f2d123c"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_XFER" ref="800e702259605adb31cb8c976f2d123c" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_XFER           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_XFER&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the XFER flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="6f3b51beb93b6dbd11b454bc1184b21b"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_XFER_BRIDGE" ref="6f3b51beb93b6dbd11b454bc1184b21b" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER_BRIDGE&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_XFER_BRIDGE           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_XFER_BRIDGE&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the XFER_BRIDGE flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="68b64d0c393b3b7343bbc35a09400108"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_XFER_INDIRECT" ref="68b64d0c393b3b7343bbc35a09400108" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER_INDIRECT&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_XFER_INDIRECT           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_XFER_INDIRECT&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the XFER_INDIRECT flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="0ba9c511b3a82f94786d213344556957"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_VMSVC_XFER_NATIVE" ref="0ba9c511b3a82f94786d213344556957" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;VMSVC_XFER_NATIVE&quot;,&quot;&quot;,&amp;STAT_time_vm_enter_to_leave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_VMSVC_XFER_NATIVE           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;VMSVC_XFER_NATIVE&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_time_vm_enter_to_leave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent executing the NATIVE flow     </td>
+  </tr>
+</table>
+<a class="anchor" name="48359c7c9c843071f4050fdcb51de160"></a><!-- doxytag: member="LEVEL_BASE::STAT_time_wait_for_vm_lock" ref="48359c7c9c843071f4050fdcb51de160" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;time_wait_for_lock&quot;,&quot;&quot;,&amp;STAT_acquire_vm_lock_count)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_time_wait_for_vm_lock           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_wait_for_lock&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>STAT_acquire_vm_lock_count</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+The time spent while waiting for the VM lock     </td>
   </tr>
 </table>
 <a class="anchor" name="c43b10f20393c01eb59f60f0dca816d8"></a><!-- doxytag: member="LEVEL_BASE::STAT_TotalAttempts_COMPLEXLOCK" ref="c43b10f20393c01eb59f60f0dca816d8" args="(&quot;pin&quot;,&quot;complexlock&quot;,&quot;attempts&quot;,&quot;&quot;)" --><p>
@@ -8372,6 +9249,61 @@ Total number of attempts to acquire lock.     </td>
 
 <p>
 Total number of Yield() spins while waiting for lock to be free.     </td>
+  </tr>
+</table>
+<a class="anchor" name="2676fbba84ccc578a5ba3a36e248d04d"></a><!-- doxytag: member="LEVEL_BASE::STAT_vm_enter_count" ref="2676fbba84ccc578a5ba3a36e248d04d" args="(&quot;pin&quot;,&quot;time_vm&quot;,&quot;vmenter_count&quot;,&quot;&quot;, NULL)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">STAT_NORM LEVEL_BASE::STAT_vm_enter_count           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">&quot;pin&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;time_vm&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;vmenter_count&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>NULL&nbsp;</td>
+          <td class="mdname" nowrap></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+A counter for the number of times entering the VM     </td>
   </tr>
 </table>
 <a class="anchor" name="081f45914b4a85190524ede87ef16331"></a><!-- doxytag: member="LEVEL_BASE::STAT_WaitTime_COMPLEXLOCK" ref="081f45914b4a85190524ede87ef16331" args="(&quot;pin&quot;,&quot;time&quot;,&quot;complexlock_wait&quot;,&quot;&quot;,&amp;TimerApp)" --><p>
@@ -9213,114 +10145,6 @@ integer bit width check     </td>
 Update StatRawMmapBytes from a local variable. We can't update the stat directly in RawMmap because it might be called before the constructor for the stat has been executed.     </td>
   </tr>
 </table>
-<a class="anchor" name="441065ce61299c3531f8cbfc9cb44d76"></a><!-- doxytag: member="LEVEL_BASE::VersionDetailed" ref="441065ce61299c3531f8cbfc9cb44d76" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">string LEVEL_BASE::VersionDetailed           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return full, detailed version string     </td>
-  </tr>
-</table>
-<a class="anchor" name="7192618dd8e52fcf1c44129daa220c15"></a><!-- doxytag: member="LEVEL_BASE::VersionFancy" ref="7192618dd8e52fcf1c44129daa220c15" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">string LEVEL_BASE::VersionFancy           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return decorated version string     </td>
-  </tr>
-</table>
-<a class="anchor" name="de74545e566b6462d7b68b0ca7811bb6"></a><!-- doxytag: member="LEVEL_BASE::VersionLong" ref="de74545e566b6462d7b68b0ca7811bb6" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">string LEVEL_BASE::VersionLong           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return decorated SVN version string.     </td>
-  </tr>
-</table>
-<a class="anchor" name="1028f2ab52a68f89ef1e053bd157d632"></a><!-- doxytag: member="LEVEL_BASE::VersionShort" ref="1028f2ab52a68f89ef1e053bd157d632" args="()" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">string LEVEL_BASE::VersionShort           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return SVN version string.     </td>
-  </tr>
-</table>
 <a class="anchor" name="26669568e46ccc1cc1d2cd2761c555d1"></a><!-- doxytag: member="LEVEL_BASE::VoidStar2Addrint" ref="26669568e46ccc1cc1d2cd2761c555d1" args="(VOID *addr)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -9462,6 +10286,49 @@ convert "void *" to int     </td>
 </pre></div>    </td>
   </tr>
 </table>
+<a class="anchor" name="17f78703448e386c41bae279b3987443"></a><!-- doxytag: member="LEVEL_BASE::FPSTATE_layout" ref="17f78703448e386c41bae279b3987443" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">GLOBALCONST XSAVE_LAYOUT <a class="el" href="namespaceLEVEL__BASE.html#17f78703448e386c41bae279b3987443">LEVEL_BASE::FPSTATE_layout</a>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<b>Initial value:</b><div class="fragment"><pre class="fragment">
+{
+    <span class="keyword">sizeof</span>(FPSTATE),    
+    {
+        { offsetof(FPSTATE::XSTATE, _ymmUpper),
+          <span class="keyword">sizeof</span>(((FPSTATE::XSTATE *)0)-&gt;_ymmUpper) }, 
+        { offsetof(FPSTATE::VSTATE, _bndRegs) + offsetof(FPSTATE, _vstate) - offsetof(FPSTATE, _xstate),
+          <span class="keyword">sizeof</span>(((FPSTATE::VSTATE *)0)-&gt;_bndRegs) },  
+        { offsetof(FPSTATE::VSTATE, _bndCSR) + offsetof(FPSTATE, _vstate) - offsetof(FPSTATE, _xstate),
+          <span class="keyword">sizeof</span>(((FPSTATE::VSTATE *)0)-&gt;_bndCSR) },   
+        { offsetof(FPSTATE::VSTATE, _kmasks) + offsetof(FPSTATE, _vstate) - offsetof(FPSTATE, _xstate),
+          <span class="keyword">sizeof</span>(((FPSTATE::VSTATE *)0)-&gt;_kmasks) },   
+        { offsetof(FPSTATE::VSTATE, _zmmUpper) + offsetof(FPSTATE, _vstate) - offsetof(FPSTATE, _xstate),
+          <span class="keyword">sizeof</span>(((FPSTATE::VSTATE *)0)-&gt;_zmmUpper) }, 
+
+
+
+
+    }
+}
+</pre></div>XSAVE layout representing FPSTATE structure     </td>
+  </tr>
+</table>
 <a class="anchor" name="c27982ae60facad824836f105586ec4f"></a><!-- doxytag: member="LEVEL_BASE::MessageLock" ref="c27982ae60facad824836f105586ec4f" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -9529,6 +10396,29 @@ Total number of buffer registers, which is also the maximum number of buf ids.  
 
 <p>
 Total number of integer registers in CONTEXT     </td>
+  </tr>
+</table>
+<a class="anchor" name="f3121f567482944241b15c9864780b8d"></a><!-- doxytag: member="LEVEL_BASE::NUM_CONTEXT_REGS" ref="f3121f567482944241b15c9864780b8d" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">GLOBALCONST ADDRINT <a class="el" href="namespaceLEVEL__BASE.html#f3121f567482944241b15c9864780b8d">LEVEL_BASE::NUM_CONTEXT_REGS</a> = REG_LAST_CONTEXT_REG + 1          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Total number of registers in CONTEXT (app registers + tool registers + special)     </td>
   </tr>
 </table>
 <a class="anchor" name="f0d68d07a3254c7f788d9a3b8cb85a9f"></a><!-- doxytag: member="LEVEL_BASE::NUM_SPECIAL_REGS" ref="f0d68d07a3254c7f788d9a3b8cb85a9f" args="" --><p>
@@ -9646,7 +10536,7 @@ Timeout interval that never elapses.     </td>
 Maximum number of threads supported by PIN.     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:46 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:11 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -30,18 +30,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 /*! @file
  * This test tool verifies that Pin on Windows correctly handles thread suspension
- * and termination system calls.  The tool must be run with the "suspend_app_win" 
+ * and termination system calls.  The tool must be run with the "suspend_app_win"
  * application.
  */
 
+#include <set>
 #include "pin.H"
 
-namespace WINDOWS
-{
-#include <windows.h>
-}
+using std::set;
 
-BOOL FlushHappened;
+
+enum DOFLUSH_STATE
+{
+    DOFLUSH_STATE_NONE,
+    DOFLUSH_STATE_INSTRUMENTATION,
+    DOFLUSH_STATE_ANALYSIS,
+    DOFLUSH_STATE_FLUSH_CALLED
+};
+
+
+static volatile DOFLUSH_STATE flushState = DOFLUSH_STATE_NONE;
+static ADDRINT doFlushAddress = 0;
+static volatile bool flushHappened = false;
+
 
 /*!
  * RTN analysis routines.
@@ -53,33 +64,58 @@ static VOID OnIsToolPresent(ADDRINT addrIsTool)
     *pIsTool = 1;
 }
 
+
 static VOID OnSleepInTool(ADDRINT addrInTool)
 {
     volatile int * pInTool = reinterpret_cast<volatile int *>(addrInTool);
     // Set the <inTool> flag in the application while sleeping (1 second).
     *pInTool = 1;
-    WINDOWS::Sleep(1000);
+    OS_Sleep(1000);
     *pInTool = 0;
 }
 
+
 static VOID OnDoFlush()
 {
-    FlushHappened = FALSE;
-    CODECACHE_FlushCache();
-}
-
-static VOID OnCheckFlush(ADDRINT addrCodeCacheFlushed)
-{
-    if (FlushHappened)
+    static bool flushVerified = false;
+    switch (flushState)
     {
-        *reinterpret_cast<volatile int *>(addrCodeCacheFlushed) = 1;
+    case DOFLUSH_STATE_NONE:
+        ASSERTX(0);
+        break;
+    case DOFLUSH_STATE_INSTRUMENTATION:
+        flushState = DOFLUSH_STATE_ANALYSIS;
+        break;
+    case DOFLUSH_STATE_ANALYSIS:
+        flushState = DOFLUSH_STATE_FLUSH_CALLED;
+        flushVerified = false;
+        PIN_RemoveInstrumentation();
+        break;
+    case DOFLUSH_STATE_FLUSH_CALLED:
+        ASSERTX(!flushVerified);
+        ASSERTX(flushHappened);
+        flushVerified = true;
+        break;
     }
 }
 
-static VOID OnCacheFlush()
+
+static VOID OnCheckFlush(ADDRINT addrCodeCacheFlushed)
 {
-    FlushHappened = TRUE;
+    const unsigned int sleepLimit = 5 * 60 * 1000; // 5 minutes in milliseconds
+    const unsigned int microSleepDuration = 10;
+    const unsigned int numMicroSleeps = sleepLimit / microSleepDuration;
+    for (unsigned int i = 0; i < numMicroSleeps; ++i)
+    {
+        if (flushHappened)
+        {
+            *reinterpret_cast<volatile int *>(addrCodeCacheFlushed) = 1;
+            break;
+        }
+        OS_Sleep(microSleepDuration);
+    }
 }
+
 
 /*!
  * RTN instrumentation routine.
@@ -89,14 +125,14 @@ static VOID InstrumentRoutine(RTN rtn, VOID *)
     if (RTN_Name(rtn) == "IsToolPresent")
     {
         RTN_Open(rtn);
-        RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(OnIsToolPresent), 
+        RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(OnIsToolPresent),
             IARG_FUNCARG_ENTRYPOINT_VALUE, 0, IARG_END);
         RTN_Close(rtn);
     }
     else if (RTN_Name(rtn) == "SleepInTool")
     {
         RTN_Open(rtn);
-        RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(OnSleepInTool), 
+        RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(OnSleepInTool),
             IARG_FUNCARG_ENTRYPOINT_VALUE, 0, IARG_END);
         RTN_Close(rtn);
     }
@@ -105,6 +141,7 @@ static VOID InstrumentRoutine(RTN rtn, VOID *)
         RTN_Open(rtn);
         RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(OnDoFlush), IARG_END);
         RTN_Close(rtn);
+        doFlushAddress = RTN_Address(rtn);
     }
     else if (RTN_Name(rtn) == "CheckFlush")
     {
@@ -112,8 +149,29 @@ static VOID InstrumentRoutine(RTN rtn, VOID *)
         RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(OnCheckFlush), IARG_FUNCARG_ENTRYPOINT_VALUE, 0, IARG_END);
         RTN_Close(rtn);
     }
-
 }
+
+
+static VOID Trace(TRACE trace, VOID *v)
+{
+    if (TRACE_Address(trace) != doFlushAddress) return;
+    switch (flushState)
+    {
+    case DOFLUSH_STATE_NONE:
+        flushState = DOFLUSH_STATE_INSTRUMENTATION;
+        break;
+    case DOFLUSH_STATE_INSTRUMENTATION:
+        ASSERTX(0);
+        break;
+    case DOFLUSH_STATE_ANALYSIS:
+        flushState = DOFLUSH_STATE_INSTRUMENTATION;
+        break;
+    case DOFLUSH_STATE_FLUSH_CALLED:
+        flushHappened = true;
+        break;
+    }
+}
+
 
 /*!
  * The main procedure of the tool.
@@ -124,7 +182,7 @@ int main(int argc, char *argv[])
     PIN_Init(argc, argv);
 
     RTN_AddInstrumentFunction(InstrumentRoutine, 0);
-    CODECACHE_AddCacheFlushedFunction(OnCacheFlush, 0);
+    TRACE_AddInstrumentFunction(Trace, 0);
 
     PIN_StartProgram();
     return 0;

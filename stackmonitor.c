@@ -32,11 +32,11 @@
 #define ITRACE_SOCK "/tmp/stack-monitor"
 #define PIN_ROOT "./pin/pin"
 #define PIN_TOOL64 "./pin/source/tools/StackMonitor/obj-intel64/StackMonitor.so"
- 
+
 /* TODO: Make 32 bit version of tool */
 #define PIN_TOOL32 "./pin/source/tools/StackMonitor/obj-intel64/StackMonitor.so"
- 
-#define PINC 6
+
+#define PINC 7
 
 #define ELFCLASS32 1
 #define ELFCLASS64 2
@@ -61,38 +61,39 @@ typedef struct {
     int csockd;
     int serverfd;
     int child;
+    int forked;
 } stackmonitor_Type;
 
 
 static PyTypeObject stackmonitorType = {
     PyObject_HEAD_INIT(NULL)
-        0,                         
+        0,
     ITER_NAME,
-    sizeof(stackmonitor_Type),    
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
-    0,                         
+    sizeof(stackmonitor_Type),
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_ITER,
-    DESC, 
-    0,  
-    0,  
-    0,  
-    0,  
-    stackmonitor_iter,  
-    stackmonitor_next  
+    DESC,
+    0,
+    0,
+    0,
+    0,
+    stackmonitor_iter,
+    stackmonitor_next
 };
 
 static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject *keywd);
@@ -104,7 +105,7 @@ static PyMethodDef StackMonitorMethods[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
-    
+
 static instruction ins;
 static mem_op op_write;
 static mem_op op_read;
@@ -119,10 +120,24 @@ PyObject* stackmonitor_iter(PyObject *self)
 
 PyObject* stackmonitor_next(PyObject *self)
 {
+    int csockd;
     PyObject *stackObj;
     stackmonitor_Type *py_StackMonitor;
 
     py_StackMonitor = (stackmonitor_Type *)self;
+    if(is_new_connection(py_StackMonitor->csockd)) {
+
+        close(py_StackMonitor->csockd);
+
+        if ((csockd = recv_client(py_StackMonitor->serverfd)) == -1) {
+            PYRAISE(PyExc_IOError,
+                    "Unable to accept local client for IPC:\n\t%s",
+                    strerror(errno));
+        }
+
+        py_StackMonitor->csockd = csockd;
+    }
+
     if(next_ins(py_StackMonitor->csockd, &ins) < 0) {
         close(py_StackMonitor->csockd);
         handle_child_exit(py_StackMonitor->child);
@@ -141,16 +156,16 @@ PyObject* stackmonitor_next(PyObject *self)
                   "length", ins.write->length,
                   "addr", ins.write->effective_addr,
                   "data", ins.write->value, ins.write->length,
-              "read", 
+              "read",
                   "length", ins.read->length,
                   "addr", ins.read->effective_addr,
                   "data", ins.read->value, ins.read->length,
-              "read2", 
+              "read2",
                   "length", ins.read2->length,
                   "addr", ins.read2->effective_addr,
                   "data", ins.read2->value, ins.read2->length
             );
-    
+
     return stackObj;
 }
 
@@ -187,13 +202,13 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
     }
 
     py_StackMonitor->serverfd = sockd;
-    
+
     pin_tool = get_pin_tool(wargs.we_wordv[0]);
 
     if(NULL == pin_tool)
         return NULL;
 
-    char *pinv[PINC] = { PIN_ROOT, "-t", pin_tool, "-s", sockfile, "--" };
+    char *pinv[PINC] = { PIN_ROOT, "-follow_execv", "-t", pin_tool, "-s", sockfile, "--" };
 
     argc = PINC + wargs.we_wordc;
     argv = (char **)malloc(sizeof(char *)*(argc + 1));
@@ -207,26 +222,26 @@ static PyObject *stackmonitor_iterator(PyObject *self, PyObject *args, PyObject 
     if (access(pin_tool, F_OK) == -1) {
         PYRAISE(PyExc_IOError, "No such file or directory: '%s'", pin_tool);
     }
-    
+
     if((py_StackMonitor->child = fork()) == 0) {
         if(execv(PIN_ROOT, argv) == -1) {
-            fprintf(stderr, "Failed to spawn pin tool\n\t%d: %s", 
+            fprintf(stderr, "Failed to spawn pin tool\n\t%d: %s",
                 errno, strerror(errno));
         }
     }
 
     if(on_exit(cleanup, &py_StackMonitor->child) != 0) {
-        PYRAISE(PyExc_IOError, 
-                "Unable to register exit function:\n\t%s", 
+        PYRAISE(PyExc_IOError,
+                "Unable to register exit function:\n\t%s",
                 strerror(errno));
     }
 
     if ((csockd = recv_client(sockd)) == -1) {
-        PYRAISE(PyExc_IOError, 
-                "Unable to accept local client for IPC:\n\t%s", 
+        PYRAISE(PyExc_IOError,
+                "Unable to accept local client for IPC:\n\t%s",
                 strerror(errno));
     }
-        
+
     py_StackMonitor->csockd = csockd;
     ins.write = &op_write;
     ins.read = &op_read;
@@ -275,7 +290,7 @@ char **argvcat(int argc1, char **argv1, int argc2, char **argv2, char ***result)
         (*result)[i] = argv1[i];
 
     for(int i = 0; i < argc2; i++)
-        (*result)[i+argc1] = argv2[i]; 
+        (*result)[i+argc1] = argv2[i];
 
     (*result)[argc1+argc2] = NULL;
     return *result;
@@ -295,7 +310,7 @@ int get_arch_bits(char *fn)
 
     if(NULL==elf)
     {
-        PYERR(PyExc_IOError, "Unable to open file '%s'\n\t\t(%d): %s", 
+        PYERR(PyExc_IOError, "Unable to open file '%s'\n\t\t(%d): %s",
             fn, errno, strerror(errno));
         return -1;
     }
@@ -307,7 +322,7 @@ int get_arch_bits(char *fn)
         errno = 0;
         if(fread(&c, 1, 1, elf) == 0 || errno != 0)
         {
-            PYERR(PyExc_IOError, "Unable to read from file '%s',\n\t\t(%d): %s", 
+            PYERR(PyExc_IOError, "Unable to read from file '%s',\n\t\t(%d): %s",
                 fn, errno, strerror(errno));
             return -1;
         }
@@ -316,7 +331,7 @@ int get_arch_bits(char *fn)
         {
             PYERR(PyExc_IOError, "Invalid header, not a vaid ELF file.\
                                       \n\tExpected '0x7fELF'\
-                                      \n\tPosition %d, byte '%c'\n", 
+                                      \n\tPosition %d, byte '%c'\n",
                                       i, c);
             return -1;
         }
@@ -325,12 +340,12 @@ int get_arch_bits(char *fn)
     errno = 0;
     if(fread(arch, 1, 1, elf)==0 || errno != 0)
     {
-        PYERR(PyExc_IOError, "Unable to read from file '%s',\n\t\t(%d): %s", 
+        PYERR(PyExc_IOError, "Unable to read from file '%s',\n\t\t(%d): %s",
             fn, errno, strerror(errno));
         return -1;
     }
 
-    
+
     return arch[0];
 }
 
@@ -351,7 +366,7 @@ char *get_pin_tool(char *fn)
 
 void cleanup(int status, void *child)
 {
-    kill(*(size_t *)child, SIGTERM); 
+    kill(*(size_t *)child, SIGTERM);
     wait(&status);
     exit(status);
 }
@@ -364,8 +379,8 @@ void handle_child_exit(int pid)
     waitpid(pid, &status, WCONTINUED | WUNTRACED);
 
     if(WIFSIGNALED(status)) {
-        PYERR(PyExc_IOError, 
-              "Program exited due to signal, (%s)\n\tstatus: %d", 
+        PYERR(PyExc_IOError,
+              "Program exited due to signal, (%s)\n\tstatus: %d",
               strsignal(WTERMSIG(status)), WEXITSTATUS(status));
     }
 }

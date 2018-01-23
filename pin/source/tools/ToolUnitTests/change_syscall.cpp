@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -38,15 +38,6 @@ END_LEGAL */
 #include <string.h>
 #include "pin.H"
 
-#if defined(TARGET_ANDROID) && !defined(TARGET_NDK64)
-#define SYS_sigaction __NR_sigaction
-#define SYS_rt_sigaction __NR_rt_sigaction
-#define SYS_exit __NR_exit
-#define SYS_open __NR_open
-#define SYS__syscall __NR__syscall
-#define SYS_getpid __NR_getpid
-#endif
-
 BOOL IsSigaction(ADDRINT sysnum)
 {
 #ifdef SYS_sigaction
@@ -61,7 +52,7 @@ BOOL IsSigaction(ADDRINT sysnum)
 }
 
 
-VOID OnSyscallEntry(THREADID threadIndex, CONTEXT *ctxt, SYSCALL_STANDARD std, VOID *v) 
+VOID OnSyscallEntry(THREADID threadIndex, CONTEXT *ctxt, SYSCALL_STANDARD std, VOID *v)
 {
     ADDRINT sysnum = PIN_GetSyscallNumber(ctxt, std);
     ADDRINT arg0 = PIN_GetSyscallArgument(ctxt, std, 0);

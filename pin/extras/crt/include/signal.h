@@ -36,9 +36,7 @@
 #include <sys/types.h>
 
 #if defined(TARGET_MAC)
-#  define sigaction sigaction_mac
-#  include <mac/signal.h>
-#  undef sigaction
+# include <mac/signal.h>
 
 #elif defined(__LP64__) || defined(__mips__)
 #include <asm/sigcontext.h>
@@ -72,7 +70,10 @@ typedef int sig_atomic_t;
 
 /* Userspace's NSIG is the kernel's _NSIG + 1. */
 #define _NSIG (_KERNEL__NSIG + 1)
-#define NSIG _NSIG
+
+#ifndef TARGET_MAC
+# define NSIG _NSIG
+#endif
 
 #ifdef TARGET_LINUX
 
@@ -84,42 +85,26 @@ extern int __libc_current_sigrtmax(void);
 
 #endif
 
+
 extern const char* const sys_siglist[];
 extern const char* const sys_signame[]; /* BSD compatibility. */
 
+#ifdef TARGET_MAC
+typedef sig_t __sighandler_t;
+#else
 typedef __sighandler_t sig_t; /* BSD compatibility. */
+#endif // TARGET_MAC
+
 typedef __sighandler_t sighandler_t; /* glibc compatibility. */
 
 #define si_timerid si_tid /* glibc compatibility. */
 
-#if defined(TARGET_MAC)
+#ifdef TARGET_MAC
 
-union __sigaction_u {
-    sighandler_t _sa_handler;
-    void (*_sa_sigaction)(int, struct siginfo*, void*);
-};
-
-/*
- * Signal vector "template" used in sigaction call.
- */
-struct sigaction {
-  union __sigaction_u _u;
-  sigset_t sa_mask;
-  unsigned int sa_flags;
-};
-
-/* Signal vector template for Kernel user boundary */
-struct sigaction_kernel {
-  union __sigaction_u _u;
-  void    (*sa_tramp)(void *, int, int, siginfo_t *, void *);
-  sigset_t sa_mask;
-  unsigned int sa_flags;
-};
-
-#ifndef sa_handler
-# define sa_handler _u._sa_handler
-# define sa_sigaction _u._sa_sigaction
-#endif
+# ifndef sa_handler
+#  define sa_handler _u._sa_handler
+#  define sa_sigaction _u._sa_sigaction
+# endif // sa_handler
 
 #elif defined(__LP64__)
 
@@ -133,23 +118,12 @@ struct sigaction {
   void (*sa_restorer)(void);
 };
 
-#ifndef sa_handler
-# define sa_handler _u._sa_handler
-# define sa_sigaction _u._sa_sigaction
-#endif
+# ifndef sa_handler
+#  define sa_handler _u._sa_handler
+#  define sa_sigaction _u._sa_sigaction
+# endif
 
-#elif defined(__mips__)
-
-struct sigaction {
-  unsigned int sa_flags;
-  union {
-    sighandler_t sa_handler;
-    void (*sa_sigaction) (int, struct siginfo*, void*);
-  };
-  sigset_t sa_mask;
-};
-
-#endif
+#endif // __LP64__
 
 extern int sigaction(int, const struct sigaction*, struct sigaction*);
 

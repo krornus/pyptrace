@@ -24,9 +24,6 @@
   </ul></div>
 <h1>Pin Deprecated API</h1><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
-<tr><td colspan="2"><br><h2>Defines</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g8b42a2525a2c7575cf9e7b3f63b07db7">PIN_DEPRECATED_WARNINGS</a>&nbsp;&nbsp;&nbsp;1</td></tr>
-
 <tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef VOID(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#gc79b6ff735d7c369f1954561ee8a5d15">LEVEL_PINCLIENT::SIGNAL_BEFORE_CALLBACK</a> )(<a class="el" href="group__PIN__THREAD__API.html#g3bc3c874675eba0be607f41464eeb31c">THREADID</a> threadIndex, INT32 sig, const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxtFrom, const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxtTo, VOID *v)</td></tr>
 
@@ -67,6 +64,14 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g7a996be7fec85f2a67e171ef767172c7">LEVEL_PINCLIENT::RTN_ReplaceWithUninstrumentedRoutine</a> (RTN replacedRtn, AFUNPTR replacementFun)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#gc85ec1aa943c014de513f41963640cd9">LEVEL_PINCLIENT::CODECACHE_FlushCache</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g46ad3447eb641e38011d06180a4557ae">LEVEL_PINCLIENT::CODECACHE_InvalidateTraceAtProgramAddress</a> (ADDRINT app_pc)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g3b37b055020debc48476cf92d9c1b8f3">LEVEL_PINCLIENT::CODECACHE_InvalidateRange</a> (ADDRINT start, ADDRINT end)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#gb4765f06b2fba80cf7c0df5ba64a0364">LEVEL_PINCLIENT::TRACE_Original</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API BBL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#ga793e2a308c99a05c7b2efbe027e8330">LEVEL_PINCLIENT::RTN_BblHead</a> (RTN x)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">PIN_DEPRECATED_API BBL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__DEPRECATED__PIN__API.html#g273a2bba1ca70f5e02f70f78da5733a1">LEVEL_PINCLIENT::RTN_BblTail</a> (RTN x)</td></tr>
@@ -91,31 +96,7 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-APIs from older versions of Pin that have been replaced by more powerful, or simpler, interfaces in the current version of Pin. The newer APIs should be used instead of these interfaces. <hr><h2>Define Documentation</h2>
-<a class="anchor" name="g8b42a2525a2c7575cf9e7b3f63b07db7"></a><!-- doxytag: member="types_marker.H::PIN_DEPRECATED_WARNINGS" ref="g8b42a2525a2c7575cf9e7b3f63b07db7" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">#define PIN_DEPRECATED_WARNINGS&nbsp;&nbsp;&nbsp;1          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-By default Pin will annotate deprecated parts of the API so that their use in tools will generate compiler warnings. If you want to suppress these warnings during the compilation of your tool, you can do so by defining the macro PIN_DEPRECATED_WARNINGS with the value zero.     </td>
-  </tr>
-</table>
-<hr><h2>Typedef Documentation</h2>
+APIs from older versions of Pin that have been replaced by more powerful, or simpler, interfaces in the current version of Pin. The newer APIs should be used instead of these interfaces. <hr><h2>Typedef Documentation</h2>
 <a class="anchor" name="ge95acc4f2b08a2491822c1884428968c"></a><!-- doxytag: member="LEVEL_PINCLIENT::SIGNAL_AFTER_CALLBACK" ref="ge95acc4f2b08a2491822c1884428968c" args=")(THREADID threadIndex, const CONTEXT *ctxtFrom, const CONTEXT *ctxtTo, VOID *v)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -269,6 +250,130 @@ Call back function when thread ends<p>
   </tr>
 </table>
 <hr><h2>Function Documentation</h2>
+<a class="anchor" name="gc85ec1aa943c014de513f41963640cd9"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_FlushCache" ref="gc85ec1aa943c014de513f41963640cd9" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">PIN_DEPRECATED_API BOOL LEVEL_PINCLIENT::CODECACHE_FlushCache           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This routine flushes the entire cache. We do not need to remove any links, as they will be flushed with the cache. <dl compact><dt><b>Returns:</b></dt><dd>Boolean success if the given cache was successfully flushed</dd></dl>
+<dl compact><dt><b>Note:</b></dt><dd>The vm lock is obtained during the call of this API.<p>
+DEPRECATED: Always returns true. See PIN_RemoveInstrumentation.</dd></dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
+ <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="g3b37b055020debc48476cf92d9c1b8f3"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_InvalidateRange" ref="g3b37b055020debc48476cf92d9c1b8f3" args="(ADDRINT start, ADDRINT end)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">PIN_DEPRECATED_API UINT32 LEVEL_PINCLIENT::CODECACHE_InvalidateRange           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">ADDRINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>ADDRINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>end</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This routine unlinks and invalidates any traces in the code cache that correspond to any code in the given source program address range [start,end] <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>start</em>&nbsp;</td><td>The original program starting address of the range we want to invalidate </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>end</em>&nbsp;</td><td>The original program ending address (inclusive) of the range we want to invalidate </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>Number of Traces Invalidated</dd></dl>
+<dl compact><dt><b>Note:</b></dt><dd>The vm lock is obtained during the call of this API.<p>
+DEPRECATED: Always returns zero. See PIN_RemoveInstrumentationInRange.</dd></dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
+ <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="g46ad3447eb641e38011d06180a4557ae"></a><!-- doxytag: member="LEVEL_PINCLIENT::CODECACHE_InvalidateTraceAtProgramAddress" ref="g46ad3447eb641e38011d06180a4557ae" args="(ADDRINT app_pc)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">PIN_DEPRECATED_API UINT32 LEVEL_PINCLIENT::CODECACHE_InvalidateTraceAtProgramAddress           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">ADDRINT&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>app_pc</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Invalidates any traces starting at the given program address. Note: More than one trace may correspond to a single program address due to register allocation <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>app_pc</em>&nbsp;</td><td>The original program address (must be a trace head) </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>The number of traces successfully invalidated</dd></dl>
+<dl compact><dt><b>Note:</b></dt><dd>The vm lock is obtained during the call of this API.<p>
+DEPRECATED: Always returns zero.</dd></dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
+ <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="g96e067b52ed9903bb801a45cffb44015"></a><!-- doxytag: member="LEVEL_PINCLIENT::INS_ChangeMemOpToBaseRegisterAddressMode" ref="g96e067b52ed9903bb801a45cffb44015" args="(INS ins, MEMORY_TYPE mtype, REG newBase)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -311,7 +416,7 @@ Call back function when thread ends<p>
 <p>
 Change this memory access instruction use a base register addressing mode. On IA-32/Intel(R) 64, it will not rewrite all references; See <a class="el" href="group__DEPRECATED__PIN__API.html#g37eeebb324bf27e8be33912c04f37e11">INS_IsRewritableMemOpBaseLimited()</a> for details.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
 </dd></dl>
 <dl compact><dt><b>Note:</b></dt><dd>DEPRECATED and NO LONGER SUPPORTED: See <a class="el" href="group__INS__MOD__API__GEN__IA32.html#g9309f9f665d0d01b9c880eeaf2955d33">INS_RewriteMemoryOperand()</a>. </dd></dl>
@@ -604,7 +709,7 @@ A memory operand can't be rewritten when:<ul>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
 </dd></dl>
 <dl compact><dt><b>Note:</b></dt><dd>DEPRECATED and NO LONGER SUPPORTED: See <a class="el" href="group__INS__MOD__API__GEN__IA32.html#g9309f9f665d0d01b9c880eeaf2955d33">INS_RewriteMemoryOperand()</a>. </dd></dl>
@@ -799,7 +904,7 @@ A tool can set only one "intercept" handler for a particular signal, so a new ha
  <b>O/S</b>: Linux<br>
  <b>CPU:</b> All<br>
 </dd></dl>
-<dl compact><dt><b>Note:</b></dt><dd>Intercepting a signal immediately forces the current thread to unblock that signal. This ensures that the application cannot prevent the tool from receiving the signal. Any future threads that the application creates will also be prevented from blocking the signal. However, if there are existing threads in the application when the tool intercepts a signal, those threads will not be prevented from blocking the intercepted signal until some future time. There is no guarantee on when the other threads will unblock the intercepted signal, and they may never do so if they are permanently blocked in a system call. To avoid this problem, it is safest to call <a class="el" href="group__DEPRECATED__PIN__API.html#g25746713a7e0267a9c55bd78d95ade81">PIN_AddSignalInterceptFunction()</a> before starting the application with <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram()</a>. <p>
+<dl compact><dt><b>Note:</b></dt><dd>Intercepting a signal immediately forces the current thread to unblock that signal. This ensures that the application cannot prevent the tool from receiving the signal. Any future threads that the application creates will also be prevented from blocking the signal. However, if there are existing threads in the application when the tool intercepts a signal, those threads will not be prevented from blocking the intercepted signal until some future time. There is no guarantee on when the other threads will unblock the intercepted signal, and they may never do so if they are permanently blocked in a system call. To avoid this problem, it is safest to call <a class="el" href="group__DEPRECATED__PIN__API.html#g25746713a7e0267a9c55bd78d95ade81">PIN_AddSignalInterceptFunction()</a> before starting the application with <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram()</a>. <p>
 Function always return FALSE on Windows<p>
 DEPRECATED: See <a class="el" href="group__PIN__CONTROL.html#g6a0c20f386b88de45925e3434c52e4ff">PIN_InterceptSignal()</a> and <a class="el" href="group__PIN__CONTROL.html#g048709607373930698fb578b7150815d">PIN_UnblockSignal()</a>. </dd></dl>
     </td>
@@ -1269,7 +1374,41 @@ Replace a function in the application (replacedRtn) by another function defined 
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:46 2016 for Pin by&nbsp;
+<a class="anchor" name="gb4765f06b2fba80cf7c0df5ba64a0364"></a><!-- doxytag: member="LEVEL_PINCLIENT::TRACE_Original" ref="gb4765f06b2fba80cf7c0df5ba64a0364" args="(TRACE trace)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">PIN_DEPRECATED_API BOOL LEVEL_PINCLIENT::TRACE_Original           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a>&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>trace</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>Whether the TRACE data structure has been instrumented or optimized since it was created</dd></dl>
+<dl compact><dt><b>Note:</b></dt><dd>DEPRECATED: Always returns true.</dd></dl>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X<br>
+ <b>CPU:</b> All<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:11 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

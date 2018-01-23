@@ -1,8 +1,5 @@
 /*
  * os_specific_l.c
- *
- *  Created on: May 28, 2012
- *      Author: bkemper
  */
 
 #include "os_specific.h"

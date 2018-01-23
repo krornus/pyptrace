@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: util
 // <FILE-TYPE>: component public header
 
 #ifndef UTIL_RANGE_HPP
 #define UTIL_RANGE_HPP
 
-#include "fund.hpp"
 #include "util/round.hpp"
 
 
@@ -63,7 +61,7 @@ public:
      *  @param[in] base     Start of the range.
      *  @param[in] size     Size (bytes) of the range.
      */
-    RANGE(void *base, size_t size) : _base(reinterpret_cast<FUND::PTRINT>(base)), _size(size) {}
+    RANGE(void *base, size_t size) : _base(reinterpret_cast<PTRINT>(base)), _size(size) {}
 
     /*!
      * Assigns a new value to the range.
@@ -85,7 +83,7 @@ public:
      */
     void Assign(void *base, size_t size)
     {
-        _base = reinterpret_cast<FUND::PTRINT>(base);
+        _base = reinterpret_cast<PTRINT>(base);
         _size = size;
     }
 
@@ -136,9 +134,9 @@ private:
     size_t _size;
 };
 
-typedef RANGE<FUND::ADDRINT> ARANGE;    ///< A range of target addresses.
-typedef RANGE<FUND::ANYADDR> ANYRANGE;  ///< A range of ANYADDR's.
-typedef RANGE<FUND::PTRINT> PRANGE;     ///< A range of host addresses.
+typedef RANGE<ADDRINT> ARANGE;    ///< A range of target addresses.
+typedef RANGE<ANYADDR> ANYRANGE;  ///< A range of ANYADDR's.
+typedef RANGE<PTRINT> PRANGE;     ///< A range of host addresses.
 
 } // namespace
 #endif // file guard

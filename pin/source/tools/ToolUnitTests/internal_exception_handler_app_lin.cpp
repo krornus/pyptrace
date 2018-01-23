@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -68,7 +68,7 @@ struct KernelFpstate
     struct fxsave _fxsave;           // full FP state as saved by fxsave instruction
 };
 #else
-struct fxsave 
+struct fxsave
 {
     unsigned short   _cwd;
     unsigned short   _swd;
@@ -111,20 +111,20 @@ static void EndFunctionTest(const string & functionTestName)
 //================================================================
 void div0_signal_handler(int, siginfo_t *, void *);
 
-void install_signal_handlers() 
+void install_signal_handlers()
 {
     int ret;
     struct sigaction sSigaction;
-    
+
     /* Register the signal hander using the siginfo interface*/
     sSigaction.sa_sigaction = div0_signal_handler;
     sSigaction.sa_flags = SA_SIGINFO;
-    
+
     /* mask all other signals */
     sigfillset(&sSigaction.sa_mask);
-    
+
     ret = sigaction(SIGFPE, &sSigaction, NULL);
-    if(ret) 
+    if(ret)
     {
         perror("ERROR, sigaction failed");
         exit(-1);
@@ -159,11 +159,11 @@ extern "C" void UnmaskZeroDivideInMxcsr();
 extern "C" void MaskZeroDivideInMxcsr();
 
 
-void div0_signal_handler(int signum, siginfo_t *siginfo, void *uctxt) 
+void div0_signal_handler(int signum, siginfo_t *siginfo, void *uctxt)
 {
     printf("Inside div0 handler\n");
     ucontext_t *frameContext = (ucontext_t *)uctxt;
-  
+
 
     printf("signal %d, code %d (captured EIP: 0x%x)\n", signum, siginfo->si_code,
          frameContext->MCONTEXT_IP_REG);
@@ -183,7 +183,7 @@ void div0_signal_handler(int signum, siginfo_t *siginfo, void *uctxt)
         fpregset_t fpPtr = frameContext->uc_mcontext.fpregs;
         KernelFpstate *appFpState = reinterpret_cast < KernelFpstate * > (fpPtr);
         FCW_MASK_ZERO_DIVIDE;
-        FSW_RESET;        
+        FSW_RESET;
         MSR_MASK_ZERO_DIVIDE;
     }
 }
@@ -194,11 +194,11 @@ void div0_signal_handler(int signum, siginfo_t *siginfo, void *uctxt)
 
 static bool CheckExceptionCode(unsigned int exceptCode, unsigned int expectedExceptCode)
 {
-    if (exceptCode != expectedExceptCode) 
+    if (exceptCode != expectedExceptCode)
     {
-        cerr << "Unexpected exception code " << 
-            hex << exceptCode << ". Should be " << 
-            hex << expectedExceptCode << endl; 
+        cerr << "Unexpected exception code " <<
+            hex << exceptCode << ". Should be " <<
+            hex << expectedExceptCode << endl;
         return false;
     }
     return true;
@@ -207,7 +207,7 @@ static bool CheckExceptionCode(unsigned int exceptCode, unsigned int expectedExc
 extern "C" unsigned int RaiseIntDivideByZeroException(unsigned int (*)(), unsigned int);
 extern "C" unsigned int CatchIntDivideByZeroException();
 
-/* 
+/*
  * Raise "int deivide by zero" exception
  */
 void SafeExecuteIntDivideByZero()
@@ -219,7 +219,7 @@ void SafeExecuteIntDivideByZero()
     }
 }
 
-/* 
+/*
  * Raise "X87 deivide by zero" exception
  */
 extern "C" unsigned int  RaiseFltDivideByZeroException(unsigned int exception_code)
@@ -232,7 +232,7 @@ extern "C" unsigned int  RaiseFltDivideByZeroException(unsigned int exception_co
 void SafeExecuteFltDivideByZero()
 {
     UnmaskFpZeroDivide();
-#if defined(TARGET_IA32E) || defined(TARGET_MIC)
+#if defined(TARGET_IA32E)
     UnmaskZeroDivideInMxcsr();
 #else
     UnmaskZeroDivideInMxcsr32();

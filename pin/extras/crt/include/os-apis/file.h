@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Benjamin Kemper
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 
@@ -10,6 +9,8 @@
 #ifndef OS_APIS_FILE_H
 #define OS_APIS_FILE_H
 
+#include <sys/types.h>
+
 
 /*! @ingroup OS_APIS_FILE
  * File open modes
@@ -20,12 +21,13 @@ typedef enum
     // -----------------------------------------------------------------------------
     OS_FILE_OPEN_TYPE_READ                            = (1<<0),  // List members
     OS_FILE_OPEN_TYPE_WRITE                           = (1<<1),  // Add file
-    OS_FILE_OPEN_TYPE_APPEND                          = (1<<2),  // Add sub-directory
-    OS_FILE_OPEN_TYPE_TRUNCATE                        = (1<<3),  // N/A
-    OS_FILE_OPEN_TYPE_CREATE                          = (1<<4),  // N/A
-    OS_FILE_OPEN_TYPE_CREATE_EXCL                     = (1<<5),  // Create exclusively
-    OS_FILE_OPEN_TYPE_DELETE                          = (1<<6),  // Delete
-    OS_FILE_OPEN_TYPE_CLOSE_ON_EXEC                   = (1<<7)   // Close on exec (Unix systems only)
+    OS_FILE_OPEN_TYPE_EXECUTE                         = (1<<2),  // N/A
+    OS_FILE_OPEN_TYPE_APPEND                          = (1<<3),  // Add sub-directory
+    OS_FILE_OPEN_TYPE_TRUNCATE                        = (1<<4),  // N/A
+    OS_FILE_OPEN_TYPE_CREATE                          = (1<<5),  // N/A
+    OS_FILE_OPEN_TYPE_CREATE_EXCL                     = (1<<6),  // Create exclusively
+    OS_FILE_OPEN_TYPE_DELETE                          = (1<<7),  // Delete
+    OS_FILE_OPEN_TYPE_CLOSE_ON_EXEC                   = (1<<8)   // Close on exec (Unix systems only)
 } OS_FILE_OPEN_TYPE;
 
 
@@ -460,6 +462,115 @@ OS_RETURN_CODE OS_RenameFile(const CHAR* oldPath, const CHAR* newPath);
  *   @b CPU:   All \n
  */
 OS_RETURN_CODE OS_FileUniqueID(NATIVE_FD fd, OS_FILE_UNIQUE_ID* uniqueId);
+
+/*! @ingroup OS_APIS_FILE
+ * Creates a copy of a file descriptor using the lowest available free file descriptor.
+ * This function considers the value returned from OS_GetLowestFileDescriptorToUse()
+ * when duplicating the descriptor.
+ *
+ * @param[in]  fd             File descriptor to duplicate an ID.
+ * @param[in]  dupCloseOnExec TRUE to duplicate the close-on-exec property of the descriptor,
+ *                            FALSE otherwise.
+ * @param[out] outFd          Result duplicated file descriptor.
+ *
+ * @retval     OS_RETURN_CODE_NO_ERROR              If the operation succeeded
+ * @retval     OS_RETURN_CODE_FILE_OPERATION_FAILED If the operation failed
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+OS_RETURN_CODE OS_DuplicateFD(NATIVE_FD fd, BOOL_T dupCloseOnExec, NATIVE_FD* outFd);
+
+/*! @ingroup OS_APIS_FILE
+ * Truncates a file referenced by fd to a size of length bytes.
+ * If the original file size is bigger than length, the extra data is lost.
+ * If the original file size is smaller than length,the file extended.
+ *
+ * @param[in]  fd             File descriptor to change his size.
+ * @param[in]  length         File new length.
+ *
+ * @retval     OS_RETURN_CODE_NO_ERROR              If the operation succeeded
+ * @retval     OS_RETURN_CODE_FILE_OPERATION_FAILED If the operation failed
+ *
+ * @par Availability:
+ *   @b O/S:   Windows & Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+OS_RETURN_CODE OS_Ftruncate(NATIVE_FD fd, INT64 length);
+
+/*! @ingroup OS_APIS_FILE
+ * Record a file descriptor as opened by OS-APIs.
+ * Later, we allow to query whether a certain file descriptor was opened by
+ * OS-APIs or not.
+ *
+ * @param[in]  fd       File descriptor to record.
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+void OS_ReportFileOpen(NATIVE_FD fd);
+
+/*! @ingroup OS_APIS_FILE
+ * Record that a file descriptor opened by OS-APIs is not longer valid,
+ * and it is closed.
+ * Later, we allow to query whether a certain file descriptor was opened by
+ * OS-APIs or not.
+ *
+ * @param[in]  fd       File descriptor to record.
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+void OS_ReportFileClose(NATIVE_FD fd);
+
+/*! @ingroup OS_APIS_FILE
+ * Getter function to retrieve the lowest value of file descriptor that
+ * OS-APIs should use.
+ * OS-APIs will attempt to only use file descriptors which are larger or
+ * equal to the value that this function returns.
+ *
+ * This function is implemented as a weak reference symbol so libraries
+ * linked with OS-APIs may provide their own implementation of this function
+ * and return a different value.
+ *
+ * @retval     Lowest file descriptor to use.
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+NATIVE_FD OS_GetLowestFileDescriptorToUse();
+
+/*! @ingroup OS_APIS_FILE
+ * Relocate the file descriptor to the range permitted according to
+ * OS_GetLowestFileDescriptorToUse(), then record a file descriptor
+ * as opened by OS-APIs.
+ * Later, we allow to query whether a certain file descriptor was opened by
+ * OS-APIs or not.
+ *
+ * @param[in,out] fd       File descriptor to relocate and record.
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+void OS_RelocateAndReportFileOpen(NATIVE_FD* fd);
+
+/*! @ingroup OS_APIS_FILE
+ * Queries whether a certain file descriptor was opened by
+ * OS-APIs or not.
+ *
+ * @param[in]  fd       File descriptor to query.
+ *
+ * @par Availability:
+ *   @b O/S:   Linux & OS X* \n
+ *   @b CPU:   All \n
+ */
+BOOL_T OS_WasFileReportedOpen(NATIVE_FD fd);
+
 
 # define OS_APIS_STDERR_FILENAME ((const CHAR*)((ADDRINT)2))
 

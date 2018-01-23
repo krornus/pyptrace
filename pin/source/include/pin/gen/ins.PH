@@ -24,6 +24,7 @@ typedef enum
 {
     SYSCALL_STANDARD_INVALID,               ///< Invalid value; the instruction is not a system call
     SYSCALL_STANDARD_IA32_LINUX,            ///< Linux system call on IA-32 architecture
+    SYSCALL_STANDARD_IA32_LINUX_SYSENTER,   ///< Linux system call via 'sysenter' on IA-32 architecture
     SYSCALL_STANDARD_IA32E_LINUX,           ///< Linux system call on Intel(R) 64 architecture
     SYSCALL_STANDARD_IA32_MAC,              ///< MacOS system call in IA-32 architecture
     SYSCALL_STANDARD_IA32E_MAC,             ///< MacOS system call in Intel(R) 64 architecture

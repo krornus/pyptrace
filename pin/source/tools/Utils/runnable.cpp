@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -30,7 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 
 /*! @file
- *  Runnable and function objects. 
+ *  Runnable and function objects.
  */
 #include "runnable.h"
 
@@ -38,24 +38,14 @@ END_LEGAL */
 #include <windows.h>
 #elif defined(TARGET_LINUX)
 
-// features.h does not exist on FreeBSD
-#ifndef TARGET_BSD
-// features initializes the system's state, including the state of __USE_GNU
-#include <features.h>
-#endif
-
 // If __USE_GNU is defined, we don't need to do anything.
 // If we defined it ourselves, we need to undefine it later.
 #ifndef __USE_GNU
-    #define __USE_GNU
-    #define APP_UNDEF_USE_GNU
+# define __USE_GNU
+# define APP_UNDEF_USE_GNU
 #endif
 
-#if defined(TARGET_ANDROID) && !defined(TARGET_NDK64)
-#include "android_ucontext.h"
-#else
 #include <ucontext.h>
-#endif
 
 // If we defined __USE_GNU ourselves, we need to undefine it here.
 #ifdef APP_UNDEF_USE_GNU
@@ -152,7 +142,7 @@ FUNC_OBJ & FUNC_OBJ::ExecuteSafe()
 
     if (sigsetjmp(jumpBuffer, 1) == 0)
     {
-        return Execute(); 
+        return Execute();
     }
     else
     {
@@ -165,7 +155,7 @@ FUNC_OBJ & FUNC_OBJ::ExecuteSafe()
 FUNC_OBJ & FUNC_OBJ::ExecuteSafe()
 {
     // Exception handling is not supported on OS X*
-    return Execute(); 
+    return Execute();
 }
 
 #endif

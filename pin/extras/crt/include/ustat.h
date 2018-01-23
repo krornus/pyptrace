@@ -12,4 +12,3 @@ struct ustat
 };
 
 #endif // _PINCRT_USTAT_
-

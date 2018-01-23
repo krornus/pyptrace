@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-/* 
+/*
  * Call the iret assembler stubs.
  */
 
@@ -36,18 +36,14 @@ END_LEGAL */
 #include <stdio.h>
 #include <signal.h>
 #define __USE_GNU
-#if defined(TARGET_ANDROID)
-#include "android_ucontext.h"
-#else
 #include <ucontext.h>
-#endif
 
 typedef unsigned int  UINT32;
 
 extern int iretdTest();
 
 #if (0)
-/* Enable this if you're trying to debug failure of the iret instruction! 
+/* Enable this if you're trying to debug failure of the iret instruction!
  * Not enabled all the time becuase the details are OS version dependent,
  * and we don't actually need it for the purposes of the test.
  */
@@ -58,7 +54,7 @@ static void segvHandler(int sigNo, siginfo_t *si, void * extra)
     int i;
 
     fprintf (stderr, "SEGV: IP %p, fault address 0x%lx, SP %p\n",
-             uctx->uc_mcontext.gregs[REG_EIP], 
+             uctx->uc_mcontext.gregs[REG_EIP],
              si->si_addr, esp);
 
     esp -= 4;

@@ -1,8 +1,5 @@
 /*
  * os_specific.h
- *
- *  Created on: May 28, 2012
- *      Author: bkemper
  */
 
 #ifndef OS_SPECIFIC_H_

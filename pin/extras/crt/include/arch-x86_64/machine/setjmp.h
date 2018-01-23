@@ -15,7 +15,29 @@
 #define _JB_R15		5
 #define _JB_RSP		6
 #define _JB_PC		7
-#define _JB_SIGFLAG	8
-#define _JB_SIGMASK	9
 
-#define	_JBLEN	11		/* size, in longs, of a jmp_buf */
+#ifdef TARGET_WINDOWS
+
+# define _JB_RSI	8
+# define _JB_RDI	9
+# define _JB_XMM6	10
+# define _JB_XMM7	12
+# define _JB_XMM8	14
+# define _JB_XMM9	16
+# define _JB_XMM10	18
+# define _JB_XMM11	20
+# define _JB_XMM12	22
+# define _JB_XMM13	24
+# define _JB_XMM14	26
+# define _JB_XMM15	28
+
+# define	_JBLEN	32		/* size, in void*s, of a jmp_buf */
+
+#else
+
+# define _JB_SIGFLAG	8
+# define _JB_SIGMASK	9
+
+# define	_JBLEN	11		/* size, in void*s, of a jmp_buf */
+
+#endif

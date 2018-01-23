@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -45,15 +45,15 @@ int main(int argc, char **argv)
         printf("Expected at least 1 input parameter\n");
         return -1;
     }
-    
+
     string expected_ld_preload_val = argv[1];
-    
+
     bool second_run = false;
     if (argc == 3)
     {
         second_run = true;
     }
-    
+
     char *ld_preload_val = getenv("LD_PRELOAD");
     if (!ld_preload_val)
     {
@@ -77,11 +77,7 @@ int main(int argc, char **argv)
 void run_again(char **argv)
 {
     char *ld_preload_val = getenv("LD_PRELOAD");
-#ifdef TARGET_ANDROID
-    char ld_preload_new_val[] = "libm.so";
-#else
     char ld_preload_new_val[] = "libm.so.6";
-#endif
 
     setenv ("LD_PRELOAD", ld_preload_new_val,1);
 

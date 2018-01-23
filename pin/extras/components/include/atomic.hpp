@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component public header
 
@@ -42,8 +41,7 @@ END_LEGAL */
  * atomicity, not locks, which makes them safe even when used in asynchronous interrupt handlers.
  *
  * All utilities have a C++ template interface, somewhat reminiscent of the STL.  As a result, they should
- * be easy to customize for use with your own data structures.  The ATOMIC library is currently supported
- * on both Linux and Windows, on IA-32, Intel(R) 64, and Itanium(R) processors.
+ * be easy to customize for use with your own data structures.
  *
  * Queues:
  *  - @ref ATOMIC::LIFO_CTR             "LIFO_CTR - Last-in-first-out queue"

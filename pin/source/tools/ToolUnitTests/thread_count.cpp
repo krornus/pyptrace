@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -29,25 +29,43 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 #include <stdio.h>
+#include <set>
 #include "pin.H"
 
+using std::set;
+
 FILE * out;
-PIN_LOCK lock;
+PIN_LOCK pinLock;
 INT32 threadCreated = 0;
 INT32 threadEnded = 0;
 
+THREADID myThread = INVALID_THREADID;
+set<THREADID> appThreads;
+
+static VOID AppThreadStart(THREADID threadIndex)
+{
+    PIN_GetLock(&pinLock, PIN_GetTid());
+        threadCreated++;
+        appThreads.insert(threadIndex);
+    PIN_ReleaseLock(&pinLock);
+}
+
 VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
 {
-    PIN_GetLock(&lock, PIN_GetTid());
-    threadCreated++;
-    PIN_ReleaseLock(&lock);
+    if (myThread == INVALID_THREADID)
+    {
+        myThread = threadid;
+        AppThreadStart(threadid);
+    }
 }
 
 VOID ThreadFini(THREADID threadid, const CONTEXT *ctxt, INT32 code, VOID *v)
 {
-    PIN_GetLock(&lock, PIN_GetTid());
-    threadEnded++;
-    PIN_ReleaseLock(&lock);
+    if (appThreads.find(threadid) != appThreads.end())
+    {
+        threadEnded++;
+        appThreads.erase(appThreads.find(threadid));
+    }
 }
 
 VOID Fini(INT32 code, VOID *v)
@@ -57,17 +75,33 @@ VOID Fini(INT32 code, VOID *v)
     fclose(out);
 }
 
+static VOID InstrumentImg(IMG img, VOID *)
+{
+    if (IMG_IsMainExecutable(img))
+    {
+        RTN rtn = RTN_FindByName(img, "ThreadRoutine");
+        if (RTN_Valid(rtn))
+        {
+            RTN_Open(rtn);
+            RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(AppThreadStart), IARG_THREAD_ID, IARG_END);
+            RTN_Close(rtn);
+        }
+    }
+}
+
 int main(INT32 argc, CHAR **argv)
 {
-    PIN_InitLock(&lock);
+    PIN_InitLock(&pinLock);
 
     out = fopen("thread_count.out", "w");
 
+    PIN_InitSymbols();
     PIN_Init(argc, argv);
 
-    PIN_AddThreadStartFunction(ThreadStart, 0);
-    PIN_AddThreadFiniFunction(ThreadFini, 0);
-    PIN_AddFiniFunction(Fini, 0);
+    IMG_AddInstrumentFunction(InstrumentImg, NULL);
+    PIN_AddThreadStartFunction(ThreadStart, NULL);
+    PIN_AddThreadFiniFunction(ThreadFini, NULL);
+    PIN_AddFiniFunction(Fini, NULL);
 
     // Never returns
     PIN_StartProgram();

@@ -27,50 +27,23 @@
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSIGACTION.html">SIGACTION</a></td></tr>
 
-<tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a></td></tr>
-
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#gb2b2273af88741135c290936a372925d">OS_SendSignalToProcess</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> pid, INT signal)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g03e3fadbf8b3ace30a48253765fafd6c">OS_SigProcMask</a> (INT how, const SIGSET_T *set, SIGSET_T *oldset)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#gd69e3a38bd4447df389943a99daa018a">OS_SigAction</a> (INT signum, const struct <a class="el" href="structSIGACTION.html">SIGACTION</a> *act, struct <a class="el" href="structSIGACTION.html">SIGACTION</a> *oldact)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g03e3fadbf8b3ace30a48253765fafd6c">OS_SigProcMask</a> (INT how, const <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *set, <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *oldset)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#gd82ae121c4059cbf8056b812530d8ba8">OS_SigSuspend</a> (const SIGSET_T *mask)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#gd82ae121c4059cbf8056b812530d8ba8">OS_SigSuspend</a> (const <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *mask)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g4b9a0172691de9df6496cbd0debfc631">OS_SigPending</a> (const SIGSET_T *set)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g4b9a0172691de9df6496cbd0debfc631">OS_SigPending</a> (const <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *set)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#gb2b2273af88741135c290936a372925d">OS_SendSignalToProcess</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> pid, INT signal)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g92729274d381476bcbb339fb72014e95">OS_SendSignalToThread</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a> pid, <a class="el" href="group__OS__APIS__TYPES.html#g4b9c2991c460e49657d91c420f8d95bf">NATIVE_TID</a> tid, UINT32 signal)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__OS__APIS__SIGNALS.html#g92729274d381476bcbb339fb72014e95">OS_SendSignalToThread</a> (<a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a> pid, <a class="el" href="group__OS__APIS__TYPES.html#g20a3c333e4f6e7f3d7cae3de6cb27f56">NATIVE_TID</a> tid, UINT32 signal)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-<hr><h2>Typedef Documentation</h2>
-<a class="anchor" name="g477dce25fb8f2c027f591fcd0a0eaba6"></a><!-- doxytag: member="signals.h::SIGSET_T" ref="g477dce25fb8f2c027f591fcd0a0eaba6" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">typedef UINT64 <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a>          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Represents a set of signals     </td>
-  </tr>
-</table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="gb2b2273af88741135c290936a372925d"></a><!-- doxytag: member="signals.h::OS_SendSignalToProcess" ref="gb2b2273af88741135c290936a372925d" args="(NATIVE_PID pid, INT signal)" --><p>
+<a class="anchor" name="gb2b2273af88741135c290936a372925d"></a><!-- doxytag: member="signals-core.h::OS_SendSignalToProcess" ref="gb2b2273af88741135c290936a372925d" args="(NATIVE_PID pid, INT signal)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -78,7 +51,7 @@ Represents a set of signals     </td>
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_SendSignalToProcess           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>pid</em>, </td>
         </tr>
         <tr>
@@ -126,13 +99,13 @@ Send signal to a process. This function is compatible with POSIX kill().<p>
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_SendSignalToThread           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb3325f72b345b25f048def093d23b882">NATIVE_PID</a>&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__OS__APIS__TYPES.html#gb38060fef9db8d4ff961fb1c1922c494">NATIVE_PID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>pid</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap><a class="el" href="group__OS__APIS__TYPES.html#g4b9c2991c460e49657d91c420f8d95bf">NATIVE_TID</a>&nbsp;</td>
+          <td class="md" nowrap><a class="el" href="group__OS__APIS__TYPES.html#g20a3c333e4f6e7f3d7cae3de6cb27f56">NATIVE_TID</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>tid</em>, </td>
         </tr>
         <tr>
@@ -161,7 +134,7 @@ Send signal to a process. This function is compatible with POSIX kill().<p>
 Send signal to a particular thread inside a process.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pid</em>&nbsp;</td><td>The process ID where the thread is running. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pid</em>&nbsp;</td><td>The process ID where the thread is running.if it's INVALID_NATIVE_PID then we ignore the pid. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>tid</em>&nbsp;</td><td>The thread ID to send the signal to. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>signal</em>&nbsp;</td><td>The signal to send.</td></tr>
   </table>
@@ -236,7 +209,7 @@ Change the action taken by a process on receipt of a specific signal. This funct
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_SigPending           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top">const SIGSET_T *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>set</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -266,7 +239,7 @@ Returns the set of signals that are pending for delivery to the calling thread (
     </td>
   </tr>
 </table>
-<a class="anchor" name="g03e3fadbf8b3ace30a48253765fafd6c"></a><!-- doxytag: member="signals.h::OS_SigProcMask" ref="g03e3fadbf8b3ace30a48253765fafd6c" args="(INT how, const SIGSET_T *set, SIGSET_T *oldset)" --><p>
+<a class="anchor" name="g03e3fadbf8b3ace30a48253765fafd6c"></a><!-- doxytag: member="signals-core.h::OS_SigProcMask" ref="g03e3fadbf8b3ace30a48253765fafd6c" args="(INT how, const SIGSET_T *set, SIGSET_T *oldset)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -280,13 +253,13 @@ Returns the set of signals that are pending for delivery to the calling thread (
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>const <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *&nbsp;</td>
+          <td class="md" nowrap>const SIGSET_T *&nbsp;</td>
           <td class="mdname" nowrap> <em>set</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap><a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *&nbsp;</td>
+          <td class="md" nowrap>SIGSET_T *&nbsp;</td>
           <td class="mdname" nowrap> <em>oldset</em></td>
         </tr>
         <tr>
@@ -329,7 +302,7 @@ Change the signal mask, the set of currently blocked signals for the current thr
         <tr>
           <td class="md" nowrap valign="top"><a class="el" href="struct__OS__RETURN__CODE.html">OS_RETURN_CODE</a> OS_SigSuspend           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const <a class="el" href="group__OS__APIS__SIGNALS.html#g477dce25fb8f2c027f591fcd0a0eaba6">SIGSET_T</a> *&nbsp;</td>
+          <td class="md" nowrap valign="top">const SIGSET_T *&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>mask</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
@@ -359,7 +332,7 @@ Temporarily replaces the signal mask of the calling process with the mask given 
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:21:02 2016 for PinCRT by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:29:31 2017 for PinCRT by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

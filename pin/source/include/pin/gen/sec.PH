@@ -4,13 +4,13 @@
 /* THIS FILE IS AUTOMAGICALLY GENERATED - DO NOT CHANGE DIRECTLY*/
 
 
-typedef enum 
+typedef enum
 {
     SEC_TYPE_INVALID,
     SEC_TYPE_UNUSED,
     SEC_TYPE_REGREL,    ///< relocations
     SEC_TYPE_DYNREL, ///< dynamic relocations
-    SEC_TYPE_EXEC, ///< contains code     
+    SEC_TYPE_EXEC, ///< contains code
     SEC_TYPE_DATA, ///< contains initialized data
     SEC_TYPE_DYNAMIC,
     SEC_TYPE_OPD,

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -31,24 +31,22 @@ END_LEGAL */
 /*
 Tool that requests IARG_CONST_CONTEXT at each instruction
 */
-#include <stdio.h>
-#include "pin.H"
-#include "instlib.H"
-#include "portability.H"
+#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <cstdlib>
-
+#include "pin.H"
+#include "instlib.H"
 
 
 VOID GetSomeIntRegsFromContext (CONTEXT *ctxt)
 {
     PIN_GetContextReg( ctxt, REG_INST_PTR );
-    
+
     PIN_GetContextReg( ctxt, REG_GAX );
-    
+
     PIN_GetContextReg( ctxt, REG_GBX );
 
 }
@@ -76,6 +74,6 @@ int main(int argc, char *argv[])
 
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

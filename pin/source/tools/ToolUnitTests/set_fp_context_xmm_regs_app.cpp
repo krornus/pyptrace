@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -41,11 +41,7 @@ using namespace std;
 //Linux:
 #include <signal.h>
 #ifndef TARGET_MAC
-#ifdef TARGET_ANDROID
-#include "android_ucontext.h"
-#else
 #include <ucontext.h>
-#endif
 #endif
 #include <stdio.h>
 #include <setjmp.h>
@@ -165,7 +161,7 @@ static INT64  get_RDI()
 static void set_xmm_reg0(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm0" :  : "m" (xmm_reg) : "%xmm0"  );
-} 
+}
 static void get_xmm_reg0(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm0,%0" : "=m" (xmm_reg)  );
@@ -173,7 +169,7 @@ static void get_xmm_reg0(xmm_reg_t& xmm_reg)
 static void set_xmm_reg1(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm1" :  : "m" (xmm_reg) : "%xmm1"  );
-} 
+}
 static void get_xmm_reg1(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm1,%0" : "=m" (xmm_reg)  );
@@ -181,7 +177,7 @@ static void get_xmm_reg1(xmm_reg_t& xmm_reg)
 static void set_xmm_reg2(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm2" :  : "m" (xmm_reg) : "%xmm2"  );
-} 
+}
 static void get_xmm_reg2(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm2,%0" : "=m" (xmm_reg)  );
@@ -189,7 +185,7 @@ static void get_xmm_reg2(xmm_reg_t& xmm_reg)
 static void set_xmm_reg3(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm3" :  : "m" (xmm_reg) : "%xmm3"  );
-} 
+}
 static void get_xmm_reg3(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm3,%0" : "=m" (xmm_reg)  );
@@ -197,7 +193,7 @@ static void get_xmm_reg3(xmm_reg_t& xmm_reg)
 static void set_xmm_reg4(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm4" :  : "m" (xmm_reg) : "%xmm4"  );
-} 
+}
 static void get_xmm_reg4(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm4,%0" : "=m" (xmm_reg)  );
@@ -205,7 +201,7 @@ static void get_xmm_reg4(xmm_reg_t& xmm_reg)
 static void set_xmm_reg5(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm5" :  : "m" (xmm_reg) : "%xmm5"  );
-} 
+}
 static void get_xmm_reg5(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm5,%0" : "=m" (xmm_reg)  );
@@ -213,7 +209,7 @@ static void get_xmm_reg5(xmm_reg_t& xmm_reg)
 static void set_xmm_reg6(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm6" :  : "m" (xmm_reg) : "%xmm6"  );
-} 
+}
 static void get_xmm_reg6(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm6,%0" : "=m" (xmm_reg)  );
@@ -221,7 +217,7 @@ static void get_xmm_reg6(xmm_reg_t& xmm_reg)
 static void set_xmm_reg7(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm7" :  : "m" (xmm_reg) : "%xmm7"  );
-} 
+}
 static void get_xmm_reg7(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm7,%0" : "=m" (xmm_reg)  );
@@ -230,7 +226,7 @@ static void get_xmm_reg7(xmm_reg_t& xmm_reg)
 static void set_xmm_reg8(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm8" :  : "m" (xmm_reg) : "%xmm8"  );
-} 
+}
 static void get_xmm_reg8(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm8,%0" : "=m" (xmm_reg)  );
@@ -238,7 +234,7 @@ static void get_xmm_reg8(xmm_reg_t& xmm_reg)
 static void set_xmm_reg9(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm9" :  : "m" (xmm_reg) : "%xmm9"  );
-} 
+}
 static void get_xmm_reg9(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm9,%0" : "=m" (xmm_reg)  );
@@ -246,7 +242,7 @@ static void get_xmm_reg9(xmm_reg_t& xmm_reg)
 static void set_xmm_reg10(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm10" :  : "m" (xmm_reg) : "%xmm10"  );
-} 
+}
 static void get_xmm_reg10(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm10,%0" : "=m" (xmm_reg)  );
@@ -254,7 +250,7 @@ static void get_xmm_reg10(xmm_reg_t& xmm_reg)
 static void set_xmm_reg11(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm11" :  : "m" (xmm_reg) : "%xmm11"  );
-} 
+}
 static void get_xmm_reg11(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm11,%0" : "=m" (xmm_reg)  );
@@ -262,7 +258,7 @@ static void get_xmm_reg11(xmm_reg_t& xmm_reg)
 static void set_xmm_reg12(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm12" :  : "m" (xmm_reg) : "%xmm12"  );
-} 
+}
 static void get_xmm_reg12(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm12,%0" : "=m" (xmm_reg)  );
@@ -270,7 +266,7 @@ static void get_xmm_reg12(xmm_reg_t& xmm_reg)
 static void set_xmm_reg13(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm13" :  : "m" (xmm_reg) : "%xmm13"  );
-} 
+}
 static void get_xmm_reg13(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm13,%0" : "=m" (xmm_reg)  );
@@ -278,7 +274,7 @@ static void get_xmm_reg13(xmm_reg_t& xmm_reg)
 static void set_xmm_reg14(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm14" :  : "m" (xmm_reg) : "%xmm14"  );
-} 
+}
 static void get_xmm_reg14(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm14,%0" : "=m" (xmm_reg)  );
@@ -286,7 +282,7 @@ static void get_xmm_reg14(xmm_reg_t& xmm_reg)
 static void set_xmm_reg15(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %0, %%xmm15" :  : "m" (xmm_reg) : "%xmm15"  );
-} 
+}
 static void get_xmm_reg15(xmm_reg_t& xmm_reg)
 {
     asm volatile("movdqu %%xmm15,%0" : "=m" (xmm_reg)  );
@@ -352,7 +348,7 @@ set_xmm_reg(xmm_reg_t& xmm_reg, UINT32 reg_no)
 #endif
     }
 
-} 
+}
 static void
 get_xmm_reg(xmm_reg_t& xmm_reg, UINT32 reg_no)
 {
@@ -425,8 +421,8 @@ void write_xmm_reg(UINT32 reg_no, UINT32 val)
     xmm.dword[1] = val;
     xmm.dword[2] = val;
     xmm.dword[3] = val;
-    
-    set_xmm_reg(xmm, reg_no); 
+
+    set_xmm_reg(xmm, reg_no);
 }
 
 void read_xmm_reg(UINT32 reg_no, xmm_reg_t& xmm)
@@ -436,8 +432,8 @@ void read_xmm_reg(UINT32 reg_no, xmm_reg_t& xmm)
     xmm.dword[1] = 0;
     xmm.dword[2] = 0;
     xmm.dword[3] = 0;
-    
-    get_xmm_reg(xmm, reg_no); 
+
+    get_xmm_reg(xmm, reg_no);
 }
 
 
@@ -471,7 +467,7 @@ void DumpXmmRegs()
         }
         printf ("\n");
         fflush (stdout);
-    } 
+    }
 }
 
 
@@ -484,13 +480,13 @@ void SetXmmRegs(UINT32 val)
     for (UINT32 i=0; i<NUM_XMM_REGS; i++)
     {
         write_xmm_reg(i, val);
-    } 
+    }
 }
 
 
 /* when run with the set_fp_context_xmm_regs tool, the tool will have replac this
-   function with a function that calls this original but first the tool 
-   replacement function sets the xmm regs in the context used to 
+   function with a function that calls this original but first the tool
+   replacement function sets the xmm regs in the context used to
    in the PIN_CallApplicationFunction used to call this original fnction
 */
 EXPORT_CSYM void ReplacedXmmRegs()
@@ -500,7 +496,7 @@ EXPORT_CSYM void ReplacedXmmRegs()
 }
 
 /* when run with the set_fp_context_xmm_regs tool, the tool will call this
-   function via the PIN_ExecuteAt, but first the tool will 
+   function via the PIN_ExecuteAt, but first the tool will
    sets the xmm regs in the context used to in the PIN_ExecuteAt call
 */
 EXPORT_CSYM void ExecutedAtFunc()
@@ -518,7 +514,7 @@ EXPORT_CSYM void DumpXmmRegsAtException()
     exit (0);
 }
 
-/* when run with the set_fp_context_xmm_regs tool, the tool sets the xmm regs in the context used to 
+/* when run with the set_fp_context_xmm_regs tool, the tool sets the xmm regs in the context used to
    execute the thread - this is done in the thread creation callback received from Pin
 */
 void *ThreadFunc(void * arg)
@@ -541,7 +537,7 @@ void *ThreadFunc(void * arg)
         }
         printf ("\n");
         fflush (stdout);
-    } 
+    }
     return (NULL);
 }
 
@@ -567,7 +563,7 @@ int main()
     fflush(stdout);
     ReplacedXmmRegs();
 
-    /* create a thread that dumps the values in the xmm regs 
+    /* create a thread that dumps the values in the xmm regs
     printf ("xmm regs at threads\n");
     fflush (stdout);
     CreateOneThread(&threadHandle, ThreadFunc, 0);
@@ -577,7 +573,7 @@ int main()
 #if !defined(TARGET_WINDOWS)
 // Linux
     // define a handler so that the tool gets the  context change callback with the CONTEXT_CHANGE_REASON_SIGNAL
-    // and a valid ctxtTo 
+    // and a valid ctxtTo
     struct sigaction sigact;
 
     sigact.sa_sigaction = handle;
@@ -598,7 +594,7 @@ int main()
     p++;
     SetXmmRegs(0xa5a5a5a5);
     // the gpf here will cause the invocation of the tool's OnException function
-    *p = 0;   
+    *p = 0;
 }
 
 

@@ -73,4 +73,28 @@ extern PIN_DEPRECATED_API BOOL RTN_IsSafeForProbe(RTN rtn);
 extern PIN_DEPRECATED_API VOID RTN_ReplaceWithUninstrumentedRoutine(RTN replacedRtn, AFUNPTR replacementFun);
 
                                                                   /* DO NOT EDIT */
+/* DO NOT EDIT */
+/* CODECACHE_FlushCache is now deprecated. Always returns true. See PIN_RemoveInstrumentation.
+ */
+extern PIN_DEPRECATED_API BOOL CODECACHE_FlushCache();
+
+                                                                  /* DO NOT EDIT */
+/* DO NOT EDIT */
+/* CODECACHE_InvalidateTraceAtProgramAddress is now deprecated. Always returns zero. See PIN_RemoveInstrumentationInRange.
+ */
+extern PIN_DEPRECATED_API UINT32 CODECACHE_InvalidateTraceAtProgramAddress(ADDRINT app_pc);
+
+                                                                  /* DO NOT EDIT */
+/* DO NOT EDIT */
+/* CODECACHE_InvalidateRange is now deprecated. Always returns zero. See PIN_RemoveInstrumentationInRange.
+ */
+extern PIN_DEPRECATED_API UINT32 CODECACHE_InvalidateRange(ADDRINT start, ADDRINT end);
+
+                                                                  /* DO NOT EDIT */
+/* DO NOT EDIT */
+/* TRACE_Original is now deprecated. Always returns true.
+ */
+extern PIN_DEPRECATED_API BOOL TRACE_Original(TRACE trace);
+
+                                                                  /* DO NOT EDIT */
 

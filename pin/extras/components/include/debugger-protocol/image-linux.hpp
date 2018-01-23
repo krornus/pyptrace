@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: debugger-protocol
 // <FILE-TYPE>: component public header
 
@@ -82,9 +81,9 @@ struct /*<UTILITY>*/ IMAGE_INFO_LINUX
     IMAGE_INFO_LINUX_VERSION _version;  ///< Tells which fields in this structure are valid.
     IMAGE_TYPE_LINUX _type;             ///< The image type.
     std::string _name;                  ///< Absolute pathname to the ELF file (UTF-8).
-    FUND::ANYADDR _offset;              ///< Offset from ELF file's link-time address to it's loaded address.
-    FUND::ADDRINT _lm;                  ///< Pointer to the image's struct link_map
-    FUND::ADDRINT _l_ld;                ///< Points to the image's PT_DYNAMIC segment
+    ANYADDR _offset;              ///< Offset from ELF file's link-time address to it's loaded address.
+    ADDRINT _lm;                  ///< Pointer to the image's struct link_map
+    ADDRINT _l_ld;                ///< Points to the image's PT_DYNAMIC segment
 };
 
 /*!
@@ -93,7 +92,7 @@ struct /*<UTILITY>*/ IMAGE_INFO_LINUX
  */
 struct /*<UTILITY>*/ SVR4_IMAGES_LIST_LINUX
 {
-    FUND::ADDRINT _main_lm;             ///< Pointer to the main image's struct link_map
+    ADDRINT _main_lm;             ///< Pointer to the main image's struct link_map
     std::vector<IMAGE_INFO_LINUX> _list;///< List of all loaded images
 };
 

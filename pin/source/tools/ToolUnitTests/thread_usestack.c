@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -145,12 +145,12 @@ void* thread(void *dummy)
     return 0;
 }
 
- 
+
 int main(int argc, char* argv[])
 {
     pthread_t l;
 
-    // In Android, the pthread implementation preallocates too small a stack for the test. Make stack size large enough.
+    // Make sure the stack size is large enough.
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setstacksize(&attr, STACK_SIZE);

@@ -81,8 +81,8 @@ void recv_ins(int sock, instruction *ins)
 
 
     recv_mem_op(sock, ins->write);
-    recv_mem_op(sock, ins->read); 
-    recv_mem_op(sock, ins->read2); 
+    recv_mem_op(sock, ins->read);
+    recv_mem_op(sock, ins->read2);
 }
 
 int recv_mem_op(int sock, mem_op *op)
@@ -120,7 +120,7 @@ void print_op(mem_op *op)
 {
     if(NULL == op)
         return;
-        
+
     printf("%p [", op->effective_addr);
     for(int i = 0; i < op->length; i++)
     {
@@ -149,7 +149,7 @@ int recv_client(int sock)
     unsigned int remsize, client_sock;
 
     remsize = sizeof(remote);
-    if ((client_sock = accept(sock, (struct sockaddr *)&remote, &remsize)) == -1) 
+    if ((client_sock = accept(sock, (struct sockaddr *)&remote, &remsize)) == -1)
     {
         perror("accept");
         exit(1);
@@ -176,13 +176,13 @@ int init_server(char *path)
 
     len = strlen(local.sun_path) + sizeof(local.sun_family);
 
-    if (bind(sockfd, (struct sockaddr *)&local, len) == -1) 
+    if (bind(sockfd, (struct sockaddr *)&local, len) == -1)
     {
         perror("bind");
         exit(1);
     }
 
-    if (listen(sockfd, 1) == -1) 
+    if (listen(sockfd, 1) == -1)
     {
         perror("listen");
         exit(1);
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
         {
             handle_ins(&ins);
             recv_ins(csock, &ins);
-        } 
+        }
         printf("exited client loop\n");
 
         close(csock);

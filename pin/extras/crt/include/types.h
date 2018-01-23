@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Robert Muth
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component private header
 
@@ -13,6 +12,8 @@
 
 #ifndef OS_TYPES_H
 #define OS_TYPES_H
+
+#ifndef ASM_ONLY
 
 #if defined(__GNUC__)
 #   include <stdint.h>
@@ -38,7 +39,7 @@ typedef unsigned char BOOL_T;
 typedef void VOID;
 #endif
 
-#if !defined(NULL)
+#if !defined(NULL) && !defined(__ICL)
 #    define NULL ((void*)0)
 #endif
 
@@ -83,7 +84,7 @@ typedef int16_t INT16;
 typedef int32_t INT32;
 typedef int64_t INT64;
 # endif
-
+typedef UINT64  ANYADDR;
 
 /*
  * Unsigned integer of the same size as a pointer on the TARGET architecture.
@@ -99,11 +100,13 @@ typedef int64_t INT64;
 typedef UINT32 ADDRINT;
 // typedef int INT32;
 typedef INT32 ADDRDELTA;
+#define ADDRINT_SIZE_IN_BITS 32
 
 
-#elif (defined(TARGET_IA32E) || defined(TARGET_MIC))
+#elif defined(TARGET_IA32E)
 typedef UINT64 ADDRINT;
 typedef INT64 ADDRDELTA;
+#define ADDRINT_SIZE_IN_BITS 64
 
 #elif defined(TARGET_DOXYGEN)
 typedef xxx ADDRINT;
@@ -117,10 +120,16 @@ typedef ADDRINT    USIZE;
 
 #if defined(HOST_IA32)
 typedef UINT32 VOIDINT;
-#elif defined(HOST_IA32E) || defined(HOST_MIC)
+typedef UINT32 PTRINT;
+#define PTRINT_SIZE 32
+#elif defined(HOST_IA32E)
 typedef UINT64 VOIDINT;
+typedef UINT64 PTRINT;
+#define PTRINT_SIZE 64
 #else
 typedef ADDRINT VOIDINT;
+typedef ADDRINT PTRINT;
+#define PTRINT_SIZE ADDRINT_SIZE_IN_BITS
 #endif
 
 typedef UINT64 REG_CLASS_BITS;
@@ -147,21 +156,37 @@ typedef ADDRINT NATIVE_FD;
  * Data type that can hold a process ID.
  * On OS-APIs all processes can be refered to by their PIDs.
  */
-typedef ADDRINT NATIVE_PID;
+typedef UINT32 NATIVE_PID;
 
 /*! @ingroup OS_APIS_TYPES
  * Data type that can hold a thread ID.
  * On OS-APIs all threads can be refered to by their TIDs.
  */
-typedef ADDRINT NATIVE_TID;
+typedef UINT32 NATIVE_TID;
 
-typedef ADDRINT PIN_TID;
+typedef ADDRINT NATIVE_UID;
 
-#define INVALID_PIN_TID ((PIN_TID)-1LL)
+#ifdef TARGET_MAC
+typedef UINT64 OS_EVENT;
+#else
+typedef ADDRINT OS_EVENT;
+#endif
+
 #define INVALID_NATIVE_FD ((NATIVE_FD)-1LL)
-#define INVALID_NATIVE_TID ((NATIVE_TID)-1LL)
-#define INVALID_NATIVE_PID ((NATIVE_PID)-1LL)
-#define NATIVE_PID_CURRENT ((NATIVE_PID)0)
-#define NATIVE_TID_CURRENT ((NATIVE_TID)0)
+// We use a thread ID inside a reentrant lock to mark the thread that owns the lock.
+// If the owner is 0, the implementation treats the lock as unlocked.
+// Here we want to align to that implementation and use 0 as INVALID_NATIVE_TID.
+#define INVALID_NATIVE_TID ((NATIVE_TID)0)
+#define INVALID_NATIVE_PID ((NATIVE_PID)0)
+#define NATIVE_PID_CURRENT ((NATIVE_PID)-1LL)
+#define NATIVE_TID_CURRENT ((NATIVE_TID)-1LL)
+#define OS_EVENT_INITIALIZER ((OS_EVENT)0)
+
+/*! @ingroup OS_APIS_TYPES
+ * The size of the memory cache line in a single core.
+ */
+#define CPU_MEMORY_CACHELINE_SIZE 64
+
+#endif // ASM_ONLY
 
 #endif

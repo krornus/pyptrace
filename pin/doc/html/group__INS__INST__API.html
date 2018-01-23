@@ -122,7 +122,7 @@ Add a function used to instrument at instruction granularity <dl compact><dt><b>
 <dl compact><dt><b>Returns:</b></dt><dd>PIN_CALLBACK A handle to a callback that can be used to further modify this callback's properties</dd></dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -187,7 +187,7 @@ Insert a call to funptr relative to instruction ins. <dl compact><dt><b>Paramete
 </dl>
 If more than one call is inserted for the same instruction, the order is determined by <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56817abcd1a5a41e91ce8d6a388b706bba42">IARG_CALL_ORDER</a>. For more information, see <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a>.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -444,7 +444,7 @@ Insert a call to funptr relative to an INS. If funptr returns a non-zero ADDRINT
 </dl>
 If more than one call is inserted for the same instruction, the order is determined by <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56817abcd1a5a41e91ce8d6a388b706bba42">IARG_CALL_ORDER</a>. For more information, see <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a>. Note that if <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a> is used, Both "if" and "then" analysis calls must have the same order.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -524,7 +524,7 @@ If you need to know the instruction predicate inside the IF call, you should pas
 </dl>
 If more than one call is inserted for the same instruction, the order is determined by <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56817abcd1a5a41e91ce8d6a388b706bba42">IARG_CALL_ORDER</a>. For more information, see <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a>. Note that if <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a> is used, Both "if" and "then" analysis calls must have the same order.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -581,7 +581,7 @@ On the IA-32 and Intel 64 architectures the only instructions treated as predica
 If you want to test both your own condition, and the predicate, you can use <a class="el" href="group__INS__INST__API.html#gdc00d6ecae0b6f4e4d48208236e26d20">INS_InsertThenPredicatedCall</a>, or use <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56810f0eb050dae80f622d800071bb3b9d69">IARG_EXECUTING</a> to pass the predicate value to an <a class="el" href="group__INS__INST__API.html#g4182ef22ec1351bb0ee998b023263349">INS_InsertIfCall</a>.<p>
 If more than one call is inserted for the same instruction, the order is determined by <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56817abcd1a5a41e91ce8d6a388b706bba42">IARG_CALL_ORDER</a>. For more information, see <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a>.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -649,7 +649,7 @@ Insert a call to funptr relative to an INS. The function is called only if the i
 </dl>
 If more than one call is inserted for the same instruction, the order is determined by <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56817abcd1a5a41e91ce8d6a388b706bba42">IARG_CALL_ORDER</a>. For more information, see <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a>. Note that if <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a> is used, Both "if" and "then" analysis calls must have the same order.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -715,13 +715,13 @@ Insert a call to funptr relative to an INS. The function is called only if the i
 </dl>
 If more than one call is inserted for the same instruction, the order is determined by <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56817abcd1a5a41e91ce8d6a388b706bba42">IARG_CALL_ORDER</a>. For more information, see <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a>. Note that if <a class="el" href="group__INST__ARGS.html#g70f950adfb17bcd687fe356ed198bd2e">CALL_ORDER</a> is used, Both "if" and "then" analysis calls must have the same order.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

@@ -10,16 +10,17 @@ typedef UTIL::FXSAVE_INTEL64_DEFAULT FXSAVE;
 struct XSAVE_HEADER
 {
     UINT64 _mask;
-    UINT64 _reserved[7];
+    UINT64 _xcomp_bv;
+    UINT64 _reserved[6];
 };
 
                                                                   /* DO NOT EDIT */
-const size_t VSTATE_PADDING = 256;
+const size_t VSTATE_PADDING = 128;
 
                                                                   /* DO NOT EDIT */
 struct FPSTATE
 {
-    // fxsave_legacy is applicable on IA-32, Intel(R) 64 and mic processors
+    // fxsave_legacy is applicable on all supported CPUs
     FXSAVE fxsave_legacy; //                                                    512  bytes at offset 0
 
     // The following are only applicable on processors that support XSAVE
@@ -31,17 +32,22 @@ struct FPSTATE
 
     // The following is only applicable on processors that support AVX512
     // So far there are 832 bytes of data but the next bulk of data begins at offset 1088.
-    UINT8 _reserved[VSTATE_PADDING]; //                                         256  bytes at offset 832
+    UINT8 _reserved[VSTATE_PADDING]; //                                         128  bytes at offset 832
 
-    // The _vstate is comprised of three parts.
-    //   1. The Opmask registers k0-k7
-    //   2. The upper 256 bits of zmm0-zmm15
-    //   3. zmm16-zmm31 (512 bits each)
+
+    // The _vstate is comprised of five parts.
+    //   1. BND registers BND0-BND3
+    //   2. BND control and status registers
+    //   3. The Opmask registers k0-k7
+    //   4. The upper 256 bits of zmm0-zmm15
+    //   5. zmm16-zmm31 (512 bits each)
     struct VSTATE
     {
+        UINT8  _bndRegs[64];        // BND registers BND0-BND3.                 64   bytes at offset 960
+        UINT8  _bndCSR[64];         // BND control and status registers.        64   bytes at offset 1024
         UINT64 _kmasks[8];          // 8 64-bit k (mask) registers              64   bytes at offset 1088
-        UINT8  _zmmUpper[32*16];    // upper 256 bits of zmm0-zmm15             512  bytes at offset 1152
-        UINT8  _zmms[64*16];        // 16 512-bit zmm registers (zmm16-zmm31)   1024 bytes at offset 1664
+        UINT8  _zmmUpper[16*32];    // upper 256 bits of zmm0-zmm15             512  bytes at offset 1152
+        UINT8  _zmms[16*64];        // 16 512-bit zmm registers (zmm16-zmm31)   1024 bytes at offset 1664
     } _vstate;
 
     // Total of 2688 bytes.

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: debugger-protocol
 // <FILE-TYPE>: component public header
 
@@ -63,14 +62,14 @@ enum THREAD_INFO_WINDOWS_VERSION
 struct /*<POD>*/ THREAD_INFO_WINDOWS
 {
     THREAD_INFO_WINDOWS_VERSION _version;   ///< Tells which fields in this structure are valid.
-    FUND::ANYADDR _teb;                     ///< Address of the thread environment block.
+    ANYADDR _teb;                     ///< Address of the thread environment block.
 
     /*!
      * If non-zero, the thread is suspended by one or more other threads in the target
      * system.  Passing CONTINUE_MODE_FROZEN to ICOMMANDS::SetContinueMode() does not
      * affect the suspension count.
      */
-    FUND::UINT64 _suspensionCount;
+    UINT64 _suspensionCount;
 };
 
 } // namespace

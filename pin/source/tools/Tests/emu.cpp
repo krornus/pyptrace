@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,10 +28,9 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include <stdio.h>
-#include "pin.H"
-#include "pin_isa.H"
+#include <cstdio>
 #include <iostream>
+#include "pin.H"
 
 UINT32 icount = 0;
 
@@ -104,7 +103,7 @@ VOID Emulate2Address(OPCODE opcode,
            INS_Delete(ins);
         }
     }
-    
+
 #if 0
     if (KnobCount == icount)
         fprintf(stderr,"Last one %s\n",INS_Disassemble(ins).c_str());
@@ -120,21 +119,21 @@ VOID MovMV(ADDRINT * op0, ADDRINT op1)
 {
     PIN_SafeCopy(op0, &op1, sizeof(ADDRINT));
 }
-    
+
 // Move a literal or register to a register
 ADDRINT MovRV(ADDRINT op0, ADDRINT op1)
-{ 
+{
     return op1;
 }
-    
+
 // Move from memory to register
 ADDRINT MovRM(ADDRINT op0, ADDRINT * op1)
-{ 
+{
     ADDRINT value;
     PIN_SafeCopy(&value, op1, sizeof(ADDRINT));
     return value;
 }
-    
+
 VOID Instruction(INS ins, VOID *v)
 {
     Emulate2Address(XED_ICLASS_MOV, ins, MovRM, MovRV, MovMV);
@@ -145,9 +144,9 @@ int main(int argc, char * argv[])
     PIN_Init(argc, argv);
 
     INS_AddInstrumentFunction(Instruction, 0);
-    
+
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

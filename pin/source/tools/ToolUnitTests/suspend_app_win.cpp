@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -29,8 +29,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 /*! @file
- * This test application verifies that Pin on Windows correctly handles 
- * thread suspension and thread termination system calls. The application must 
+ * This test application verifies that Pin on Windows correctly handles
+ * thread suspension and thread termination system calls. The application must
  * be run with the "suspend_win" tool.
  */
 
@@ -41,7 +41,7 @@ END_LEGAL */
 #include <windows.h>
 using namespace std;
 
-// Auto-reset event. It is signaled when a thread is about to start. 
+// Auto-reset event. It is signaled when a thread is about to start.
 HANDLE StartEvent;
 
 // Manual-reset event. It is signaled when a thread is allowed to start.
@@ -84,7 +84,7 @@ static void Abort(const string & msg)
 typedef int (*FP_IsToolPresent)(volatile int *);
 extern "C" __declspec(dllexport) int IsToolPresent(volatile int *);
 volatile FP_IsToolPresent fpIsToolPresent = IsToolPresent;
-volatile int IsTool = 0; 
+volatile int IsTool = 0;
 
 /*!
  * The tool intercepts this routine and sets <isTool> to 1.
@@ -104,7 +104,7 @@ volatile FP_SleepInTool fpSleepInTool = SleepInTool;
 volatile int InTool = 0;
 
 /*!
- * The tool intercepts this routine, sets <InTool> to 1 and sleeps some time 
+ * The tool intercepts this routine, sets <InTool> to 1 and sleeps some time
  * on entry to this function.
  */
 static void SleepInTool(volatile int * pInTool)
@@ -120,7 +120,7 @@ static DWORD WINAPI ThreadA(void * )
     SetEvent(StartEvent);
     while (TRUE)
     {
-        // Call this dummy function through a volatile pointer to ensure the 
+        // Call this dummy function through a volatile pointer to ensure the
         // compiler doesn't inline it.
         fpSleepInTool(&InTool);
     }
@@ -130,9 +130,7 @@ static DWORD WINAPI ThreadA(void * )
 //==========================================================================
 // Function test C)
 //==========================================================================
-typedef void (*FP_DoFlush)();
 extern "C" __declspec(dllexport) void DoFlush();
-volatile FP_DoFlush fpDoFlush = DoFlush;
 
 typedef void (*FP_CheckFlush)(volatile int *);
 extern "C" __declspec(dllexport) void CheckFlush(volatile int *);
@@ -148,7 +146,7 @@ void DoFlush()
 
 void CheckFlush(volatile int * )
 {
-    // The tool intercepts this routine and sets <CodeCacheFlushed> to 1 if 
+    // The tool intercepts this routine and sets <CodeCacheFlushed> to 1 if
     // the code cache was flushed.
 }
 
@@ -252,9 +250,9 @@ int main(int argc, char *argv[])
     // Check to see if the tool is present
     IsToolPresent(&IsTool);
 
-    //============================================================================ 
+    //============================================================================
     // A) Verify that Pin does not suspend threads in analysis routines
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("A");
 
     // Create a thread that calls to a dummy function in an infinite loop.
@@ -265,10 +263,10 @@ int main(int argc, char *argv[])
     hThread = CreateThread(0, 0, ThreadA, 0, 0, 0);
     if (hThread == 0) {Abort("CreateThread failed");}
 
-    // Wait until the new thread starts running 
+    // Wait until the new thread starts running
     WaitForSingleObject(StartEvent, INFINITE);
 
-    for (int i =0; i< 3; i++)
+    for (int i = 0; i < 3; i++)
     {
         // Wait until the thread enters the sleeping routine in the tool and then
         // suspend the thread.
@@ -289,9 +287,9 @@ int main(int argc, char *argv[])
         if (suspendCount != 1) {Abort("Unexpected suspend count in ResumeThread");}
     }
 
-    //============================================================================ 
+    //============================================================================
     // B) Verify that Pin does not terminate threads in analysis routines
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("B");
 
     while (IsTool && (InTool == 0))
@@ -302,23 +300,23 @@ int main(int argc, char *argv[])
     if (bStatus == 0) {Abort("TerminateThread failed");}
     if (InTool != 0) {Abort("The thread is terminated in the tool");}
 
-    // Wait some time before checking the thread state. TerminateThread() kills 
+    // Wait some time before checking the thread state. TerminateThread() kills
     // threads asynchronously.
-    dwStatus = WaitForSingleObject(hThread, 5000); 
+    dwStatus = WaitForSingleObject(hThread, 5000);
     if (dwStatus != WAIT_OBJECT_0) {Abort("The thread is not terminated");}
 
     CloseHandle(hThread);
 
-    //============================================================================ 
-    // C) Verify that Pin does not suspend threads in the code cache and the 
+    //============================================================================
+    // C) Verify that Pin does not suspend threads in the code cache and the
     // CC flush is possible when a thread is suspended.
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("C");
 
     // Create a thread that loops infinitely in the code cache and suspend
-    // the thread somewhere in the middle. 
+    // the thread somewhere in the middle.
     // Cause the tool to flush the code cache and then check if the flush happened.
-    // Pin pokes the thread out of the code cache before suspension and removes the 
+    // Pin pokes the thread out of the code cache before suspension and removes the
     // thread from generation counts. This should allow CC flush during the thread
     // suspension.
 
@@ -337,31 +335,40 @@ int main(int argc, char *argv[])
     if (suspendCount == DWORD(-1)) {Abort("SuspendThread failed");}
     if (suspendCount != 0) {Abort("Unexpected suspend count in SuspendThread");}
 
-    // Call these dummy functions through volatile pointers to ensure the 
-    // compiler doesn't inline them.
-    fpDoFlush();
-    fpCheckFlush(&CodeCacheFlushed);
+    // Run for (at most) three iterations to ensure steady state - no more jitting of the DoFlush function.
+    // The tool will remove instrumentation only after reaching steady state.
+    // The first two calls may be jitted, but by the third we expect the tool to remove instrumentation.
+    // The next (fourth at most) call will cause the code to be rejitted due to the cache flush and that will set
+    // CodeCacheFlushed. Eventually, the cache will only be flushed once.
+    for (unsigned int i = 0; i < 4; ++i)
+    {
+        DoFlush();
+
+        // Call this dummy function through a volatile pointer to ensure the compiler doesn't inline it.
+        fpCheckFlush(&CodeCacheFlushed);
+        if (CodeCacheFlushed) break;
+    }
     if (IsTool && (CodeCacheFlushed == 0)) {Abort("The code cache was not flushed");}
 
-    //============================================================================ 
+    //============================================================================
     // D) Verify that Pin correctly terminates suspended threads
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("D");
 
     bStatus = TerminateThread(hThread, 0);
     if (bStatus == 0) {Abort("TerminateThread failed");}
 
-    // Wait some time before checking the thread state. TerminateThread() kills 
+    // Wait some time before checking the thread state. TerminateThread() kills
     // threads asynchronously.
     dwStatus = WaitForSingleObject(hThread, 5000);
     if (dwStatus != WAIT_OBJECT_0) {Abort("The thread is not terminated");}
 
     CloseHandle(hThread);
 
-    //============================================================================ 
-    // E) Verify that Pin correctly suspends and terminates threads that are not 
+    //============================================================================
+    // E) Verify that Pin correctly suspends and terminates threads that are not
     //    yet started.
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("E");
 
     // Create a thread in the suspended state
@@ -377,18 +384,18 @@ int main(int argc, char *argv[])
     bStatus = TerminateThread(hThread, 0);
     if (bStatus == 0) {Abort("TerminateThread failed");}
 
-    dwStatus = WaitForSingleObject(hThread, 5000); 
+    dwStatus = WaitForSingleObject(hThread, 5000);
     if (dwStatus != WAIT_OBJECT_0) {Abort("The thread is not terminated");}
 
     CloseHandle(hThread);
 
-    //============================================================================ 
-    // F) Verify that Pin correctly suspends and terminates threads that are 
+    //============================================================================
+    // F) Verify that Pin correctly suspends and terminates threads that are
     //    blocked in a system call.
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("F");
 
-    // Create a thread that blocks itself in a system call. Suspend and terminate 
+    // Create a thread that blocks itself in a system call. Suspend and terminate
     // the blocked thread.
 
     ResetEvent(AllowStartEvent);
@@ -412,14 +419,14 @@ int main(int argc, char *argv[])
     bStatus = TerminateThread(hThread, 0);
     if (bStatus == 0) {Abort("TerminateThread failed");}
 
-    dwStatus = WaitForSingleObject(hThread, 5000); 
+    dwStatus = WaitForSingleObject(hThread, 5000);
     if (dwStatus != WAIT_OBJECT_0) {Abort("The thread is not terminated");}
 
     CloseHandle(hThread);
 
-    //============================================================================ 
+    //============================================================================
     // G) Verify that Pin correctly handles the thread self-suspension.
-    //============================================================================ 
+    //============================================================================
     StartFunctionTest("G");
 
     // Create a thread and wait until it suspends itself. Then, resume the thread.
@@ -432,11 +439,11 @@ int main(int argc, char *argv[])
         Sleep(5);
         suspendCount = SuspendThread(hThread);
         if (suspendCount == DWORD(-1)) {Abort("SuspendThread failed");}
-        if (suspendCount != 0) 
+        if (suspendCount != 0)
         {
             if (suspendCount != 1) {Abort("Unexpected suspend count in SuspendThread");}
             break;
-        } 
+        }
 
         suspendCount = ResumeThread(hThread);
         if (suspendCount == DWORD(-1)) {Abort("ResumeThread failed");}
@@ -449,25 +456,25 @@ int main(int argc, char *argv[])
     if (suspendCount == DWORD(-1)) {Abort("ResumeThread#2 failed");}
     if (suspendCount != 1) {Abort("Unexpected suspend count in ResumeThread");}
 
-    dwStatus = WaitForSingleObject(hThread, 60000); 
+    dwStatus = WaitForSingleObject(hThread, 60000);
     if (dwStatus != WAIT_OBJECT_0) {Abort("The thread is not resumed");}
 
     CloseHandle(hThread);
 
-    //============================================================================ 
+    //============================================================================
     // M) Verify that mutual suspension does not cause deadlock.
-    //============================================================================ 
+    //============================================================================
 
     // Apparently, this test works fine under Pin but causes deadlock when
     // executed natively.
-    // It seems that Windows kernel suspends both threads if they try to suspend 
+    // It seems that Windows kernel suspends both threads if they try to suspend
     // each other and issue SuspendThread system calls simultaneously.
     // Leave this test for internal Pin debugging only.
 
     if ((argc == 2) && (string(argv[1]) == "-dbg"))
     {
         StartFunctionTest("M");
-        // Create two threads that simultaneously attempt to suspend/resume each 
+        // Create two threads that simultaneously attempt to suspend/resume each
         // other. Both threads should exit successfully if not deadlocked.
 
         HANDLE hThread[2];
@@ -490,7 +497,7 @@ int main(int argc, char *argv[])
         {
             Abort("The threads appear to be deadlocked");
         }
-        else if (dwStatus == WAIT_FAILED) 
+        else if (dwStatus == WAIT_FAILED)
         {
             Abort("WaitForMultipleObjects failed");
         }
@@ -499,7 +506,7 @@ int main(int argc, char *argv[])
         CloseHandle(hThread[1]);
     }
 
-    //============================================================================ 
+    //============================================================================
     ExitUnitTest();
 
     return 0;

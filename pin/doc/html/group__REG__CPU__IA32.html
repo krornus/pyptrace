@@ -156,28 +156,6 @@
 <br>
 &nbsp;&nbsp;<b>REG_MM_LAST</b> =  REG_MM7, 
 <br>
-&nbsp;&nbsp;<b>REG_EMM_BASE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM0</b> =  REG_EMM_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM1</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM2</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM3</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM4</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM5</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM6</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM7</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_EMM_LAST</b> =  REG_EMM7, 
-<br>
-&nbsp;&nbsp;<b>REG_X87</b>, 
-<br>
 &nbsp;&nbsp;<b>REG_XMM_BASE</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_FIRST_FP_REG</b> =  REG_XMM_BASE, 
@@ -284,6 +262,52 @@
 <br>
 &nbsp;&nbsp;<b>REG_ORIG_GAX</b> =  REG_ORIG_EAX, 
 <br>
+&nbsp;&nbsp;<b>REG_FPST_BASE</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPSTATUS_BASE</b> =  REG_FPST_BASE, 
+<br>
+&nbsp;&nbsp;<b>REG_FPCW</b> =  REG_FPSTATUS_BASE, 
+<br>
+&nbsp;&nbsp;<b>REG_FPSW</b>, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6411ac4a83a9a538d9e03d70f486b6c8bdf">LEVEL_BASE::REG_FPTAG</a>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPIP_OFF</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPIP_SEL</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPOPCODE</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPDP_OFF</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPDP_SEL</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_FPSTATUS_LAST</b> =  REG_FPDP_SEL, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e641febeb10711f41ae4b22413a11ad48aac">LEVEL_BASE::REG_FPTAG_FULL</a>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST_BASE</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST0</b> =  REG_ST_BASE, 
+<br>
+&nbsp;&nbsp;<b>REG_ST1</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST2</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST3</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST4</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST5</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST6</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST7</b>, 
+<br>
+&nbsp;&nbsp;<b>REG_ST_LAST</b> =  REG_ST7, 
+<br>
+&nbsp;&nbsp;<b>REG_FPST_LAST</b> =  REG_ST_LAST, 
+<br>
 &nbsp;&nbsp;<b>REG_DR_BASE</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_DR0</b> =  REG_DR_BASE, 
@@ -338,53 +362,7 @@
 <br>
 &nbsp;&nbsp;<b>REG_TR_LAST</b> =  REG_TR7, 
 <br>
-&nbsp;&nbsp;<b>REG_FPST_BASE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPSTATUS_BASE</b> =  REG_FPST_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_FPCW</b> =  REG_FPSTATUS_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_FPSW</b>, 
-<br>
-&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6411ac4a83a9a538d9e03d70f486b6c8bdf">LEVEL_BASE::REG_FPTAG</a>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPIP_OFF</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPIP_SEL</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPOPCODE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPDP_OFF</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPDP_SEL</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_FPSTATUS_LAST</b> =  REG_FPDP_SEL, 
-<br>
-&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e641febeb10711f41ae4b22413a11ad48aac">LEVEL_BASE::REG_FPTAG_FULL</a>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST_BASE</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST0</b> =  REG_ST_BASE, 
-<br>
-&nbsp;&nbsp;<b>REG_ST1</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST2</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST3</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST4</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST5</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST6</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST7</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ST_LAST</b> =  REG_ST7, 
-<br>
-&nbsp;&nbsp;<b>REG_FPST_LAST</b> =  REG_ST_LAST, 
-<br>
-&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6418100e22c2df07ae0bad29cd53f1e4795">LEVEL_BASE::REG_SEG_GS_BASE</a>, 
+&nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6418100e22c2df07ae0bad29cd53f1e4795">LEVEL_BASE::REG_SEG_GS_BASE</a> =  REG_TOOL_BASE, 
 <br>
 &nbsp;&nbsp;<a class="el" href="group__REG__CPU__IA32.html#gg3b77029a2a445f70f0206dbad1e4e6416702dddc7a08f8be29632868160fa2e3">LEVEL_BASE::REG_SEG_FS_BASE</a>, 
 <br>
@@ -502,7 +480,9 @@
 <br>
 &nbsp;&nbsp;<b>REG_BUF_LAST</b> =  REG_BUF_ENDLAST, 
 <br>
-&nbsp;&nbsp;<b>REG_INST_SCRATCH_LAST</b> =  REG_BUF_ENDLAST, 
+&nbsp;&nbsp;<b>REG_INST_SCRATCH_LAST</b> =  REG_BUF_LAST, 
+<br>
+&nbsp;&nbsp;<b>REG_TOOL_LAST</b> =  REG_BUF_LAST, 
 <br>
 &nbsp;&nbsp;<b>REG_LAST</b>
 <br>
@@ -528,8 +508,6 @@
 <br>
 &nbsp;&nbsp;<b>REGWIDTH_512</b>, 
 <br>
-&nbsp;&nbsp;<b>REGWIDTH_FPSTATE</b>, 
-<br>
 &nbsp;&nbsp;<b>REGWIDTH_INVALID</b>, 
 <br>
 &nbsp;&nbsp;<b>REGWIDTH_NATIVE</b> = REGWIDTH_64
@@ -554,8 +532,6 @@
 &nbsp;&nbsp;<b>REG_CLASS_SEG</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_MM</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_CLASS_EMM</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_XMM</b>, 
 <br>
@@ -584,8 +560,6 @@
 &nbsp;&nbsp;<b>REG_CLASS_STATUS_FLAGS</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_DFLAG</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_CLASS_X87</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_MXCSR</b>, 
 <br>
@@ -616,8 +590,6 @@
 &nbsp;&nbsp;<b>REG_CLASS_PIN_ZMM</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_PIN_K</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_CLASS_PIN_X87</b>, 
 <br>
 &nbsp;&nbsp;<b>REG_CLASS_PIN_MXCSR</b>, 
 <br>
@@ -650,62 +622,12 @@
 <br>
  }</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gcbcd51158c7cac507781c6f91b6f3e98">LEVEL_BASE::REG_ALLOC_TYPE</a> { <br>
-&nbsp;&nbsp;<b>REG_ALLOC_NONE</b> =  0, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_PART</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_ANY_GR</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_IDENT</b>, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_CR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_DR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_TR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_ST</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_MM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_EMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_XMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_YMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_ZMM</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_K</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_SEG</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_STACK_PTR</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_X87</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_FLAGS</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_STATUS_FLAGS</b> =  REG_ALLOC_IDENT, 
-<br>
-&nbsp;&nbsp;<b>REG_ALLOC_DFLAG</b> =  REG_ALLOC_IDENT
-<br>
- }</td></tr>
-
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g826d59a81bdaf643e1d42993616f3951"></a><!-- doxytag: member="REG_CPU_IA32::InitRegTables" ref="g826d59a81bdaf643e1d42993616f3951" args="()" -->
-VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::InitRegTables</b> ()</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g2b832fe49c1c200f5c5e754ab5a34886">LEVEL_BASE::REG_is_fr_for_get_context</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#ge2cff46ea9715074f23996d1151e918a">LEVEL_BASE::REG_is_fr_or_x87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g9cbc6eb5258fcc1fcee307cdfaac9f44">LEVEL_BASE::REG_is_mxcsr</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g9922e72637a0d4c4ec341c776332a4fc">LEVEL_BASE::REG_is_any_mxcsr</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g1fe16f59d7cc1dcf4af4188260ff18ba">LEVEL_BASE::REG_is_any_x87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g49946aeb91a5feeecfed3da44fe4bd33">LEVEL_BASE::REG_is_mm</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
@@ -728,10 +650,6 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::InitRegTa
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g42081f67b5fcfdd3d8622c04609581bc">LEVEL_BASE::REG_corresponding_zmm_reg</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gd96fee69a3eb37dbcd27c18621615900">LEVEL_BASE::REG_is_st</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#ga211747fe08d39c3d562736c99ff7ee9">LEVEL_BASE::REG_is_fpst</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g13d97c6de11565981757df4aec9359d6">LEVEL_BASE::REG_is_in_X87</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g96b25e4076a3c1f6f0f1e2df3700beaf">LEVEL_BASE::REG_is_machine</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
@@ -805,8 +723,6 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::InitRegTa
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g0e9b8a8c0b93707c1f4cf3f77cebd0f0">LEVEL_BASE::REG_is_representative_reg</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g5934cb7498caa40afde0b7e32765311d">LEVEL_BASE::REG_is_x87_reg</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gdffbdc05738251b2faf9d4fcba00167b">LEVEL_BASE::REG_is_pin_inst</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#gac26d5fbdd8d015d8fb90021257e9822">LEVEL_BASE::REG_is_buffer</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
@@ -865,38 +781,6 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::InitRegTa
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const REGDEF_ENTRY&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g76f5a683a0d448a097824a5b6472cb2c">LEVEL_BASE::_regDefTable</a> []</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g33b1cae396184f7cddf569d52bb3356d"></a><!-- doxytag: member="REG_CPU_IA32::_regClassBitMapTable" ref="g33b1cae396184f7cddf569d52bb3356d" args="[REG_LAST]" -->
-UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regClassBitMapTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gfc4500bb938cbeacdb40d91ba71d242f"></a><!-- doxytag: member="REG_CPU_IA32::_regSubClassBitMapTable" ref="gfc4500bb938cbeacdb40d91ba71d242f" args="[REG_LAST]" -->
-UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regSubClassBitMapTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gbb2178eb1e6db25d6cb1cb52ea6bd44d"></a><!-- doxytag: member="REG_CPU_IA32::_regSpillSizeTable" ref="gbb2178eb1e6db25d6cb1cb52ea6bd44d" args="[REG_LAST]" -->
-UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regSpillSizeTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g1004fca7bd7b034e70d1dd615ef2b67d"></a><!-- doxytag: member="REG_CPU_IA32::_regWidthTable" ref="g1004fca7bd7b034e70d1dd615ef2b67d" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regWidthTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g616842562f4ac4610c844c31ff424938"></a><!-- doxytag: member="REG_CPU_IA32::_regAllocTypeTable" ref="g616842562f4ac4610c844c31ff424938" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#gcbcd51158c7cac507781c6f91b6f3e98">REG_ALLOC_TYPE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regAllocTypeTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="gbe756952458558ed86f398adca4533d8"></a><!-- doxytag: member="REG_CPU_IA32::_regFullNameTable" ref="gbe756952458558ed86f398adca4533d8" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regFullNameTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ged654b3fd3f4b3c83bf2acfda722b98a"></a><!-- doxytag: member="REG_CPU_IA32::_regMachineNameTable" ref="ged654b3fd3f4b3c83bf2acfda722b98a" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regMachineNameTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="g5de1dcdadd8ae89794d228c137aea880"></a><!-- doxytag: member="REG_CPU_IA32::_regPinNameTable" ref="g5de1dcdadd8ae89794d228c137aea880" args="[REG_LAST]" -->
-<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regPinNameTable</b> [REG_LAST]</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">INT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>LEVEL_BASE::_regWidthToBitWidth</b> []</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g82d1e4bfb9a5f4fc71f26ad8f38fc980">LEVEL_BASE::REGCBIT_APP_ALL</a></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g45b35269b427f38c64d83b8de277c305">LEVEL_BASE::REGCBIT_PIN_ALL</a></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g69ea0c5b4b2d573297be7f76afff0cea">LEVEL_BASE::REGCBIT_ALL_REGS</a> = <a class="el" href="group__REG__CPU__IA32.html#g82d1e4bfb9a5f4fc71f26ad8f38fc980">REGCBIT_APP_ALL</a> | <a class="el" href="group__REG__CPU__IA32.html#g45b35269b427f38c64d83b8de277c305">REGCBIT_PIN_ALL</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g201fbfeb9edcd5e06810e65d5bf9bc72">LEVEL_BASE::REGCBIT_APP_FLAGS</a></td></tr>
 
@@ -1017,7 +901,7 @@ A regset type that contains all registers     </td>
     <td>
 
 <p>
-The x86 register enum (for both IA-32 and Intel(R) 64 architectures) Note that each register added to this enum, must have a row in the _regDefTable. Note also that the _regDefTable is defined separately for Intel64/Mic and for IA-32. <dl compact><dt><b>Enumerator: </b></dt><dd>
+The x86 register enum (for both IA-32 and Intel(R) 64 architectures) Note that each register added to this enum, must have a row in the _regDefTable. Note also that the _regDefTable is defined separately for Intel64 and for IA-32. <dl compact><dt><b>Enumerator: </b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" name="gg3b77029a2a445f70f0206dbad1e4e6411ac4a83a9a538d9e03d70f486b6c8bdf"></a><!-- doxytag: member="REG_FPTAG" ref="gg3b77029a2a445f70f0206dbad1e4e6411ac4a83a9a538d9e03d70f486b6c8bdf" args="" -->REG_FPTAG</em>&nbsp;</td><td>
 Abridged 8-bit version of x87 tag register. </td></tr>
@@ -1092,29 +976,6 @@ Scratch register used in pintools. </td></tr>
 </table>
 </dl>
     </td>
-  </tr>
-</table>
-<a class="anchor" name="gcbcd51158c7cac507781c6f91b6f3e98"></a><!-- doxytag: member="LEVEL_BASE::REG_ALLOC_TYPE" ref="gcbcd51158c7cac507781c6f91b6f3e98" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">enum <a class="el" href="group__REG__CPU__IA32.html#gcbcd51158c7cac507781c6f91b6f3e98">LEVEL_BASE::REG_ALLOC_TYPE</a>          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Classification of registers under register allocation. Registers of the same allocation type can replace each other during register re-allocation.     </td>
   </tr>
 </table>
 <a class="anchor" name="g4c64483304321336455a869ff71973d7"></a><!-- doxytag: member="LEVEL_BASE::REG_CLASS" ref="g4c64483304321336455a869ff71973d7" args="" --><p>
@@ -1614,35 +1475,6 @@ Return TRUE if reg is a upper or lower 8-bit register     </td>
     </td>
   </tr>
 </table>
-<a class="anchor" name="g1fe16f59d7cc1dcf4af4188260ff18ba"></a><!-- doxytag: member="LEVEL_BASE::REG_is_any_x87" ref="g1fe16f59d7cc1dcf4af4188260ff18ba" args="(REG reg)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::REG_is_any_x87           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>reg</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>true if reg is the x87 register or its Pin variant </dd></dl>
-    </td>
-  </tr>
-</table>
 <a class="anchor" name="gdd5b56949ed5ab6a3d7c8304de641bdc"></a><!-- doxytag: member="LEVEL_BASE::REG_is_app_df_flag_type" ref="gdd5b56949ed5ab6a3d7c8304de641bdc" args="(REG reg)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1962,35 +1794,6 @@ Return TRUE if reg is a upper or lower 8-bit register     </td>
     </td>
   </tr>
 </table>
-<a class="anchor" name="ga211747fe08d39c3d562736c99ff7ee9"></a><!-- doxytag: member="LEVEL_BASE::REG_is_fpst" ref="ga211747fe08d39c3d562736c99ff7ee9" args="(REG reg)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::REG_is_fpst           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>reg</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>true if reg is a x87 FPU stack register or control/status register </dd></dl>
-    </td>
-  </tr>
-</table>
 <a class="anchor" name="g2b832fe49c1c200f5c5e754ab5a34886"></a><!-- doxytag: member="LEVEL_BASE::REG_is_fr_for_get_context" ref="g2b832fe49c1c200f5c5e754ab5a34886" args="(REG reg)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -2017,35 +1820,6 @@ Return TRUE if reg is a upper or lower 8-bit register     </td>
 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>true if reg is a floating register appropriate for PIN_GetContextReg </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="ge2cff46ea9715074f23996d1151e918a"></a><!-- doxytag: member="LEVEL_BASE::REG_is_fr_or_x87" ref="ge2cff46ea9715074f23996d1151e918a" args="(REG reg)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::REG_is_fr_or_x87           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>reg</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>true if reg is a floating register </dd></dl>
     </td>
   </tr>
 </table>
@@ -2132,35 +1906,6 @@ Return TRUE if reg is a lower 16-bit register     </td>
 
 <p>
 Return TRUE if reg is a lower 32-bit register, actually any 32 bit register     </td>
-  </tr>
-</table>
-<a class="anchor" name="g13d97c6de11565981757df4aec9359d6"></a><!-- doxytag: member="LEVEL_BASE::REG_is_in_X87" ref="g13d97c6de11565981757df4aec9359d6" args="(REG reg)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::REG_is_in_X87           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>reg</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>true if reg is a x87 FPU stack register or control/status register or mmx </dd></dl>
-    </td>
   </tr>
 </table>
 <a class="anchor" name="g084f0f36d11bc7f1d66ff0b4f2730a96"></a><!-- doxytag: member="LEVEL_BASE::REG_is_inst_scratch" ref="g084f0f36d11bc7f1d66ff0b4f2730a96" args="(REG reg)" --><p>
@@ -2943,35 +2688,6 @@ Return TRUE if reg is a partial register     </td>
 Return TRUE if reg is a upper 8-bit register     </td>
   </tr>
 </table>
-<a class="anchor" name="g5934cb7498caa40afde0b7e32765311d"></a><!-- doxytag: member="LEVEL_BASE::REG_is_x87_reg" ref="g5934cb7498caa40afde0b7e32765311d" args="(REG reg)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_BASE::REG_is_x87_reg           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>reg</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>TRUE iff is app flags </dd></dl>
-    </td>
-  </tr>
-</table>
 <a class="anchor" name="gd7f8adfc48d612467160d2f1681953f5"></a><!-- doxytag: member="LEVEL_BASE::REG_is_xmm" ref="gd7f8adfc48d612467160d2f1681953f5" args="(REG reg)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -3650,42 +3366,6 @@ Remove the specified reg from the specified regset     </td>
 The main register information table     </td>
   </tr>
 </table>
-<a class="anchor" name="g06fecca340f591152d104ea5abe74588"></a><!-- doxytag: member="LEVEL_BASE::_regWidthToBitWidth" ref="g06fecca340f591152d104ea5abe74588" args="[]" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">INT32 LEVEL_BASE::_regWidthToBitWidth[]          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<b>Initial value:</b><div class="fragment"><pre class="fragment">
-{
-       8,
-     16,
-     32,
-     64,
-       80,
-     128,
-     256,
-     512,
-     FPSTATE_SIZE,
-     0
-}
-</pre></div>    </td>
-  </tr>
-</table>
 <a class="anchor" name="g6c6c1210c2ab70c3493cb3c5e678df77"></a><!-- doxytag: member="LEVEL_CORE::REG_FirstInRegset" ref="g6c6c1210c2ab70c3493cb3c5e678df77" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -3732,52 +3412,6 @@ REG represented by the first bit in the regset vector.
 
 <p>
 REG represented by the last bit in the regset vector. Most of the code assumes that REG_LAST is not an actual register, so we should not include it in the set. We use REG_LAST-1 for the last registers.     </td>
-  </tr>
-</table>
-<a class="anchor" name="g69ea0c5b4b2d573297be7f76afff0cea"></a><!-- doxytag: member="LEVEL_BASE::REGCBIT_ALL_REGS" ref="g69ea0c5b4b2d573297be7f76afff0cea" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a> <a class="el" href="group__REG__CPU__IA32.html#g69ea0c5b4b2d573297be7f76afff0cea">LEVEL_BASE::REGCBIT_ALL_REGS</a> = <a class="el" href="group__REG__CPU__IA32.html#g82d1e4bfb9a5f4fc71f26ad8f38fc980">REGCBIT_APP_ALL</a> | <a class="el" href="group__REG__CPU__IA32.html#g45b35269b427f38c64d83b8de277c305">REGCBIT_PIN_ALL</a>          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Mask of REG_CLASS_BITS values for all valid registers.xx     </td>
-  </tr>
-</table>
-<a class="anchor" name="g82d1e4bfb9a5f4fc71f26ad8f38fc980"></a><!-- doxytag: member="LEVEL_BASE::REGCBIT_APP_ALL" ref="g82d1e4bfb9a5f4fc71f26ad8f38fc980" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a> <a class="el" href="group__REG__CPU__IA32.html#g82d1e4bfb9a5f4fc71f26ad8f38fc980">LEVEL_BASE::REGCBIT_APP_ALL</a>          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Mask of REG_CLASS_BITS values for all application registers.     </td>
   </tr>
 </table>
 <a class="anchor" name="g201fbfeb9edcd5e06810e65d5bf9bc72"></a><!-- doxytag: member="LEVEL_BASE::REGCBIT_APP_FLAGS" ref="g201fbfeb9edcd5e06810e65d5bf9bc72" args="" --><p>
@@ -3842,45 +3476,6 @@ Mask of REG_CLASS_BITS values for all application registers.     </td>
     (_REGCBIT(REG_CLASS_PIN_GRH16)           )|
     (_REGCBIT(REG_CLASS_PIN_GRH32))
 </pre></div>Mask of REG_CLASS_BITS values for partial registers (excluding XMM, even if AVX is present).     </td>
-  </tr>
-</table>
-<a class="anchor" name="g45b35269b427f38c64d83b8de277c305"></a><!-- doxytag: member="LEVEL_BASE::REGCBIT_PIN_ALL" ref="g45b35269b427f38c64d83b8de277c305" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g7d9c1a637e43409feb398d10a9c50688">REG_CLASS_BITS</a> <a class="el" href="group__REG__CPU__IA32.html#g45b35269b427f38c64d83b8de277c305">LEVEL_BASE::REGCBIT_PIN_ALL</a>          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<b>Initial value:</b><div class="fragment"><pre class="fragment"> 
-
-    (_REGCBIT(REG_CLASS_PIN_GR)              )|
-    (_REGCBIT(REG_CLASS_PIN_GRU8)            )|
-    (_REGCBIT(REG_CLASS_PIN_GRL8)            )|
-    (_REGCBIT(REG_CLASS_PIN_GRH16)           )|
-    (_REGCBIT(REG_CLASS_PIN_GRH32)           )|
-    (_REGCBIT(REG_CLASS_PIN_XMM)             )|
-    (_REGCBIT(REG_CLASS_PIN_YMM)             )|
-    (_REGCBIT(REG_CLASS_PIN_ZMM)             )|
-    (_REGCBIT(REG_CLASS_PIN_K)               )|
-    (_REGCBIT(REG_CLASS_PIN_X87)             )|
-    (_REGCBIT(REG_CLASS_PIN_MXCSR)           )|
-    (_REGCBIT(REG_CLASS_PIN_FLAGS)           )|
-    (_REGCBIT(REG_CLASS_PIN_STATUS_FLAGS)    )|
-    (_REGCBIT(REG_CLASS_PIN_DFLAG))
-</pre></div>Mask of REG_CLASS_BITS values for all Pin registers.     </td>
   </tr>
 </table>
 <a class="anchor" name="g8bb995568cf023b97888d96a484a6270"></a><!-- doxytag: member="LEVEL_BASE::REGCBIT_PIN_FLAGS" ref="g8bb995568cf023b97888d96a484a6270" args="" --><p>
@@ -3990,7 +3585,7 @@ Mask of REG_CLASS_BITS values for all application registers.     </td>
 </pre></div>Combination of REG_SUBCLASS_BITS flags of stack registers (both app and pin).     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

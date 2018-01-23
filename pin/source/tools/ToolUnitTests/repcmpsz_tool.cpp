@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,12 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-/* ===================================================================== */
-/*
-  @ORIGINAL_AUTHOR: S. Bharadwaj Yadavalli
-*/
-
-/* ===================================================================== */
 /*! @file
  *  This file contains a test for correctness of the size of memory read
     for cmp instructions with repeat string operation prefix.
@@ -49,9 +43,18 @@ END_LEGAL */
 #endif
 #include "pin.H"
 
+
+#if defined(TARGET_WINDOWS)
+# define MAINNAME "main"
+#else
+# define MAINNAME "_start"
+#endif
+
 /* ===================================================================== */
 /* Global Variables */
 /* ===================================================================== */
+
+THREADID mainThread = INVALID_THREADID;
 
 /* ===================================================================== */
 /* Commandline Switches */
@@ -133,14 +136,14 @@ void countInst(UINT32 where)
 #define STRINGIZE(v) #v
 
 /* Information for each thread. */
-class threadState
+class ThreadState
 {
 public:
     UINT32    iCount;
     CONTEXT   context;
 };
 
-static threadState threadStates[32];
+static ThreadState threadState;
 
 /************************************************************************/
 
@@ -165,7 +168,7 @@ static const struct
 
 static VOID printRegisterDiffs(THREADID tid, CONTEXT *ctx, UINT32 where)
 {    
-    threadState * s = &threadStates[tid];
+    ThreadState * s = &threadState;
     UINT32 seqNo    = s->iCount;
     CONTEXT * savedCtx = &s->context;
 
@@ -236,12 +239,23 @@ static VOID printCounts()
     out << "REP zeros      " << repZeros << endl;
 }
 
+static VOID setMainThreadId(THREADID tid)
+{
+    ASSERTX(INVALID_THREADID == mainThread);
+    mainThread = tid;
+}
+
 /* ===================================================================== */
 static BOOL instrumenting = FALSE;
 
 VOID Instruction(INS ins, VOID *v)
 {
     UINT32 where = 0;
+
+    if ((PIN_ThreadId() != mainThread) && (INVALID_THREADID != mainThread))
+    {
+        return;
+    }
 
     if (INS_Opcode(ins) == XED_ICLASS_FNOP)
     {
@@ -250,7 +264,7 @@ VOID Instruction(INS ins, VOID *v)
 
     if (!instrumenting)
         return;
-    
+
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)printRegisterDiffs,
                    IARG_THREAD_ID,
                    IARG_CONTEXT,
@@ -327,6 +341,21 @@ VOID Instruction(INS ins, VOID *v)
     }
 }
 
+VOID ImageLoad(IMG img, VOID * v)
+{
+    if (!IMG_IsMainExecutable(img))
+    {
+        return;
+    }
+
+    RTN rtn = RTN_FindByName(img, MAINNAME);
+    ASSERTX(RTN_Valid(rtn));
+
+    RTN_Open(rtn);
+    RTN_InsertCall(rtn, IPOINT_BEFORE, (AFUNPTR)setMainThreadId, IARG_THREAD_ID, IARG_END);
+    RTN_Close(rtn);
+}
+
 /* ===================================================================== */
 
 VOID Fini(INT32 code, VOID *v)
@@ -378,19 +407,23 @@ int main(int argc, char *argv[])
     {
         return Usage();
     }
-    
+
+    PIN_InitSymbols();
+
     string filename =  KnobOutputFile.Value();
-    
+
     // Do this before we activate controllers
     out.open(filename.c_str());
 
-    INS_AddInstrumentFunction(Instruction, 0);
-    PIN_AddFiniFunction(Fini, 0);
+    IMG_AddInstrumentFunction(ImageLoad, NULL);
+
+    INS_AddInstrumentFunction(Instruction, NULL);
+    PIN_AddFiniFunction(Fini, NULL);
 
     // Never returns
     PIN_StartProgram();
     
-    return 0;
+    return 1;
 }
 
 /* ===================================================================== */

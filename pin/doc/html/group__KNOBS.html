@@ -53,9 +53,9 @@ Pin switches should appear after the pin command, but before the -t &lt;tool&gt;
 <tr valign="top" align="left">
 <td></td><td>-pid &lt;pid #&gt; </td><td>Attach Pin and the Pintool to an already running executable with the given process id.   </td></tr>
 <tr valign="top" align="left">
-<td></td><td>-pin_memory_range </td><td>Restrict pin to a memory range, 0x80000000:0x90000000 or size: 0:0x10000000.   </td></tr>
+<td></td><td>-pin_memory_range </td><td>Restrict Pin to a memory range, 0x80000000:0x90000000 or size: 0:0x10000000.   </td></tr>
 <tr valign="top" align="left">
-<td></td><td>-restrict_memory </td><td>Prevent PIN's dymamic loader from using these memory regions, 0x10000000:0x20000000   </td></tr>
+<td></td><td>-restrict_memory </td><td>Prevent PIN's dynamic loader from using these memory regions, 0x10000000:0x20000000   </td></tr>
 <tr valign="top" align="left">
 <td></td><td>-pin_memory_size </td><td>Limit the number of bytes that can be dynamically allocated by PIN and PIN tool Note that the number of bytes allocated by PIN is defined by the total number of memory pages allocated by PIN multiplied by the page size   </td></tr>
 <tr valign="top" align="left">
@@ -73,7 +73,7 @@ Pin switches should appear after the pin command, but before the -t &lt;tool&gt;
 <tr valign="top" align="left">
 <td></td><td>-smc_support [1][0] </td><td>Enable (1) or disable (0) support for self-modifying code (SMC) in the application. This option is enabled by default.   </td></tr>
 <tr valign="top" align="left">
-<td></td><td>-smc_strict [0][1] </td><td>Enable (1) or disable (0) support for SMC inside basic blocks. By default (0), pin assumes that basic blocks do not modify their own code.   </td></tr>
+<td></td><td>-smc_strict [0][1] </td><td>Enable (1) or disable (0) support for SMC inside basic blocks. By default (0), Pin assumes that basic blocks do not modify their own code.   </td></tr>
 <tr valign="top" align="left">
 <td></td><td><a class="anchor" name="SWITCH_APPDEBUG"></a> -appdebug  </td><td>Debug the application, stopping in the debugger as soon as the application is launched.   </td></tr>
 <tr valign="top" align="left">
@@ -116,7 +116,7 @@ Pin also supports the following tool switches. Tool switches should be placed af
 <td></td><td>-slow_asserts </td><td>Perform expensive sanity checks. Recommended to be used in development and testing phase.   </td></tr>
 </table>
 <p>
-If you want to add your own command line options to your tool, please see <a class="el" href="group__KNOB__API.html">KNOBS</a>. <hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+If you want to add your own command line options to your tool, please see <a class="el" href="group__KNOB__API.html">KNOBS</a>. <hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

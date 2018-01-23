@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -32,27 +32,27 @@ END_LEGAL */
 #include "pin.H"
 
 FILE * out;
-PIN_LOCK lock;
+PIN_LOCK pinLock;
 
 VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
 {
-    PIN_GetLock(&lock, threadid+1);
+    PIN_GetLock(&pinLock, threadid+1);
     fprintf(out, "thread begin %d flags %x\n",threadid, flags);
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 }
     
 VOID ThreadFini(THREADID threadid, const CONTEXT *ctxt, INT32 code, VOID *v)
 {
-    PIN_GetLock(&lock, threadid+1);
+    PIN_GetLock(&pinLock, threadid+1);
     fprintf(out, "thread end %d code %d\n",threadid, code);
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 }
     
 VOID TraceBegin(VOID * ip, THREADID threadid)
 {
-    PIN_GetLock(&lock, threadid+1);
+    PIN_GetLock(&pinLock, threadid+1);
     fprintf(out, "%p: %d\n", ip, threadid);
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 }
 
 VOID Fini(INT32 code, VOID *v)
@@ -67,7 +67,7 @@ VOID Trace(TRACE trace, VOID *v)
 
 int main(INT32 argc, CHAR **argv)
 {
-    PIN_InitLock(&lock);
+    PIN_InitLock(&pinLock);
     
     out = fopen("mt.out", "w");
     

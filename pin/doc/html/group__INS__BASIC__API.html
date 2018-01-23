@@ -34,6 +34,8 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__MOD__API__GEN__IA32.html">Generic modification API</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API.html#gd8a45701127a54aaff7bed9d5678c855">LEVEL_CORE::INS_IsCacheLineFlush</a> (INS ins)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API.html#g5d0c99ac6722a36c4fbc85fbb585d901">LEVEL_PINCLIENT::INS_IsAddedForFunctionReplacement</a> (INS ins)</td></tr>
 
 </table>
@@ -73,13 +75,42 @@ Iteration idioms:<p>
 <p>
 Return TRUE if ins is not an original instruction in the application, but is an instruction added by Pin for doing function replacement. Pin allows you to even instrument these non-original instructions in JIT mode.<p>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT &amp; Probe<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+<a class="anchor" name="gd8a45701127a54aaff7bed9d5678c855"></a><!-- doxytag: member="LEVEL_CORE::INS_IsCacheLineFlush" ref="gd8a45701127a54aaff7bed9d5678c855" args="(INS ins)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_CORE::INS_IsCacheLineFlush           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>ins</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>TRUE if instruction causes cache line flush </dd></dl>
+    </td>
+  </tr>
+</table>
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

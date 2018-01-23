@@ -38,7 +38,7 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-This API allows the user to read and modify the pin/tool architectural register state of the processor. The registers physical context range (enumerated in REG) is up to REG_PHYSICAL_CONTEXT_END registers and floating point state.<p>
+This API allows the user to read and modify the Pin/tool architectural register state of the processor. The registers physical context range (enumerated in REG) is up to REG_PHYSICAL_CONTEXT_END registers and floating point state.<p>
 The tool receives physical context in the <a class="el" href="group__PIN__CONTROL.html#gb3550c0044899834614bc73245f90743">INTERNAL_EXCEPTION_CALLBACK</a>. At this time, the tool can read and modify individual physical register values and modify floating point state using the <a class="el" href="group__PHYSICAL__CONTEXT__API.html#g31b92f00285f47be17e31d2d039e95be">PIN_GetPhysicalContextReg()</a>, <a class="el" href="group__PHYSICAL__CONTEXT__API.html#g441ca5bf0e0ef6d63f26a80ef2533508">PIN_SetPhysicalContextReg()</a>, <a class="el" href="group__PHYSICAL__CONTEXT__API.html#ga7093d68c77f656df32e096e198d17e8">PIN_SetPhysicalContextFPState()</a>, <a class="el" href="group__PHYSICAL__CONTEXT__API.html#g51be65015e61346fceac3079840f3f5f">PIN_GetPhysicalContextFPState()</a>. <hr><h2>Typedef Documentation</h2>
 <a class="anchor" name="g5041f3f7591f9ee249b986d2bc2f7d6e"></a><!-- doxytag: member="types_vmapi.H::PHYSICAL_CONTEXT" ref="g5041f3f7591f9ee249b986d2bc2f7d6e" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
@@ -151,7 +151,7 @@ Get the value of the integer register in the specified physical context.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pPhysCtxt</em>&nbsp;</td><td>physical context whose register value is requested </td></tr>
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>physical register whose value is requested (up to REG_PHYSICAL_CONTEXT_END) </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>physical register whose value is requested (up to REG_PHYSICAL_INTEGER_END) </td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>value of the register in the specified context</dd></dl>
@@ -254,7 +254,7 @@ Set the given value for the integer register in the specified physical context.<
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in,out]</tt>&nbsp;</td><td valign="top"><em>pPhysCtxt</em>&nbsp;</td><td>physical context whose register value is to be set </td></tr>
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>physical register whose value is to be set (up to REG_PHYSICAL_CONTEXT_END) </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>physical register whose value is to be set (up to REG_PHYSICAL_INTEGER_END) </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>new value of the register</td></tr>
   </table>
 </dl>
@@ -265,7 +265,7 @@ Set the given value for the integer register in the specified physical context.<
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:45 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:11 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

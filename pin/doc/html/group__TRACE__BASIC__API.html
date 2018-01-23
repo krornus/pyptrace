@@ -46,8 +46,6 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BBL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g840294a6e7ab1e4400783817516485a6">LEVEL_PINCLIENT::TRACE_BblTail</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g72eec4cf390f5ef28ba66538ccd4505d">LEVEL_PINCLIENT::TRACE_Original</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g16d75a72655e20adb7529796f9b4ac1b">LEVEL_PINCLIENT::TRACE_Address</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g3b6c8e9549dc99d2a7b2768906e97101">LEVEL_PINCLIENT::TRACE_Size</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
@@ -59,8 +57,6 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g8da44516942db541f0ae0aa1d4d92881">LEVEL_PINCLIENT::TRACE_NumBbl</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#g011b24d5319f8c19f0151755a1378fe5">LEVEL_PINCLIENT::TRACE_NumIns</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__TRACE__BASIC__API.html#gb102072213b6734135b7c63296ac5ee2">LEVEL_PINCLIENT::TRACE_StubSize</a> (<a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a> trace)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -89,7 +85,7 @@ Iteration idioms:<p>
     <td>
 
 <p>
-Call back function when SMC is detected. This function can be registered via TRACE_AddSmcDetectedFunction. The callback delivers the start and end addresses of the TRACE containing the SMC.<p>
+Call back function when SMC is detected. This function can be registered via TRACE_AddSmcDetectedFunction. The callback delivers the start and end addresses of the TRACE containing the SMC. Using this function can potentially cause Pin to use unlimited memory due to SMC tracking.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>traceStartAddress</em>&nbsp;</td><td>The start address of the trace in which SMC is detected </td></tr>
@@ -190,7 +186,7 @@ Add a function used to instrument at trace granularity <dl compact><dt><b>Parame
 <dl compact><dt><b>Returns:</b></dt><dd>PIN_CALLBACK A handle to a callback that can be used to further modify this callback's properties</dd></dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -223,7 +219,7 @@ Add a function used to instrument at trace granularity <dl compact><dt><b>Parame
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>Application address of a trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -273,7 +269,7 @@ Register a call back to be called when Pin detects a self modification of code i
 </dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT <br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -306,7 +302,7 @@ Register a call back to be called when Pin detects a self modification of code i
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>first bbl of trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -339,7 +335,7 @@ Register a call back to be called when Pin detects a self modification of code i
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>last bbl of trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -378,7 +374,7 @@ Tells if the last instructon in the trace has a fall-through path.<p>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>TRUE if the last instruction in the trace has a fall-through path.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -447,7 +443,7 @@ Insert one or more analysis calls in a trace.<p>
 </dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -510,7 +506,7 @@ Insert one or more analysis calls in a trace. If <em>funptr</em> returns a non-z
 </dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -573,7 +569,7 @@ Insert one or more analysis calls in a trace. The functions are called only if t
 </dl>
 <dl compact><dt><b>Note:</b></dt><dd>The pin client lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -606,7 +602,7 @@ Insert one or more analysis calls in a trace. The functions are called only if t
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>Number of BBLs in trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -639,40 +635,7 @@ Insert one or more analysis calls in a trace. The functions are called only if t
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>Number of instructions in trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
- <b>CPU:</b> All<br>
- </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="g72eec4cf390f5ef28ba66538ccd4505d"></a><!-- doxytag: member="LEVEL_PINCLIENT::TRACE_Original" ref="g72eec4cf390f5ef28ba66538ccd4505d" args="(TRACE trace)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_PINCLIENT::TRACE_Original           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>trace</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>Whether the TRACE data structure has been instrumented or optimized since it was created</dd></dl>
-<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -705,7 +668,7 @@ Insert one or more analysis calls in a trace. The functions are called only if t
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>RTN that contains first instruction of trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
@@ -738,46 +701,13 @@ Insert one or more analysis calls in a trace. The functions are called only if t
 <p>
 Traces represent contiguous segments of the original code. This function returns the original source footprint of the given trace (not the corresponding post-instrumentation footprint in the code cache). <dl compact><dt><b>Returns:</b></dt><dd>Original application code size of a trace</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> All<br>
  </dd></dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="gb102072213b6734135b7c63296ac5ee2"></a><!-- doxytag: member="LEVEL_PINCLIENT::TRACE_StubSize" ref="gb102072213b6734135b7c63296ac5ee2" args="(TRACE trace)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">USIZE LEVEL_PINCLIENT::TRACE_StubSize           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__TRACE__BASIC__API.html#g72dbbb83ae9ca6278053a75123c920cc">TRACE</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>trace</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>Number of bytes in the exit stubs</dd></dl>
-<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
- <b>CPU:</b> All<br>
- </dd></dl>
-    </td>
-  </tr>
-</table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

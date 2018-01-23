@@ -59,6 +59,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#g614266cd822667f28d9365a40de601be">LEVEL_PINCLIENT::PIN_GetContextFPState</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxt, FPSTATE *fpstate)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__REG__CPU__IA32.html#g7a3ddfd5132200b9c8ed5d93dd8291eb">REGSET</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#gd17b1429a8e8f63ec8f64dd0e1145158">LEVEL_PINCLIENT::PIN_GetFullContextRegsSet</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#g5eaae6fe4719308c1024a27d37b81be6">LEVEL_PINCLIENT::PIN_SaveContext</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxtFrom, <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxtTo)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__CONTEXT__API.html#gc12dbb3ebd227f71a9644733f6faa116">LEVEL_PINCLIENT::PIN_ExecuteAt</a> (const <a class="el" href="group__CONTEXT__API.html#g70a3022fd8834c783509c028ffcd07cb">CONTEXT</a> *ctxt)</td></tr>
@@ -66,7 +68,7 @@
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This API allows the user to read and modify the architectural register state of the processor, as seen in the application that runs under Pin.<p>
-Usually, the tool receives context in the instrumentation callback like THREAD_START_CALLBACK, CONTEXT_CHANGE_CALLBACK, or when it specifies IARG_CONTEXT argument to the instrumentation routine. At this time, the tool can read the individual register values or save the entire context using the PIN_GetContextReg, PIN_GetContextRegval, and PIN_SaveContext functions. The PIN_ExecuteAt function can be called from an analysis routine to change the control flow of the thread and start execution from the specified context. The PIN_SetContextReg and PIN_SetContextRegval functions can be used from callbacks to change the thread's register state. <hr><h2>Typedef Documentation</h2>
+Usually, the tool receives context in the instrumentation callback like THREAD_START_CALLBACK, CONTEXT_CHANGE_CALLBACK, or when it specifies explicitly to pass CONTEXT to the instrumentation routine via IARG_CONTEXT, IARG_CONST_CONTEXT or IARG_PARTIAL_CONTEXT. At this time, the tool can read the individual register value via <a class="el" href="group__CONTEXT__API.html#gdc986c9a416cd32de1f18e0ffbf5b898">PIN_GetContextReg</a> and , or save the entire context using the <a class="el" href="group__CONTEXT__API.html#g5eaae6fe4719308c1024a27d37b81be6">PIN_SaveContext</a>. The <a class="el" href="group__CONTEXT__API.html#gc12dbb3ebd227f71a9644733f6faa116">PIN_ExecuteAt</a> function can be called from an analysis routine to change the control flow of the thread and start execution from the specified context. The <a class="el" href="group__CONTEXT__API.html#ga3f8746ccdac1c1fbcb2e2f3f3cd7bcb">PIN_SetContextReg</a> and <a class="el" href="group__CONTEXT__API.html#g4e6408c641479c22918a888d95ca1930">PIN_SetContextRegval</a> functions can be used from callbacks to change the thread's given register state. In case where <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b5681ecd7b4dee3c8a107f4741fc1f8459ffa">IARG_PARTIAL_CONTEXT</a> was used the behaviour of the threads can be changed by changing registers values without using the <a class="el" href="group__CONTEXT__API.html#gc12dbb3ebd227f71a9644733f6faa116">PIN_ExecuteAt</a>. <hr><h2>Typedef Documentation</h2>
 <a class="anchor" name="g70a3022fd8834c783509c028ffcd07cb"></a><!-- doxytag: member="types_vmapi.H::CONTEXT" ref="g70a3022fd8834c783509c028ffcd07cb" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -171,7 +173,7 @@ Query if the specified CONTEXT contains the specified PROCESSOR_STATE.<p>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>TRUE if the PROCESSOR_STATE specified by state is contained in the ctxt</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -212,7 +214,7 @@ This API can be called from an analysis function or a replacement routine, but n
 <dl compact><dt><b>Returns:</b></dt><dd>This API never returns.</dd></dl>
 <dl compact><dt><b>Note:</b></dt><dd>The vm lock is obtained during the call of this API.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -260,7 +262,7 @@ Get the floating point state of the specified context.<p>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -309,7 +311,7 @@ Get the value of the integer register or fp status/control register in the speci
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>value of the register in the specified context</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -366,7 +368,40 @@ Get the value of the requested register from the context. This function is appli
 <dl compact><dt><b>Note:</b></dt><dd>It is the user's responsibility to allocate and free the val buffer. The buffer size should be at least as wide as the register. The register size can be obtained using <a class="el" href="group__REG__CPU__IA32.html#g0e2e9124a228ab6600523330d9cb3ca9">REG_Size</a>.<br>
  It is recommended to use a <a class="el" href="unionPIN__REGISTER.html">PIN_REGISTER</a> object as the buffer (and pass a pointer to it). This will ensure that the buffer is large enough for any architectural register.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
+ <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
+ </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="gd17b1429a8e8f63ec8f64dd0e1145158"></a><!-- doxytag: member="LEVEL_PINCLIENT::PIN_GetFullContextRegsSet" ref="gd17b1429a8e8f63ec8f64dd0e1145158" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g7a3ddfd5132200b9c8ed5d93dd8291eb">REGSET</a> LEVEL_PINCLIENT::PIN_GetFullContextRegsSet           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get full REGSET.<br>
+ When using IARG_PARTIAL_CONTEXT such a regset for both in and out REGSET will provide access to all registers including the ability to update them. Such a usage will provide better performance than using IARG_CONTEXT combined with <a class="el" href="group__CONTEXT__API.html#gc12dbb3ebd227f71a9644733f6faa116">PIN_ExecuteAt()</a>.<p>
+<dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -415,7 +450,7 @@ Copy the CONTEXT structure.<br>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -463,7 +498,7 @@ Set the given floating point state in the specified context.<p>
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -518,7 +553,7 @@ Set the given value for the integer register or fp status/control register in th
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -564,7 +599,7 @@ Set the given value for the integer register or fp status/control register in th
     <td>
 
 <p>
-Set the given value for the requested register in the context. This function is applicable for all context registers (integer, fp etc.). When this function is used from within a callback, e.g. THREAD_START_CALLBACK, the new context will take effect when the application continues. If this function is called from within an analysis routine, in order for the new context to take effect when the application continues one must do one of the following: Either use IARG_PARTIAL_CONTEXT and specify the registers which should be modified in the "out" REGSET. Or, use the IARG_CONTEXT and call <a class="el" href="group__CONTEXT__API.html#gc12dbb3ebd227f71a9644733f6faa116">PIN_ExecuteAt</a> (don't forget to set REG_INST_PTR appropriately).<p>
+Set the given value for the requested register in the context. This function is applicable for all context registers (integer, fp etc.). When this function is used from within a callback, e.g. THREAD_START_CALLBACK, the new context will take effect when the application continues. If this function is called from within an analysis routine, in order for the new context to take effect when the application continues one must do one of the following: Either use <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b5681ecd7b4dee3c8a107f4741fc1f8459ffa">IARG_PARTIAL_CONTEXT</a> and specify the registers which should be modified in the "out" REGSET. Or, use the IARG_CONTEXT and call <a class="el" href="group__CONTEXT__API.html#gc12dbb3ebd227f71a9644733f6faa116">PIN_ExecuteAt</a> (don't forget to set REG_INST_PTR appropriately).<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in,out]</tt>&nbsp;</td><td valign="top"><em>ctxt</em>&nbsp;</td><td>context whose register value is to be set </td></tr>
@@ -575,7 +610,7 @@ Set the given value for the requested register in the context. This function is 
 <dl compact><dt><b>Note:</b></dt><dd>It is the user's responsibility to allocate and free the val buffer. The buffer size should be at least as wide as the register. The register size can be obtained using <a class="el" href="group__REG__CPU__IA32.html#g0e2e9124a228ab6600523330d9cb3ca9">REG_Size</a>.<br>
  It is recommended to use a <a class="el" href="unionPIN__REGISTER.html">PIN_REGISTER</a> object as the buffer (and pass a pointer to it). This will ensure that the buffer is large enough for any architectural register.</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -614,13 +649,13 @@ Query if Pin supports the specified PROCESSOR_STATE.<p>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>TRUE if the PROCESSOR_STATE specified by state is supported by Pin</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:45 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:11 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

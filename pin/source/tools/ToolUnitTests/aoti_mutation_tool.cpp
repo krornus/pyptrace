@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -32,7 +32,6 @@ END_LEGAL */
 // This tool performs AOTI mutation of instructions.
 // It should be used with aoti_mutation_target.c, since it knows about the specific function names
 // in that code.
-// Jim Cownie September 2010
 //
 
 #include <stdio.h>
@@ -107,7 +106,7 @@ static VOID insertIndirectJump (RTN rtn)
 static ADDRINT returnValueMinus4 (ADDRINT arg)
 {
     ADDRINT retVal = arg-4;
-    
+
     printf ("returnValueMinus4 returns %x\n", retVal);
     return (retVal);
 }
@@ -176,7 +175,7 @@ VOID ImageLoad(IMG img, VOID *v)
             RTN_Open(rtn);
             functionInstrumentation[i].instrumentFunction(rtn);
             RTN_Close(rtn);
-        }            
+        }
     }
 }
 
@@ -210,6 +209,6 @@ int main(int argc, char * argv[])
 
     // Start the program, never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

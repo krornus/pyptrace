@@ -10,6 +10,9 @@
 #define SM_READ  1
 #define SM_READ2 2
 
+#define INSTRUCTION 1
+#define REACCEPT 2
+
 /* TODO: Change how we handle DEBUG */
 /* Low priority, only matters when DEBUG is set */
 #ifdef DEBUG
@@ -68,20 +71,20 @@ int init_connection(char path[]);
 int get_proc_mapping(FILE *fp, proc_mapping *proc);
 FILE *open_proc_mappings(int pid);
 
-static void OnSig(THREADID threadIndex, 
-		CONTEXT_CHANGE_REASON reason, 
-		const CONTEXT *ctxtFrom,
-		CONTEXT *ctxtTo,
-		INT32 sig, 
-		VOID *v);
+static void OnSig(THREADID threadIndex,
+        CONTEXT_CHANGE_REASON reason,
+        const CONTEXT *ctxtFrom,
+        CONTEXT *ctxtTo,
+        INT32 sig,
+        VOID *v);
 
-/* 
+/*
 *  TODO: check if we need unique sockets for python module
 *  also check DBUS efficiency for our needs vs unix sockets
 */
 KNOB<string> KnobSocketFile(
-	KNOB_MODE_WRITEONCE, "pintool", "s", 
-	"/tmp/stack-monitor", "sockfile to use");
+    KNOB_MODE_WRITEONCE, "pintool", "s",
+    "/tmp/stack-monitor", "sockfile to use");
 
 int sockd;
 
@@ -107,9 +110,16 @@ VOID StackPtr(VOID *ip, const CONTEXT *ctxt, string *disasm)
     /* TODO: Add maskable flag integer for sending */
 
     uintptr_t len;
+    uintptr_t flag;
+
+    flag = INSTRUCTION;
 
     ADDRINT sp = (ADDRINT)PIN_GetContextReg(ctxt, REG_STACK_PTR);
     ADDRINT bp = (ADDRINT)PIN_GetContextReg(ctxt, REG_GBP);
+#ifdef DEBUG
+    printf("HEADER %p: ", 0x1);
+#endif
+    SEND(sockd, (VOID *)&flag, SEND_SIZE, 0);
 
 #ifdef DEBUG
     printf("IP %p: ", ip);
@@ -177,7 +187,7 @@ VOID SendStackOp(VOID *ea, UINT32 size, UINT32 type)
 VOID SendMappedStackOp(ADDRINT addr, UINT32 type)
 {
     memory_op *op;
-    
+
     /* size of (void *) */
     uintptr_t len;
     uintptr_t op_type;
@@ -247,7 +257,7 @@ VOID LoadMemoryOperation(ADDRINT addr, VOID *ea, UINT32 size)
     if(is_stack_op(ea)) {
         op->ea = ea;
         op->size = size;
-    } 
+    }
     else {
         op->ea = 0;
         op->size = 0;
@@ -265,7 +275,7 @@ VOID Instruction(INS ins, VOID *val)
     /* send this first */
     INS_InsertCall (ins,
         IPOINT_BEFORE, (AFUNPTR)StackPtr,
-        IARG_INST_PTR, IARG_CONTEXT, IARG_PTR, new string(disasm), 
+        IARG_INST_PTR, IARG_CONTEXT, IARG_PTR, new string(disasm),
         IARG_CALL_ORDER, CALL_ORDER_FIRST, IARG_END);
 
 
@@ -275,47 +285,47 @@ VOID Instruction(INS ins, VOID *val)
     if (INS_IsMemoryWrite(ins))
     {
         /* Load a memory write into static dict (LoadMemoryOperation) */
-        INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)LoadMemoryOperation, 
-            IARG_ADDRINT, addr, IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, 
+        INS_InsertCall(ins,
+            IPOINT_BEFORE, (AFUNPTR)LoadMemoryOperation,
+            IARG_ADDRINT, addr, IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE,
             IARG_END);
 
         TryInsertStackOpAfter(ins, addr, SM_WRITE);
     }
     else
     {
-        INS_InsertCall(ins, 
+        INS_InsertCall(ins,
             IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_UINT32, SM_WRITE, IARG_END);
     }
 
-    if (INS_IsMemoryRead(ins) 
+    if (INS_IsMemoryRead(ins)
         && !INS_IsPrefetch(ins) && INS_IsStandardMemop(ins))
     {
         /* we just send reads (SendStackOp) */
-        INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
-            IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
+        INS_InsertCall(ins,
+            IPOINT_BEFORE, (AFUNPTR)SendStackOp,
+            IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE,
             IARG_UINT32, SM_READ,
             IARG_END);
     }
     else
     {
-        INS_InsertCall(ins, 
+        INS_InsertCall(ins,
             IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_UINT32, SM_READ, IARG_END);
     }
 
-    if (INS_IsMemoryRead(ins) && INS_HasMemoryRead2(ins) 
+    if (INS_IsMemoryRead(ins) && INS_HasMemoryRead2(ins)
         && INS_IsStandardMemop(ins))
     {
-        INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)SendStackOp, 
-            IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, 
+        INS_InsertCall(ins,
+            IPOINT_BEFORE, (AFUNPTR)SendStackOp,
+            IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE,
             IARG_UINT32, SM_READ2,
             IARG_END);
     }
     else
     {
-        INS_InsertCall(ins, 
+        INS_InsertCall(ins,
             IPOINT_BEFORE, (AFUNPTR)StackNop, IARG_UINT32, SM_READ2, IARG_END);
     }
 }
@@ -323,17 +333,17 @@ VOID Instruction(INS ins, VOID *val)
 VOID TryInsertStackOpAfter(INS ins, ADDRINT addr, UINT32 type)
 {
     /* only called on WRITE, should always have a fallthrough(?) */
-    
+
     if(INS_HasFallThrough(ins)) {
-        INS_InsertCall(ins, 
-            IPOINT_AFTER, (AFUNPTR)SendMappedStackOp, 
+        INS_InsertCall(ins,
+            IPOINT_AFTER, (AFUNPTR)SendMappedStackOp,
             IARG_ADDRINT, addr,
             IARG_UINT32, type, IARG_END);
     }
     else {
-        INS_InsertCall(ins, 
-            IPOINT_BEFORE, (AFUNPTR)SendMappedStackOp, 
-            IARG_ADDRINT, addr, 
+        INS_InsertCall(ins,
+            IPOINT_BEFORE, (AFUNPTR)SendMappedStackOp,
+            IARG_ADDRINT, addr,
             IARG_UINT32, type, IARG_END);
     }
 }
@@ -349,18 +359,18 @@ VOID Finish(int code, VOID *val)
     SEND(sockd, (VOID *)-1, SEND_SIZE, 0);
     SEND(sockd, (VOID *)-1, SEND_SIZE, 0);
     SEND(sockd, (VOID *)-1, SEND_SIZE, 0);
-    
+
     close(sockd);
 
     exit(0);
 }
 
-static void OnSig(THREADID threadIndex, 
-		CONTEXT_CHANGE_REASON reason, 
-		const CONTEXT *ctxtFrom,
-		CONTEXT *ctxtTo,
-		INT32 sig, 
-		VOID *v)
+static void OnSig(THREADID threadIndex,
+        CONTEXT_CHANGE_REASON reason,
+        const CONTEXT *ctxtFrom,
+        CONTEXT *ctxtTo,
+        INT32 sig,
+        VOID *v)
 {
     Finish(sig, 0);
 }
@@ -372,16 +382,23 @@ VOID ForkNotify(THREADID thread, const CONTEXT *ctx, VOID *arg)
     Finish(56, 0);
 }
 
+BOOL FollowChild(CHILD_PROCESS childProcess, VOID * userData)
+{
+    uintptr_t flag;
+    flag = REACCEPT;
+    SEND(sockd, (VOID *)&flag, SEND_SIZE, 0);
+    return TRUE;
+}
 
 VOID ShowN(UINT32 n, VOID *ea)
 {
-	UINT8 b[512];
+    UINT8 b[512];
 
-	PIN_SafeCopy(b,static_cast<UINT8*>(ea),n);
-	for (UINT32 i = 0; i < n; i++)
-	{
-		printf("%02x", b[n-i-1]);
-	}
+    PIN_SafeCopy(b,static_cast<UINT8*>(ea),n);
+    for (UINT32 i = 0; i < n; i++)
+    {
+        printf("%02x", b[n-i-1]);
+    }
 }
 
 
@@ -404,18 +421,18 @@ int is_stack_op(void *ea)
 
 int init_connection(const char path[])
 {
-	int sock;
-	struct sockaddr_un remote;
+    int sock;
+    struct sockaddr_un remote;
 
-	remote.sun_family = AF_UNIX;
-	strncpy(remote.sun_path, path, sizeof(remote.sun_path)-1);
+    remote.sun_family = AF_UNIX;
+    strncpy(remote.sun_path, path, sizeof(remote.sun_path)-1);
 
-	sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    sock = socket(AF_UNIX, SOCK_STREAM, 0);
 
-	if(connect(sock, (struct sockaddr *)&remote, sizeof(remote)) == -1)
-		return -1;
+    if(connect(sock, (struct sockaddr *)&remote, sizeof(remote)) == -1)
+        return -1;
 
-	return sock;
+    return sock;
 }
 
 
@@ -464,12 +481,12 @@ int main(int argc, char *argv[])
     proc_addr_list *tail;
     FILE *fp;
 
-	PIN_InitSymbols();
+    PIN_InitSymbols();
 
-	if( PIN_Init(argc,argv) )
-	{
-		return Usage();
-	}
+    if( PIN_Init(argc,argv) )
+    {
+        return Usage();
+    }
 
     proc = NULL;
     tail = NULL;
@@ -500,26 +517,24 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-	string socket =  KnobSocketFile.Value();
-	sockd = init_connection(socket.c_str());
+    string socket =  KnobSocketFile.Value();
+    sockd = init_connection(socket.c_str());
 
-	if( sockd == -1 )
-	{
-		perror("connect");
-		return -1;
-	}
+    if( sockd == -1 )
+    {
+        perror("connect");
+        return -1;
+    }
 
-	PIN_AddFiniFunction(Finish, 0);
-	PIN_AddContextChangeFunction(OnSig, 0);
+    PIN_AddFiniFunction(Finish, 0);
+    PIN_AddContextChangeFunction(OnSig, 0);
     PIN_AddForkFunction(FPOINT_BEFORE, ForkNotify, 0);
 
-    /* TODO: Determine how we are going to multithread forked processes */
-    /* PIN_AddForkFunction(FPOINT_AFTER_IN_PARENT, ForkParent, 0); */
-    /* PIN_AddForkFunction(FPOINT_AFTER_IN_CHILD, ForkChild, 0); */
+    PIN_AddFollowChildProcessFunction(FollowChild, 0);
 
-	INS_AddInstrumentFunction(Instruction, 0);
+    INS_AddInstrumentFunction(Instruction, 0);
 
-	PIN_StartProgram();
+    PIN_StartProgram();
 
-	return 0;
+    return 0;
 }

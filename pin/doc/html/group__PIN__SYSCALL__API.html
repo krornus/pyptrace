@@ -269,7 +269,7 @@ Get the value of the argument of the system call to be executed in the specified
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>value of the argument</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -320,7 +320,7 @@ Get the error code of the system call which is just returned with the specified 
 <dl compact><dt><b>Returns:</b></dt><dd>error code, if the system call failed;<br>
  zero, if the system call succeeded</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -371,7 +371,7 @@ If you need the system call number in a SYSCALL_EXIT_CALLBACK, you should use a 
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>system call number</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -420,9 +420,9 @@ Get the return value of the system call which has just returned with the specifi
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>return value of the system call. <br>
- On Linux and MacOS the function returns -1 if the system call failed</dd></dl>
+ On Linux and OS X the function returns -1 if the system call failed</dd></dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -485,7 +485,7 @@ Set the given value for the argument of the system call to be executed in the sp
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
@@ -541,13 +541,13 @@ Set the number (ID) of the system call to be executed in the specified context.<
   </table>
 </dl>
 <dl compact><dt><b>Availability:</b></dt><dd><b>Mode:</b> JIT<br>
- <b>O/S</b>: Linux, Windows &amp; MacOS<br>
+ <b>O/S</b>: Linux, Windows &amp; OS X*<br>
  <b>CPU:</b> IA-32 and Intel(R) 64 architectures<br>
  </dd></dl>
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:45 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

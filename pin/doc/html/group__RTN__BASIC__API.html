@@ -1483,7 +1483,7 @@ Open the given rtn. This must be called before <a class="el" href="group__RTN__B
 <p>
 Replace a routine in the application (<em>replacedRtn</em>) by another function defined in the Pin tool (<em>replacementFun</em>). The replacement function is not instrumented. The signature of the replacement function must be exactly the same as the replaced application routine. However, see <a class="el" href="group__RTN__BASIC__API.html#gdba66dc89d3e71ce4413aa55eb3d450f">RTN_ReplaceSignature()</a>, which allows you to have a different signature.<p>
 This API returns a function pointer to the replaced application routine's entry point, which allows the replacement function to call back to the original routine. If you do this, be sure to call the original routine via <a class="el" href="group__PIN__CONTROL.html#g5280354edd95efc19a837617ff63ba51">PIN_CallApplicationFunction()</a>. Directly calling the application's function pointer from the replacement function may result in a crash.<p>
-This API works in JIT mode, so you must start the application with <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram()</a>.<p>
+This API works in JIT mode, so you must start the application with <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram()</a>.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>replacedRtn</em>&nbsp;</td><td>The application routine to be replaced. </td></tr>
@@ -1652,7 +1652,7 @@ Use RTN_IsSafeForProbedReplacementEx(rtn, mode) to determine if a function is a 
 Replace a routine in the application (<em>replacedRtn</em>) by another function defined in the Pin tool (<em>replacementFun</em>). The replacement function is not instrumented. The signature of the replacement function can be different from the replaced application routine's signature, which allows the tool to pass more (or fewer) parameters than were passed to the original application routine.<p>
 The <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b56812a8d49dccc99d1dfaeb26d8b3e583505">IARG_ORIG_FUNCPTR</a> argument is especially useful because it allows the replacement function to call back to the original routine. Other useful arguments are <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b5681c82efb4d44af4401e73fc01b7ac1c3c3">IARG_FUNCARG_ENTRYPOINT_VALUE</a>, which allows you to pass a parameter from the original routine to the replacement function, and <a class="el" href="group__INST__ARGS.html#gg7e2c955c99fa84246bb2bce1525b5681f007683926859b1cfd7c10c66a3555e2">IARG_PROTOTYPE</a>, which allows you define the prototype of the original routine. The IARG_PROTOTYPE argument is recommended whenever you use IARG_FUNCARG_ENTRYPOINT_VALUE. It is required if the original routine has any parameters that are not simple integral or pointer values.<p>
 If your replacement function calls back to the original application routine, be sure to do so via <a class="el" href="group__PIN__CONTROL.html#g5280354edd95efc19a837617ff63ba51">PIN_CallApplicationFunction()</a>. Directly calling the application's function pointer from the replacement function may result in a crash.<p>
-This API works in JIT mode, so you must start the application with <a class="el" href="group__PIN__CONTROL.html#gdfaa67ec042ca4a007869b9d2cc080b9">PIN_StartProgram()</a>.<p>
+This API works in JIT mode, so you must start the application with <a class="el" href="group__PIN__CONTROL.html#g474cc78614d1a6e2dec7fe139dd3b7c6">PIN_StartProgram()</a>.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>replacedRtn</em>&nbsp;</td><td>The application routine to be replaced. </td></tr>
@@ -1923,7 +1923,7 @@ Use RTN_IsSafeForProbeReplacementEx() to determine if a function is a suitable c
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:44 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

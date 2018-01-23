@@ -242,6 +242,10 @@
 #define __statement(x)	(x)
 #endif
 
+#ifdef __nonnull
+# undef __nonnull
+#endif // __nonnull
+
 #define __nonnull(args) __attribute__((__nonnull__ args))
 
 #define __printflike(x, y) __attribute__((__format__(printf, x, y))) __nonnull((x))

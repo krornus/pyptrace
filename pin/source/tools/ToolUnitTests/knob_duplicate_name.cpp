@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -33,8 +33,6 @@ END_LEGAL */
  * dash) which is used to pass values to the knob.  Pin does not allow
  * developers to define several knobs with the same exact name.  This
  * test verifies this restriction in Pin tools.
- *
- * ORIGINAL_AUTHOR: Alon Gafni
  */
 
 #include "pin.H"

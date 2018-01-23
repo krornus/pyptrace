@@ -3,8 +3,9 @@ import ctypes
 
 
 def main():
+
+    print "Use test input 'Computer Sabotage:  Programmed to Sneeze aaaaa'"
     s = Stack()
-    
 
     for x in stackmonitor.monitor("./tool/binaries/test-app"):
         s.update(x)
@@ -33,7 +34,7 @@ def main():
             print "="*80
 
 
-        
+
 class Stack(object):
 
     def __init__(self):
@@ -44,20 +45,22 @@ class Stack(object):
 
 
     def update(self, x):
-        self.ins = x 
+        self.ins = x
 
 
     def bytes_in_op(self, b, ins=None, endianness=True, string=False):
-        return self.bytes_in_write(b, ins, endianness) or self.bytes_in_read(b, ins, endianness) or self.bytes_in_read2(b, ins, endianness)
+        return self.bytes_in_write(b, ins, endianness)\
+            or self.bytes_in_read(b, ins, endianness)\
+            or self.bytes_in_read2(b, ins, endianness)
 
 
     def bytes_in_write(self, b, ins=None, endianness=True, string=False):
         return self.bytes_in_op(b, 'write', ins, endianness, string)
-        
+
 
     def bytes_in_read(self, b, ins=None, endianness=True, string=False):
         return self.bytes_in_op(b, 'read', ins, endianness, string)
-        
+
 
     def bytes_in_read2(self, b, ins=None, endianness=True, string=False):
         return self.bytes_in_op(b, 'read2', ins, endianness, string)
@@ -74,7 +77,7 @@ class Stack(object):
 
         return ins[op]['length'] > 0 and b in ins[op]['data']
 
-        
+
     def print_ops(self, x=None, endianness=True, string=False):
         if not x:
             x = self.ins
@@ -86,7 +89,7 @@ class Stack(object):
 
     def print_write(self, i=None, endianness=True, string=False):
         self.print_op("write", i, endianness, string)
-        
+
 
     def print_read(self, i=None, endianness=True, string=False):
         self.print_op("read", i, endianness, string)
@@ -108,7 +111,7 @@ class Stack(object):
             print op + " :" + ins[op]['data']
 
     def print_hex(self, s, length, endianness=True):
-        if endianness: 
+        if endianness:
             return "".join("{:02x}".format(
                 ord(s[x])) for x in range(length-1, -1, -1))
         else:
@@ -124,7 +127,7 @@ class Stack(object):
             elif self.log and self.ins['ip'] == p2:
                 self.log = False
 
-            if self.log: 
+            if self.log:
                 print "="*80
                 print hex(self.ins['ip']) + ": " + self.ins['disassembly']
                 self.print_ops(endianness=endianness, string=string)

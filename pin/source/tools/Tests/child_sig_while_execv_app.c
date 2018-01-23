@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
     {
         close(fd[0]); // Close unused read end
         close(fd[1]); // send EOF to signal exec start
-        execvp("child_sig_while_execv_simple_app", args);
+        execvp("child_sig_while_execv_simple_app.exe", args);
         
         // In case execvp fail
         perror("EXECV ERROR: exec failed");

@@ -74,13 +74,14 @@ void _List_base<_Tp,_Alloc>::clear() {
     __cur = __STATIC_CAST(_Node*, __cur->_M_next);
     _STLP_STD::_Destroy(&__tmp->_M_data);
     this->_M_node.deallocate(__tmp, 1);
-  }
-  _M_node._M_data._M_next = &_M_node._M_data;
-  _M_node._M_data._M_prev = &_M_node._M_data;
+    }
+    _M_node._M_data._M_next = &_M_node._M_data;
+    _M_node._M_data._M_prev = &_M_node._M_data;
+    this->_M_size = 0;
 }
 
 #if defined (_STLP_NESTED_TYPE_PARAM_BUG)
-#  define size_type size_t
+#  define _List_size size_t
 #endif
 
 #if defined (_STLP_USE_PTR_SPECIALIZATIONS)
@@ -92,9 +93,9 @@ _STLP_MOVE_TO_STD_NAMESPACE
 #endif
 
 template <class _Tp, class _Alloc>
-void list<_Tp, _Alloc>::resize(size_type __new_size, const _Tp& __x) {
+void list<_Tp, _Alloc>::resize(_List_size __new_size, const _Tp& __x) {
   iterator __i = begin();
-  size_type __len = 0;
+  _List_size __len = 0;
   for ( ; __i != end() && __len < __new_size; ++__i, ++__len);
 
   if (__len == __new_size)
@@ -116,12 +117,13 @@ list<_Tp, _Alloc>& list<_Tp, _Alloc>::operator=(const list<_Tp, _Alloc>& __x) {
       erase(__first1, __last1);
     else
       insert(__last1, __first2, __last2);
+    this->_M_size = __x._M_size;
   }
   return *this;
 }
 
 template <class _Tp, class _Alloc>
-void list<_Tp, _Alloc>::_M_fill_assign(size_type __n, const _Tp& __val) {
+void list<_Tp, _Alloc>::_M_fill_assign(_List_size __n, const _Tp& __val) {
   iterator __i = begin();
   for ( ; __i != end() && __n > 0; ++__i, --__n)
     *__i = __val;
@@ -208,7 +210,6 @@ void _S_sort(list<_Tp, _Alloc>& __that, _StrictWeakOrdering __comp) {
   if (__that._M_node._M_data._M_next == &__that._M_node._M_data ||
       __that._M_node._M_data._M_next->_M_next == &__that._M_node._M_data)
     return;
-
   list<_Tp, _Alloc> __carry(__that.get_allocator());
   const int NB = 64;
   _STLP_PRIV _CArray<list<_Tp, _Alloc>, NB> __counter(__carry);
@@ -231,7 +232,7 @@ void _S_sort(list<_Tp, _Alloc>& __that, _StrictWeakOrdering __comp) {
   }
 
   for (int __i = 1; __i < __fill; ++__i)
-    _S_merge(__counter[__i], __counter[__i - 1], __comp);
+    _S_merge(__counter[__i], __counter[__i - 1], __comp); 
   __that.swap(__counter[__fill - 1]);
 }
 

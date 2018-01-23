@@ -14,7 +14,9 @@ enum REGWIDTH
     REGWIDTH_128,
     REGWIDTH_256,
     REGWIDTH_512,
-    REGWIDTH_FPSTATE,
+#if !defined(TARGET_DOXYGEN)
+    REGWIDTH_REG_X87,
+#endif // not TARGET_DOXYGEN
     REGWIDTH_INVALID,
 #if defined(TARGET_IA32)
     REGWIDTH_NATIVE=REGWIDTH_32
@@ -35,7 +37,6 @@ enum REG_CLASS
     REG_CLASS_GRH32,
     REG_CLASS_SEG,
     REG_CLASS_MM,
-    REG_CLASS_EMM,
     REG_CLASS_XMM,
     REG_CLASS_YMM,
     REG_CLASS_ZMM,
@@ -50,7 +51,9 @@ enum REG_CLASS
     REG_CLASS_FLAGS32,
     REG_CLASS_STATUS_FLAGS,
     REG_CLASS_DFLAG,
+#if !defined(TARGET_DOXYGEN)
     REG_CLASS_X87,
+#endif // not TARGET_DOXYGEN
     REG_CLASS_MXCSR,
     REG_CLASS_MXCSRMASK,
     REG_CLASS_IP,
@@ -66,7 +69,9 @@ enum REG_CLASS
     REG_CLASS_PIN_YMM,
     REG_CLASS_PIN_ZMM,
     REG_CLASS_PIN_K,
+#if !defined(TARGET_DOXYGEN)
     REG_CLASS_PIN_X87,
+#endif // not TARGET_DOXYGEN
     REG_CLASS_PIN_MXCSR,
     REG_CLASS_PIN_FLAGS,
     REG_CLASS_PIN_STATUS_FLAGS,
@@ -88,7 +93,6 @@ const REG_CLASS_BITS REGCBIT_APP_ALL =
     (_REGCBIT(REG_CLASS_GRH32)               )|
     (_REGCBIT(REG_CLASS_SEG)                 )|
     (_REGCBIT(REG_CLASS_MM)                  )|
-    (_REGCBIT(REG_CLASS_EMM)                 )|
     (_REGCBIT(REG_CLASS_XMM)                 )|
     (_REGCBIT(REG_CLASS_YMM)                 )|
     (_REGCBIT(REG_CLASS_ZMM)                 )|
@@ -204,7 +208,6 @@ enum REG_ALLOC_TYPE
     REG_ALLOC_TR            = REG_ALLOC_IDENT,
     REG_ALLOC_ST            = REG_ALLOC_IDENT,
     REG_ALLOC_MM            = REG_ALLOC_IDENT,
-    REG_ALLOC_EMM           = REG_ALLOC_IDENT,
     REG_ALLOC_XMM           = REG_ALLOC_IDENT,
     REG_ALLOC_YMM           = REG_ALLOC_IDENT,
     REG_ALLOC_ZMM           = REG_ALLOC_IDENT,

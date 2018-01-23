@@ -22,7 +22,7 @@ class LOGFILE
     virtual VOID Close() = 0;
 
     /*!
-     * Write the specified message to the file. 
+     * Write the specified message to the file.
      */
     virtual VOID Write(const CHAR* message, size_t length) = 0;
     VOID Write(const string& message);
@@ -177,7 +177,13 @@ extern UINT64 MilliSecondsElapsed();
 extern string AssertString(const char *fileName, const char *functionName, unsigned line, const std::string &message);
 
                                                                   /* DO NOT EDIT */
+extern "C" VOID PrintPinStackTrace(ostream& os);
+
+                                                                  /* DO NOT EDIT */
 extern VOID BreakMe();
+
+                                                                  /* DO NOT EDIT */
+extern BOOL SlowAssertsEnabled();
 
                                                                   /* DO NOT EDIT */
 /* DO NOT EDIT */
@@ -207,14 +213,14 @@ extern VOID BreakMe();
 #define ASSERTX(condition) ASSERT(condition,"assertion failed: " #condition  "\n")
 
 #define ASSERTSLOW(condition,message)   \
-  do{ if(KnobSlowAsserts && !(condition)) \
+  do{ if(LEVEL_BASE::SlowAssertsEnabled() && !(condition)) \
           ASSERTQ(LEVEL_BASE::AssertString(PIN_ASSERT_FILE, __FUNCTION__, __LINE__, std::string("") + message));} while(0)
 
 #define ASSERTXSLOW(condition) ASSERTSLOW(condition,"assertion failed: " #condition  "\n")
 
 #define NYI()  ASSERT(0, "Not Yet Implemented\n")
 
-/* 
+/*
  for errors related to debugger integration
  */
 #define PIN_ERROR_DEBUGGER(message)           QMESSAGE0_NORETURN(MessageTypeError, message, TRUE, PIN_ERR_DEBUGGER)
@@ -224,21 +230,21 @@ extern VOID BreakMe();
 #define PIN_ERROR1(message, type, arg1)       QMESSAGE1_NORETURN(MessageTypeError, message, TRUE, type, arg1)
 #define PIN_ERROR2(message, type, arg1, arg2) QMESSAGE2_NORETURN(MessageTypeError, message, TRUE, type, arg1, arg2)
 
-/* 
+/*
  for calling even before the MessageType* constructors may have executed
  */
 #define PIN_FATAL_ERROR(message) { PIN_ERROR(message); MESSAGE_TYPE::PrintMessageAndExit(message, "E: ", PIN_ERR_INTERNAL );}
 
-/* 
- * Non-fatal errors. 
+/*
+ * Non-fatal errors.
  */
 #define PIN_NON_FATAL_ERROR(message)  QMESSAGE0(MessageTypeNonFatalError, message, TRUE, PIN_ERR_INTERNAL)
 #define PIN_NON_FATAL_ERROR0(message, type)  QMESSAGE0(MessageTypeNonFatalError, message, TRUE, type)
 #define PIN_NON_FATAL_ERROR1(message, type, arg1)  QMESSAGE1(MessageTypeNonFatalError, message, TRUE, type, arg1)
 
-/* 
- * Fatal errors that require post-logging handling. 
- * These errors do not cause the process termination in the MESSAGE_TYPE::Message() function. 
+/*
+ * Fatal errors that require post-logging handling.
+ * These errors do not cause the process termination in the MESSAGE_TYPE::Message() function.
  */
 #define PIN_CRITICAL_ERROR(message)  QMESSAGE0(MessageTypeCriticalError, message, TRUE, PIN_ERR_INTERNAL)
 #define PIN_CRITICAL_ERROR0(message, type)  QMESSAGE0(MessageTypeCriticalError, message, TRUE, type)

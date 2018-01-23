@@ -144,9 +144,6 @@ extern BOOL INS_IsRDTSC(const INS ins);
 extern BOOL INS_IsMaskMov(const INS ins);
 
                                                                   /* DO NOT EDIT */
-extern BOOL INS_IsMaskedJump(const INS ins);
-
-                                                                  /* DO NOT EDIT */
 extern REG INS_RepCountRegister(INS ins);
 
                                                                   /* DO NOT EDIT */

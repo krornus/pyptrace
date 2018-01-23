@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -33,7 +33,7 @@ END_LEGAL */
  * is correct.
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -44,7 +44,7 @@ END_LEGAL */
 # include <unistd.h>
 # include <sys/syscall.h>
 # include <errno.h>
-# if defined(TARGET_IA32E) || defined (TARGET_MIC)
+# if defined(TARGET_IA32E)
 #  include <asm/prctl.h>
 #  include <sys/prctl.h>
 # endif // TARGET_IA32E
@@ -52,7 +52,6 @@ END_LEGAL */
 
 #include "pin.H"
 #include "instlib.H"
-#include "portability.H"
 
 #ifdef TARGET_WINDOWS
 namespace WIND
@@ -60,7 +59,7 @@ namespace WIND
 #include <windows.h>
 }
 using namespace INSTLIB;
-inline ADDRINT InitializeThreadData() 
+inline ADDRINT InitializeThreadData()
 {
     return reinterpret_cast<ADDRINT>(WIND::NtCurrentTeb());
 }
@@ -113,16 +112,16 @@ ADDRINT GetTlsBaseAddress()
 	//printf("Current gs val is 0x%x\n", gsVal);
 	UserDesc td;
 	td.entry_number = gsVal >> 3;
-    if (gsVal == 0) 
+    if (gsVal == 0)
         return 0;
-	int  res = syscall(SYS_get_thread_area, &td);
+    int  res = syscall(SYS_get_thread_area, &td);
     if (res != 0)
     {
         printf("SYS_get_thread_area failed with error: %s\n", strerror(errno));
         return 0;
     }
     //printf("Current td.base_addr 0x%x\n", td.base_addr);
-	return td.base_addr;
+    return td.base_addr;
 #else
     ADDRINT baseAddr;
     int res = syscall(SYS_arch_prctl, ARCH_GET_FS, &baseAddr);
@@ -134,7 +133,7 @@ ADDRINT GetTlsBaseAddress()
 #endif // TARGET_IA32
 }
 
-inline ADDRINT InitializeThreadData() 
+inline ADDRINT InitializeThreadData()
 {
     return GetTlsBaseAddress();
 }
@@ -155,7 +154,7 @@ inline ADDRINT InitializeThreadData()
 struct tdata
 {
     ADDRINT threadTeb;
-    
+
 } THREAD_DATA;
 
 //struct tdata
@@ -215,15 +214,15 @@ disassemble(UINT64 start, UINT64 stop) {
     xed_error_enum_t xed_error;
     xed_decoded_inst_t xedd;
     ostringstream os;
-    if (sizeof(ADDRINT) == 4) 
-        xed_state_init(&dstate,     
+    if (sizeof(ADDRINT) == 4)
+        xed_state_init(&dstate,
                        XED_MACHINE_MODE_LEGACY_32,
-                       XED_ADDRESS_WIDTH_32b, 
+                       XED_ADDRESS_WIDTH_32b,
                        XED_ADDRESS_WIDTH_32b);
     else
         xed_state_init(&dstate,
                        XED_MACHINE_MODE_LONG_64,
-                       XED_ADDRESS_WIDTH_64b, 
+                       XED_ADDRESS_WIDTH_64b,
                        XED_ADDRESS_WIDTH_64b);
 
     /*while( pc < stop )*/ {
@@ -258,7 +257,7 @@ disassemble(UINT64 start, UINT64 stop) {
             os << " ";
             memset(buffer,0,200);
             int dis_okay = xed_format_context(syntax, &xedd, buffer, 200, pc, 0, 0);
-            if (dis_okay) 
+            if (dis_okay)
                 os << buffer << endl;
             else
                 os << "Error disasassembling pc 0x" << std::hex << pc << std::dec << endl;
@@ -280,16 +279,16 @@ disassemble(UINT64 start, UINT64 stop) {
 }
 
 
-VOID AnalyzeMemAddr(UINT32 effectiveAddressWidth,  
-                    UINT32 hasSegmentedMemAccess, 
-                    INT32 subFromAddrComputation, 
-                    VOID * ip, 
+VOID AnalyzeMemAddr(UINT32 effectiveAddressWidth,
+                    UINT32 hasSegmentedMemAccess,
+                    INT32 subFromAddrComputation,
+                    VOID * ip,
                     VOID * addr,
                     UINT32 accessType,
                     ADDRINT gaxRegVal,
-                    ADDRINT baseRegVal, 
-                    ADDRINT indexRegVal, 
-                    INT32 scale, 
+                    ADDRINT baseRegVal,
+                    ADDRINT indexRegVal,
+                    INT32 scale,
                     ADDRINT displacement,
                     UINT32 insSizeToAdd,
                     THREADID tid)
@@ -335,10 +334,10 @@ VOID AnalyzeMemAddr(UINT32 effectiveAddressWidth,
                 ASSERTX(0);
                 break;
         }
-        ADDRINT computedAddr 
-            = static_cast<ADDRINT>(displacement) 
-              + static_cast<ADDRINT>(baseRegValForAddressComputation) + 
-             (static_cast<ADDRINT>(indexRegValForAddressComputation)*scale) - 
+        ADDRINT computedAddr
+            = static_cast<ADDRINT>(displacement)
+              + static_cast<ADDRINT>(baseRegValForAddressComputation) +
+             (static_cast<ADDRINT>(indexRegValForAddressComputation)*scale) -
              static_cast<ADDRINT>(subFromAddrComputation) +
              + static_cast<ADDRINT>(insSizeToAdd);
         if (hasSegmentedMemAccess)
@@ -347,18 +346,18 @@ VOID AnalyzeMemAddr(UINT32 effectiveAddressWidth,
         }
         if (computedAddr != memoryEA)
         {
-            printf ( "**ERROR conflicting memoryEA   %s  ip: %p  (tid %x)\n  (computedAddr %p expectedEA %p teb %p isSegmented %x displacement %p  baseRegVal %p indexRegVal %p scale %d\n   gaxRegVal %p)\n", 
-                    GetMemoryAccessTypeString(accessType), 
-                    ip,  
-                    tid, 
-                    reinterpret_cast<VOID *>(computedAddr), 
-                    reinterpret_cast<VOID *>(memoryEA), 
-                    reinterpret_cast<VOID *>(threadTeb), 
-                    hasSegmentedMemAccess, 
-                    reinterpret_cast<VOID *>(displacement), 
+            printf ( "**ERROR conflicting memoryEA   %s  ip: %p  (tid %x)\n  (computedAddr %p expectedEA %p teb %p isSegmented %x displacement %p  baseRegVal %p indexRegVal %p scale %d\n   gaxRegVal %p)\n",
+                    GetMemoryAccessTypeString(accessType),
+                    ip,
+                    tid,
+                    reinterpret_cast<VOID *>(computedAddr),
+                    reinterpret_cast<VOID *>(memoryEA),
+                    reinterpret_cast<VOID *>(threadTeb),
+                    hasSegmentedMemAccess,
+                    reinterpret_cast<VOID *>(displacement),
                     reinterpret_cast<VOID *>(baseRegValForAddressComputation),
-                    reinterpret_cast<VOID *>(indexRegValForAddressComputation), 
-                    scale, 
+                    reinterpret_cast<VOID *>(indexRegValForAddressComputation),
+                    scale,
                     reinterpret_cast<VOID *>(gaxRegVal));
             string s = disassemble (reinterpret_cast<ADDRINT>(ip),reinterpret_cast<ADDRINT>(ip)+15);
             printf ("    %s\n", s.c_str());
@@ -369,38 +368,38 @@ VOID AnalyzeMemAddr(UINT32 effectiveAddressWidth,
 }
 
 // Handle BTx instructions, where some of the bit index is added to the EA
-VOID AnalyzeBTMemAddr(UINT32 effectiveAddressWidth,  
-                      UINT32 hasSegmentedMemAccess, 
+VOID AnalyzeBTMemAddr(UINT32 effectiveAddressWidth,
+                      UINT32 hasSegmentedMemAccess,
                       ADDRINT bitIndex,
-                      VOID * ip, 
+                      VOID * ip,
                       VOID * addr,
                       UINT32 accessType,
                       ADDRINT gaxRegVal,
-                      ADDRINT baseRegVal, 
-                      ADDRINT indexRegVal, 
-                      INT32 scale, 
+                      ADDRINT baseRegVal,
+                      ADDRINT indexRegVal,
+                      INT32 scale,
                       ADDRINT displacement,
                       UINT32 readSize,
                       THREADID tid)
 {
     // Compute the additional offset from the bitIndex and pass it down to AnalyzeMemAddr
     UINT32 shift = (readSize == 2) ? 4 : (readSize == 4) ? 5 : 6;
-    
+
     // fprintf (stderr, "0x%08x: BTx bitIndex 0x%08x, addr 0x%08x, readsize %d\n", ip, bitIndex, addr, readSize);
 
-    AnalyzeMemAddr(effectiveAddressWidth,  
-                   hasSegmentedMemAccess, 
+    AnalyzeMemAddr(effectiveAddressWidth,
+                   hasSegmentedMemAccess,
                    0,                           // subFromAddrComputation
-                   ip, 
+                   ip,
                    addr,
                    accessType,
                    gaxRegVal,
-                   baseRegVal, 
-                   indexRegVal, 
-                   scale, 
+                   baseRegVal,
+                   indexRegVal,
+                   scale,
                    displacement,
                    (bitIndex >> shift)*readSize, // insSizeToAdd (cheating, really, but it gets added in which is what we need).
-                   tid);    
+                   tid);
 }
 
 #ifndef TARGET_LINUX
@@ -423,7 +422,7 @@ BOOL InstrumentMemAccess (INS ins, BOOL isRead)
 {
     UINT32 i, scale=0;
     ADDRINT displacement=0;
-    REG baseReg = REG_INVALID(), indexReg = REG_INVALID(); 
+    REG baseReg = REG_INVALID(), indexReg = REG_INVALID();
     UINT32 hasSegmentedMemAccess = 0;
     INT32 subFromAddrComputation = 0;
     OPCODE opcode = INS_Opcode(ins);
@@ -435,18 +434,18 @@ BOOL InstrumentMemAccess (INS ins, BOOL isRead)
         || opcode==XED_ICLASS_PUSHFD
         || opcode==XED_ICLASS_PUSHFQ
         || opcode==XED_ICLASS_CALL_NEAR
-        || opcode==XED_ICLASS_CALL_FAR 
+        || opcode==XED_ICLASS_CALL_FAR
         || opcode==XED_ICLASS_ENTER)
     { // These all decrement the stack pointer before the write
         subFromAddrComputation = INS_MemoryWriteSize(ins);
     }
-    
-    
+
+
     BOOL foundMemOp = FALSE;
     UINT32 operandCount = INS_OperandCount (ins);
     for (i=0; i<operandCount; i++)
     {
-        if (INS_OperandIsMemory (ins, i) && 
+        if (INS_OperandIsMemory (ins, i) &&
             ((isRead && INS_OperandRead (ins, i)) || (!isRead && INS_OperandWritten (ins, i)))
            )
         {
@@ -470,7 +469,7 @@ BOOL InstrumentMemAccess (INS ins, BOOL isRead)
     {
         return (FALSE);
     }
-#endif 
+#endif
     UINT32 addressingType;
     IARG_TYPE iargMemoryEffectiveAddrType;
     UINT32 foundAddressingType = 0;
@@ -528,10 +527,10 @@ BOOL InstrumentMemAccess (INS ins, BOOL isRead)
             {
                 addressingType = INDEX_DISPLACEMENT_ADDRESSING_WRITE_TYPE;
             }
-            
+
             foundAddressingType++;
         }
-        else // indexReg == REG_INVALID() 
+        else // indexReg == REG_INVALID()
         {
             indexReg = REG_GDX;
             if (isRead)
@@ -542,7 +541,7 @@ BOOL InstrumentMemAccess (INS ins, BOOL isRead)
             {
                 addressingType = DISPLACEMENT_ONLY_ADDRESSING_WRITE_TYPE;
             }
-            
+
             foundAddressingType++;
         }
     }
@@ -601,7 +600,7 @@ BOOL InstrumentMemAccess (INS ins, BOOL isRead)
         addressingType = BASE_DISPLACEMENT_ADDRESSING_READ_TYPE;
         iargMemoryEffectiveAddrType = IARG_MEMORYREAD2_EA;
         subFromAddrComputation = 0;
-   
+
         INS_InsertPredicatedCall(
                     ins, IPOINT_BEFORE, (AFUNPTR)AnalyzeMemAddr,
                     IARG_UINT32, INS_EffectiveAddressWidth(ins),
@@ -631,7 +630,7 @@ VOID Instruction(INS ins, VOID *v)
     {
         UINT32 operandCount = INS_OperandCount (ins);
         UINT32 i;
-        
+
         for (i=0; i<operandCount; i++)
         {
             if (INS_OperandIsReg (ins, i) && REG_is_seg(INS_OperandReg (ins, i)) && INS_OperandWritten(ins, i))
@@ -653,21 +652,21 @@ VOID Instruction(INS ins, VOID *v)
     {
         instrumentedWrite = InstrumentMemAccess (ins, FALSE);
     }
-    
+
     if (instrumentedRead || instrumentedWrite)
     {
         fprintf (stdout, "Instrumented ins forRead %d forWrite %d: %x   %s\n",
                  instrumentedRead, instrumentedWrite, INS_Address(ins), INS_Disassemble(ins).c_str());
     }
     */
-    
+
     /*fprintf(trace, "%p %s\n", INS_Address(ins), INS_Disassemble(ins).c_str());
     */
 }
 
 VOID Fini(INT32 code, VOID *v)
 {
-    
+
     /*if (!hadError)
     {
         printf ("SUCCESS\n");
@@ -678,10 +677,10 @@ VOID Fini(INT32 code, VOID *v)
     }*/
 }
 
-PIN_LOCK lock;
+PIN_LOCK pinLock;
 VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
 {
-    PIN_GetLock(&lock, threadid+1);
+    PIN_GetLock(&pinLock, threadid+1);
     //fprintf(trace, "thread begin %x %x\n",threadid, numThreads);
     numThreads++;
     if (threadid < MAX_THREADS)
@@ -695,7 +694,7 @@ VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
         printf ( "ERROR - maximum #threads exceeded\n");
     }
     fflush (stdout);
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 }
 
 
@@ -703,13 +702,13 @@ int main(int argc, char *argv[])
 {
     PIN_Init(argc, argv);
 
-    PIN_InitLock(&lock);
+    PIN_InitLock(&pinLock);
     PIN_AddThreadStartFunction(ThreadStart, 0);
     INS_AddInstrumentFunction(Instruction, 0);
     PIN_AddFiniFunction(Fini, 0);
 
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

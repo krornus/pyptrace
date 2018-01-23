@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -52,10 +52,29 @@ VOID TestValue(VOID * ip, UINT32 val)
         exit(1);
     }
 }
-    
+
+ADDRINT imgStartAdd;
+USIZE imgSize;
+
+VOID ImageLoad(IMG img, VOID *v)
+{
+    if (IMG_IsMainExecutable(img))
+    {
+        imgStartAdd = IMG_StartAddress(img);
+        imgSize = IMG_SizeMapped(img);
+    }
+}
+
+ADDRINT IsMainExe(ADDRINT InsAdd)
+{
+    //instrument if ins is app instruction
+    return (InsAdd >= imgStartAdd && InsAdd < (imgStartAdd + imgSize));
+}
+
 VOID Instruction(INS ins, VOID *v)
 {
-    if (INS_Mnemonic(ins) == "MOV"
+    if (IsMainExe(INS_Address(ins))
+        && INS_Mnemonic(ins) == "MOV"
         && INS_IsMemoryRead(ins)
         && REG_is_gr(INS_RegW(ins, 0)))
     {
@@ -67,11 +86,13 @@ VOID Instruction(INS ins, VOID *v)
 int main(int argc, char * argv[])
 {
     PIN_Init(argc, argv);
+    PIN_InitSymbols();
 
-    INS_AddInstrumentFunction(Instruction, 0);
+    IMG_AddInstrumentFunction(ImageLoad, NULL);
+    INS_AddInstrumentFunction(Instruction, NULL);
     
     // Never returns
     PIN_StartProgram();
     
-    return 0;
+    return 1;
 }

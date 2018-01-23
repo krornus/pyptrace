@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: util
 // <FILE-TYPE>: component public header
 
@@ -37,7 +36,8 @@ END_LEGAL */
 
 #include <string>
 #include <cstring>
-#include "fund.hpp"
+
+#include "types.h"
 
 
 namespace UTIL {
@@ -309,7 +309,7 @@ public:
             _size = 0;
             return;
         }
-        _start = static_cast<FUND::UINT8 *>(_start) + num;
+        _start = static_cast<UINT8 *>(_start) + num;
         _size -= num;
     }
 
@@ -366,7 +366,7 @@ public:
             SHARED_BUF *sbuf = new SHARED_BUF(newSize);
             std::memcpy(sbuf->_buf, _start, _size);
             if (fill == FILL_ZERO)
-                std::memset(static_cast<FUND::UINT8 *>(sbuf->_buf) + _size, 0, newSize - _size);
+                std::memset(static_cast<UINT8 *>(sbuf->_buf) + _size, 0, newSize - _size);
             DetachBuf();
             _sbuf = sbuf;
             _start = sbuf->_buf;
@@ -441,7 +441,7 @@ public:
             //
             else if (_sbuf->_isLazy)
             {
-                FUND::UINT8 *buf = new FUND::UINT8[_size];
+                UINT8 *buf = new UINT8[_size];
                 std::memcpy(buf, _start, _size);
                 _sbuf->_buf = buf;
                 _sbuf->_size = _size;
@@ -516,7 +516,7 @@ private:
         {
             _size = other._size - off;
             _sbuf = new SHARED_BUF(_size);
-            std::memcpy(_sbuf->_buf, static_cast<FUND::UINT8 *>(other._start) + off, _size);
+            std::memcpy(_sbuf->_buf, static_cast<UINT8 *>(other._start) + off, _size);
             _start = _sbuf->_buf;
             return;
         }
@@ -525,7 +525,7 @@ private:
         //
         _sbuf = other._sbuf;
         _sbuf->_refCount++;
-        _start = static_cast<FUND::UINT8 *>(other._start) + off;
+        _start = static_cast<UINT8 *>(other._start) + off;
         _size = other._size - off;
     }
 
@@ -562,7 +562,7 @@ private:
         if (other._sbuf->_refCount == EXCLUSIVE)
         {
             _sbuf = new SHARED_BUF(_size);
-            std::memcpy(_sbuf->_buf, static_cast<FUND::UINT8 *>(other._start) + off, _size);
+            std::memcpy(_sbuf->_buf, static_cast<UINT8 *>(other._start) + off, _size);
             _start = _sbuf->_buf;
             return;
         }
@@ -571,7 +571,7 @@ private:
         //
         _sbuf = other._sbuf;
         _sbuf->_refCount++;
-        _start = static_cast<FUND::UINT8 *>(other._start) + off;
+        _start = static_cast<UINT8 *>(other._start) + off;
     }
 
     /*!
@@ -583,13 +583,13 @@ private:
         if (_sbuf && ((_sbuf->_refCount == EXCLUSIVE) || (--(_sbuf->_refCount) == 0)))
         {
             if (_sbuf->_isLazy == 0)
-                delete [] static_cast<FUND::UINT8 *>(_sbuf->_buf);
+                delete [] static_cast<UINT8 *>(_sbuf->_buf);
             delete _sbuf;
         }
     }
 
 private:
-    static const FUND::UINT32 EXCLUSIVE = FUND::UINT32(0x7fffffff);
+    static const UINT32 EXCLUSIVE = UINT32(0x7fffffff);
 
     // This is potentially shared by many DATA instances.
     //
@@ -597,15 +597,15 @@ private:
     {
         // Constructor for an allocated buffer.
         //
-        SHARED_BUF(size_t sz) : _refCount(1), _isLazy(0), _size(sz), _buf(new FUND::UINT8[_size]) {}
+        SHARED_BUF(size_t sz) : _refCount(1), _isLazy(0), _size(sz), _buf(new UINT8[_size]) {}
 
         // Constructor for an lazy-copied buffer.
         //
         SHARED_BUF(const void *buf, size_t sz) : _refCount(1), _isLazy(1), _size(sz), _buf(const_cast<void *>(buf)) {}
 
 
-        FUND::UINT32 _refCount:31;  // Number of DATA's pointing to this SHARED_BUF, or EXCLUSIVE.
-        FUND::UINT32 _isLazy:1;     // Tells if '_buf' is lazy-copied or allocated.
+        UINT32 _refCount:31;  // Number of DATA's pointing to this SHARED_BUF, or EXCLUSIVE.
+        UINT32 _isLazy:1;     // Tells if '_buf' is lazy-copied or allocated.
         size_t _size;               // Size of '_buf'.
 
         // If '_isLazy' is TRUE, this points to a lazy-copied input buffer and must be treated as "const".

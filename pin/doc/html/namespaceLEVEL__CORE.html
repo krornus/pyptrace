@@ -294,6 +294,8 @@
 <br>
 &nbsp;&nbsp;<a class="el" href="group__INS__BASIC__API__GEN__IA32.html#gg3b24ec17730bcf65f7ff170f7ff49fba1fc4076892e5c730b07dcb663cd453ee">SYSCALL_STANDARD_IA32_LINUX</a>, 
 <br>
+&nbsp;&nbsp;<a class="el" href="group__INS__BASIC__API__GEN__IA32.html#gg3b24ec17730bcf65f7ff170f7ff49fbaabda039adbb617e31721ad94ca44ab18">SYSCALL_STANDARD_IA32_LINUX_SYSENTER</a>, 
+<br>
 &nbsp;&nbsp;<a class="el" href="group__INS__BASIC__API__GEN__IA32.html#gg3b24ec17730bcf65f7ff170f7ff49fba56faa6ffdb28600d35f668d78c9f3d80">SYSCALL_STANDARD_IA32E_LINUX</a>, 
 <br>
 &nbsp;&nbsp;<a class="el" href="group__INS__BASIC__API__GEN__IA32.html#gg3b24ec17730bcf65f7ff170f7ff49fbae87fe7b58d7227c0d35d31a28b144a46">SYSCALL_STANDARD_IA32_MAC</a>, 
@@ -320,8 +322,6 @@
 &nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#2f0d5edbc35b573ae452cb0825f84ac2f4412040f83195a68088c4df1468fd58">REL_TYPE_CHUNK_ABS64</a>, 
 <br>
 &nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#2f0d5edbc35b573ae452cb0825f84ac21e584f8e455bab07509d29b1f966a636">REL_TYPE_INS_PCREL</a>, 
-<br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#2f0d5edbc35b573ae452cb0825f84ac210d76220afb84784845f8a31377a22c9">REL_TYPE_INS_ABS64</a>, 
 <br>
 &nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#2f0d5edbc35b573ae452cb0825f84ac2341f9b6ab5dde9d06c59ea7d134d0603">REL_TYPE_INS_IA32IMM</a>
 <br>
@@ -629,7 +629,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#404d1ac4e4733ee61afa85d3dd7a7fec">INS_REUSER_TYPE</a> { <br>
 &nbsp;&nbsp;<b>INS_REUSER_TYPE_FIRST</b>, 
 <br>
-&nbsp;&nbsp;<b>INS_REUSER_TYPE_YMM_INSERT_OP</b> =  INS_REUSER_TYPE_FIRST, 
+&nbsp;&nbsp;<b>INS_REUSER_TYPE_MM_INSERT_OP</b> =  INS_REUSER_TYPE_FIRST, 
+<br>
+&nbsp;&nbsp;<b>INS_REUSER_TYPE_MM_EXTRACT_OP</b>, 
 <br>
 &nbsp;&nbsp;<b>INS_REUSER_TYPE_LOAD_MEM_OP</b>, 
 <br>
@@ -682,17 +684,17 @@
 <br>
 &nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f0494171d95a173a1245ba3f9d56550613ddecb">SYSCALL_TYPE_SYSCALL</a> =  1, 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f049417ca0bf56763e1680f69533f221a55c853">SYSCALL_TYPE_SYSENTER</a> =  2, 
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f049417dd65d531254f156d175f6f16db630807">OS_SYSCALL_TYPE_SYSENTER</a> =  2, 
 <br>
 &nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f049417b1ea2c82c1f85d021d305a2a12f4d1e9">SYSCALL_TYPE_FARCALL</a> =  3, 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f0494178835e07f18d995bff36f9b6e75103566">SYSCALL_TYPE_INT80</a> =  4, 
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f049417eeed16fcdc2bef6d80767b19f351a051">OS_SYSCALL_TYPE_INT80</a> =  4, 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f04941759d3b0020bcd345fec7ecd8e0bf55d1b">SYSCALL_TYPE_INT81</a> =  5, 
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f049417afea07939b632b1ff37178cfa480ddd7">OS_SYSCALL_TYPE_INT81</a> =  5, 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f04941777d674fa2e95153bdf87c4a4d70640a3">SYSCALL_TYPE_INT82</a> =  6, 
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f04941775350cfad780f79ba165176af653a40e">OS_SYSCALL_TYPE_INT82</a> =  6, 
 <br>
-&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f04941784583e3c0f1f607c18ccdf327657e7b0">SYSCALL_TYPE_INT83</a> =  7
+&nbsp;&nbsp;<a class="el" href="namespaceLEVEL__CORE.html#ded277773def1b225f480ce71f049417f0545b6006d52de950aaeca316e212cc">OS_SYSCALL_TYPE_INT83</a> =  7
 <br>
  }</td></tr>
 
@@ -1720,6 +1722,10 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>EXTLIST_ext_set</b> (
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">EXT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#5d0d5f212e904c88f977f2f3eeaa7d88">EXT_AllocAndLinkInsFlt64</a> (INS ins, const ATTRIBUTE *attribute, UINT32 number, FLT64 value)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">EXT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#5ff25a764110461f6015ebc91f84307d">EXT_AllocAndLinkInsUint64</a> (INS ins, const ATTRIBUTE *attribute, UINT32 number, UINT64 value)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">EXT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#7be0abe4f389fea230c868d28a164f34">EXT_AllocAndLinkInsBbl</a> (INS ins, const ATTRIBUTE *attribute, UINT32 number, BBL value)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">EXT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#7ac1e6d8e1d687c84b9b9a1a0341611f">EXT_AllocAndLinkInsReguse</a> (INS ins, const ATTRIBUTE *attribute, UINT32 number, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, UINT32 use)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">EXT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#df89e43bf2479fc24d24b3b7fc372754">EXT_AllocRegInt32</a> (const ATTRIBUTE *attribute, UINT32 number, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, INT32 use)</td></tr>
@@ -2434,9 +2440,15 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_prev_
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#f33c1409d3a3ce7e984c79b1995171b1">INS_GarbageCollect</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#46002725dfe70436f9e50482a9993f42">INS_Initialize</a> (INS ins)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">INS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#2824f9f07eec8742b8a5c51401553d90">INS_Alloc</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">INS&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d36c5d89d0bac2b3b6c0ba7fe2722218">INS_AllocLocked</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#c1e7f98240452c6e16ce97af2819d329">INS_Free</a> (INS ins)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#f34c7dca6aab90cde4c3c878df7ac231">INS_FreeLocked</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#9f8dd4becd7cd470c0dfff19817bad43">INS_FreeRel</a> (INS ins)</td></tr>
 
@@ -2505,6 +2517,10 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_ins_target_set</b
 <tr><td class="memItemLeft" nowrap align="right" valign="top">ADDRINT&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#bca776a0338e9cb2426faea308240595">SEC_ComputeOutputSizeOfExecutableSec</a> (SEC sec, const ADDRINT secStart)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#5d88abdc041bc01f1e74860be1f41585">INS_CheckFree</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">PINVM::PINSYNC_RWLOCK *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#126ad94ca47914fefea560b9b514be6d">GetINSResizeLock</a> ()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#ede76f1322e2b4ea2adc38baad0e12d8">InitializeINSSupplementaryResizeLock</a> (PINVM::ILOCK *lock)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#0e22630d363998b9ed59694e3ffec7d1">INS_CopyXlateAttributes</a> (INS insNew, INS insOrig)</td></tr>
 
@@ -2847,9 +2863,6 @@ string&nbsp;</td><td class="memItemRight" valign="bottom"><b>longstr</b> (RTN rt
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c193e1cf5b15b757c48785155ccc3138"></a><!-- doxytag: member="LEVEL_CORE::RTN_unprobed_function" ref="c193e1cf5b15b757c48785155ccc3138" args="(RTN x)" -->
 IADDR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_unprobed_function</b> (RTN x)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b6cb838f6d469871876d8f3ca4ba0f38"></a><!-- doxytag: member="LEVEL_CORE::RTN_function" ref="b6cb838f6d469871876d8f3ca4ba0f38" args="(RTN x)" -->
-IADDR *&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_function</b> (RTN x)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c5376a81170f029d9c38a9d685534acd"></a><!-- doxytag: member="LEVEL_CORE::RTN_artificial_set" ref="c5376a81170f029d9c38a9d685534acd" args="(RTN x, BOOL y)" -->
 VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>RTN_artificial_set</b> (RTN x, BOOL y)</td></tr>
 
@@ -3165,12 +3178,6 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_next_
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="cf13002b8a2ba105736c41d615b6eb12"></a><!-- doxytag: member="LEVEL_CORE::SEC_prev_set" ref="cf13002b8a2ba105736c41d615b6eb12" args="(SEC x, SEC y)" -->
 LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_prev_set</b> (SEC x, SEC y)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="adf5cc60a4408cd6609d20d0b4c2a8ef"></a><!-- doxytag: member="LEVEL_CORE::SEC_short_data" ref="adf5cc60a4408cd6609d20d0b4c2a8ef" args="(SEC x)" -->
-LOCALINLINE BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_short_data</b> (SEC x)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="876ddd834b7048ce8a199d7a8e0f9124"></a><!-- doxytag: member="LEVEL_CORE::SEC_short_data_set" ref="876ddd834b7048ce8a199d7a8e0f9124" args="(SEC x, BOOL y)" -->
-LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_short_data_set</b> (SEC x, BOOL y)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="322709e714e0f93879e9c1144997ed84"></a><!-- doxytag: member="LEVEL_CORE::SEC_size_o_set" ref="322709e714e0f93879e9c1144997ed84" args="(SEC x, USIZE y)" -->
 LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_size_o_set</b> (SEC x, USIZE y)</td></tr>
 
@@ -3208,7 +3215,7 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_vaddr
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#6ba6ea3b730547e3707f3ddc8c97d5d4">SEC_Unlink</a> (SEC sec)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#097bf2bc08cf932fd22c9be4e5acca41">SEC_InitOriginalSec</a> (SEC sec, const string &amp;name, UINT32 index, IADDR iaddr, USIZE offset, USIZE size, const VOID *data, UINT32 alignment, BOOL short_data, BOOL mapped, BOOL on_disk, const VOID *sectheader)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#7d0e5280dbc5e91fd7d32a4b2d123790">SEC_InitOriginalSec</a> (SEC sec, const string &amp;name, UINT32 index, IADDR iaddr, USIZE offset, USIZE size, const VOID *data, UINT32 alignment, BOOL mapped, BOOL on_disk, const VOID *sectheader)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#f52b4a416c880261e3e130cce98db2cd">SEC_InitDynamicCodeSection</a> (SEC newSec, IADDR iaddr, USIZE size)</td></tr>
 
@@ -3244,8 +3251,6 @@ LOCALFUN <a class="el" href="namespaceLEVEL__CORE.html#2ebba2acce07cff5838356d04
 <tr><td class="memItemLeft" nowrap align="right" valign="top">INT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#1bb12999507f92710684ac6a0df0cbf7">SEC_GetIDataINT32</a> (SEC sec, IADDR iaddr)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#a4e7a3ed081bf56bda6a351658032f96">SEC_NumRtn</a> (SEC sec)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#9aa4f040cc24733c87378be79ed342a1">SEC_IsShortData</a> (SEC sec)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#eccb54cfa29192be0cfbab7dd05625f7">SEC_String</a> (<a class="el" href="group__SEC__BASIC__API.html#g9d3e14174cd3222b425135d9c74df159">SEC_TYPE</a> type)</td></tr>
 
@@ -3418,6 +3423,9 @@ string&nbsp;</td><td class="memItemRight" valign="bottom"><b>longstr</b> (SYM sy
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="24e372958f63e2aac2ab27b1cd3367bd"></a><!-- doxytag: member="LEVEL_CORE::SYM_ifunc_type_set" ref="24e372958f63e2aac2ab27b1cd3367bd" args="(SYM x, SYM_IFUNC_TYPE y)" -->
 VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_ifunc_type_set</b> (SYM x, <a class="el" href="namespaceLEVEL__CORE.html#54d1437e708c4358079f4009ba18d8d0">SYM_IFUNC_TYPE</a> y)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6a2ae346d6fd42805066b7c1e8428692"></a><!-- doxytag: member="LEVEL_CORE::SYM_contained_symbols" ref="6a2ae346d6fd42805066b7c1e8428692" args="(SYM x)" -->
+SYM&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_contained_symbols</b> (SYM x)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f24ef5440ecebb83f4af8225787b59d1"></a><!-- doxytag: member="LEVEL_CORE::SYM_symbheader_i_set" ref="f24ef5440ecebb83f4af8225787b59d1" args="(SYM x, const VOID *y)" -->
 LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_symbheader_i_set</b> (SYM x, const VOID *y)</td></tr>
 
@@ -3462,6 +3470,9 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_state
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c489d826be3b7998ac4687443138690b"></a><!-- doxytag: member="LEVEL_CORE::SYM_string_offset_set" ref="c489d826be3b7998ac4687443138690b" args="(SYM x, UINT32 y)" -->
 LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_string_offset_set</b> (SYM x, UINT32 y)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b2f0f09a419bdc53fa9bc197bd96116a"></a><!-- doxytag: member="LEVEL_CORE::SYM_contained_symbols_set" ref="b2f0f09a419bdc53fa9bc197bd96116a" args="(SYM x, SYM y)" -->
+LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_contained_symbols_set</b> (SYM x, SYM y)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const ATTRIBUTE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#b6da0bf6fa35a9a8f9ec41d4b075ce55">ATTR_bbl_regsym</a> (&quot;reg&quot;,&quot;sym&quot;,&quot;bbl_regsym&quot;, EXT_ATTR_MODE_MULTIPLE, VAL_TYPE_SYM, <a class="el" href="namespaceLEVEL__CORE.html#63ff4ff2079a76e8f557039c04237dc7">B_CROSSLINK</a>, FALSE,&quot;&quot;)</td></tr>
 
@@ -3555,6 +3566,8 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SYM_LinkWith
 <tr><td class="memItemLeft" nowrap align="right" valign="top">string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#0f0cb4f17086a801ee08f2aedbf77c46">IMG_PrintRegSyms</a> (IMG img)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#e3ee94836458fe82e560342c721ecda3">SYM_Check</a> (SYM sym)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#1d5ef0ab417a25851447c78e52d3370a">SYM_AddContainedSymbol</a> (SYM sym, SYM contained_sym)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3373b124a7910159378a1bed5f7e5b06"></a><!-- doxytag: member="LEVEL_CORE::VAL_sact" ref="3373b124a7910159378a1bed5f7e5b06" args="(VAL_TYPE t, const VAL *val)" -->
 SACT&nbsp;</td><td class="memItemRight" valign="bottom"><b>VAL_sact</b> (<a class="el" href="namespaceLEVEL__CORE.html#f00baf7ee773fabf982f19765babd51d">VAL_TYPE</a> t, const VAL *val)</td></tr>
@@ -3789,6 +3802,8 @@ LOCALINLINE BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_Categ
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#c17ac408903ad55d6aafdf91e0046394">INS_IsSimpleRegIndirectRead</a> (INS ins)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#e47af3e9447edd53c6d61cffb44ec74d">INS_HasImplicitFullMask</a> (INS ins)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__IA32.html#g3f3b4e8bc1e7d9e01c889e9bf003a0a3">INS_EffectiveAddressWidth</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">USIZE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__GEN__IA32.html#ga7cbec34f1fc0e6387b44304f38f41c8">INS_MemoryOperandSize</a> (INS ins, UINT32 memoryOp)</td></tr>
@@ -3860,6 +3875,8 @@ LOCALINLINE BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_Categ
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__IA32.html#g56a84169084f4ba2a6c07d881acb165c">INS_HasMemoryVector</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#019c17b3973ad8a482741e9aca82fbd9">INS_IsSse</a> (INS ins)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#f81152ef2f974b4e3b45708864332c80">INS_IsMmx</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__IA32.html#g9e6447af2bd80c73ef8f1576be4e8f02">INS_GetFarPointer</a> (INS ins, UINT16 &amp;segment_selector, UINT32 &amp;displacement)</td></tr>
 
@@ -3968,8 +3985,6 @@ LOCALINLINE BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_Categ
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__IA32.html#g46beb557c54d04c8af5d0235e8e4a1dc">INS_IsRDTSC</a> (const INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__IA32.html#gd9b4a4123efc4821324e7b2a5be35fab">INS_IsMaskMov</a> (const INS ins)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__IA32.html#gdfbd3d4ff8e148fd19f36ebb52e816f6">INS_IsMaskedJump</a> (const INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#21fcfa5f32434b136912bc00e90c4301">INS_CountRegister</a> (INS ins)</td></tr>
 
@@ -4412,6 +4427,8 @@ BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_ReadsAndWritesDes
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="1987221b8c4562e4bc427d2ca3b5c7b4"></a><!-- doxytag: member="LEVEL_CORE::INS_IsRegWrittenByIns" ref="1987221b8c4562e4bc427d2ca3b5c7b4" args="(INS ins, REG reg)" -->
 BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_IsRegWrittenByIns</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API.html#gd8a45701127a54aaff7bed9d5678c855">INS_IsCacheLineFlush</a> (INS ins)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e2e783872064406b2c8ac44ef7625cfe"></a><!-- doxytag: member="LEVEL_CORE::GetRegWidthOfEaWidth" ref="e2e783872064406b2c8ac44ef7625cfe" args="(INT32 ea_width)" -->
 LOCALFUN <a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetRegWidthOfEaWidth</b> (INT32 ea_width)</td></tr>
 
@@ -4707,13 +4724,24 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMIn
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fc7f8ce89c52ee8d152a6c19c6d0195d"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMInsertOpReplaceDummyRegs" ref="fc7f8ce89c52ee8d152a6c19c6d0195d" args="(INS ins, REG base, xed_reg_enum_t dummy_base, REG index, xed_reg_enum_t dummy_index, REG mmsrc, xed_reg_enum_t dummy_src, REG mmdst, xed_reg_enum_t dummy_dst, REG maskReg, xed_reg_enum_t dummy_mask)" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMInsertOpReplaceDummyRegs</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, xed_reg_enum_t dummy_base, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, xed_reg_enum_t dummy_index, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmsrc, xed_reg_enum_t dummy_src, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmdst, xed_reg_enum_t dummy_dst, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, xed_reg_enum_t dummy_mask)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#ffd6f68d48ed12efcfcd033b2d3fd35b">INS_InitMMInsertOpOriginal</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmDest, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmSrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#cde503034f37e12fff800b9b967e5db5">INS_InitMMInsertOpOriginal</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmDest, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmSrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, UINT disp_bytes, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="65e2707c4142c9b08daca5e080a6f7bf"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMInsertOp" ref="65e2707c4142c9b08daca5e080a6f7bf" args="(INS ins, REG mmDest, REG mmSrc, REG maskReg, REG base, INT32 displacement, REG index, UINT scale, REG seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMInsertOp</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmDest, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmSrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="dad5421731847157e64e33fd0a0e6868"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMInsertOp" ref="dad5421731847157e64e33fd0a0e6868" args="(INS ins, REG mmDest, REG mmSrc, REG maskReg, REG base, INT32 displacement, UINT disp_bytes, REG index, UINT scale, REG seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMInsertOp</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmDest, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmSrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, UINT disp_bytes, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e2ed3db60b2878937ba6565c536ace58"></a><!-- doxytag: member="LEVEL_CORE::INS_InitLoadMemopGetDummyRegs" ref="e2ed3db60b2878937ba6565c536ace58" args="(REG dst, xed_reg_enum_t *dummy_dst, REG index, xed_reg_enum_t *dummy_index, REG base, xed_reg_enum_t *dummy_base, INT32 ea_width, REGWIDTH reg_width, BOOL exactCopy)" -->
-LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitLoadMemopGetDummyRegs</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst, xed_reg_enum_t *dummy_dst, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, xed_reg_enum_t *dummy_index, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, xed_reg_enum_t *dummy_base, INT32 ea_width, <a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a> reg_width, BOOL exactCopy)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="32c380a2b56fccca6ba1c19ad3428a5a"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMExtractOpGetDummyRegs" ref="32c380a2b56fccca6ba1c19ad3428a5a" args="(REG base, xed_reg_enum_t *dummy_base, REG index, xed_reg_enum_t *dummy_index, REG mm_src, xed_reg_enum_t *dummy_mmsrc, REG maskReg, xed_reg_enum_t *dummy_maskReg)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMExtractOpGetDummyRegs</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, xed_reg_enum_t *dummy_base, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, xed_reg_enum_t *dummy_index, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mm_src, xed_reg_enum_t *dummy_mmsrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, xed_reg_enum_t *dummy_maskReg)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="fc4744a21be2f9f6e9f457fde166c27a"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMExtractOpReplaceDummyRegs" ref="fc4744a21be2f9f6e9f457fde166c27a" args="(INS ins, REG base, xed_reg_enum_t dummy_base, REG index, xed_reg_enum_t dummy_index, REG mmsrc, xed_reg_enum_t dummy_src, REG maskReg, xed_reg_enum_t dummy_mask)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMExtractOpReplaceDummyRegs</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, xed_reg_enum_t dummy_base, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, xed_reg_enum_t dummy_index, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmsrc, xed_reg_enum_t dummy_src, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, xed_reg_enum_t dummy_mask)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d89b9daf7c86737a4fa505fc220ec0f1">INS_InitMMExtractOpOriginal</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmSrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, UINT disp_bytes, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="d26ce1411dad330fea08c63f89169df8"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMExtractOp" ref="d26ce1411dad330fea08c63f89169df8" args="(INS ins, REG mmSrc, REG maskReg, REG base, INT32 displacement, UINT disp_bytes, REG index, UINT scale, REG seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitMMExtractOp</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> mmSrc, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> maskReg, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, UINT disp_bytes, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="5bf028446a6070cd2e5057beb11f66c5"></a><!-- doxytag: member="LEVEL_CORE::INS_InitLoadMemopGetDummyRegs" ref="5bf028446a6070cd2e5057beb11f66c5" args="(REG dst, xed_reg_enum_t *dummy_dst, REG index, xed_reg_enum_t *dummy_index, REG base, xed_reg_enum_t *dummy_base, INT32 ea_width, REGWIDTH reg_width, BOOL exactCopy, xed_iclass_enum_t iclass)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitLoadMemopGetDummyRegs</b> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst, xed_reg_enum_t *dummy_dst, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, xed_reg_enum_t *dummy_index, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, xed_reg_enum_t *dummy_base, INT32 ea_width, <a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a> reg_width, BOOL exactCopy, xed_iclass_enum_t iclass)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0d59d4d3e893a34b875b78b3ac72d671"></a><!-- doxytag: member="LEVEL_CORE::INS_InitLoadmemopReplaceDummyRegs" ref="0d59d4d3e893a34b875b78b3ac72d671" args="(INS ins, REG dst, xed_reg_enum_t dummy_dst, REG base, xed_reg_enum_t dummy_base, REG index, xed_reg_enum_t dummy_index, UINT memop_pos)" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitLoadmemopReplaceDummyRegs</b> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst, xed_reg_enum_t dummy_dst, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, xed_reg_enum_t dummy_base, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, xed_reg_enum_t dummy_index, UINT memop_pos)</td></tr>
@@ -4782,15 +4810,16 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_GenRegImmDwordOp<
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d40c9d91ca2422cc80ac32e633768d1a">INS_InitMovMemImmOpWidth</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, ADDRINT displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, ADDRINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> pinseg, UINT64 immed, UINT8 legal_immed_bytewidths_bitmap, <a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a> reg_width)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#fa4db9c3465b3f8c5f93326780454f64">INS_InitKmov</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> src, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dest)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d33d8eb1821bf13d2d24b34ee70cf133">INS_InitStoreMaskReg</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> src, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, ADDRINT displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT32 scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, BOOL exactCopy)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#36e5db2d8a88b9048d007c451c08a25f">INS_InitKorTest</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> src, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dest)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#614e0b36562feca11c2964e145516b63">INS_InitLoadMaskReg</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, ADDRINT displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT32 scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, BOOL exactCopy)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#fc5a947432b89aed8105e577a0694216">INS_GenMemImmOpWidth</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, ADDRINT displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, ADDRINT scale, UINT64 immed, OPCODE opcode, UINT8 legal_immed_bytewidths_bitmap, <a class="el" href="group__REG__CPU__IA32.html#gceee9b2795b2f67fd256086924b58870">REGWIDTH</a> reg_width)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d698f7c6d5886b3deef5fc382e0ed70e">INS_GenSizedNop</a> (INS ins, UINT requested_length_bytes)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e3f9cd74d28119be20a7380185ed870f"></a><!-- doxytag: member="LEVEL_CORE::GetSimpleDisplacementWidthForAVX512" ref="e3f9cd74d28119be20a7380185ed870f" args="(const INT32 displacement)" -->
+LOCALFUN UINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetSimpleDisplacementWidthForAVX512</b> (const INT32 displacement)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#bb09de8a41e0c7580cf35dd54d52e105">INS_InitUnalignedStoreXMM</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> src, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, INT32 displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> seg, BOOL exactCopy)</td></tr>
 
@@ -4890,6 +4919,8 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitVZer
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#b142099529e6947cffb38e652c60ccdd">INS_InitLods</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#888ef8fe28f65bbf9f7fcde9523e45a1">INS_InitStos</a> (INS ins)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#492bca6c035bcbfb2de07315e9d0ebac">INS_InitRepStos</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#9ec12b3eeed3f1f47ce0702818e130a4">INS_InitPopF</a> (INS ins)</td></tr>
 
@@ -5015,7 +5046,7 @@ VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_InitJMP</b> (INS 
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#5bdba7891f41775a10d712721de97376">INS_InitMovMemReg</a> (INS ins, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> segment, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> base, ADDRINT displacement, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> index, UINT32 scale, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#42fa7ed3e708e484a56e85e0c11452ac">INS_InitMovI</a> (INS ins, UINT64 imm, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#228136d6fceb5de37f8a17c02d8db97e">INS_InitMovI</a> (INS ins, UINT64 imm, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst, BOOL denyImm32SignExtension=FALSE)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#df7853949d7908cd42a9af7899723525">INS_InitMovAddrint</a> (INS ins, ADDRINT imm, <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> dst)</td></tr>
 
@@ -5076,7 +5107,7 @@ UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>INS_min_alignment</
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">INS_REUSERS_MANAGER &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#a82917714acc255180e8debb1dafe3b0">InsReusersManager</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#fad363f291d88ebdef33dd7aba4438f5">KnobUseInsReusing</a> (KNOB_MODE_WRITEONCE,&quot;supported:regalloc&quot;,&quot;ins_reusing&quot;, KNOB_ONLY_OFF_MIC,&quot;Enable ins reusing&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#46f5a1f64c8e07ca97427b90d9f860ef">KnobUseInsReusing</a> (KNOB_MODE_WRITEONCE,&quot;supported:regalloc&quot;,&quot;ins_reusing&quot;,&quot;1&quot;,&quot;Enable ins reusing&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="219f04ba30fe591068f527e24fb9d750"></a><!-- doxytag: member="LEVEL_CORE::StatInReusingStoreBytes" ref="219f04ba30fe591068f527e24fb9d750" args="(&quot;mem&quot;,&quot;bytes&quot;,&quot;ins_reusing&quot;,&quot;&quot;,&amp;StatRawMmapBytes)" -->
 LOCALVAR STAT_NORM&nbsp;</td><td class="memItemRight" valign="bottom"><b>StatInReusingStoreBytes</b> (&quot;mem&quot;,&quot;bytes&quot;,&quot;ins_reusing&quot;,&quot;&quot;,&amp;StatRawMmapBytes)</td></tr>
@@ -5124,6 +5155,8 @@ LOCALVAR STAT_UINT64&nbsp;</td><td class="memItemRight" valign="bottom"><b>XEDSt
 LOCALVAR KNOB_COMMENT&nbsp;</td><td class="memItemRight" valign="bottom"><b>knob_xed_family</b> (&quot;supported:xed&quot;,&quot;Intel(R) X86 Encoder Decoder switches&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#3c4399ba97a458831d2c8d1b652bc084">knob_mpx_mode</a> (KNOB_MODE_WRITEONCE,&quot;supported:xed&quot;,&quot;xed_mpx_mode&quot;,&quot;0&quot;,&quot;Enable Intel(R) MPX instruction decoding&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#c0b5f4cfff77f219829da8b664319674">knob_cet_mode</a> (KNOB_MODE_WRITEONCE,&quot;supported:xed&quot;,&quot;xed_cet_mode&quot;,&quot;0&quot;,&quot;Enable Intel(R) CET instruction decoding&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="da8a795bbe9fbdc4f6c89ba4bea162c6"></a><!-- doxytag: member="LEVEL_CORE::KnobXedValidateEncoding" ref="da8a795bbe9fbdc4f6c89ba4bea162c6" args="(KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;xedvalidateencoding&quot;,&quot;0&quot;,&quot;Check the encoding by decoding and comparing&quot;)" -->
 LOCALVAR KNOB&lt; BOOL &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><b>KnobXedValidateEncoding</b> (KNOB_MODE_WRITEONCE,&quot;supported&quot;,&quot;xedvalidateencoding&quot;,&quot;0&quot;,&quot;Check the encoding by decoding and comparing&quot;)</td></tr>
@@ -5288,8 +5321,6 @@ LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>init_xed_pin
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">xed_reg_enum_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#b629029fe019506163cbbd22379856c2">xed_exact_map_from_pin_reg</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> pin_reg)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">xed_reg_enum_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#6db0d8b779015ff7a272f1b3a25b61f4">xed_exact_map_from_pin_reg_fast</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> pin_reg)</td></tr>
-
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#8a09aea6d6a68b99b70bc95ccfadc447">XED_RegRolePosToXED</a> (INS ins)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespaceLEVEL__CORE.html#d86661c682b28547c2b0cc70154a4c2a">FLAGS</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#e32617c4f38017218e347dda6053c8e2">XED_PhyFlagsWritten</a> (const xed_decoded_inst_t *xedd, BOOL onlyDefinite)</td></tr>
@@ -5313,6 +5344,24 @@ LOCALFUN UINT&nbsp;</td><td class="memItemRight" valign="bottom"><b>find_or_bump
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e588429aa3f3959197a35b80073c2990"></a><!-- doxytag: member="LEVEL_CORE::XED_update_reg_in_stripe" ref="e588429aa3f3959197a35b80073c2990" args="(INS ins, const xed_decoded_inst_t *xedd, const xed_operand_action_enum_t rw, xed_operand_enum_t xed_operand, UINT xed_operand_index, UINT &amp;nr, UINT &amp;nw)" -->
 LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>XED_update_reg_in_stripe</b> (INS ins, const xed_decoded_inst_t *xedd, const xed_operand_action_enum_t rw, xed_operand_enum_t xed_operand, UINT xed_operand_index, UINT &amp;nr, UINT &amp;nw)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="c89e3b5b9069e6fbd8f1f82fd4cc9468"></a><!-- doxytag: member="LEVEL_CORE::IsMultiSourceOperand" ref="c89e3b5b9069e6fbd8f1f82fd4cc9468" args="(const xed_operand_type_enum_t otype)" -->
+LOCALINLINE BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><b>IsMultiSourceOperand</b> (const xed_operand_type_enum_t otype)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="286fb958655e11230790dbe08bd04b61"></a><!-- doxytag: member="LEVEL_CORE::GetBaseVectorReg" ref="286fb958655e11230790dbe08bd04b61" args="(const REG reg)" -->
+LOCALINLINE <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetBaseVectorReg</b> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e4b3181fb0326d200bb2a1322eb460b7"></a><!-- doxytag: member="LEVEL_CORE::GetLastVectorReg" ref="e4b3181fb0326d200bb2a1322eb460b7" args="(const REG reg)" -->
+LOCALINLINE <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetLastVectorReg</b> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="31c818f201d58b78e17eef2f69afa457"></a><!-- doxytag: member="LEVEL_CORE::GetMultiSourceOperandVectorMask" ref="31c818f201d58b78e17eef2f69afa457" args="(const xed_operand_type_enum_t otype)" -->
+LOCALINLINE UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>GetMultiSourceOperandVectorMask</b> (const xed_operand_type_enum_t otype)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="62e1055dfb1d3edfde762565eef7fefd"></a><!-- doxytag: member="LEVEL_CORE::NumOfRegsInMultiSourceOperand" ref="62e1055dfb1d3edfde762565eef7fefd" args="(const xed_operand_type_enum_t otype)" -->
+LOCALINLINE UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><b>NumOfRegsInMultiSourceOperand</b> (const xed_operand_type_enum_t otype)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bf0f9da3a0fbe71cbfe5b13d06c96b0c"></a><!-- doxytag: member="LEVEL_CORE::XED_add_multisource_reg_to_stripe" ref="bf0f9da3a0fbe71cbfe5b13d06c96b0c" args="(INS ins, const xed_decoded_inst_t *xedd, const xed_operand_type_enum_t otype, xed_operand_enum_t xed_operand, UINT xed_operand_index, UINT &amp;nr)" -->
+LOCALFUN VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>XED_add_multisource_reg_to_stripe</b> (INS ins, const xed_decoded_inst_t *xedd, const xed_operand_type_enum_t otype, xed_operand_enum_t xed_operand, UINT xed_operand_index, UINT &amp;nr)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#ea810b169b1d4990770e5e8225b0f75e">XED_RegRolePosFromXED</a> (INS ins)</td></tr>
 
@@ -5482,7 +5531,7 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetZmmHi2
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#3245aaa35a9ff8decd7b7dca9a8f022b">REG_StoreZmmToFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> zmm, const VOID *val, FPSTATE *fpstate)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d1e28a1269d26842e04908763f596770">REG_StoreKMaskToFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> kmask, const <a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> &amp;val, FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d5f2d892e913eb8d6bd3c47947cb65f1">REG_StoreKMaskToFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> kmask, const UINT64 &amp;val, FPSTATE *fpstate)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const REGVALUE128 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#84f5c5b563ebc5ae49b3232190e47ee2">REG_ReadXmmFromFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> xmm, const FPSTATE *fpstate)</td></tr>
 
@@ -5496,23 +5545,37 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetZmmHi2
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const REGVALUE512&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#9c5ca428f4c5dddeef3331916a7adb4c">REG_ReadZmmFromFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> zmm, const FPSTATE *fpstate)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#2a86f1dccec0f7aa717ffc5811ab9502">REG_ReadKMaskFromFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> kmask, const FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const UINT64 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#2467d3b70469bd4ef35a71dfe992769e">REG_ReadKMaskFromFxsave</a> (const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> kmask, const FPSTATE *fpstate)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#d931b823289693ddd05f1611b7bc7f4b">REG_StoreShortFpToFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const <a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> val, FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#6cab0214bca45956a360ff1f7f39c126">REG_StoreShortFpToFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const <a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> val, FXSAVE *fxsave)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#f4769e2c23a5540893a531d4916740df">REG_ReadShortFpFromFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#5da98fa337342bd9ddf824eb58d60c8b">REG_StoreShortFpToFpstate</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const <a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> val, FPSTATE *fpstate)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#84435b4d739fd4d0d9e506c4195aef32">REG_StoreStToFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const VOID *val, FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#05ee477947c836d56f3c30a13d04fdd4">REG_ReadShortFpFromFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FXSAVE *fxsave)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#72226a2913933f7b70788b90d437438f">REG_StoreStToFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const REGVALUE128 &amp;val, FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#9041a8c1b4f2a74408163c4e8cbdd2a0">REG_ReadShortFpFromFpstate</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FPSTATE *fpstate)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#2206af1d8806e71dd537f9ff56e1ff8c">REG_ReadStFromFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FPSTATE *fpstate, VOID *val)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#e043594ae0e7f35031d12ede52eaeee3">REG_StoreStToFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const VOID *val, FXSAVE *fxsave)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const REGVALUE128 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#603e4ac92d5e9134e94e9ee3316220fb">REG_ReadStFromFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FPSTATE *fpstate)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#dce0255b8c49dbf30ed5402d2f048f7f">REG_StoreStToFpstate</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const VOID *val, FPSTATE *fpstate)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#1f82205c37a54ccd1a369c202d892f1c">REG_StoreStToFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const REGVALUE128 &amp;val, FXSAVE *fxsave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#4e9c7282aaa83e094c5991b2d8b79df6">REG_StoreStToFpstate</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const REGVALUE128 &amp;val, FPSTATE *fpstate)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#a7522bb87a5da683fa931bcfdb0aee0f">REG_ReadStFromFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FXSAVE *fxsave, VOID *val)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#32cd99590a26b2c584a27818a6de922d">REG_ReadStFromFpstate</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FPSTATE *fpstate, VOID *val)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const REGVALUE128 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#f9fb4899f5254de1e03e36d83a28c65f">REG_ReadStFromFxsave</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FXSAVE *fxsave)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const REGVALUE128 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#74fa96b461341157b0428804a79d98d7">REG_ReadStFromFpstate</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, const FPSTATE *fpstate)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#fc3da615530cbc9e988f85edd6db4da6">REG_ReadPseudo</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#97c4c1e79b4d364cca10681f653f8807">REG_StorePseudo</a> (<a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> reg, <a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> val)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">VOID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#2ab12eba2494416ed254208243e8ecd2">CopyCompFpStateToStandard</a> (ADDRINT compFpState, FPSTATE *standardFpState, UINT64 compMask)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="group__INS__BASIC__API__GEN__IA32.html#g3b24ec17730bcf65f7ff170f7ff49fba">SYSCALL_STANDARD</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#4f2098e76ace18bc0de166cee12f345e">NativeSysCallStd</a> ()</td></tr>
 
@@ -5553,6 +5616,9 @@ LOCALINLINE VOID&nbsp;</td><td class="memItemRight" valign="bottom"><b>SetZmmHi2
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST PIN_DEPRECATED_API <br>
 UINT32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__INS__BASIC__API__GEN__IA32.html#g7816572b9801a4e5584b2cdbeb00bdf8">VARIABLE_MEMORY_REFERENCE_SIZE</a> = ~0U</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f7b55284326800a26c7420fd805f1bf8"></a><!-- doxytag: member="LEVEL_CORE::InsResizeLock" ref="f7b55284326800a26c7420fd805f1bf8" args="" -->
+LOCALVAR PINVM::PINSYNC_RWLOCK&nbsp;</td><td class="memItemRight" valign="bottom"><b>InsResizeLock</b></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">LOCALVAR const <a class="el" href="namespaceLEVEL__CORE.html#2ebba2acce07cff5838356d046c64e53">SEC_STATE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><b>SEC_StateMachineExe</b> []</td></tr>
 
@@ -5665,9 +5731,9 @@ struct {</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__REG__CPU__IA32.html#g35bb2c27e97cea61c04d806824672c05">REG_LastInRegset</a> = <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>(REG_LAST-1)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#3d4ce18d46e3508fa683dc2d728c1d06">REG_FirstInRegsetPhyContext</a> = REG_PHYSICAL_CONTEXT_BEGIN</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#3d4ce18d46e3508fa683dc2d728c1d06">REG_FirstInRegsetPhyContext</a> = REG_PHYSICAL_INTEGER_BASE</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#55a933a82d330d224f9f24d73886d4dc">REG_LastInRegsetPhyContext</a> = REG_PHYSICAL_CONTEXT_END</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#55a933a82d330d224f9f24d73886d4dc">REG_LastInRegsetPhyContext</a> = REG_PHYSICAL_INTEGER_END</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const <a class="el" href="group__REG__CPU__IA32.html#g7a3ddfd5132200b9c8ed5d93dd8291eb">REGSET</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceLEVEL__CORE.html#0556d603424d49f4c5d3dda975446924">REGSET_NONE</a></td></tr>
 
@@ -6322,8 +6388,6 @@ Relocation types <dl compact><dt><b>Enumerator: </b></dt><dd>
 64-bit value in the chunk </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="2f0d5edbc35b573ae452cb0825f84ac21e584f8e455bab07509d29b1f966a636"></a><!-- doxytag: member="REL_TYPE_INS_PCREL" ref="2f0d5edbc35b573ae452cb0825f84ac21e584f8e455bab07509d29b1f966a636" args="" -->REL_TYPE_INS_PCREL</em>&nbsp;</td><td>
 PC-relative operand. </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="2f0d5edbc35b573ae452cb0825f84ac210d76220afb84784845f8a31377a22c9"></a><!-- doxytag: member="REL_TYPE_INS_ABS64" ref="2f0d5edbc35b573ae452cb0825f84ac210d76220afb84784845f8a31377a22c9" args="" -->REL_TYPE_INS_ABS64</em>&nbsp;</td><td>
-64-bit literal operand (IPF) </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="2f0d5edbc35b573ae452cb0825f84ac2341f9b6ab5dde9d06c59ea7d134d0603"></a><!-- doxytag: member="REL_TYPE_INS_IA32IMM" ref="2f0d5edbc35b573ae452cb0825f84ac2341f9b6ab5dde9d06c59ea7d134d0603" args="" -->REL_TYPE_INS_IA32IMM</em>&nbsp;</td><td>
 "immediate" operand of an ia32 instruction </td></tr>
 </table>
@@ -6536,17 +6600,17 @@ enum describing how the system call is delivered to the kernel. these values are
 not a system call </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f0494171d95a173a1245ba3f9d56550613ddecb"></a><!-- doxytag: member="SYSCALL_TYPE_SYSCALL" ref="ded277773def1b225f480ce71f0494171d95a173a1245ba3f9d56550613ddecb" args="" -->SYSCALL_TYPE_SYSCALL</em>&nbsp;</td><td>
 system call delivered via syscall </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f049417ca0bf56763e1680f69533f221a55c853"></a><!-- doxytag: member="SYSCALL_TYPE_SYSENTER" ref="ded277773def1b225f480ce71f049417ca0bf56763e1680f69533f221a55c853" args="" -->SYSCALL_TYPE_SYSENTER</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f049417dd65d531254f156d175f6f16db630807"></a><!-- doxytag: member="OS_SYSCALL_TYPE_SYSENTER" ref="ded277773def1b225f480ce71f049417dd65d531254f156d175f6f16db630807" args="" -->OS_SYSCALL_TYPE_SYSENTER</em>&nbsp;</td><td>
 system call delivered via sysenter </td></tr>
 <tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f049417b1ea2c82c1f85d021d305a2a12f4d1e9"></a><!-- doxytag: member="SYSCALL_TYPE_FARCALL" ref="ded277773def1b225f480ce71f049417b1ea2c82c1f85d021d305a2a12f4d1e9" args="" -->SYSCALL_TYPE_FARCALL</em>&nbsp;</td><td>
 system call delivered via far call (lcall) </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f0494178835e07f18d995bff36f9b6e75103566"></a><!-- doxytag: member="SYSCALL_TYPE_INT80" ref="ded277773def1b225f480ce71f0494178835e07f18d995bff36f9b6e75103566" args="" -->SYSCALL_TYPE_INT80</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f049417eeed16fcdc2bef6d80767b19f351a051"></a><!-- doxytag: member="OS_SYSCALL_TYPE_INT80" ref="ded277773def1b225f480ce71f049417eeed16fcdc2bef6d80767b19f351a051" args="" -->OS_SYSCALL_TYPE_INT80</em>&nbsp;</td><td>
 system call delivered via int 0x80 </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f04941759d3b0020bcd345fec7ecd8e0bf55d1b"></a><!-- doxytag: member="SYSCALL_TYPE_INT81" ref="ded277773def1b225f480ce71f04941759d3b0020bcd345fec7ecd8e0bf55d1b" args="" -->SYSCALL_TYPE_INT81</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f049417afea07939b632b1ff37178cfa480ddd7"></a><!-- doxytag: member="OS_SYSCALL_TYPE_INT81" ref="ded277773def1b225f480ce71f049417afea07939b632b1ff37178cfa480ddd7" args="" -->OS_SYSCALL_TYPE_INT81</em>&nbsp;</td><td>
 system call delivered via int 0x81 </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f04941777d674fa2e95153bdf87c4a4d70640a3"></a><!-- doxytag: member="SYSCALL_TYPE_INT82" ref="ded277773def1b225f480ce71f04941777d674fa2e95153bdf87c4a4d70640a3" args="" -->SYSCALL_TYPE_INT82</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f04941775350cfad780f79ba165176af653a40e"></a><!-- doxytag: member="OS_SYSCALL_TYPE_INT82" ref="ded277773def1b225f480ce71f04941775350cfad780f79ba165176af653a40e" args="" -->OS_SYSCALL_TYPE_INT82</em>&nbsp;</td><td>
 system call delivered via int 0x82 </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f04941784583e3c0f1f607c18ccdf327657e7b0"></a><!-- doxytag: member="SYSCALL_TYPE_INT83" ref="ded277773def1b225f480ce71f04941784583e3c0f1f607c18ccdf327657e7b0" args="" -->SYSCALL_TYPE_INT83</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="ded277773def1b225f480ce71f049417f0545b6006d52de950aaeca316e212cc"></a><!-- doxytag: member="OS_SYSCALL_TYPE_INT83" ref="ded277773def1b225f480ce71f049417f0545b6006d52de950aaeca316e212cc" args="" -->OS_SYSCALL_TYPE_INT83</em>&nbsp;</td><td>
 system call delivered via int 0x83 </td></tr>
 </table>
 </dl>
@@ -11471,6 +11535,57 @@ The root for all CHUNK stripes     </td>
 The base stripe for CHUNK     </td>
   </tr>
 </table>
+<a class="anchor" name="2ab12eba2494416ed254208243e8ecd2"></a><!-- doxytag: member="LEVEL_CORE::CopyCompFpStateToStandard" ref="2ab12eba2494416ed254208243e8ecd2" args="(ADDRINT compFpState, FPSTATE *standardFpState, UINT64 compMask)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::CopyCompFpStateToStandard           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">ADDRINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>compFpState</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>FPSTATE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>standardFpState</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT64&nbsp;</td>
+          <td class="mdname" nowrap> <em>compMask</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Function to generate standard fpState from compacted fpState using the compacted mask.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>compFpState</em>&nbsp;</td><td>Base pointer of the compacted XSAVE Area. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>standardFpState</em>&nbsp;</td><td>Pointer of the Output FpState. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>compMask</em>&nbsp;</td><td>Compacted mask of the supported bits. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="2925817accdb49346479a31dba495b21"></a><!-- doxytag: member="LEVEL_CORE::CopyImageLoaderInfo" ref="2925817accdb49346479a31dba495b21" args="(VOID *arg)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -13403,6 +13518,55 @@ x     </td>
 x     </td>
   </tr>
 </table>
+<a class="anchor" name="7be0abe4f389fea230c868d28a164f34"></a><!-- doxytag: member="LEVEL_CORE::EXT_AllocAndLinkInsBbl" ref="7be0abe4f389fea230c868d28a164f34" args="(INS ins, const ATTRIBUTE *attribute, UINT32 number, BBL value)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">EXT LEVEL_CORE::EXT_AllocAndLinkInsBbl           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const ATTRIBUTE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>attribute</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BBL&nbsp;</td>
+          <td class="mdname" nowrap> <em>value</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+x     </td>
+  </tr>
+</table>
 <a class="anchor" name="3d1e4ee28223d87289a2fc02af94babb"></a><!-- doxytag: member="LEVEL_CORE::EXT_AllocAndLinkInsConstPtr" ref="3d1e4ee28223d87289a2fc02af94babb" args="(INS ins, const ATTRIBUTE *attribute, UINT32 number, const VOID *ptr)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -14038,6 +14202,55 @@ x     </td>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
           <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>value</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+x     </td>
+  </tr>
+</table>
+<a class="anchor" name="5ff25a764110461f6015ebc91f84307d"></a><!-- doxytag: member="LEVEL_CORE::EXT_AllocAndLinkInsUint64" ref="5ff25a764110461f6015ebc91f84307d" args="(INS ins, const ATTRIBUTE *attribute, UINT32 number, UINT64 value)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">EXT LEVEL_CORE::EXT_AllocAndLinkInsUint64           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const ATTRIBUTE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>attribute</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT64&nbsp;</td>
           <td class="mdname" nowrap> <em>value</em></td>
         </tr>
         <tr>
@@ -15468,6 +15681,33 @@ x     </td>
 
 <p>
 x     </td>
+  </tr>
+</table>
+<a class="anchor" name="126ad94ca47914fefea560b9b514be6d"></a><!-- doxytag: member="LEVEL_CORE::GetINSResizeLock" ref="126ad94ca47914fefea560b9b514be6d" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">PINVM::PINSYNC_RWLOCK* LEVEL_CORE::GetINSResizeLock           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the readers-writer lock of the INS stripe.     </td>
   </tr>
 </table>
 <a class="anchor" name="1dcadf7c7eaad581ee8cccc361e40611"></a><!-- doxytag: member="LEVEL_CORE::GetLegalByteWidthsBitmapForEaWidth" ref="1dcadf7c7eaad581ee8cccc361e40611" args="(INT32 ea_width)" --><p>
@@ -17275,6 +17515,34 @@ x     </td>
 x     </td>
   </tr>
 </table>
+<a class="anchor" name="ede76f1322e2b4ea2adc38baad0e12d8"></a><!-- doxytag: member="LEVEL_CORE::InitializeINSSupplementaryResizeLock" ref="ede76f1322e2b4ea2adc38baad0e12d8" args="(PINVM::ILOCK *lock)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::InitializeINSSupplementaryResizeLock           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">PINVM::ILOCK *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>lock</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Initialize the resize lock for the INS stripe     </td>
+  </tr>
+</table>
 <a class="anchor" name="302e3b25911e8a9fe3c1fb4c112ef44b"></a><!-- doxytag: member="LEVEL_CORE::InitializeStripes" ref="302e3b25911e8a9fe3c1fb4c112ef44b" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -17355,6 +17623,35 @@ Several instructions touch big swaths of the FPstate. These FP registers are not
 
 <p>
 Allocate new INS, some initialization     </td>
+  </tr>
+</table>
+<a class="anchor" name="d36c5d89d0bac2b3b6c0ba7fe2722218"></a><!-- doxytag: member="LEVEL_CORE::INS_AllocLocked" ref="d36c5d89d0bac2b3b6c0ba7fe2722218" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">INS LEVEL_CORE::INS_AllocLocked           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Allocate new INS, some initialization The readers lock for the INS stripe is acquired when this function returns. This guarantees the validity of the INS object in a MT environment when the VM lock is not held by the calling thread. It is the responsibility of the caller to unlock the INS stripe readers lock after he's calling <a class="el" href="namespaceLEVEL__CORE.html#c1e7f98240452c6e16ce97af2819d329">INS_Free()</a> on the allocated INS.<p>
+<dl compact><dt><b>Note:</b></dt><dd>Use this function to allocate an instruction without holding the VM lock. </dd></dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="5c89e07c7d7d21aa97893881c3afc722"></a><!-- doxytag: member="LEVEL_CORE::INS_Append" ref="5c89e07c7d7d21aa97893881c3afc722" args="(INS ins, BBL parent)" --><p>
@@ -18973,6 +19270,34 @@ Decode an original instruction and initialize the specified INS object. Use the 
 Free INS     </td>
   </tr>
 </table>
+<a class="anchor" name="f34c7dca6aab90cde4c3c878df7ac231"></a><!-- doxytag: member="LEVEL_CORE::INS_FreeLocked" ref="f34c7dca6aab90cde4c3c878df7ac231" args="(INS ins)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::INS_FreeLocked           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>ins</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Free INS which was allocated by <a class="el" href="namespaceLEVEL__CORE.html#d36c5d89d0bac2b3b6c0ba7fe2722218">INS_AllocLocked()</a>. This function also releases the INS stripe lock acquired by <a class="el" href="namespaceLEVEL__CORE.html#d36c5d89d0bac2b3b6c0ba7fe2722218">INS_AllocLocked()</a>.     </td>
+  </tr>
+</table>
 <a class="anchor" name="9f8dd4becd7cd470c0dfff19817bad43"></a><!-- doxytag: member="LEVEL_CORE::INS_FreeRel" ref="9f8dd4becd7cd470c0dfff19817bad43" args="(INS ins)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -20201,6 +20526,34 @@ Return true if the branch has an 8b displacement. Relative/direct branches only!
 
 <p>
 x     </td>
+  </tr>
+</table>
+<a class="anchor" name="e47af3e9447edd53c6d61cffb44ec74d"></a><!-- doxytag: member="LEVEL_CORE::INS_HasImplicitFullMask" ref="e47af3e9447edd53c6d61cffb44ec74d" args="(INS ins)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_CORE::INS_HasImplicitFullMask           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>ins</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns true only if this is k0 masked vector that is ignored (ie. in EVEX instruction) A bit hacky code till better xed API     </td>
   </tr>
 </table>
 <a class="anchor" name="f07d6d91ab72c9eaafab019b71bdb0f3"></a><!-- doxytag: member="LEVEL_CORE::INS_HasImplicitMemoryReference" ref="f07d6d91ab72c9eaafab019b71bdb0f3" args="(INS ins)" --><p>
@@ -21996,6 +22349,34 @@ Create an GPR32/ XMM operation     </td>
 x     </td>
   </tr>
 </table>
+<a class="anchor" name="46002725dfe70436f9e50482a9993f42"></a><!-- doxytag: member="LEVEL_CORE::INS_Initialize" ref="46002725dfe70436f9e50482a9993f42" args="(INS ins)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN void LEVEL_CORE::INS_Initialize           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>ins</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Initializate a newly allocated INS     </td>
+  </tr>
+</table>
 <a class="anchor" name="013d9fdab829cde87201e8ad96bb2b70"></a><!-- doxytag: member="LEVEL_CORE::INS_InitIncMem" ref="013d9fdab829cde87201e8ad96bb2b70" args="(INS ins, REG base, ADDRINT disp, BOOL lock)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -22429,92 +22810,6 @@ Copy the branch. Change the displacement to 32 bits if the instruction allows it
 Indirect conditional jump through memory, copying the opcode from another instruction     </td>
   </tr>
 </table>
-<a class="anchor" name="fa4db9c3465b3f8c5f93326780454f64"></a><!-- doxytag: member="LEVEL_CORE::INS_InitKmov" ref="fa4db9c3465b3f8c5f93326780454f64" args="(INS ins, REG src, REG dest)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_CORE::INS_InitKmov           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">INS&nbsp;</td>
-          <td class="mdname" nowrap> <em>ins</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>dest</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-This function generates a kmov between a mask register and a 32b gpr. All other forms of kmov are not handled.     </td>
-  </tr>
-</table>
-<a class="anchor" name="36e5db2d8a88b9048d007c451c08a25f"></a><!-- doxytag: member="LEVEL_CORE::INS_InitKorTest" ref="36e5db2d8a88b9048d007c451c08a25f" args="(INS ins, REG src, REG dest)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_CORE::INS_InitKorTest           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">INS&nbsp;</td>
-          <td class="mdname" nowrap> <em>ins</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>dest</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-X     </td>
-  </tr>
-</table>
 <a class="anchor" name="5417f5e6d8a2ce987d75ce99d43f5913"></a><!-- doxytag: member="LEVEL_CORE::INS_InitLAHF" ref="5417f5e6d8a2ce987d75ce99d43f5913" args="(INS ins)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -22937,6 +23232,79 @@ x     </td>
 
 <p>
 x     </td>
+  </tr>
+</table>
+<a class="anchor" name="614e0b36562feca11c2964e145516b63"></a><!-- doxytag: member="LEVEL_CORE::INS_InitLoadMaskReg" ref="614e0b36562feca11c2964e145516b63" args="(INS ins, REG dst, REG base, ADDRINT displacement, REG index, UINT32 scale, REG seg, BOOL exactCopy)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::INS_InitLoadMaskReg           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>ADDRINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>displacement</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>seg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>exactCopy</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This function loads the value of a mask register directly from memory.     </td>
   </tr>
 </table>
 <a class="anchor" name="88479c7cf99f94fbbb44ecfb62e99e78"></a><!-- doxytag: member="LEVEL_CORE::INS_InitLoadMemop" ref="88479c7cf99f94fbbb44ecfb62e99e78" args="(INS ins, REG dst, REG base, ADDRINT displacement, REG index, ADDRINT scale, REG pinseg, xed_iclass_enum_t iclass, BOOL exactCopy, xed_operand_enum_t xed_op=XED_OPERAND_MEM0, UINT8 legal_displacement_bytewidths_bitmap=5, REGWIDTH reg_width=REGWIDTH_NATIVE, INT32 ea_width=sizeof(VOID *)*8, UINT load_bytes=0)" --><p>
@@ -23400,7 +23768,110 @@ Operate with an immediate and a memory operand.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="ffd6f68d48ed12efcfcd033b2d3fd35b"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMInsertOpOriginal" ref="ffd6f68d48ed12efcfcd033b2d3fd35b" args="(INS ins, REG mmDest, REG mmSrc, REG maskReg, REG base, INT32 displacement, REG index, UINT scale, REG seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)" --><p>
+<a class="anchor" name="d89b9daf7c86737a4fa505fc220ec0f1"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMExtractOpOriginal" ref="d89b9daf7c86737a4fa505fc220ec0f1" args="(INS ins, REG mmSrc, REG maskReg, REG base, INT32 displacement, UINT disp_bytes, REG index, UINT scale, REG seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">LOCALFUN VOID LEVEL_CORE::INS_InitMMExtractOpOriginal           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname" nowrap> <em>ins</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>mmSrc</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>maskReg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>base</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>INT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>displacement</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>disp_bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>scale</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>seg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>imm8</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>xed_iclass_enum_t&nbsp;</td>
+          <td class="mdname" nowrap> <em>iclass</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT32&nbsp;</td>
+          <td class="mdname" nowrap> <em>operandWidthBits</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>replaceXedRegs</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set up the memory resource     </td>
+  </tr>
+</table>
+<a class="anchor" name="cde503034f37e12fff800b9b967e5db5"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMMInsertOpOriginal" ref="cde503034f37e12fff800b9b967e5db5" args="(INS ins, REG mmDest, REG mmSrc, REG maskReg, REG base, INT32 displacement, UINT disp_bytes, REG index, UINT scale, REG seg, UINT32 imm8, xed_iclass_enum_t iclass, UINT32 operandWidthBits, BOOL replaceXedRegs)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -23440,6 +23911,12 @@ Operate with an immediate and a memory operand.<p>
           <td class="md"></td>
           <td class="md" nowrap>INT32&nbsp;</td>
           <td class="mdname" nowrap> <em>displacement</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>UINT&nbsp;</td>
+          <td class="mdname" nowrap> <em>disp_bytes</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -23939,7 +24416,7 @@ x     </td>
 Create a MOVDQA reg/reg     </td>
   </tr>
 </table>
-<a class="anchor" name="42fa7ed3e708e484a56e85e0c11452ac"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMovI" ref="42fa7ed3e708e484a56e85e0c11452ac" args="(INS ins, UINT64 imm, REG dst)" --><p>
+<a class="anchor" name="228136d6fceb5de37f8a17c02d8db97e"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMovI" ref="228136d6fceb5de37f8a17c02d8db97e" args="(INS ins, UINT64 imm, REG dst, BOOL denyImm32SignExtension=FALSE)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -23960,7 +24437,13 @@ Create a MOVDQA reg/reg     </td>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
           <td class="md" nowrap><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname" nowrap> <em>dst</em></td>
+          <td class="mdname" nowrap> <em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>BOOL&nbsp;</td>
+          <td class="mdname" nowrap> <em>denyImm32SignExtension</em> = <code>FALSE</code></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -23979,7 +24462,12 @@ Create a MOVDQA reg/reg     </td>
     <td>
 
 <p>
-x     </td>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>denyImm32SignExtension</em>&nbsp;</td><td>Deny attempt to check if the 32 immediate (if such) can be extended to 64 bit without loosing its value. See Mantis #4323 for more details. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="3f6e640d28340718e36cacb6fbd02ea0"></a><!-- doxytag: member="LEVEL_CORE::INS_InitMovMemImmOp" ref="3f6e640d28340718e36cacb6fbd02ea0" args="(INS ins, REG base, ADDRINT displacement, REG index, ADDRINT scale, REG pinseg, UINT64 immed, UINT8 legal_immed_bytewidths_bitmap, BOOL exactCopy)" --><p>
@@ -25562,6 +26050,34 @@ x     </td>
 
 <p>
 Generate a register &lt;OP&gt; register operation. If you're trying to generate non-ADDRINT-width operation you need to use one of the higher level functions, or explicitly pass the appropriate widths and dummy registers in the optional arguments.     </td>
+  </tr>
+</table>
+<a class="anchor" name="492bca6c035bcbfb2de07315e9d0ebac"></a><!-- doxytag: member="LEVEL_CORE::INS_InitRepStos" ref="492bca6c035bcbfb2de07315e9d0ebac" args="(INS ins)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::INS_InitRepStos           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>ins</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+x     </td>
   </tr>
 </table>
 <a class="anchor" name="2937dc5b95e92d6adeec6378cd64a904"></a><!-- doxytag: member="LEVEL_CORE::INS_InitRet" ref="2937dc5b95e92d6adeec6378cd64a904" args="(INS ins)" --><p>
@@ -28786,6 +29302,34 @@ Return TRUE if the INS is a LOOPNE instruction.     </td>
 Return TRUE if the INS is a LOOP/LOOPE/LOOPNE instruction.     </td>
   </tr>
 </table>
+<a class="anchor" name="f81152ef2f974b4e3b45708864332c80"></a><!-- doxytag: member="LEVEL_CORE::INS_IsMmx" ref="f81152ef2f974b4e3b45708864332c80" args="(INS ins)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">BOOL LEVEL_CORE::INS_IsMmx           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">INS&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>ins</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return TRUE if the ins is an MMX instruction     </td>
+  </tr>
+</table>
 <a class="anchor" name="974e6dccf01eddff5d4e0db5777b3973"></a><!-- doxytag: member="LEVEL_CORE::INS_IsMMXorXMM" ref="974e6dccf01eddff5d4e0db5777b3973" args="(const INS ins)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -28891,7 +29435,7 @@ return true if the mov reads an immediate and writes a register. Also return the
     <td>
 
 <p>
-Check to see if an instruction, located in the specified range can be safely patched. The instruction is considered to be safe for patching if a) it is a one-byte instruction or b) it is fully contained in a single INS_PATCH_UNIT and its address is 2-byte aligned. <dl compact><dt><b>Note:</b></dt><dd>Patching multi-byte instructions involves overwriting the first 2 bytes of the instruction with a short jump to itself. The 2-byte alignment guaranties atomicity of this operation. </dd></dl>
+Check to see if an instruction, located in the specified range can be safely patched. The instruction is considered to be safe for patching if a) it is a one-byte instruction or b) it is fully contained in a single INS_PATCH_UNIT and its address is 2-byte aligned. <dl compact><dt><b>Note:</b></dt><dd>Patching multi-byte instructions involves overwriting the first 2 bytes of the instruction with a short jump to itself. The 2-byte alignment guarantees atomicity of this operation. </dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>addr</em>&nbsp;</td><td>address of the instruction </td></tr>
@@ -32703,6 +33247,61 @@ Return integer that represents invalid syscall number     </td>
     </td>
   </tr>
 </table>
+<a class="anchor" name="c0b5f4cfff77f219829da8b664319674"></a><!-- doxytag: member="LEVEL_CORE::knob_cet_mode" ref="c0b5f4cfff77f219829da8b664319674" args="(KNOB_MODE_WRITEONCE,&quot;supported:xed&quot;,&quot;xed_cet_mode&quot;,&quot;0&quot;,&quot;Enable Intel(R) CET instruction decoding&quot;)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">KNOB&lt;BOOL&gt; LEVEL_CORE::knob_cet_mode           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">KNOB_MODE_WRITEONCE&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;supported:xed&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;xed_cet_mode&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;0&quot;&nbsp;</td>
+          <td class="mdname" nowrap>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&quot;Enable Intel(R) CET instruction decoding&quot;&nbsp;</td>
+          <td class="mdname" nowrap></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Determines if Intel(R) CET instructions are enabled: 0 - Some CET instructions decode as NOPs 1 - Some NOPs decode as Intel CET instructions     </td>
+  </tr>
+</table>
 <a class="anchor" name="3c4399ba97a458831d2c8d1b652bc084"></a><!-- doxytag: member="LEVEL_CORE::knob_mpx_mode" ref="3c4399ba97a458831d2c8d1b652bc084" args="(KNOB_MODE_WRITEONCE,&quot;supported:xed&quot;,&quot;xed_mpx_mode&quot;,&quot;0&quot;,&quot;Enable Intel(R) MPX instruction decoding&quot;)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -32980,7 +33579,7 @@ Switches on/off support for IARG_MEMORY_{READ,WRITE}_EA for segmented addresses<
     </td>
   </tr>
 </table>
-<a class="anchor" name="fad363f291d88ebdef33dd7aba4438f5"></a><!-- doxytag: member="LEVEL_CORE::KnobUseInsReusing" ref="fad363f291d88ebdef33dd7aba4438f5" args="(KNOB_MODE_WRITEONCE,&quot;supported:regalloc&quot;,&quot;ins_reusing&quot;, KNOB_ONLY_OFF_MIC,&quot;Enable ins reusing&quot;)" --><p>
+<a class="anchor" name="46f5a1f64c8e07ca97427b90d9f860ef"></a><!-- doxytag: member="LEVEL_CORE::KnobUseInsReusing" ref="46f5a1f64c8e07ca97427b90d9f860ef" args="(KNOB_MODE_WRITEONCE,&quot;supported:regalloc&quot;,&quot;ins_reusing&quot;,&quot;1&quot;,&quot;Enable ins reusing&quot;)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -33006,7 +33605,7 @@ Switches on/off support for IARG_MEMORY_{READ,WRITE}_EA for segmented addresses<
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>KNOB_ONLY_OFF_MIC&nbsp;</td>
+          <td class="md" nowrap>&quot;1&quot;&nbsp;</td>
           <td class="mdname" nowrap>, </td>
         </tr>
         <tr>
@@ -33736,13 +34335,13 @@ Feels as if there should be a better group for this? Is the register a rewritten
 Number of syscall arguments passed in registers.     </td>
   </tr>
 </table>
-<a class="anchor" name="2a86f1dccec0f7aa717ffc5811ab9502"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadKMaskFromFxsave" ref="2a86f1dccec0f7aa717ffc5811ab9502" args="(const REG kmask, const FPSTATE *fpstate)" --><p>
+<a class="anchor" name="2467d3b70469bd4ef35a71dfe992769e"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadKMaskFromFxsave" ref="2467d3b70469bd4ef35a71dfe992769e" args="(const REG kmask, const FPSTATE *fpstate)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> LEVEL_CORE::REG_ReadKMaskFromFxsave           </td>
+          <td class="md" nowrap valign="top">const UINT64&amp; LEVEL_CORE::REG_ReadKMaskFromFxsave           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">const <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>kmask</em>, </td>
@@ -33816,13 +34415,13 @@ Read the value of a pseudo register.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="f4769e2c23a5540893a531d4916740df"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadShortFpFromFxsave" ref="f4769e2c23a5540893a531d4916740df" args="(REG reg, const FPSTATE *fpstate)" --><p>
+<a class="anchor" name="9041a8c1b4f2a74408163c4e8cbdd2a0"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadShortFpFromFpstate" ref="9041a8c1b4f2a74408163c4e8cbdd2a0" args="(REG reg, const FPSTATE *fpstate)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> LEVEL_CORE::REG_ReadShortFpFromFxsave           </td>
+          <td class="md" nowrap valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> LEVEL_CORE::REG_ReadShortFpFromFpstate           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>reg</em>, </td>
@@ -33861,13 +34460,58 @@ Read a short FP register value from an 'fxsave' data structure.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="603e4ac92d5e9134e94e9ee3316220fb"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadStFromFxsave" ref="603e4ac92d5e9134e94e9ee3316220fb" args="(REG reg, const FPSTATE *fpstate)" --><p>
+<a class="anchor" name="05ee477947c836d56f3c30a13d04fdd4"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadShortFpFromFxsave" ref="05ee477947c836d56f3c30a13d04fdd4" args="(REG reg, const FXSAVE *fxsave)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">const REGVALUE128&amp; LEVEL_CORE::REG_ReadStFromFxsave           </td>
+          <td class="md" nowrap valign="top"><a class="el" href="namespaceLEVEL__CORE.html#41881fe15906875885fb8a04db8a0b82">REGVALUE</a> LEVEL_CORE::REG_ReadShortFpFromFxsave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const FXSAVE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fxsave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Read a short FP register value from an 'fxsave' data structure.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fxsave' data structure where the FP register value is read from.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>The value of the FP register. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="74fa96b461341157b0428804a79d98d7"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadStFromFpstate" ref="74fa96b461341157b0428804a79d98d7" args="(REG reg, const FPSTATE *fpstate)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">const REGVALUE128&amp; LEVEL_CORE::REG_ReadStFromFpstate           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>reg</em>, </td>
@@ -33895,24 +34539,24 @@ Read a short FP register value from an 'fxsave' data structure.<p>
     <td>
 
 <p>
-Read a stacked FP register value from an 'fxsave' data structure.<p>
+Read a stacked FP register value from an 'fpstate' data structure.<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fxsave' data structure where the FP register value is read from.</td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fpstate' data structure where the FP register value is read from.</td></tr>
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>The value of the FP register. </dd></dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="2206af1d8806e71dd537f9ff56e1ff8c"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadStFromFxsave" ref="2206af1d8806e71dd537f9ff56e1ff8c" args="(REG reg, const FPSTATE *fpstate, VOID *val)" --><p>
+<a class="anchor" name="32cd99590a26b2c584a27818a6de922d"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadStFromFpstate" ref="32cd99590a26b2c584a27818a6de922d" args="(REG reg, const FPSTATE *fpstate, VOID *val)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_ReadStFromFxsave           </td>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_ReadStFromFpstate           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>reg</em>, </td>
@@ -33951,6 +34595,102 @@ Read a stacked FP register value from an 'fxsave' data structure.<p>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fxsave' data structure where the FP register value is read from. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="f9fb4899f5254de1e03e36d83a28c65f"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadStFromFxsave" ref="f9fb4899f5254de1e03e36d83a28c65f" args="(REG reg, const FXSAVE *fxsave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">const REGVALUE128&amp; LEVEL_CORE::REG_ReadStFromFxsave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const FXSAVE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fxsave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Read a stacked FP register value from an 'fxsave' data structure.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fxsave</em>&nbsp;</td><td>The legacy 'fxsave' data structure where the FP register value is read from.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>The value of the FP register. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a7522bb87a5da683fa931bcfdb0aee0f"></a><!-- doxytag: member="LEVEL_CORE::REG_ReadStFromFxsave" ref="a7522bb87a5da683fa931bcfdb0aee0f" args="(REG reg, const FXSAVE *fxsave, VOID *val)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_ReadStFromFxsave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const FXSAVE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fxsave</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>VOID *&nbsp;</td>
+          <td class="mdname" nowrap> <em>val</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Read a stacked FP register value from an 'fxsave' data structure.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>fxsave</em>&nbsp;</td><td>The legacy 'fxsave' data structure where the FP register value is read from. </td></tr>
     <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
   </table>
 </dl>
@@ -34338,7 +35078,7 @@ Give a pin reg return its corresponding application register     </td>
 Find out if reg should be renamed in the inlined analysis routine.     </td>
   </tr>
 </table>
-<a class="anchor" name="d1e28a1269d26842e04908763f596770"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreKMaskToFxsave" ref="d1e28a1269d26842e04908763f596770" args="(const REG kmask, const REGVALUE &amp;val, FPSTATE *fpstate)" --><p>
+<a class="anchor" name="d5f2d892e913eb8d6bd3c47947cb65f1"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreKMaskToFxsave" ref="d5f2d892e913eb8d6bd3c47947cb65f1" args="(const REG kmask, const UINT64 &amp;val, FPSTATE *fpstate)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -34352,7 +35092,7 @@ Find out if reg should be renamed in the inlined analysis routine.     </td>
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>const REGVALUE &amp;&nbsp;</td>
+          <td class="md" nowrap>const UINT64 &amp;&nbsp;</td>
           <td class="mdname" nowrap> <em>val</em>, </td>
         </tr>
         <tr>
@@ -34433,13 +35173,13 @@ Write the value of a pseudo register.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="d931b823289693ddd05f1611b7bc7f4b"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreShortFpToFxsave" ref="d931b823289693ddd05f1611b7bc7f4b" args="(REG reg, const REGVALUE val, FPSTATE *fpstate)" --><p>
+<a class="anchor" name="5da98fa337342bd9ddf824eb58d60c8b"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreShortFpToFpstate" ref="5da98fa337342bd9ddf824eb58d60c8b" args="(REG reg, const REGVALUE val, FPSTATE *fpstate)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreShortFpToFxsave           </td>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreShortFpToFpstate           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>reg</em>, </td>
@@ -34478,19 +35218,70 @@ Store a short FP register value to an 'fxsave' data structure.<p>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
-    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fxsave' data structure which receives the FP register value. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fpstate' data structure which receives the FP register value. </td></tr>
   </table>
 </dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="72226a2913933f7b70788b90d437438f"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreStToFxsave" ref="72226a2913933f7b70788b90d437438f" args="(REG reg, const REGVALUE128 &amp;val, FPSTATE *fpstate)" --><p>
+<a class="anchor" name="6cab0214bca45956a360ff1f7f39c126"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreShortFpToFxsave" ref="6cab0214bca45956a360ff1f7f39c126" args="(REG reg, const REGVALUE val, FXSAVE *fxsave)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreStToFxsave           </td>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreShortFpToFxsave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const REGVALUE&nbsp;</td>
+          <td class="mdname" nowrap> <em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>FXSAVE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fxsave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Store a short FP register value to an 'fxsave' data structure.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fxsave</em>&nbsp;</td><td>The 'fxsave' data structure which receives the FP register value. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="4e9c7282aaa83e094c5991b2d8b79df6"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreStToFpstate" ref="4e9c7282aaa83e094c5991b2d8b79df6" args="(REG reg, const REGVALUE128 &amp;val, FPSTATE *fpstate)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreStToFpstate           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>reg</em>, </td>
@@ -34529,19 +35320,19 @@ Store a stacked FP register value to an 'fxsave' data structure.<p>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
-    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fxsave' data structure which receives the FP register value. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fpstate' data structure which receives the FP register value. </td></tr>
   </table>
 </dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="84435b4d739fd4d0d9e506c4195aef32"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreStToFxsave" ref="84435b4d739fd4d0d9e506c4195aef32" args="(REG reg, const VOID *val, FPSTATE *fpstate)" --><p>
+<a class="anchor" name="dce0255b8c49dbf30ed5402d2f048f7f"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreStToFpstate" ref="dce0255b8c49dbf30ed5402d2f048f7f" args="(REG reg, const VOID *val, FPSTATE *fpstate)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreStToFxsave           </td>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreStToFpstate           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
           <td class="mdname" nowrap> <em>reg</em>, </td>
@@ -34580,7 +35371,109 @@ Store a stacked FP register value to an 'fxsave' data structure.<p>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
-    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fxsave' data structure which receives the FP register value. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fpstate</em>&nbsp;</td><td>The 'fpstate' data structure which receives the FP register value. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="1f82205c37a54ccd1a369c202d892f1c"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreStToFxsave" ref="1f82205c37a54ccd1a369c202d892f1c" args="(REG reg, const REGVALUE128 &amp;val, FXSAVE *fxsave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreStToFxsave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const REGVALUE128 &amp;&nbsp;</td>
+          <td class="mdname" nowrap> <em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>FXSAVE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fxsave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Store a stacked FP register value to an 'fxsave' data structure.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fxsave</em>&nbsp;</td><td>The 'fxsave' data structure which receives the FP register value. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="e043594ae0e7f35031d12ede52eaeee3"></a><!-- doxytag: member="LEVEL_CORE::REG_StoreStToFxsave" ref="e043594ae0e7f35031d12ede52eaeee3" args="(REG reg, const VOID *val, FXSAVE *fxsave)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::REG_StoreStToFxsave           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>reg</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const VOID *&nbsp;</td>
+          <td class="mdname" nowrap> <em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>FXSAVE *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fxsave</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Store a stacked FP register value to an 'fxsave' data structure.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>reg</em>&nbsp;</td><td>The FP register number. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>val</em>&nbsp;</td><td>The value of the FP register. </td></tr>
+    <tr><td valign="top"><tt>[out]</tt>&nbsp;</td><td valign="top"><em>fxsave</em>&nbsp;</td><td>The 'fxsave' data structure which receives the FP register value. </td></tr>
   </table>
 </dl>
     </td>
@@ -37885,7 +38778,7 @@ x     </td>
 Initialize an dynamic code section after it has been allocated. An dynamic code section contains dynamically created code, e.g. Jitted functions.     </td>
   </tr>
 </table>
-<a class="anchor" name="097bf2bc08cf932fd22c9be4e5acca41"></a><!-- doxytag: member="LEVEL_CORE::SEC_InitOriginalSec" ref="097bf2bc08cf932fd22c9be4e5acca41" args="(SEC sec, const string &amp;name, UINT32 index, IADDR iaddr, USIZE offset, USIZE size, const VOID *data, UINT32 alignment, BOOL short_data, BOOL mapped, BOOL on_disk, const VOID *sectheader)" --><p>
+<a class="anchor" name="7d0e5280dbc5e91fd7d32a4b2d123790"></a><!-- doxytag: member="LEVEL_CORE::SEC_InitOriginalSec" ref="7d0e5280dbc5e91fd7d32a4b2d123790" args="(SEC sec, const string &amp;name, UINT32 index, IADDR iaddr, USIZE offset, USIZE size, const VOID *data, UINT32 alignment, BOOL mapped, BOOL on_disk, const VOID *sectheader)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -37937,12 +38830,6 @@ Initialize an dynamic code section after it has been allocated. An dynamic code 
           <td class="md"></td>
           <td class="md" nowrap>UINT32&nbsp;</td>
           <td class="mdname" nowrap> <em>alignment</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>BOOL&nbsp;</td>
-          <td class="mdname" nowrap> <em>short_data</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -38066,34 +38953,6 @@ insert SEC after another sec within an IMG     </td>
 
 <p>
 insert SEC before another sec within an IMG     </td>
-  </tr>
-</table>
-<a class="anchor" name="9aa4f040cc24733c87378be79ed342a1"></a><!-- doxytag: member="LEVEL_CORE::SEC_IsShortData" ref="9aa4f040cc24733c87378be79ed342a1" args="(SEC sec)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">BOOL LEVEL_CORE::SEC_IsShortData           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">SEC&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>sec</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-x     </td>
   </tr>
 </table>
 <a class="anchor" name="24a1c875f65659ca714514c4f36595cc"></a><!-- doxytag: member="LEVEL_CORE::SEC_MapIaddrToOriginalIns" ref="24a1c875f65659ca714514c4f36595cc" args="(SEC sec, IADDR iaddr)" --><p>
@@ -38909,6 +39768,43 @@ Simulate a return for the passed call instruction     </td>
     </td>
   </tr>
 </table>
+<a class="anchor" name="1d5ef0ab417a25851447c78e52d3370a"></a><!-- doxytag: member="LEVEL_CORE::SYM_AddContainedSymbol" ref="1d5ef0ab417a25851447c78e52d3370a" args="(SYM sym, SYM contained_sym)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">VOID LEVEL_CORE::SYM_AddContainedSymbol           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">SYM&nbsp;</td>
+          <td class="mdname" nowrap> <em>sym</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>SYM&nbsp;</td>
+          <td class="mdname" nowrap> <em>contained_sym</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Concatenates a symbol to the list of contained symbol for this symbol     </td>
+  </tr>
+</table>
 <a class="anchor" name="eb0ca67efe248c000f1999a9d83a5326"></a><!-- doxytag: member="LEVEL_CORE::SYM_Alloc" ref="eb0ca67efe248c000f1999a9d83a5326" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -39680,35 +40576,8 @@ Encode a new instruction with Intel(R) X86 Encoder Decoder. Then decode with Int
     <td>
 
 <p>
-x     </td>
-  </tr>
-</table>
-<a class="anchor" name="6db0d8b779015ff7a272f1b3a25b61f4"></a><!-- doxytag: member="LEVEL_CORE::xed_exact_map_from_pin_reg_fast" ref="6db0d8b779015ff7a272f1b3a25b61f4" args="(REG pin_reg)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">xed_reg_enum_t LEVEL_CORE::xed_exact_map_from_pin_reg_fast           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top"><a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a>&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>pin_reg</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
+<dl compact><dt><b>Returns:</b></dt><dd>xed reg mapping to pin reg. if no map returns XED_REG_INVALID </dd></dl>
     </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-x     </td>
   </tr>
 </table>
 <a class="anchor" name="782398b0e6ad3a358ba9481f8be34247"></a><!-- doxytag: member="LEVEL_CORE::xed_exact_map_to_pin_reg" ref="782398b0e6ad3a358ba9481f8be34247" args="(xed_reg_enum_t xed_reg)" --><p>
@@ -40286,7 +41155,7 @@ a hidden attribute will be omitted from printing     </td>
 <b>Initial value:</b><div class="fragment"><pre class="fragment">
 
 
-
+ 
     { XED_MACHINE_MODE_LEGACY_32, XED_ADDRESS_WIDTH_32b}
 </pre></div>    </td>
   </tr>
@@ -40315,7 +41184,7 @@ a hidden attribute will be omitted from printing     </td>
 {
 
 
-
+ 
     XED_REG_EDX, XED_REG_EBX, XED_REG_ECX
 
 }
@@ -40348,7 +41217,7 @@ a hidden attribute will be omitted from printing     </td>
 
 
 
-
+ 
     { XED_REG_DL, XED_REG_DX, XED_REG_EDX, XED_REG_INVALID},
     { XED_REG_CL, XED_REG_CX, XED_REG_ECX, XED_REG_INVALID},
     { XED_REG_BL, XED_REG_BX, XED_REG_EBX, XED_REG_INVALID}
@@ -40434,7 +41303,7 @@ Maximum instruction size in IA-32 and Intel(R) 64 architectures.     </td>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> <a class="el" href="namespaceLEVEL__CORE.html#3d4ce18d46e3508fa683dc2d728c1d06">LEVEL_CORE::REG_FirstInRegsetPhyContext</a> = REG_PHYSICAL_CONTEXT_BEGIN          </td>
+          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> <a class="el" href="namespaceLEVEL__CORE.html#3d4ce18d46e3508fa683dc2d728c1d06">LEVEL_CORE::REG_FirstInRegsetPhyContext</a> = REG_PHYSICAL_INTEGER_BASE          </td>
         </tr>
       </table>
     </td>
@@ -40459,7 +41328,7 @@ REG represented by the first bit in the physical context regset vector.
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> <a class="el" href="namespaceLEVEL__CORE.html#55a933a82d330d224f9f24d73886d4dc">LEVEL_CORE::REG_LastInRegsetPhyContext</a> = REG_PHYSICAL_CONTEXT_END          </td>
+          <td class="md" nowrap valign="top">GLOBALCONST <a class="el" href="group__REG__CPU__IA32.html#g3b77029a2a445f70f0206dbad1e4e641">REG</a> <a class="el" href="namespaceLEVEL__CORE.html#55a933a82d330d224f9f24d73886d4dc">LEVEL_CORE::REG_LastInRegsetPhyContext</a> = REG_PHYSICAL_INTEGER_END          </td>
         </tr>
       </table>
     </td>
@@ -40546,7 +41415,8 @@ REG represented by the last bit in the physical context regset vector.
 <p>
 <b>Initial value:</b><div class="fragment"><pre class="fragment">
 {
-    <span class="stringliteral">"INS_REUSER_TYPE_YMM_INSERT_OP"</span>,
+    <span class="stringliteral">"INS_REUSER_TYPE_MM_INSERT_OP"</span>,
+    <span class="stringliteral">"INS_REUSER_TYPE_MM_EXTRACT_OP"</span>,
     <span class="stringliteral">"INS_REUSER_TYPE_LOAD_MEM_OP"</span>,
     <span class="stringliteral">"INS_REUSER_TYPE_STORE_MEM_OP"</span>,
     <span class="stringliteral">"INS_REUSER_TYPE_REG_REG_OP"</span>,
@@ -40813,7 +41683,7 @@ Size of the unconditional, direct jjmp [gip]offset     </td>
 </pre></div>    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:47 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:12 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

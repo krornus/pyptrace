@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -48,8 +48,9 @@ using std::ostream;
 // GLOBAL VARIABLES
 /////////////////////
 
-// Boolean indicating whether the system supports avx instructions and registers.
+// Booleans indicating the supported ISA extensions.
 extern const bool hasAvxSupport;
+extern const bool hasAvx512fSupport;
 
 
 /////////////////////

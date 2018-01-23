@@ -76,6 +76,9 @@ typedef struct {
 
 #define PTHREAD_COND_INITIALIZER  {0 __RESERVED_INITIALIZER}
 
+
+#ifndef TARGET_MAC
+
 typedef struct {
   uint32_t flags;
   void* stack_base;
@@ -83,10 +86,13 @@ typedef struct {
   size_t guard_size;
   int32_t sched_policy;
   int32_t sched_priority;
-#ifdef __LP64__
+# ifdef __LP64__
   char __reserved[16];
-#endif
+# endif
 } pthread_attr_t;
+
+#endif // TARGET_MAC
+
 
 typedef long pthread_mutexattr_t;
 typedef long pthread_condattr_t;

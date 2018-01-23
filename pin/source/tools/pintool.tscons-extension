@@ -1,5 +1,3 @@
-# @ORIGINAL_AUTHOR: Greg Lueck
-
 """
 This plugin extension allows a project file to easily build Pin tools.
 To use this extension, a project file can define the following elements:
@@ -340,13 +338,13 @@ def ApplyPintoolsToSource(pinhome, pintools, includes, defines, libs):
 
     includes.append({'dir': pinhome + '/PinTools/Include'})
     includes.append({'dir': pinhome + '/PinTools/InstLib'})
-    includes.append({'dir': pinhome + '/build/Source/xed/xed-gcc-pin-$TARGETOS-$TARGETCPU/xed-kit/include',
+    includes.append({'dir': pinhome + '/build/Source/xed/xed-gcc-pin-$TARGETOS-$TARGETCPU/xed-kit/include/xed',
         'selector': sel.TargetLinuxX86 + ' or ' + sel.TargetBsdX86})
-    includes.append({'dir': pinhome + '/build/Source/xed/xed-clang-pin-$TARGETOS-$TARGETCPU/xed-kit/include', 'selector': sel.TargetMacX86})
-    includes.append({'dir': pinhome + '/build/Source/xed/xed-msvc-pin-$TARGETOS-$TARGETCPU/xed-kit/include', 'selector': sel.TargetWindowsX86})
+    includes.append({'dir': pinhome + '/build/Source/xed/xed-clang-pin-$TARGETOS-$TARGETCPU/xed-kit/include/xed', 'selector': sel.TargetMacX86})
+    includes.append({'dir': pinhome + '/build/Source/xed/xed-msvc-pin-$TARGETOS-$TARGETCPU/xed-kit/include/xed', 'selector': sel.TargetWindowsX86})
     includes.append({'dir': pinhome + '/Source/atomic/00-export-include'})
     includes.append({'dir': pinhome + '/Source/barecrt/00-export-include', 'selector': sel.TargetUnix})
-    includes.append({'dir': pinhome + '/Source/fund/00-export-include'})
+    includes.append({'dir': pinhome + '/Source/os-apis/00-export-include'})
     includes.append({'dir': pinhome + '/Source/sync/00-export-include'})
     includes.append({'dir': pinhome + '/Source/util/00-export-include'})
     includes.append({'dir': pinhome + '/build/Source/pin/internal-include-$TARGETOS-ia32',
@@ -372,15 +370,14 @@ def ApplyPintoolsToSource(pinhome, pintools, includes, defines, libs):
         files.append({'library': pinhome + '/build/Source/xed/xed-msvc-pin-$TARGETOS-$TARGETCPU/xed-kit/lib/xed.lib', 'selector': sel.TargetWindowsX86})
 
 
-        files.append({'library': pinhome + '/External/pindwarf/$(TARGETOS)/$(TARGETCPU)/libpindwarf.a',
-                      'selector': sel.TargetAndroid + ' or ' sel.TargetLinux})
+        files.append({'library': pinhome + '/External/pindwarf/$(TARGETOS)/$(TARGETCPU)/libpindwarf.a', 'selector': sel.TargetLinux})
 
         files.append({'library': pinhome + '/build/Source/pin/pin-$TARGETOS-$TARGETCPU/pinvm.lib', 'selector': sel.TargetWindows})
         files.append({'library': pinhome + '/External/Ntdll/Lib_ia32_windows/ntdll-32.lib', 'selector': sel.TargetWindowsIA32})
         files.append({'library': pinhome + '/External/Ntdll/Lib_intel64_windows/ntdll-64.lib', 'selector': sel.TargetWindowsIntel64})
 
         opts.append({'option': 'linker_flags=-Wl,--version-script=$PATH(' + pinhome + '/PinTools/Include/pintool.ver)',
-            'selector': sel.TargetLinux + ' or ' + sel.TargetBsd + ' or ' +  sel.TargetAndroid })
+            'selector': sel.TargetLinux + ' or ' + sel.TargetBsd})
         opts.append({'option': 'linker_flags=-Wl,-exported_symbols_list -Wl,$PATH(' + pinhome + '/PinTools/Include/pintool.exp)',
             'selector': sel.TargetMac})
 
@@ -414,7 +411,7 @@ def ApplyPintoolsToKit(pinhome, pintools, includes, defines, libs):
 
     includes.append({'dir': pinhome + '/source/include/pin'})
     includes.append({'dir': pinhome + '/source/include/pin/gen'})
-    includes.append({'dir': pinhome + '/extras/xed-$TARGETCPU/include', 'selector': sel.TargetX86})
+    includes.append({'dir': pinhome + '/extras/xed-$TARGETCPU/include/xed', 'selector': sel.TargetX86})
     includes.append({'dir': pinhome + '/extras/components/include'})
     includes.append({'dir': pinhome + '/source/tools/InstLib'})
 
@@ -433,8 +430,7 @@ def ApplyPintoolsToKit(pinhome, pintools, includes, defines, libs):
         files.append({'library': pinhome + '/extras/xed-$TARGETCPU/lib/libxed.a', 'selector': sel.TargetUnixX86})
         files.append({'library': pinhome + '/extras/xed-$TARGETCPU/lib/xed.lib', 'selector': sel.TargetWindowsX86})
 
-        files.append({'library': pinhome + '/External/pindwarf/$(TARGETOS)/$(TARGETCPU)/libpindwarf.a',
-                      'selector': sel.TargetAndroid + ' or ' sel.TargetLinux})
+        files.append({'library': pinhome + '/External/pindwarf/$(TARGETOS)/$(TARGETCPU)/libpindwarf.a', 'selector': sel.TargetLinux})
 
         files.append({'library': pinhome + '/$TARGETCPU/lib/pinvm.lib', 'selector': sel.TargetWindows})
         files.append({'library': pinhome + '/$TARGETCPU/lib-ext/ntdll-32.lib', 'selector': sel.TargetWindowsIA32})
@@ -467,7 +463,6 @@ def ApplyCommonDefines(defines):
     @type defines:      List.
     """
 
-    defines.append({'macro': 'BIGARRAY_MULTIPLIER', 'value': '1'})
     defines.append({'macro': 'HOST_IA32', 'selector': sel.HostIA32})
     defines.append({'macro': 'HOST_IA32E', 'selector': sel.HostIntel64})
     defines.append({'macro': 'TARGET_IA32', 'selector': sel.TargetIA32})
@@ -517,7 +512,7 @@ def ApplyCommonOptionsForPinToolsAndLibraries(opts):
     # platform.  As a result, IA32 tools that reference global variables will contain a call
     # to the thunk, and this will prevent them from being inlined.
     #
-    opts.append({'option': 'nopic=1', 'selector': sel.TargetLinuxIA32 + ' or ' + sel.TargetBsdIA32 + ' or ' + sel.TargetAndroidIA32})
+    opts.append({'option': 'nopic=1', 'selector': sel.TargetLinuxIA32 + ' or ' + sel.TargetBsdIA32})
 
 
 def ApplyCommonOptionsForPinTools(opts):
@@ -532,7 +527,7 @@ def ApplyCommonOptionsForPinTools(opts):
     # This ensures that the tool uses global symbols defined in its own shared library before
     # resolving to symbols defined in Pin.
     #
-    opts.append({'option': 'linker_flags=-Wl,-Bsymbolic', 'selector': sel.TargetLinux + ' or ' + sel.TargetBsd + ' or ' + sel.TargetAndroid})
+    opts.append({'option': 'linker_flags=-Wl,-Bsymbolic', 'selector': sel.TargetLinux + ' or ' + sel.TargetBsd})
 
     opts.append({'option': 'linker_nostdlib=1', 'selector': sel.TargetWindows})
     opts.append({'option': 'linker_export=main', 'selector': sel.TargetWindows})

@@ -1,26 +1,23 @@
-Pin 3.0 Release Notes
+Pin 3.4 Release Notes
 =====================
- 
-Pin is a tool for the instrumentation of programs. It supports the Android*, Linux*, OS X*
-and Windows* operating systems and executables for the IA-32, Intel(R) 64 and 
-Intel(R) Many Integrated Core Architecture (Intel(R) MIC Architecture).
 
-For license information, see LICENSE, <arch>/lib-ext/EXTLICENSE. In Android, see also
-<arch>/stl and <arch>/runtime.
+Pin is a tool for the instrumentation of programs. It supports the Linux*, OS X*
+and Windows* operating systems and executables for the IA-32 and Intel(R) 64
+architectures.
 
-For information on how to use Pin, read the manual in
-doc/html/index.html.
+For license information, see the LICENSE file and the extlicense directory.
 
-Send questions and bug reports see
-http://tech.groups.yahoo.com/group/pinheads/
+For information on how to use Pin, read the manual in doc/html/index.html.
+
+For questions and bug reports please visit http://tech.groups.yahoo.com/group/pinheads/
 
 For downloading Intel(R) X86 Encoder Decoder please visit http://www.intel.com/software/xed
 
 Example usage
 =============
 
-This example applies to the Intel(R) 64 architecture.  For the IA-32 architecture, 
-use "obj-ia32" instead of "obj-intel64", for the Intel(R) MIC Architecture, use obj-mic.
+This example applies to a 64-bit application. For a 32-bit application please use "obj-ia32"
+instead of "obj-intel64" and add "TARGET=ia32" to the make command.
 
 To build and run a sample tool on Linux*:
 
@@ -31,12 +28,13 @@ To build and run a sample tool on Linux*:
     This will instrument and run /bin/ls, the output for this tool is in
     opcodemix.out.
 
-To build and run a sample tool on Windows*:
+To build and run a sample tool on Windows*, open a MSVC x86/x64 command line prompt
+(depending on the application type) and run:
 
     cd source\tools\SimpleExamples
-    make opcodemix.dll
+    make obj-intel64/opcodemix.dll
     ..\..\..\pin.exe -t obj-intel64\opcodemix.dll -- cmd /C dir
- 
+
     This will instrument and run cmd /C dir, the output for this tool is in
     opcodemix.out.
 
@@ -45,46 +43,22 @@ Refer to the Examples section in the Pin User Guide for more usage examples.
 Restrictions
 ============
    
-   o Added support for Intel(R) Xeon Phi(TM). 
-     See the "Additional Information for Using Pin on Intel(R) Xeon Phi(TM)" section for more
-     information.
-
-   o Added support for Android. 
-     See the "Additional Information for Using Pin on Android" section for more
-     information.
- 
-   o Added preliminary support for OS X*.
-     See the "Additional Information for Using Pin on OS X*" section for more
-     information.
-
-   o Pin is no longer supported on Linux distributions with old kernel version.
-     See the "Additional Information for Using Pin on Linux*" section for more
-     information.
-
-   o The version of the compiler you use to build a tool must be compatible
-     with the pin kit. On Linux*, you can use gcc 3.4 or any later version.
-     Note, however, that you cannot use gcc versions 4.5 or newer to compile
-     Probe mode tools, since these versions create files with a new OS ABI version
-     which is not compatible with the pin kit. You can also use Intel(R) C++ 
-     compiler.
-     On Windows*, pin supports tools built with Intel(R) C++ compiler 10.1 and 11.1.
-     It also supports tools built with the Microsoft* Visual Studio C++ 
-     compiler* version 14.0 (Visual Studio 2005, aka VC8), 
-     15.0 (Visual Studio 2008, aka VC9) and 16.0 (Visual Studio 2010, aka VC10).
-     Such tools require the VC8, VC9 or VC10 kit, respectively.
-     This only applies to the compiler used to build a tool; the application can use 
-     any compiler.
+   o Tools are restricted from linking with any system libraries and/or calling
+     any system calls. See the paragraph on PinCRT in the "Additional information
+     for PinTool writers" section for more information.
 
    o Pin on Windows* requires dbghelp.dll version 6.11.1.404.  This DLL is
      distributed with the kit.
+
+   o Pin on Windows* requires msdia120.dll.  This DLL is distributed with the kit.
 
    o There is a known problem of using pin on systems protected by the
      "McAfee Host Intrusion Prevention"* antivirus software.  See the 
      "Additional Information for Using Pin on Windows*" section for more
      information.
 
-   o There is a known problem of using pin on Linux systems that prevent the use
-     of ptrace attach using the sysctl /proc/sys/kernel/yama/ptrace_scope. 
+   o There is a known problem of attaching pin to a running process on Linux systems that
+     prevent the use of ptrace attach using the sysctl /proc/sys/kernel/yama/ptrace_scope.
      See the "Additional information for using Pin on Linux*" section for more
      information.
 
@@ -127,6 +101,24 @@ Restrictions
 Additional information for PinTool writers
 ============================================
 
+   o Pin is built and distributed with its own OS-agnostic, compiler-agnostic runtime,
+     named PinCRT. PinCRT exposes three layers of generic APIs which practically
+     eliminate Pin’s and the tools’ dependency on the host system:
+     1. A generic operating system interface, supplying basic OS services such as
+        process control, thread control etc.
+     2. A C-runtime layer supplying a standard C implementation. This is complemented
+        by compiler-runtime functions necessary for enabling gcc, msvc, clang and icc.
+     3. A C++ runtime. Please note that the current version does not support C++11 and
+        RTTI (Run-Time Type Information).
+     Tools are obliged to use (link with) PinCRT instead of any system runtime. Tools
+     must refrain from using any native system calls, and use PinCRT APIs for any
+     needed functionality. Note that PinCRT APIs may differ from the native system APIs.
+     For additional information see the OS APIs user guide in extras/crt/docs/html
+     and the PinCRT documentation at
+     https://software.intel.com/sites/default/files/managed/8e/f5/PinCRT.pdf
+
+   o PinCRT currently does not support the Boost C++ libraries due to lack of RTTI. 
+
    o Pin uses new method to handle application exit in Jit mode. Once exit
      is started in application or internal thread, Pin gracefully terminates
      all application threads that did not initiate the exit.
@@ -142,13 +134,10 @@ Additional information for PinTool writers
 
    o Due to a compatibility issue between operating systems pin does *not*
      provide support for registering atexit functions inside pintools
-     (which means that the behavior of a pintool that does so is
-     undefined). If you need such functionality, please register a Fini
-     function.
-
-   o To invoke the help message from pin on Windows*, you MUST specify 
-     some executable image after two dashes, even pin itself:
-            pin -help -- pin
+     (which means that the behavior of a pintool that does so is undefined).
+     If you need such functionality, please register a Fini function.
+     In probe mode, the Fini function is not available, instead tools should
+     define a global class and add the functionality to its destructor.
 
    o Some APIs from older versions of Pin have been deprecated and replaced 
      by more powerful, or simpler, interfaces in the current version of Pin.
@@ -156,27 +145,19 @@ Additional information for PinTool writers
      You can #define PIN_DEPRECATED_WARNINGS=0 to disable these warnings.
      Please refer to the Pin Deprecated API section in the Pin User Guide for
      a list of the deprecated APIs and their replacements.
+     Also note that such deprecated APIs may be completely removed in future
+     versions of Pin without prior notice.
 
 Additional information for using Pin on Windows*
 ===============================================
 
 General issues
         
-        Pin tools are DLLs on Windows*.
-                  
-        Avoid using alertable (interruptable) Windows* system calls in 
-        tools.  The SleepEx, SignalObjectAndWait, WaitForSingleObjectEx,
-        MsgWaitForMultipleObjectsEx, and WaitForMultipleObjectsEx 
-        functions can be interrupted by APCs and callbacks intended for
-        the application. This violates normal behavior of the application
-        and pin assumptions. When this violation is detected, pin exits
-        with an assert message.
-        
         Pin provides transparent support for exceptions in the application,
         but prohibits using exceptions in the tool. If you need to assert
         some condition, use the ASSERT() macro defined by pin instead of 
         the standard C assert().
-        
+
         The Image API does not work for gcc-compiled applications.
         
         There is a known problem of using pin on systems protected by the
@@ -189,108 +170,96 @@ General issues
         on a network drive. To workaround this problem, install all Pin and
         Pin tool binaries on a local drive.
 
-Supported configurations
-        
-        Windows Vista*, Windows Server* 2008, Windows 7*, Windows 8.1*,
-        Windows 10* and Windows Server* 2012 (except for UMS applications),
-        on IA-32 and  Intel(R) 64 architecture.
-
+        Pin Advanced Debugging Extensions (PinADX) can be used freely starting
+        Visual Studio 2012 up to Visual Studio 2015. With Visual Studio 2017,
+        only debugger-attach mode is available (-appdebug). The Pin debugger
+        plugin is not yet active for Visual Studio 2017 due to lack of support
+        of the Microsoft debugger extensions API in this version of Visual Studio.
 
 Additional information for using Pin on Linux*
 ===============================================
 
 General issues
 
-     There is a known problem of using Pin on Linux systems that prevent the use
-     of ptrace attach via the sysctl /proc/sys/kernel/yama/ptrace_scope.
-     In this case Pin cannot be used in attach mode.
+     There is a known problem of attaching pin to a running process on Linux systems that
+     prevent the use of ptrace attach using the sysctl /proc/sys/kernel/yama/ptrace_scope.
+     (There is no problem in launching an application with Pin with this limitation).
      To resolve this, set the kernel/yama/ptrace_scope sysctl to 0.
-
-Supported configurations:
-
-        New Pin features (such as attach/detach) and bug fixes have been found to work
-        incorrectly on some old Linux OSs due to bugs in the Linux kernel fixed in more
-        modern kernel versions. Therefore, pin is no longer supported on Linux distributions
-        with kernel 2.4 such as RedHat EL3.
-
-Linux tested configurations:
-
-        +---------------------------------+----+-------+
-        | OS                              |IA32|Intel64|
-        +---------------------------------+----+-------+
-        | Red Hat Enterprise Linux 5      | +  |   +   |
-        | Red Hat Enterprise Linux 6      | +  |   +   |
-        | Red Hat Enterprise Linux 7      |    |   +   |
-        | Fedora 21                       | +  |   +   |
-        | Fedora 22                       |    |   +   |
-        | SuSE Linux Enterprise Server 10 | +  |   +   |
-        | SuSE Linux Enterprise Server 11 | +  |   +   |
-        | SuSE Linux Enterprise Server 12 |    |   +   |
-        | openSUSE 13.2                   | +  |   +   |
-        | Ubuntu 12.04                    |    |   +   |
-        | Ubuntu 14.04                    |    |   +   |
-        | Ubuntu 15.04                    | +  |   +   |
-        +---------------------------------+----+-------+
-
 
 Additional information for using Pin on OS X*
 ===============================================
 
 General issues
 
-        o Probe mode is not yet supported on OS X*.
-        o Attach/Detach is not yet supported on OS X*.
         o Pin documentation is not yet updated with the OS X* support information.
-
-Supported configurations:
-
-        o Mountain Lion(*)
-        o Mavericks(*)
-        o Yosemite(*)
-
-
-Additional information for using Pin on Android*
-===============================================
-
-Supported configurations:
-
-        o Lollipop (Android 5.0)
-        o KitKat (Android 4.4)
-        o Jelly Bean (Android 4.1-4.3)
-        
-More information: 
-        
-        o Support for Lollipop includes running on 64 bit processes.
-        o  Android tutorial is available at: <android-kit-root>/AndroidTutorial.
-           It includes a step-by-step tutorial for installing Pin,
-           compiling the Pin tools and running Pin with a tool on Android.
-        o The PIN_SpawnInternalThread() API is supported only on Lollipop.
-        o Pin ADX APIs are currently not available for Lollipop.
-
-
-Additional Information for Using Pin on Intel(R) Xeon Phi(TM)
-=============================================================
-
-    THIS IS A TECH PREVIEW RELEASE
-
-General issues
-
-    o The offload model is not yet supported, you may only launch Pin natively on the device.
-    o Pin probe mode is not yet supported.
-    o PIN_GetSourceLocation is not yet supported.
-    o Availability of Pin APIs for Intel(R) Xeon Phi(TM) is not yet updated in the user guide.
-
-Installation and Usage
-
-    o General usage model:
-        o Compile your tool on the host.
-        o Copy Pin and the tool to the device.
-        o Log in to the device and launch Pin regularly.
-    o Please refer to the user guide, section "Usage Instructions for Intel(R) Xeon Phi(TM)", for a complete
-      installation and usage guide.
+        o Pin must be run from either a developer account, or an administrator account.
+        o If you’re running Pin on a GUI session – an authentication popup might be shown when Pin starts to work.
+          This pop up will appear only once for the entire session.
+        o If you’re running Pin on a non-GUI session (e.g. SSH only) then Pin might fail immediately.
+          To fix this problem, you need to run 'sudo sbin/host_config'.
+          sbin/host_config is located in the Pin kit.
+        NOTE: The host_config utility program configures taskgated to allow signed executables that had requested the
+          SecTaskAccess priviledge to run task_for_pid() on any process without going through the usual authentication
+          popup.
+          This configuration can be reset by running "sudo sbin/host_config --undo".
 
 
 ******************************* Recent Changes *******************************
+
+Changes added _After_ Pin 3.3 / 83088
+===========================================
+   o The knob -version_long has been removed.
+
+Changes added _After_ Pin 3.2 / 81205
+===========================================
+   o Support for Android has been discontinued.
+   o The opmask registers (REG_K*) are no longer valid for IARG_REG_VALUE.
+   o The IARG_G_* IARGs, which have been deprecated for a very long time, have been completely removed.
+     Please use IARG_FUNCARG_* and IARG_FUNCRET_* instead.
+   o The IARG_SYSCALL_ARG* IARGs, which have been deprecated for a very long time, have been completely
+     removed. Please use IARG_SYSARG_* instead.
+   o Added a new API, PIN_RemoveInstrumentationInRange, which removes all instrumentation in the given
+     range. See the user guide for further details.
+   o The IA64-only IARGs, IARG_REG_OUTPUT_FRAME_VALUE and IARG_REG_OUTPUT_FRAME_REFERENCE, have been
+     removed. 
+   o Changes to the CODECACHE API:
+     The following functions were deprecated:
+       - CODECACHE_FlushCache - use PIN_RemoveInstrumentation instead.
+       - CODECACHE_InvalidateTraceAtProgramAddress - use PIN_RemoveInstrumentationInRange instead.
+       - CODECACHE_InvalidateRange - use PIN_RemoveInstrumentationInRange instead.
+       - TRACE_Original - always returns TRUE.
+     All other functions with the CODECACHE prefix were removed.
+     The following functions were also removed:
+       - INS_CodeCacheAddress, INS_CodeCacheSize
+       - BBL_CodeCacheSize, BBL_CodeCacheAddress
+       - TRACE_CodeCacheAddress, TRACE_CodeCacheSize
+       - PIN_MemoryAllocatedForPin
+   o Added a new API, PIN_CreateDefaultConfigurationInfo, which creates an instance of
+     PIN_CONFIGURATION_INFO containing default configuration values.
+   o Changed PIN_StartProgram to accept an additional argument: an instance of PIN_CONFIGURATION_INFO
+     that applies to the current run of Pin.
+   o Added a new API, PIN_SetAllowedConcurrentCallbacks, which can be used to change the types of Pin
+     callbacks that are allowed to be delivered concurrently.
+   o Symbol resolution on Windows is done with the msdia120.dll that is distributed with the kit.
+     The 64 bit and 32 bit versions of this biary from Microsoft SDK have been added to the kit.
+
+Changes added _After_ Pin 3.2 / 79375
+===========================================
+   o Added a utility program sbin/host_config to Pin's OS X* kit.
+     This program configures Pin to have the necessary permissions to run non-interactively.
+   o Added Pin API: INS_IsCacheLineFlush() - API to classify instructions that cause cache line flush.
+
+Changes added _After_ Pin 3.1 / 76225
+===========================================
+   o On Windows, Pintools are no longer required to be compiled with /D_SECURE_SCL=0.
+   o A Pin enabled libunwind library was introduced. This library can be linked and used
+     in a Pin tool.
+   o Added equivalent implementation for glibc's backtrace functions:
+     backtrace(), and backtrace_symbols().
+   o Added Pin API: PIN_Backtrace() - Similar to backtrace() but generates a backtrace for the
+     instrumented application instead of a native backtrace for the Pin tool.
+   o Added Pin API: PIN_GetInitialContextForUnwind() - Equivalent to unw_get_context() but retrieves
+     the instrumented application context instead of the native context.
 
 Changes added _After_ Pin 3.0 / 73178
 ===========================================
@@ -319,6 +288,9 @@ Changes added _After_ Pin 2.14 / 71313
 	 samples in AttachDetach.
    o Intel(R) XED and pindwarf are now linked dynamically to Pin and tools on all Unix platforms.
      The static library versions are no longer distributed with the Pin kit.
+   o Pin no longer uses the system runtime, but rather a new runtime, PinCRT, which is distributed with the
+     Pin kit. Pin tools are also required to link and use this new runtime. For further details please see
+     the "Additional information for PinTool writers" and "Restrictions" sections above.
 
 Changes added _After_ Pin 2.14 / 67254
 ===========================================
@@ -726,7 +698,7 @@ of Sun Microsystems, Inc. in the U.S. and other countries.
 
 *Other names and brands may be claimed as the property of others.
 
-Copyright(c) 2004-2016, Intel Corporation. All rights reserved. 
+Copyright(c) 2004-2017, Intel Corporation. All rights reserved. 
 
 Intel Corporation, 2200 Mission College Blvd., 
 Santa Clara, CA 95052-8119, USA.

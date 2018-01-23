@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -29,7 +29,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
 /*
-** <ORIGINAL-AUTHOR>: Greg Lueck
 ** <COMPONENT>: asm
 ** <FILE-TYPE>: component public header
 */
@@ -51,13 +50,14 @@ END_LEGAL */
     .text;                                  \
     .align 4;                               \
     .globl ASM_NAME(name);                  \
+    .type  ASM_NAME(name), @function;       \
     ASM_NAME(name):
 
 #define ASM_FUNCEND(name) .size name, .-name
 
 #define ASM_HEX(val)    0x##val
 
-#if defined(FUND_HOST_WINDOWS) || defined(FUND_HOST_MAC)
+#if defined(TARGET_WINDOWS) || defined(TARGET_MAC)
 #   define ASM_NAME(name)   _##name
 #else
 #   define ASM_NAME(name)   name
@@ -79,7 +79,7 @@ END_LEGAL */
  * there are places where the memory size is not implied by the instruction
  * mnemonic, and "QWORD PTR" is required.
  */
-#if defined(FUND_HOST_IA32)
+#if defined(HOST_IA32)
 #   define ASM_QWORD()
 #else
 #   define ASM_QWORD()     QWORD PTR
@@ -88,7 +88,7 @@ END_LEGAL */
 #define ASM_BYTE_TYPE()     .byte
 #define ASM_WORD_TYPE()     .word
 #define ASM_DWORD_TYPE()    .int
-#if defined(FUND_HOST_IA32)
+#if defined(HOST_IA32)
 #   define ASM_QWORD_TYPE()
 #else
 #   define ASM_QWORD_TYPE()     .quad
@@ -102,7 +102,7 @@ END_LEGAL */
     ASM_NAME(label):                ; \
     ASM_##vtype##_TYPE() value
 
-#if defined(FUND_HOST_IA32)
+#if defined(HOST_IA32)
 #   define ASM_PIC_INIT(reg)         call 1f; 1: pop reg; lea reg, [reg + _GLOBAL_OFFSET_TABLE_ + 1]
 #   define ASM_PC_REL_REF(var,reg) reg + var@GOTOFF
 #else

@@ -24,12 +24,12 @@ template <TLS_KEY FirstKey_, TLS_KEY LastKey_> class TLS_ARRAY
      */
     VOID Clear()
     {
-        for (VOID ** pValue = m_array; pValue < m_array + m_numKeys; ++pValue) 
+        for (VOID ** pValue = m_array; pValue < m_array + m_numKeys; ++pValue)
         {
             *pValue = 0;
         }
     }
-    
+
     /*!
      * Accessors with bounds checking.
      */
@@ -58,11 +58,14 @@ template <TLS_KEY FirstKey_, TLS_KEY LastKey_> class TLS_ARRAY
     VOID * & operator [] (TLS_KEY tlsKey) { return m_array[tlsKey - FirstKey_];}
     VOID * const & operator []  (TLS_KEY tlsKey) const { return m_array[tlsKey - FirstKey_];}
 
-  private:
-    static BOOL IsValidKey(TLS_KEY tlsKey) 
+    /*
+     * Check validity of TLS key
+     */
+    static BOOL IsValidKey(TLS_KEY tlsKey)
     {
         return ((tlsKey <= LastKey_) && (tlsKey >= FirstKey_));
     }
+  private:
 
     static const UINT32  m_numKeys = LastKey_ - FirstKey_ + 1;
     VOID * m_array[m_numKeys];

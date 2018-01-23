@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -34,8 +34,9 @@ END_LEGAL */
 using namespace std;
 
 static volatile int i = 0;
+static HANDLE threadHandle = NULL;
 
-DWORD WINAPI ThreadProc(VOID * p)
+extern "C" __declspec(dllexport) __declspec(noinline) DWORD WINAPI ThreadProc(VOID * p)
 {
     i++;
     return 0;
@@ -47,9 +48,8 @@ BOOL WINAPI DllMain(HANDLE hDll, DWORD dwReason, LPVOID lpReserved)
     {
       case DLL_PROCESS_ATTACH:
       {
-          HANDLE threadHandle;
           threadHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProc, NULL, 0, NULL);
-          if(ThreadProc != NULL)
+          if (threadHandle != NULL)
           {
               cout << "Creating thread in DllMain(PROCESS_ATTACH)" << endl << flush;
           }
@@ -61,15 +61,17 @@ BOOL WINAPI DllMain(HANDLE hDll, DWORD dwReason, LPVOID lpReserved)
           break;
       }  
       case DLL_THREAD_ATTACH:
-          break;
       case DLL_THREAD_DETACH: 
-          break;
       case DLL_PROCESS_DETACH:
-          break;
       default:
           break; 
     } 
     return TRUE; 
 }
 
-extern "C" __declspec(dllexport) int Something() {return i;}
+extern "C" __declspec(dllexport) int Something()
+{
+    // Proceed only when either the thread was not created or finished.
+    WaitForSingleObject(threadHandle, INFINITE);
+    return i;
+}

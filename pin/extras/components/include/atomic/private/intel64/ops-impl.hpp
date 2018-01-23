@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component private header
 
 #ifndef ATOMIC_PRIVATE_INTEL64_OPS_IMPL_HPP
 #define ATOMIC_PRIVATE_INTEL64_OPS_IMPL_HPP
 
-#include "fund.hpp"
 #include "atomic/private/intel64/ops-impl-intel64-asm.hpp"
 
 
@@ -82,22 +80,22 @@ namespace OPS_IMPL
 
     template<> inline void Store<1>(volatile void *location, const void *val, BARRIER_ST ignored)
     {
-        *static_cast<volatile FUND::UINT8*>(location) = *static_cast<const FUND::UINT8*>(val);
+        *static_cast<volatile UINT8*>(location) = *static_cast<const UINT8*>(val);
     }
 
     template<> inline void Store<2>(volatile void *location, const void *val, BARRIER_ST ignored)
     {
-        *static_cast<volatile FUND::UINT16*>(location) = *static_cast<const FUND::UINT16*>(val);
+        *static_cast<volatile UINT16*>(location) = *static_cast<const UINT16*>(val);
     }
 
     template<> inline void Store<4>(volatile void *location, const void *val, BARRIER_ST ignored)
     {
-        *static_cast<volatile FUND::UINT32*>(location) = *static_cast<const FUND::UINT32*>(val);
+        *static_cast<volatile UINT32*>(location) = *static_cast<const UINT32*>(val);
     }
 
     template<> inline void Store<8>(volatile void *location, const void *val, BARRIER_ST ignored)
     {
-        *static_cast<volatile FUND::UINT64*>(location) = *static_cast<const FUND::UINT64*>(val);
+        *static_cast<volatile UINT64*>(location) = *static_cast<const UINT64*>(val);
     }
 
 
@@ -107,22 +105,22 @@ namespace OPS_IMPL
 
     template<> inline void Load<1>(volatile const void *location, void *val, BARRIER_LD ignored)
     {
-        *static_cast<FUND::UINT8*>(val) = *static_cast<volatile const FUND::UINT8*>(location);
+        *static_cast<UINT8*>(val) = *static_cast<volatile const UINT8*>(location);
     }
 
     template<> inline void Load<2>(volatile const void *location, void *val, BARRIER_LD ignored)
     {
-        *static_cast<FUND::UINT16*>(val) = *static_cast<volatile const FUND::UINT16*>(location);
+        *static_cast<UINT16*>(val) = *static_cast<volatile const UINT16*>(location);
     }
 
     template<> inline void Load<4>(volatile const void *location, void *val, BARRIER_LD ignored)
     {
-        *static_cast<FUND::UINT32*>(val) = *static_cast<volatile const FUND::UINT32*>(location);
+        *static_cast<UINT32*>(val) = *static_cast<volatile const UINT32*>(location);
     }
 
     template<> inline void Load<8>(volatile const void *location, void *val, BARRIER_LD ignored)
     {
-        *static_cast<FUND::UINT64*>(val) = *static_cast<volatile const FUND::UINT64*>(location);
+        *static_cast<UINT64*>(val) = *static_cast<volatile const UINT64*>(location);
     }
 
 

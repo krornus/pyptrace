@@ -47,9 +47,11 @@ using _STLP_VENDOR_CSTD::time_t;
 _STLP_BEGIN_NAMESPACE
 
 #if defined (_STLP_USE_ATOMIC_SWAP_MUTEX)
+#  ifndef __ICL
 template<int __32bits>
 _STLP_STATIC_MUTEX
 _Atomic_swap_struct<__32bits>::_S_swap_lock _STLP_MUTEX_INITIALIZER;
+#  endif // __ICL
 #  undef _STLP_USE_ATOMIC_SWAP_MUTEX
 #endif
 

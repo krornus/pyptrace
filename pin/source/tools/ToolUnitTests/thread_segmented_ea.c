@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -43,6 +43,9 @@ void TestSegmentedEA ();
 int a[100000];
 int n = 10;
 
+#ifdef TARGET_WINDOWS
+extern __declspec(dllexport) __declspec(noinline)
+#endif
 void * longfun(void * arg)
 {
     int i,j;
@@ -58,13 +61,15 @@ void * longfun(void * arg)
     return 0;
 }
 
+#ifdef TARGET_WINDOWS
+extern __declspec(dllexport) __declspec(noinline)
+#endif
 void * shortfun(void * arg)
 {
     a[1] = 1;
     TestSegmentedEA ();
     return 0;
 }
-
 
 THREAD_HANDLE threads[MAXTHREADS];
 

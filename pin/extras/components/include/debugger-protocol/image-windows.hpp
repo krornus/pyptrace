@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: debugger-protocol
 // <FILE-TYPE>: component public header
 
@@ -79,7 +78,7 @@ struct /*<UTILITY>*/ IMAGE_INFO_WINDOWS
 {
     IMAGE_INFO_WINDOWS_VERSION _version;    ///< Tells which fields in this structure are valid.
     IMAGE_TYPE_WINDOWS _type;               ///< The image type.
-    FUND::ANYADDR _base;                    ///< Base address at which the PE file is loaded into memory.
+    ANYADDR _base;                    ///< Base address at which the PE file is loaded into memory.
     size_t _size;                           ///< Total size in bytes of the loaded image in memory.
     std::string _name;                      ///< Absolute pathname to the PE file (UTF-8).
 };

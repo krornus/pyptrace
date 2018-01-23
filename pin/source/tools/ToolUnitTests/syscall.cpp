@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -40,6 +40,16 @@ END_LEGAL */
 
 ADDRINT unmatched_syscall_ip = 0;
 
+THREADID myThread = INVALID_THREADID;
+
+VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
+{
+    if (myThread == INVALID_THREADID)
+    {
+        myThread = threadid;
+    }
+}
+
 VOID BeforeSyscall(ADDRINT ip)
 {
     if (unmatched_syscall_ip != 0)
@@ -49,7 +59,7 @@ VOID BeforeSyscall(ADDRINT ip)
         fflush(stdout);
         exit(1);
     }
-    
+
     unmatched_syscall_ip = ip;
 }
 
@@ -60,23 +70,29 @@ VOID AfterSyscall(ADDRINT ip)
 
 VOID SyscallEntry(THREADID threadIndex, CONTEXT *ctxt, SYSCALL_STANDARD std, VOID *v)
 {
-    BeforeSyscall(PIN_GetContextReg(ctxt, REG_INST_PTR));
+    if (threadIndex == myThread)
+    {
+        BeforeSyscall(PIN_GetContextReg(ctxt, REG_INST_PTR));
+    }
 }
 
 VOID SyscallExit(THREADID threadIndex, CONTEXT *ctxt, SYSCALL_STANDARD std, VOID *v)
 {
-    AfterSyscall(PIN_GetContextReg(ctxt, REG_INST_PTR));
+    if (threadIndex == myThread)
+    {
+        AfterSyscall(PIN_GetContextReg(ctxt, REG_INST_PTR));
+    }
 }
 
 VOID Instruction(INS ins, VOID *v)
-{
+{   
     // For O/S's (Mac) that don't support PIN_AddSyscallEntryFunction(),
     // instrument the system call instruction.
 
     if (INS_IsSyscall(ins) && INS_HasFallThrough(ins))
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)BeforeSyscall, IARG_INST_PTR, IARG_END);
-        INS_InsertCall(ins, IPOINT_AFTER, (AFUNPTR)AfterSyscall, IARG_INST_PTR, IARG_END);
+       INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)BeforeSyscall, IARG_INST_PTR, IARG_END);
+       INS_InsertCall(ins, IPOINT_AFTER, (AFUNPTR)AfterSyscall, IARG_INST_PTR, IARG_END);
     }
 }
 
@@ -94,12 +110,14 @@ int main(INT32 argc, CHAR **argv)
 {
     PIN_Init(argc, argv);
     
-    INS_AddInstrumentFunction(Instruction, 0);
+    PIN_AddThreadStartFunction(ThreadStart, NULL);
+    
+    INS_AddInstrumentFunction(Instruction, NULL);
 
-    PIN_AddSyscallEntryFunction(SyscallEntry, 0);
-    PIN_AddSyscallExitFunction(SyscallExit, 0);
+    PIN_AddSyscallEntryFunction(SyscallEntry, NULL);
+    PIN_AddSyscallExitFunction(SyscallExit, NULL);
 
-    PIN_AddContextChangeFunction(OnContextChange, 0);
+    PIN_AddContextChangeFunction(OnContextChange, NULL);
     
     // Never returns
     PIN_StartProgram();

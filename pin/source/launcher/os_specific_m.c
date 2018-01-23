@@ -1,11 +1,9 @@
 /*
  * os_specific_l.c
- *
- *  Created on: May 28, 2012
- *      Author: bkemper
  */
 
 #include "os_specific.h"
+#include <libproc.h>
 
 int check_set_evar(char const* evar,
                           char const* pvar)
@@ -78,7 +76,7 @@ void update_environment(char* base_path)
     ext_libs64 = append3(base_path64, "/", lib_ext_dir);
 
     /* make pin_ld_library_path pre-pending pin_libs -- for the VM ultimately */
-    ld_library_path = getenv("DYLD_LIBRARY_PATH");
+    ld_library_path = getenv("PIN_VM_DYLD_LIBRARY_PATH");
     pin_ld_library_path = ld_library_path;
 
     /* Add the path which contains XED */
@@ -109,7 +107,9 @@ void update_environment(char* base_path)
 
 char* find_driver_name(char* argv0)
 {
-    return argv0;
+    char appPath[PATH_MAX];
+    proc_pidpath(getpid(), appPath, sizeof(appPath));
+    return strdup(appPath);
 }
 
 char** build_child_argv(char* base_path, int argc, char** argv, int user_argc,

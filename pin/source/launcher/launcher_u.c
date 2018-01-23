@@ -1,5 +1,3 @@
-/* @ORIGINAL_AUTHOR: Benjamin Kemper */
-
 /*! @file
  *
  * Launcher code common to unix platforms.

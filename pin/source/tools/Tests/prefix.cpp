@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,10 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-/*
-  @ORIGINAL_AUTHOR: Daniel Lemel
- */
-
 /*! @file
  *  Chek the prefixes APIs.
  */
@@ -48,6 +44,8 @@ UINT32 repPrefixCount = 0;
 UINT32 repnePrefixCount = 0;
 UINT32 segmentPrefixCount = 0;
 
+bool seen_nop = false;
+
 VOID CountsUpdate(INS ins)
 {
     if (INS_AddressSizePrefix(ins))          addressSizePrefixCount++;
@@ -62,10 +60,16 @@ VOID CountsUpdate(INS ins)
 
 VOID Rtn(RTN rtn, VOID * v)
 {
+    seen_nop = false;
     string name = RTN_Name(rtn);
     if ((name == "test1") || (name == "test2")) {
         RTN_Open(rtn);
         for (INS ins = RTN_InsHead(rtn); INS_Valid(ins); ins = INS_Next(ins)) {
+            if (INS_IsNop(ins)) {
+                seen_nop = true;
+                continue;
+            }
+            ASSERT(!seen_nop, "assertion failed: non-NOP instruction after NOP");
             CountsUpdate(ins);
         }
         RTN_Close(rtn);
@@ -88,12 +92,12 @@ int main(INT32 argc, CHAR **argv)
 {
     PIN_InitSymbols();
     PIN_Init(argc, argv);
-    
+
     RTN_AddInstrumentFunction(Rtn, 0);
     PIN_AddFiniFunction(Fini, 0);
-    
+
     // Never returns
     PIN_StartProgram();
-    
+
     return 0;
 }

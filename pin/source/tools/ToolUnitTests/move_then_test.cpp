@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -31,45 +31,40 @@ END_LEGAL */
 /*
  This tool tests that THEN instrumentation is executed correctly.
 */
-
-#include <stdio.h>
-#include "pin.H"
-#include "instlib.H"
-#include "portability.H"
+#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <cstdlib>
-#include <stdlib.h>
+#include <map>
 
+#if defined(TARGET_LINUX)
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <errno.h>
+# ifdef TARGET_IA32E
+# include <asm/prctl.h>
+# include <sys/prctl.h>
+# endif // TARGET_LINUX
+#endif // TARGET_IA32E
 
+#include "pin.H"
+#include "instlib.H"
+
+// windows.h must be included after pin.H
 #ifdef TARGET_WINDOWS
 namespace WIND
 {
 #include <windows.h>
 }
+#endif // TARGET_WINDOWS
 
+// Knob for specifying if the test is for exception.
+KNOB<int> KnobException(KNOB_MODE_WRITEONCE, "pintool",
+    "exception", "0", "specify if the test is for exception");
 
-
-#endif
-
-#if defined(TARGET_LINUX) || defined(TARGET_ANDROID)
-#include <unistd.h>
-#include <sys/syscall.h>
-#include <errno.h>
-
-#ifdef TARGET_IA32E
-#include <asm/prctl.h> 
-#include <sys/prctl.h> 
-
-#endif
-#endif
-
-#include <map>
-
-
-
+int isException = 0;
 
 BOOL x = TRUE;
 ADDRINT curIp = 0;
@@ -88,9 +83,9 @@ THENS_CALLED_INFO thensCalledInfo;
 
 const int numInstructionsToInstrument = 1000;
 
+
 BOOL  IfReturnTrue(ADDRINT  ip)
 {
-    //printf ("IfReturnTrue for ip %x\n", ip);
     curIp = ip;
     return x;
 }
@@ -125,7 +120,6 @@ VOID  ContextInThen(
      thensCalledInfo.erase(ip);
      thensCalled.contextInThenCalled = TRUE;
      thensCalledInfo.insert(std::make_pair(ip, thensCalled));
-     //printf ("contextInThenCalled for ip %x\n", ip);
 }
 
 
@@ -153,7 +147,6 @@ VOID  NoContextInThen(
      thensCalledInfo.erase(ip);
      thensCalled.noContextInThenCalled = TRUE;
      thensCalledInfo.insert(std::make_pair(ip, thensCalled));
-      //printf ("noContextInThenCalled for ip %x thensCalled.contextInThenCalled %d\n", ip, thensCalled.contextInThenCalled);
 }
 
 
@@ -169,11 +162,23 @@ INT32 Usage()
     return -1;
 }
 
+ADDRINT imgStartAdd;
+USIZE imgSize;
+
+VOID ImageLoad(IMG img, VOID *v)
+{
+    if (IMG_IsMainExecutable(img))
+    {
+        imgStartAdd = IMG_StartAddress(img);
+        imgSize = IMG_SizeMapped(img);
+    }
+}
+
 
 int numInstructionsInstrumented = 0;
+//intruction for noException tests
 VOID Instruction(INS ins, VOID *v)
 {
-
     if (numInstructionsInstrumented >= numInstructionsToInstrument)
     {
         return;
@@ -183,22 +188,58 @@ VOID Instruction(INS ins, VOID *v)
     {
         return;
     }
-    numInstructionsInstrumented++;
-    //printf ("instrumentation# %d of ip %x  %s\n",numInstructionsInstrumented, INS_Address(ins), INS_Disassemble(ins).c_str());
-    INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)IfReturnTrue, 
-                         IARG_INST_PTR,
-                         IARG_END);
-    INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)ContextInThen,
-                   IARG_INST_PTR,
-                   IARG_CONTEXT,
-                   IARG_END);
+    //instrument if ins is app instruction, also not exception test
+    if (INS_Address(ins) >= imgStartAdd && INS_Address(ins) < (imgStartAdd + imgSize))
+    {
+        numInstructionsInstrumented++;
+        INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)IfReturnTrue,
+                            IARG_INST_PTR,
+                            IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)ContextInThen,
+                            IARG_INST_PTR,
+                            IARG_CONTEXT,
+                            IARG_END);
 
-    INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)IfReturnTrue2, 
-                         IARG_INST_PTR,
-                         IARG_END);
+        INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)IfReturnTrue2,
+                            IARG_INST_PTR,
+                            IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)NoContextInThen,
+                            IARG_INST_PTR,
+                            IARG_END);
+        THENS_CALLED thensCalled;
+        thensCalled.contextInThenCalled = thensCalled.noContextInThenCalled = FALSE;
+        thensCalledInfo.insert(std::make_pair(INS_Address(ins), thensCalled));
+    }
+}
+
+//intruction for Exception tests
+VOID InstructionEx(INS ins, VOID *v)
+{
+    if (numInstructionsInstrumented >= numInstructionsToInstrument)
+    {
+        return;
+    }
+    THENS_CALLED_INFO::iterator it = thensCalledInfo.find(INS_Address(ins));
+    if (it != thensCalledInfo.end())
+    {
+        return;
+    }
+
+    numInstructionsInstrumented++;
+    INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)IfReturnTrue,
+                        IARG_INST_PTR,
+                        IARG_END);
+    INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)ContextInThen,
+                        IARG_INST_PTR,
+                        IARG_CONTEXT,
+                        IARG_END);
+
+    INS_InsertIfCall(ins, IPOINT_BEFORE, (AFUNPTR)IfReturnTrue2,
+                        IARG_INST_PTR,
+                        IARG_END);
     INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)NoContextInThen,
-                   IARG_INST_PTR,
-                   IARG_END);
+                        IARG_INST_PTR,
+                        IARG_END);
     THENS_CALLED thensCalled;
     thensCalled.contextInThenCalled = thensCalled.noContextInThenCalled = FALSE;
     thensCalledInfo.insert(std::make_pair(INS_Address(ins), thensCalled));
@@ -220,11 +261,10 @@ VOID Fini(INT32 code, VOID *v)
             printf ("***Error NoContextInThen NOT called for instruction at ip 0x%lx\n", static_cast<unsigned long>(it->first));
             exit (-1);
         }
-        //printf ("OK ip %x\n", it->first);
     }
-    if (numTested != numInstructionsToInstrument)
+    if (numTested != numInstructionsInstrumented)
     {
-        printf ("***Error numTested != numInstructionsToInstrument   numTested %d numInstructionsToInstrument %d\n", 
+        printf ("***Error numTested != numInstructionsToInstrument   numTested %d numInstructionsToInstrument %d\n",
                 numTested, numInstructionsToInstrument);
         exit (-1);
     }
@@ -238,13 +278,24 @@ int main(int argc, char *argv[])
         return Usage();
     }
 
-    INS_AddInstrumentFunction(Instruction, 0);
-    PIN_AddFiniFunction(Fini, 0);
+    isException = KnobException.Value();
+
+    if (isException)
+    {
+        INS_AddInstrumentFunction(InstructionEx, NULL);
+    }
+    else
+    {
+        INS_AddInstrumentFunction(Instruction, NULL);
+    }
+    PIN_AddFiniFunction(Fini, NULL);
+
+    IMG_AddInstrumentFunction(ImageLoad, NULL);
 
     // Never returns
     PIN_StartProgram();
-    
-    return 0;
+
+    return 1;
 }
 
 /* ===================================================================== */

@@ -45,11 +45,11 @@ union __nan_un {
 #define __NAN_UN__UC { { 0, 0, 0xc0, 0xff } }
 CONST_COMDATVAR(union __nan_un,__nan,__NAN_UN__UC);
 
-#if __GNUC_PREREQ(3, 3) || (defined(__INTEL_COMPILER) && __INTEL_COMPILER >= 800)
+#if __GNUC_PREREQ(3, 3) || (defined(__ICC) && __INTEL_COMPILER >= 800)
 #define	__MATH_BUILTIN_CONSTANTS
 #endif
 
-#if __GNUC_PREREQ(3, 0) && !defined(__INTEL_COMPILER)
+#if __GNUC_PREREQ(3, 0) && !defined(__ICC)
 #define	__MATH_BUILTIN_RELOPS
 #endif
 

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -42,9 +42,12 @@ END_LEGAL */
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fstream>
 
 using namespace std;
 
+static KNOB<string> KnobOutput(KNOB_MODE_WRITEONCE, "pintool", "o", "countreps.out", "output file");
+static ofstream out;
 int numTimesPreOriginalReplaced = 0;
 int numTimesOriginalReplaced = 0;
 /* ===================================================================== */
@@ -109,7 +112,7 @@ VOID ImageLoad(IMG img, VOID *v)
         if (RTN_Valid(rtn))
         {
             pf_Original = reinterpret_cast<VOID *>(RTN_Address(rtn));
-            cout << "Replacing " << RTN_Name(rtn) << " in " << IMG_Name(img) << endl;
+            out << "Replacing " << RTN_Name(rtn) << " in " << IMG_Name(img) << endl;
             RTN_ReplaceSignature(
                 rtn, AFUNPTR(OriginalReplacement),
                 IARG_PROTOTYPE, proto,
@@ -121,7 +124,7 @@ VOID ImageLoad(IMG img, VOID *v)
         }
         else
         {
-            cout << "Original cannot be found." << endl;
+            out << "Original cannot be found." << endl;
             exit(1);
         }
  
@@ -138,7 +141,7 @@ VOID ImageLoad(IMG img, VOID *v)
         if (RTN_Valid(rtn))
         {
             pf_Original = reinterpret_cast<VOID *>(RTN_Address(rtn));
-            cout << "Replacing " << RTN_Name(rtn) << " in " << IMG_Name(img) << endl;
+            out << "Replacing " << RTN_Name(rtn) << " in " << IMG_Name(img) << endl;
             RTN_ReplaceSignature(
                 rtn, AFUNPTR(PreOriginalReplacement),
                 IARG_PROTOTYPE, proto,
@@ -150,7 +153,7 @@ VOID ImageLoad(IMG img, VOID *v)
         }
         else
         {
-            cout << "PreOriginal cannot be found." << endl;
+            out << "PreOriginal cannot be found." << endl;
             exit(1);
         }
  
@@ -163,22 +166,35 @@ VOID Fini(INT32 code, VOID *v)
 {
     if (1000000 != numTimesOriginalReplaced)
     {
-        printf ("***ERROR numTimesOriginalReplaced %d is unexpected\n", numTimesOriginalReplaced);
+        out << "***ERROR numTimesOriginalReplaced " << numTimesOriginalReplaced << " is unexpected\n";
         exit(-1);
     }
     if (1 != numTimesPreOriginalReplaced)
     {
-        printf ("***ERROR numTimesPreOriginalReplaced %d is unexpected\n", numTimesPreOriginalReplaced);
+        out << "***ERROR numTimesPreOriginalReplaced " << numTimesPreOriginalReplaced << " is unexpected\n";
         exit(-1);
     }
 }
-    
+
+/* ===================================================================== */
+/* Print Help Message                                                    */
+/* ===================================================================== */
+
+INT32 Usage()
+{
+    cerr << "Test call app function performance." << endl;
+    cerr << endl << KNOB_BASE::StringKnobSummary() << endl;
+    return -1;
+}
+
 /* ===================================================================== */
 int main(INT32 argc, CHAR *argv[])
 {
     PIN_InitSymbols();
 
-    PIN_Init(argc, argv);
+    if (PIN_Init(argc, argv)) return Usage();
+
+    out.open(KnobOutput.Value().c_str());
 
     IMG_AddInstrumentFunction(ImageLoad, 0);
 

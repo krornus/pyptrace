@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Benjamin Kemper
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 
@@ -29,7 +28,7 @@ extern "C" {
 #include "os-apis/threads.h"
 #include "os-apis/process.h"
 #include "os-apis/time.h"
-#include "os-apis/threads-db.h"
+#include "os-apis/threads-management.h"
 #include "os-apis/pin-tls.h"
 #include "os-apis/host.h"
 #include "os-apis/mutex.h"
@@ -37,6 +36,7 @@ extern "C" {
 #include "os-apis/ipc-pipe.h"
 #ifdef TARGET_WINDOWS
 # include "windows/gcc_compat.h"
+# include "windows/util-windows.h"
 #else
 # include "os-apis/signals.h"
 # include "os-apis/ipc.h"

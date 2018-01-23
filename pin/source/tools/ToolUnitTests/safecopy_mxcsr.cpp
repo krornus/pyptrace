@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -34,19 +34,11 @@ END_LEGAL */
  */
 
 #include "pin.H"
+#include <os-apis.h>
 #include <iostream>
 #include <fstream>
 #include <string.h>
-
-#if defined(TARGET_WINDOWS)
-namespace WINDOWS
-{
-#include <windows.h>
-}
-#else
 #include <unistd.h>
-#include <sys/mman.h>
-#endif
 
 // The original test value was 0x9fc0. However, due to a bug in Linux kernels after 2.6.32, the DAZ bit is not restored
 // properly when returning from the kernel after a signal handler. So the test value was changed to 0x9f80.
@@ -67,65 +59,29 @@ VOID * probeAddr = 0; // base address of a range overwritten by a probe
 /* ================================================================== */
 // Utilities
 /* ================================================================== */
-#if defined(TARGET_WINDOWS)
-
-size_t GetPageSize()
-{
-    WINDOWS::SYSTEM_INFO sysInfo;
-    WINDOWS::GetSystemInfo(&sysInfo);
-    return static_cast<size_t>(sysInfo.dwPageSize);
-}
 
 VOID * MemAlloc(size_t size)
 {
-    return WINDOWS::VirtualAlloc(0, size, MEM_COMMIT, PAGE_READWRITE);
-}
 
-VOID MemFree(VOID * addr, size_t size)
-{
-    WINDOWS::VirtualFree(addr, 0, MEM_RELEASE);
+    void * pageFrameStart = NULL;
+    OS_AllocateMemory(NATIVE_PID_CURRENT,
+                      OS_PAGE_PROTECTION_TYPE_READ | OS_PAGE_PROTECTION_TYPE_WRITE,
+                      size, OS_MEMORY_FLAGS_PRIVATE, &pageFrameStart);
+    return pageFrameStart;
 }
 
 BOOL MemProtect(VOID * addr, size_t size, BOOL enableAccess)
 {
-    WINDOWS::DWORD oldProtect;
-    return WINDOWS::VirtualProtect(addr, size, 
-                    (enableAccess? PAGE_READWRITE : PAGE_NOACCESS), &oldProtect);
-}
-
-#else
-
-size_t GetPageSize()
-{
-    return static_cast<size_t>(getpagesize());
+    UINT prot = enableAccess ? (OS_PAGE_PROTECTION_TYPE_READ | OS_PAGE_PROTECTION_TYPE_WRITE)
+                             : OS_PAGE_PROTECTION_TYPE_NOACCESS;
+    OS_RETURN_CODE result = OS_ProtectMemory(NATIVE_PID_CURRENT, const_cast<void *>(addr), size, prot);
+    return OS_RETURN_CODE_IS_SUCCESS(result);
 }
 
 VOID MemFree(VOID * addr, size_t size)
 {
-    munmap(addr, size);
+    OS_FreeMemory(NATIVE_PID_CURRENT, addr, size);
 }
-
-BOOL MemProtect(VOID * addr, size_t size, BOOL enableAccess)
-{
-    
-    return (-1 != mprotect(addr, size, (enableAccess? (PROT_READ | PROT_WRITE) : PROT_NONE)));
-}
-
-VOID * MemAlloc(size_t size)
-{
-#if defined(TARGET_MAC) || defined(TARGET_BSD)
-    VOID * addr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-#else
-    VOID * addr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-#endif
-    if (addr != MAP_FAILED)
-    {
-        return addr;
-    }
-    return 0;
-}
-
-#endif
 
 
 /*!
@@ -136,7 +92,7 @@ VOID * MemAlloc(size_t size)
  */
 VOID SafeCopyTest()
 {
-    size_t pageSize = GetPageSize();
+    size_t pageSize = getpagesize();
 
     CHAR * src = (CHAR *)MemAlloc(2*pageSize);
     ASSERTX(src != 0);

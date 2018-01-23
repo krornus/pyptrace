@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Yoav Levy
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component public header
 

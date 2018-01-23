@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,14 +28,12 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: debugger-protocol
 // <FILE-TYPE>: component public header
 
 #ifndef DEBUGGER_PROTOCOL_EVENT_WINDOWS_HPP
 #define DEBUGGER_PROTOCOL_EVENT_WINDOWS_HPP
 
-#include "fund.hpp"
 
 
 namespace DEBUGGER_PROTOCOL {
@@ -67,12 +65,12 @@ static const unsigned MAX_EXCEPTION_PARAMETERS = 15;    ///< Maximum number of e
  */
 struct /*<POD>*/ EXCEPTION32
 {
-    FUND::UINT32 _exceptionCode;
-    FUND::UINT32 _exceptionFlags;
-    FUND::UINT32 _exceptionRecord;
-    FUND::UINT32 _exceptionAddress;
-    FUND::UINT32 _numberParameters;
-    FUND::UINT32 _exceptionInformation[MAX_EXCEPTION_PARAMETERS];
+    UINT32 _exceptionCode;
+    UINT32 _exceptionFlags;
+    UINT32 _exceptionRecord;
+    UINT32 _exceptionAddress;
+    UINT32 _numberParameters;
+    UINT32 _exceptionInformation[MAX_EXCEPTION_PARAMETERS];
 };
 
 /*!
@@ -81,13 +79,13 @@ struct /*<POD>*/ EXCEPTION32
  */
 struct /*<POD>*/ EXCEPTION64
 {
-    FUND::UINT32 _exceptionCode;
-    FUND::UINT32 _exceptionFlags;
-    FUND::UINT64 _exceptionRecord;
-    FUND::UINT64 _exceptionAddress;
-    FUND::UINT32 _numberParameters;
-    FUND::UINT32 _pad;
-    FUND::UINT64 _exceptionInformation[MAX_EXCEPTION_PARAMETERS];
+    UINT32 _exceptionCode;
+    UINT32 _exceptionFlags;
+    UINT64 _exceptionRecord;
+    UINT64 _exceptionAddress;
+    UINT32 _numberParameters;
+    UINT32 _pad;
+    UINT64 _exceptionInformation[MAX_EXCEPTION_PARAMETERS];
 };
 
 

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -34,7 +34,10 @@ END_LEGAL */
 
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 #include "pin.H"
+
+#include <map>
 
 #ifdef TARGET_WINDOWS
 namespace WIND
@@ -102,12 +105,12 @@ ADDRINT GetTlsBaseAddress()
 {
     ADDRINT baseAddress = 0;
 #ifdef TARGET_IA32
-	unsigned int gsVal = TLS_GET_GS_REG();
-	UserDesc td;
-	td.entry_number = gsVal >> 3;
+    unsigned int gsVal = TLS_GET_GS_REG();
+    UserDesc td;
+    td.entry_number = gsVal >> 3;
     if (gsVal == 0) 
         return 0;
-	int  res = syscall(SYS_get_thread_area, &td);
+    int  res = syscall(SYS_get_thread_area, &td);
     if (res != 0)
     {
         printf("SYS_get_thread_area failed with error: %s\n", strerror(errno));
@@ -148,10 +151,16 @@ struct tdata
     ADDRINT threadTeb;
     int numEffectiveAddressesAnalyzed[MAX_ADDRESSING_TYPES];
 } THREAD_DATA;
-struct tdata threadData[MAX_THREADS]={0};
 
 int numThreads = 0;
 BOOL hadError = FALSE;
+
+static  TLS_KEY tls_key = INVALID_TLS_KEY;
+
+tdata* get_tls(THREADID threadid)
+{
+    return static_cast<tdata*>(PIN_GetThreadData(tls_key, threadid));
+}
 
 const char * GetMemoryAccessTypeString (int j)
 {
@@ -181,14 +190,15 @@ const char * GetMemoryAccessTypeString (int j)
 
 VOID AnalyzeSegmentedMemAccessDispl(VOID * ip, VOID * addr, UINT32 accessType, UINT32 displacement, THREADID tid)
 {
-    if (tid < MAX_THREADS)
+    tdata* data = get_tls(tid);
+    if (data != NULL)
     {
-        if (!threadData[tid].threadTeb)
-            threadData[tid].threadTeb = InitializeThreadData();
+        if (!data->threadTeb)
+            data->threadTeb = InitializeThreadData();
 
-        ADDRINT threadTeb = threadData[tid].threadTeb;
+        ADDRINT threadTeb = data->threadTeb;
         ADDRINT memoryEA = reinterpret_cast<ADDRINT>(addr);
-        threadData[tid].numEffectiveAddressesAnalyzed[accessType]++;
+        data->numEffectiveAddressesAnalyzed[accessType]++;
         
         if ((threadTeb + displacement) != memoryEA)
         {// memoryEA is the TEB of the thread + displacement that is in the segmented operand
@@ -196,26 +206,20 @@ VOID AnalyzeSegmentedMemAccessDispl(VOID * ip, VOID * addr, UINT32 accessType, U
                 ip, addr, tid, reinterpret_cast<VOID *>(threadTeb), displacement, reinterpret_cast<VOID *>(threadTeb+displacement));
             hadError = TRUE;
         }
-        /*
-        else
-        {
-            fprintf (trace, "TRACED_INST_OK %p: R %p (tid %x) (teb %p displacement %x  expectedEA %p)\n", 
-                ip, addr, tid, reinterpret_cast<VOID *>(threadTeb), displacement, reinterpret_cast<VOID *>(threadTeb+displacement));
-        }
-        */
     }
 }
 
 VOID AnalyzeSegmentedMemAccessBaseIndexDispl(VOID * ip, VOID * addr, UINT32 accessType, ADDRINT baseRegVal, ADDRINT indexRegVal, UINT32 scale, UINT32 displacement, THREADID tid)
 {
-    if (tid < MAX_THREADS)
+    tdata* data = get_tls(tid);
+    if (data != NULL)
     {
-		if (!threadData[tid].threadTeb)
-			threadData[tid].threadTeb = InitializeThreadData();
+        if (!data->threadTeb)
+            data->threadTeb = InitializeThreadData();
 
-        ADDRINT threadTeb = threadData[tid].threadTeb;
+        ADDRINT threadTeb = data->threadTeb;
         ADDRINT memoryEA = reinterpret_cast<ADDRINT>(addr);
-        threadData[tid].numEffectiveAddressesAnalyzed[accessType]++;
+        data->numEffectiveAddressesAnalyzed[accessType]++;
         
         if ((threadTeb + displacement + baseRegVal + (indexRegVal*scale)) != memoryEA)
         {// memoryEA is the TEB of the thread + displacement that is in the segmented operand
@@ -224,28 +228,21 @@ VOID AnalyzeSegmentedMemAccessBaseIndexDispl(VOID * ip, VOID * addr, UINT32 acce
                 baseRegVal, indexRegVal, scale, reinterpret_cast<VOID *>(threadTeb+displacement));
             hadError = TRUE;
         }
-        /*
-        else
-        {
-            fprintf (trace, "TRACED_INST_OK %p: R %p (tid %x) (teb %p displacement %x  expectedEA %p)\n", 
-            ip, addr, tid, reinterpret_cast<VOID *>(threadTeb), displacement, reinterpret_cast<VOID *>(threadTeb+displacement));
-        }
-       */
     }
 }
 
 
 VOID AnalyzeSegmentedMemAccessBaseDispl(VOID * ip, VOID * addr, UINT32 accessType, ADDRINT baseRegVal, UINT32 displacement, THREADID tid)
 {
-    
-    if (tid < MAX_THREADS)
+    tdata* data = get_tls(tid);
+    if (data != NULL)
     {
-        if (!threadData[tid].threadTeb)
-            threadData[tid].threadTeb = InitializeThreadData();
+        if (!data->threadTeb)
+            data->threadTeb = InitializeThreadData();
 
-        ADDRINT threadTeb = threadData[tid].threadTeb;
+        ADDRINT threadTeb = data->threadTeb;
         ADDRINT memoryEA = reinterpret_cast<ADDRINT>(addr);
-        threadData[tid].numEffectiveAddressesAnalyzed[accessType]++;
+        data->numEffectiveAddressesAnalyzed[accessType]++;
                
         if ((threadTeb + displacement + baseRegVal) != memoryEA)
         {// memoryEA is the TEB of the thread + displacement that is in the segmented operand
@@ -255,14 +252,6 @@ VOID AnalyzeSegmentedMemAccessBaseDispl(VOID * ip, VOID * addr, UINT32 accessTyp
            hadError = TRUE;
                 
         }
-        /*
-        else
-        {
-            fprintf (trace, "TRACED_INST_OK %p: R %p (tid %x) (teb %p displacement %x  expectedEA %p)\n", 
-            ip, addr, tid, reinterpret_cast<VOID *>(threadTeb), displacement, reinterpret_cast<VOID *>(threadTeb+displacement));        
-            
-        }
-        */
     }
 }
 
@@ -270,14 +259,15 @@ VOID AnalyzeSegmentedMemAccessBaseDispl(VOID * ip, VOID * addr, UINT32 accessTyp
 
 VOID AnalyzeSegmentedMemAccessIndexDispl(VOID * ip, VOID * addr,  UINT32 accessType, ADDRINT indexRegVal, UINT32 scale, UINT32 displacement, THREADID tid)
 {
-    if (tid < MAX_THREADS)
+    tdata* data = get_tls(tid);
+    if (data != NULL)
     {
-        if (!threadData[tid].threadTeb)
-            threadData[tid].threadTeb = InitializeThreadData();
+        if (!data->threadTeb)
+            data->threadTeb = InitializeThreadData();
 
-        ADDRINT threadTeb = threadData[tid].threadTeb;
+        ADDRINT threadTeb = data->threadTeb;
         ADDRINT memoryEA = reinterpret_cast<ADDRINT>(addr);
-        threadData[tid].numEffectiveAddressesAnalyzed[accessType]++;
+        data->numEffectiveAddressesAnalyzed[accessType]++;
         
         if ((threadTeb + displacement +  (indexRegVal*scale)) != memoryEA)
         {// memoryEA is the TEB of the thread + displacement that is in the segmented operand
@@ -286,13 +276,6 @@ VOID AnalyzeSegmentedMemAccessIndexDispl(VOID * ip, VOID * addr,  UINT32 accessT
                 indexRegVal, scale, reinterpret_cast<VOID *>(threadTeb+displacement));
             hadError = TRUE;
         }
-        /*
-        else
-        {
-            fprintf (trace, "TRACED_INST_OK %p: R %p (tid %x) (teb %p displacement %x  expectedEA %p)\n", 
-            ip, addr, tid, reinterpret_cast<VOID *>(threadTeb), displacement, reinterpret_cast<VOID *>(threadTeb+displacement));
-        }
-        */
     }
 }
 
@@ -334,8 +317,6 @@ VOID HandleAccess (INS ins, BOOL isRead, BOOL *hasSegmentedMemAccess)
             break;
         }
     }
-    /*fprintf(trace, "  SegMemAccess-%s (hasSegmentedMemAccess %d) (operand %d) %p %s\n", 
-           isRead?"READ":"WRITE", *hasSegmentedMemAccess, i, INS_Address(ins), INS_Disassemble(ins).c_str());*/
     if (baseReg != REG_INVALID())
     {
         if (indexReg != REG_INVALID())
@@ -462,9 +443,7 @@ VOID Instruction(INS ins, VOID *v)
     BOOL  hasReadSegmentedMemAccess = FALSE;
     BOOL  hasWriteSegmentedMemAccess = FALSE;
     
-    
     if (INS_SegmentRegPrefix(ins) == TESTED_SEG_REG)
-        //INS_OperandMemorySegmentReg, INS_SegPrefixIsMemoryRead, INS_OperandMemoryDisplacement  
     {
         if (INS_IsMemoryRead(ins))
         {
@@ -482,54 +461,67 @@ VOID Instruction(INS ins, VOID *v)
         }
     }
 
-    /*fprintf(trace, "%p %s\n", INS_Address(ins), INS_Disassemble(ins).c_str());
-    fflush (trace);*/
 }
 
 VOID Fini(INT32 code, VOID *v)
 {
-    int i, j;
-    for (i=0; i<numThreads; i++)
-    {
-        for (j=0; j<MAX_ADDRESSING_TYPES; j++)
-        {
-            if (threadData[i].numEffectiveAddressesAnalyzed[j] == 0)
-            {
-                fprintf(trace, "ERROR - Thread %x: no segment[%s] based accesses\n", i, GetMemoryAccessTypeString(j));
-				fflush(trace);
-                hadError = TRUE;
-            }
-            else
-            {
-                fprintf(trace, "Thread %x: verified %d segmented[%s] accesses\n", i, threadData[i].numEffectiveAddressesAnalyzed[j], GetMemoryAccessTypeString(j));
-				fflush(trace);
-            }
-        }
-        fprintf(trace, "\n");
-		fflush(trace);
-    }
     if (!hadError)
     {
         printf ("SUCCESS\n");
-		fflush(stdout);
+        fflush(stdout);
     }
     else
     {
         printf ("Had ERRORS - search above for string ERROR\n");
-		fflush(stdout);
+        fflush(stdout);
     }
 }
 
-PIN_LOCK lock;
-VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
+//Thread functions
+
+VOID ThreadFini(THREADID threadid, const CONTEXT *ctxt, INT32 code, VOID *v)
 {
-    PIN_GetLock(&lock, threadid+1);
+    int j;
+    tdata* data = get_tls(threadid);
+    if (data != NULL)
+    {
+        for (j=0; j<MAX_ADDRESSING_TYPES; j++)
+        {
+            if (data->numEffectiveAddressesAnalyzed[j] == 0)
+            {
+                fprintf(trace, "ERROR - Thread %x: no segment[%s] based accesses\n", threadid, GetMemoryAccessTypeString(j));
+                fflush(trace);
+                hadError = TRUE;
+            }
+            else
+            {
+                fprintf(trace, "Thread %x: verified %d segmented[%s] accesses\n", threadid,
+                                data->numEffectiveAddressesAnalyzed[j], GetMemoryAccessTypeString(j));
+                fflush(trace);
+            }
+        }
+        fprintf(trace, "\n");
+        fflush(trace);
+    }
+}
+
+PIN_LOCK pinLock;
+THREADID myThread = INVALID_THREADID;
+
+VOID ThreadStartUtil(THREADID threadid, CONTEXT *ctxt)
+{
     fprintf(trace, "thread begin %x %x\n",threadid, numThreads);
     numThreads++;
     if (threadid < MAX_THREADS)
     {
 #ifdef TARGET_WINDOWS
-        threadData[threadid].threadTeb = InitializeThreadData();
+        tdata* data = new tdata;
+        data->threadTeb = InitializeThreadData();
+        if (PIN_SetThreadData(tls_key, data, threadid) == FALSE)
+        {
+            cerr << "PIN_SetThreadData failed" << endl;
+            PIN_ExitProcess(1);
+        }
         if ((ADDRINT)PIN_GetContextReg( ctxt, TESTED_SEG_REG_BASE ) != InitializeThreadData())
         {
             fprintf (trace, "ERROR - Initial value of tested segment base does not match TEB\n");
@@ -542,22 +534,59 @@ VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
         fprintf (trace, "ERROR - maximum #threads exceeded\n");
     }
     fflush(trace);
-    PIN_ReleaseLock(&lock);
+}
+
+VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
+{
+    if (INVALID_THREADID == myThread)
+    {
+        myThread = threadid;
+        ThreadStartUtil(threadid, ctxt);
+    }
+}
+
+VOID AppThreadStart(THREADID threadid, CONTEXT *ctxt)
+{
+    PIN_GetLock(&pinLock, PIN_GetTid());
+    ThreadStartUtil(threadid, ctxt);
+    PIN_ReleaseLock(&pinLock);
+}
+
+//Instrument the app thread rtn
+VOID InstrumentRtn(RTN rtn, VOID *)
+{
+    if (PIN_UndecorateSymbolName(RTN_Name(rtn), UNDECORATION_NAME_ONLY) == "longfun"
+        || PIN_UndecorateSymbolName(RTN_Name(rtn), UNDECORATION_NAME_ONLY) == "shortfun")
+    {
+        RTN_Open(rtn);
+        RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(AppThreadStart), IARG_THREAD_ID, IARG_CONTEXT, IARG_END);
+        RTN_Close(rtn);
+    }
 }
 
 
 int main(int argc, char *argv[])
 {
     PIN_Init(argc, argv);
+    PIN_InitSymbols();
+    
+    PIN_InitLock(&pinLock);
+    
+    tls_key = PIN_CreateThreadDataKey(NULL);
+    if (tls_key == INVALID_TLS_KEY)
+    {
+        cerr << "number of already allocated keys reached the MAX_CLIENT_TLS_KEYS limit" << endl;
+        PIN_ExitProcess(1);
+    }
 
-    PIN_InitLock(&lock);
-
-    PIN_AddThreadStartFunction(ThreadStart, 0);
-    INS_AddInstrumentFunction(Instruction, 0);
-    PIN_AddFiniFunction(Fini, 0);
+    RTN_AddInstrumentFunction(InstrumentRtn, NULL);
+    PIN_AddThreadStartFunction(ThreadStart, NULL);
+    INS_AddInstrumentFunction(Instruction, NULL);
+    PIN_AddThreadFiniFunction(ThreadFini, NULL);
+    PIN_AddFiniFunction(Fini, NULL);
 
     // Never returns
     PIN_StartProgram();
     
-    return 0;
+    return 1;
 }

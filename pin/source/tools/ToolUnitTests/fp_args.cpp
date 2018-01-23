@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -31,8 +31,6 @@ END_LEGAL */
 
 /* ===================================================================== */
 /*! @file
- * 
- @ORIGINAL_AUTHOR: Elena Demikhovsky
  * 
  * This file shows how functions with floating point arguments can be wrapped.
  * FP wrappers are not supported in Pin yet.

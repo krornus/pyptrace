@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -96,7 +96,7 @@ static VOID ThreadCreateCallback(THREADID tid, CONTEXT * ctxt, INT32 flags, VOID
     {
         ADDRINT * stack = new ADDRINT [1024];
         CONTEXT context;
-        
+
         ctxt = &context;
 
         if (!threadFunction)

@@ -61,6 +61,9 @@ extern BOOL IMG_IsInterpreter(IMG x);
 extern BOOL IMG_IsStaticExecutable(IMG x);
 
                                                                   /* DO NOT EDIT */
+extern BOOL IMG_IsVDSO(IMG img);
+
+                                                                  /* DO NOT EDIT */
 extern UINT32 IMG_NumRegions(IMG img);
 
                                                                   /* DO NOT EDIT */
@@ -246,8 +249,34 @@ enum SYMBOL_INFO_MODE {
     EXPORT_SYMBOLS = (1<<0),  ///< Only symbols taken from export table are provided (Windows only)
     DEBUG_SYMBOLS  = (1<<1),  ///< Debug symbols (Windows only, currently implemented as DEBUG_OR_EXPORT_SYMBOLS)
     IFUNC_SYMBOLS  = (1<<2),  ///< IFUNC symbols (Linux only)
-    DEBUG_OR_EXPORT_SYMBOLS = (DEBUG_SYMBOLS | EXPORT_SYMBOLS) ///< First debug symbols if available, 
+    DEBUG_OR_EXPORT_SYMBOLS = (DEBUG_SYMBOLS | EXPORT_SYMBOLS) ///< First debug symbols if available,
                                                                ///<  otherwise export symbols (Windows only)
+};
+
+                                                                  /* DO NOT EDIT */
+class SymbolAddressRange
+{
+    public:
+        SymbolAddressRange() : base(0), size(0), name("") {}
+        SymbolAddressRange(string sym_name, ADDRINT sym_base, size_t sym_size) :
+            base(sym_base), size(sym_size), name(sym_name) {}
+        SymbolAddressRange(const SymbolAddressRange &obj) {base=obj.base; size=obj.size; name=obj.name;}
+        void operator = (const SymbolAddressRange &obj) {base=obj.base; size=obj.size; name=obj.name;}
+        BOOL operator < (const SymbolAddressRange &  range) const {return (base < range.base);}
+        BOOL Contains(const ADDRINT addr) const { return ((addr-base)<size); }
+    public:
+        ADDRINT base;
+        size_t size;
+        string name;
+};
+
+                                                                  /* DO NOT EDIT */
+struct SymbolDebugInfo
+{
+    SymbolDebugInfo(string sym_name, ADDRINT sym_base, size_t sym_size) :
+        name(sym_name), range(sym_name, sym_base, sym_size) {}
+    string name;
+    SymbolAddressRange range;
 };
 
                                                                   /* DO NOT EDIT */

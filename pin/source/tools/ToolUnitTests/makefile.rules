@@ -17,7 +17,7 @@
 # This defines tests which run tools of the same name.  This is simply for convenience to avoid
 # defining the test name twice (once in TOOL_ROOTS and again in TEST_ROOTS).
 # Tests defined here should not be defined in TOOL_ROOTS and TEST_ROOTS.
-TEST_TOOL_ROOTS := args args_err args_lineno checkerrorfile check_legal_callbacks control_init str2int str2flt mt mt_tool \
+TEST_TOOL_ROOTS := args args_err args_lineno checkerrorfile check_legal_callbacks control_init str2int str2flt mt_tool \
                    line earlymalloc jitmalloctrace malmalloc realloc fini leave knob_writeonce knob_duplicate_name sse-ref \
                    sse-unaligned-class sse-unaligned-class2 memalign posix_memalign stackalign align_access thenpredicated \
                    nops returnreg returnflags returnflags_and_ref replace_free emu_stack emu_jumps syscall operandtool \
@@ -29,13 +29,13 @@ TEST_TOOL_ROOTS := args args_err args_lineno checkerrorfile check_legal_callback
                    reg_context_set_fp_st reg_context_set_xmm reg_context_set_ymm reg_context_set_const_context claim_regs \
                    fp_context_set_const_context stress_const_context stress_const_context2 rewritememop1 iarg_tsc_probed1 \
                    iarg_tsc1 iarg_tsc2 iarg_tsc3 iarg_tsc4 iarg_tsc5 inlined-stack-arg-noopt inlined-stack-arg1-noopt \
-                   illegal_instrumentation test_iarg_preserve_probe 
+                   illegal_instrumentation test_iarg_preserve_probe
 
 # This defines the tests to be run that were not already defined in TEST_TOOL_ROOTS.
-TEST_ROOTS := knob_help knob_version resize mtstatic kthread htab callapp_nested internal_thread \
+TEST_ROOTS := knob_help knob_version resize mtstatic kthread htab callapp_nested internal_thread badpath badfile \
               reg_context_fp_st_const_context reg_context_x87_const_context reg_context_xmm_const_context callapp_perf \
               inscount2_jit_recursion partialinline2 reg_context_ymm_const_context error_log_jit mt_tool_safe_start \
-              tool_full_path_$(OS_TYPE) error_log_probe badpath badfile
+              tool_full_path_$(OS_TYPE) error_log_probe
 
 # This defines the tools which will be run during the the tests, and were not already defined in
 # TEST_TOOL_ROOTS.
@@ -51,7 +51,7 @@ SA_TOOL_ROOTS :=
 
 # This defines all the applications that will be run during the tests.
 APP_ROOTS := insert_if_then_call_app xmmapp stress_const_context_app set_fp_context_xmm_regs_app kthread check_fpstate_app \
-             align_access_app mtflush_app callapp_perf_$(OS_TYPE) callapp_nested little_malloc mt_app \
+             align_access_app callapp_perf_$(OS_TYPE) callapp_nested little_malloc mt_app \
              threadtest_$(OS_TYPE) htab sse thread simplefoo1_$(OS_TYPE) simplefoo2_$(OS_TYPE) thread_static error_log_app \
              simplefoo3_$(OS_TYPE) simplefoo4_$(OS_TYPE) simplefoo6 simplefoo7 simplefoo8_$(OS_TYPE) simplefoo9_$(OS_TYPE) \
              simplefoo10_$(OS_TYPE) simplefoo12_$(OS_TYPE) simplefoo13_$(OS_TYPE) simplefoo14 factorial \
@@ -85,68 +85,23 @@ endif
 
 ###### Place OS-specific definitions here ######
 
-#Android
-ifeq ($(TARGET_OS),android)
-    TEST_TOOL_ROOTS += soload soloadrange mmap mtflush change_syscall callapp-flush intrin swizzle_seg \
-                       checkexecuting ea_verifier_bt elf_symbols elf_symsize int3del undecorate swizzle2 swizzle3 \
-                       branch_target_addr inline_opt_test callapp1 callapp1i callapp2 callapp5 callapp6 callapp7 callapp8 \
-                       callapp9 callapp10 callapp10i callapp12 callapp14 callapp15 replace_malloc_inst thread_callback \
-                       earlyout multimem test_iarg_preserve deepbind reptool short_name test_iarg_preserve2 \
-                       test_iarg_preserve_mxcsr test_iarg_preserve_mxcsr1 x87_regs_in_context test_iarg_partial_context \
-                       exceptionAddress_lin executeat_lock flag_ac_tool fp_args fp_insert fp_replace funcarg_ep \
-                       spawntool strace_ia32 check_env attach
-    TEST_ROOTS += tool_malloc_android statica_locktest knob_version_long rwm_iret iret flag_ac_noinline_bridge \
-                  pipe waitpidbug thread_usestack reppredicate int3 checkinline_nocmov \
-                  set_fp_context_xmm_regs_const_context test_iarg_preserve1 test_iarg_preserve3 callapp9_const_context \
-                  sigmask sigmaskstatic callsp reservemem undecorateOperator rwm_bitops move_then_test_inline_exception \
-                  move_then_test_noinline_exception move_then_test_noinline move_then_test_noinline_bridge_exception \
-                  move_then_test_inline move_then_test_noinline_bridge flag_ac_noinline flag_ac_inline check_env_probe
-    TOOL_ROOTS += tool_malloc move_then_test indirect_call_branch_target_addr
-    SA_TOOL_ROOTS += statica_locktest
-    APP_ROOTS += tool_malloc_app change_syscall_app cmovstest btc_app exceptionAddress_lin_app pipeapp deepbind_app \
-                 symsize_app undecorate_app undecorateOperator_app swizzlealloc inline_opt_test_app iret doint_ia32 \
-                 waitpidbug thread_usestack x87_regs_in_context_app test_iarg_preserve_app test_iarg_preserve_mxcsr_app \
-                 test_iarg_preserve_app2 test_iarg_partial_context_app dltest dltest2 callsp int3test inner attach_app \
-                 funcarg_ep_app flag_ac_app rep spawntool_app swizzle_seg_app fp_args_app fp_replace_app \
-                 check_env_app sigmask sigmaskstatic
-    OBJECT_ROOTS += sys_memory_tool inline_opt_test_asm exception_tool_asm exception_tool_asm deepbind_syscalls one two \
-                    inline_opt_test_app_asm btc_asm doint_ia32_asm
-    DLL_ROOTS += check_env_dll one two
-    ifeq ($(TARGET),ia32)
-        TEST_TOOL_ROOTS += swizzle5 aoti_mutation_tool context_state_apis insfetch_tool ins_check_fetcher dlclose callapp0 \
-                           popea_verifier callapp0i
-        TEST_ROOTS += far_ret rwm_farret rwm_pushtest rwm1_str rwm_farret1 rwm_pushtest1 rwm1_str1 \
-                      rwm1_str_const_context rwm_farret2 rwm_pushtest2 rwm1_str2 smallpush rwm_smallpush \
-                      rwm_smallpush1 rwm_smallpush2 smallpush_iarg_branch_target_addr 
-        APP_ROOTS += aoti_mutation_target simplefoo pushtest far dlclose_app smallpush 
-        OBJECT_ROOTS += simplesp
-        DLL_ROOTS += close1 close2
-    endif
-    ifeq ($(TARGET),intel64)
-        TOOL_ROOTS += popea_verifier
-        TEST_ROOTS +=  smallpush_pic_iarg_branch_target_addr smallpush_pic rwm_smallpush_pic rwm_smallpush_pic1 \
-                       rwm_smallpush_pic2 popea_verifier_pic
-        APP_ROOTS += smallpush_pie
-    endif
-endif
-
 # Linux
 ifeq ($(TARGET_OS),linux)
-    TEST_TOOL_ROOTS += soload soloadrange mmap mtflush tool_malloc change_syscall callapp-flush intrin swizzle_seg \
-                       checkexecuting ea_verifier_bt elf_symbols elf_symsize int3del undecorate swizzle2 swizzle3 \
-                       branch_target_addr inline_opt_test callapp1 callapp1i callapp2 callapp5 callapp6 \
-                       callapp7 callapp8 callapp9 callapp10 callapp10i callapp12 callapp14 callapp15 replace_malloc_inst \
-                       thread_callback earlyout multimem test_iarg_preserve deepbind reptool short_name \
-                       test_iarg_preserve2 test_iarg_preserve_mxcsr test_iarg_preserve_mxcsr1 x87_regs_in_context \
-                       test_iarg_partial_context exceptionAddress_lin executeat_lock flag_ac_tool fp_args fp_insert \
-                       fp_replace funcarg_ep popea_verifier spawntool strace_ia32 check_env internal_exception_handler_lin
-    TEST_ROOTS += statica_locktest knob_version_long rwm_iret iret smallpush rwm_smallpush rwm_smallpush1 rwm_smallpush2 \
+    TEST_TOOL_ROOTS += soload soloadrange mmap tool_malloc change_syscall intrin swizzle_seg checkexecuting ea_verifier_bt \
+                       elf_symbols elf_symsize int3del undecorate swizzle2 swizzle3 branch_target_addr inline_opt_test \
+                       callapp1 callapp1i callapp2 callapp5 callapp6 callapp7 callapp8 callapp9 callapp10 callapp10i \
+                       callapp12 callapp14 callapp15 replace_malloc_inst thread_callback earlyout multimem deepbind \
+                       test_iarg_preserve reptool short_name test_iarg_preserve2 test_iarg_preserve_mxcsr \
+                       test_iarg_preserve_mxcsr1 x87_regs_in_context test_iarg_partial_context exceptionAddress_lin \
+                       executeat_lock flag_ac_tool fp_args fp_insert fp_replace funcarg_ep popea_verifier spawntool \
+                       strace_ia32 check_env internal_exception_handler_lin
+    TEST_ROOTS += statica_locktest rwm_iret iret smallpush rwm_smallpush rwm_smallpush1 rwm_smallpush2 check_env_probe \
                   pipe waitpidbug cancel thread_usestack reppredicate set_fp_context_xmm_regs_const_context \
                   test_iarg_preserve1 test_iarg_preserve3 int3 checkinline_nocmov callapp9_const_context sigmask callsp \
                   sigmaskstatic reservemem flag_ac_inline move_then_test_inline_exception rwm_bitops \
                   move_then_test_noinline_exception move_then_test_noinline loader move_then_test_noinline_bridge_exception \
                   move_then_test_inline move_then_test_noinline_bridge smallpush_iarg_branch_target_addr undecorateOperator \
-                  flag_ac_noinline_bridge flag_ac_noinline check_env_probe
+                  flag_ac_noinline_bridge flag_ac_noinline
     TOOL_ROOTS += move_then_test indirect_call_branch_target_addr
     SA_TOOL_ROOTS += statica_locktest
     APP_ROOTS += change_syscall_app internal_exception_handler_app_lin cmovstest btc_app exceptionAddress_lin_app pipeapp \
@@ -155,11 +110,11 @@ ifeq ($(TARGET_OS),linux)
                  test_iarg_preserve_mxcsr_app test_iarg_preserve_app2 test_iarg_partial_context_app dltest dltest2 callsp \
                  int3test funcarg_ep_app flag_ac_app rep spawntool_app swizzle_seg_app inner \
                  fp_args_app fp_replace_app smallpush check_env_app doint_ia32 sigmask sigmaskstatic
-    OBJECT_ROOTS += sys_memory_tool inline_opt_test_asm exception_tool_asm exception_tool_asm deepbind_syscalls one two \
-                    inline_opt_test_app_asm btc_asm doint_ia32_asm
+    OBJECT_ROOTS += inline_opt_test_asm exception_tool_asm exception_tool_asm deepbind_syscalls one two \
+                    inline_opt_test_app_asm btc_asm doint_ia32_asm get_mmap_flags
     DLL_ROOTS += check_env_dll one two
     ifeq ($(TARGET),ia32)
-        TEST_TOOL_ROOTS += swizzle5 aoti_mutation_tool context_state_apis insfetch_tool callapp0 callapp0i dlclose
+        TEST_TOOL_ROOTS += swizzle5 aoti_mutation_tool context_state_apis insfetch_tool callapp0 callapp0i dlclose check_acall_inline_opt
         TEST_ROOTS += far_ret rwm_farret rwm_pushtest rwm1_str rwm_farret1 rwm_pushtest1 rwm1_str1 \
                       rwm1_str_const_context rwm_farret2 rwm_pushtest2 rwm1_str2
         APP_ROOTS += aoti_mutation_target simplefoo pushtest far dlclose_app
@@ -169,10 +124,12 @@ ifeq ($(TARGET_OS),linux)
     ifeq ($(TARGET),intel64)
         TEST_TOOL_ROOTS += callapp3 callapp4 callapp13 clobber insertand
         TEST_ROOTS += addr32_override reservemem64 clobber_xmm big_bss unsup_syscall spalign_no_inline_bridge \
-                      memory_displacement_int64 memory_displacement_uint64 memory_displacement_int32
+                      memory_displacement_int64 memory_displacement_uint64 memory_displacement_int32 \
+                      rip_relative_prefix_67
         TOOL_ROOTS += memory_displacement
-        APP_ROOTS += addr32_override_app memory_displacement_app reserve_memory lpd big_bss unsup_syscall_app
-        OBJECT_ROOTS += and clobber_asm
+        APP_ROOTS += addr32_override_app memory_displacement_app reserve_memory lpd big_bss unsup_syscall_app \
+                     rip_relative_prefix_67_app_intel64
+        OBJECT_ROOTS += and clobber_asm rip_relative_prefix_67_asm_intel64
     endif
     ifeq ($(ATTACH),1)
         TEST_TOOL_ROOTS += attach
@@ -182,11 +139,11 @@ endif
 
 # Mac OS X*
 ifeq ($(TARGET_OS),mac)
-    TEST_TOOL_ROOTS += soload change_syscall callapp-flush branch_target_addr strace_ia32 mmap 
+    TEST_TOOL_ROOTS += soload change_syscall branch_target_addr strace_ia32 mmap spawntool attach
     TEST_ROOTS += statica_locktest sigmask-mac
     SA_TOOL_ROOTS += statica_locktest
-    APP_ROOTS += change_syscall_app dltest sigmask doint_ia32
-    OBJECT_ROOTS += one two doint_ia32_asm
+    APP_ROOTS += change_syscall_app dltest sigmask doint_ia32 spawntool_app attach_app
+    OBJECT_ROOTS += one two doint_ia32_asm get_mmap_flags
     DLL_ROOTS += one two
     ifeq ($(TARGET),intel64)
         TEST_ROOTS += big_bss
@@ -197,7 +154,7 @@ endif
 # Windows
 ifeq ($(TARGET_OS),windows)
     TEST_TOOL_ROOTS += thread_count thread_count2 stracewin_ia32 exception_monitor apc_monitor debugservice_monitor \
-                       segmented_ea_verifier mtflush internal_exception_handler image_load datasym win_syscallenum \
+                       segmented_ea_verifier internal_exception_handler image_load datasym win_syscallenum \
                        sp_argument data_in_code_win app_inspects_internal_thread_win inline_opt_test callapp1 callapp2 \
                        callapp10 callapp1i callapp10i callapp5 callapp6 callapp7 callapp8 callapp9 callapp14 callapp12 \
                        replace_malloc_inst thread_callback funreplace_alert syscall_std teb jcx_addr16_tool \
@@ -207,7 +164,7 @@ ifeq ($(TARGET_OS),windows)
                        test_iarg_preserve_mxcsr test_iarg_preserve_mxcsr1 test_iarg_partial_context import_forwarder_error
     TEST_ROOTS += secname suspend_context_win raise_exception_const_context internal_thread_early_exit test_iarg_preserve1 \
                   set_fp_context_xmm_regs_const_context test_iarg_preserve3 callapp9_const_context \
-                  checkinline_nocmov secure_scl move_then_test_noinline illegal_call_app move_then_test_noinline_exception \
+                  checkinline_nocmov move_then_test_noinline illegal_call_app move_then_test_noinline_exception \
                   move_then_test_noinline_bridge move_then_test_noinline_bridge_exception move_then_test_inline_exception \
                   move_then_test_inline rebase_dll rebase_dll_probe passthru_context_xmm_regs_callapp_const_context \
                   passthru_context_xmm_regs_executeat_const_context exports_only exports_only_probe sympath symserv_lowmem \
@@ -215,11 +172,11 @@ ifeq ($(TARGET_OS),windows)
                   thread_count_thread_creation win_code_on_reused_memory win_cpp_exception win_debug_service \
                   win_divide_by_zero_exception win_early_injection1 win_early_injection2 win_early_injection1_probed \
                   win_early_injection2_probed win_exception_context win_hello_c_sharp win_load_library win_queue_apc \
-                  win_multi_dll_pintool win_multi_dll_pintool_no_dll win_multi_dll_pintool_bad_dll image_entry_jit \
-                  image_entry_probe image_entry_probe_pseudofini mt_tool_early_exit mt_tool_safe_start_early_exit \
-                  load_resource_probe
-    TOOL_ROOTS += secname_tool move_then_test main_dll exception_context_monitor \
-                  static_secondary_dll dynamic_secondary_dll image_entry
+                  win_multi_dll_pintool win_multi_dll_pintool_enumerate win_multi_dll_pintool_no_dll \
+                  win_multi_dll_pintool_bad_dll image_entry_jit image_entry_probe image_entry_probe_pseudofini \
+                  mt_tool_early_exit mt_tool_safe_start_early_exit load_resource_probe
+    TOOL_ROOTS += secname_tool move_then_test main_dll exception_context_monitor image_entry static_secondary_dll \
+                  dynamic_secondary_dll
     APP_ROOTS += illegal_call_app inline_opt_test_app test_iarg_preserve_app test_iarg_preserve_mxcsr_app secname_app \
                  test_iarg_preserve_app2 x87_regs_in_context_app win_code_on_reused_memory test_iarg_partial_context_app \
                  win_cpp_exception win_debug_service win_divide_by_zero_exception inner thread_segmented_ea rebase_dll \
@@ -228,7 +185,7 @@ ifeq ($(TARGET_OS),windows)
                  raise_exception_app sw_interrupt_app win_callback_app suspend_context_app_win \
                  flag_ac_win_app win_early_thread win_no_dependencies win_load_library winapp_exception_context \
                  win_queue_apc app_inspects_internal_thread_win_app load_resource_app
-    OBJECT_ROOTS += flag_ac_app_asm inline_opt_test_asm sys_memory_tool inline_opt_test_app_asm dummy_dll rebase_dll \
+    OBJECT_ROOTS += flag_ac_app_asm inline_opt_test_asm inline_opt_test_app_asm dummy_dll rebase_dll \
                     import_forwarder_error
     DLL_ROOTS += win_tls_dll win_early_thread_dll dummy_dll dummy_dll2
     ifeq ($(TARGET),ia32)
@@ -250,7 +207,7 @@ ifeq ($(TARGET_OS),windows)
         TOOL_ROOTS += flag_spill_fill_tool1 flags_at_analysis_tool
         APP_ROOTS += reg_operands_test_app analysis_flag_overwrite_app flag_spill_fill_app flags_at_analysis_app \
                      rebase_dll2 swizzle_seg_app df_test_app seg_override_app1 winfast10 winstd10 thread_ea_addr16 \
-                     inline_opt_test_df_app tstcmpxchg8b_with_explicit_ebx win_exception_test test_sysenter_win 
+                     inline_opt_test_df_app tstcmpxchg8b_with_explicit_ebx win_exception_test test_sysenter_win
         OBJECT_ROOTS += flag_spill_fill_tool1_asm inline_opt_test_df_asm inline_opt_test_df_app_asm seg_override_app1_win \
                         reg_operands_test_app_win analysis_flag_overwrite_app_win flag_spill_fill_app_win df_test_app_win \
                         flags_at_analysis_app_win cmpxchg8b_with_explicit_ebx_asm analysis_flag_overwrite_tool1_win \
@@ -291,64 +248,9 @@ ifeq ($(ICC),1)
     endif
     ifeq ($(TARGET_OS),linux)
         TEST_TOOL_ROOTS := $(filter-out test_iarg_partial_context, $(TEST_TOOL_ROOTS))
-    endif
-endif
-
-# KNC does not support SSE, AVX and cmov therefore don't test the following on that platform.
-ifeq ($(TARGET),mic)
-    TEST_TOOL_ROOTS := $(filter-out sse-ref sse-unaligned-class2 sse-unaligned-class xmmtest reg_value_xmm \
-                                    set_fp_context_xmm_regs reg_context_xmm reg_context_set_xmm reg_value_ymm \
-                                    reg_context_ymm reg_context_set_ymm inline_opt_test x87_regs_in_context intrin \
-                                    test_iarg_preserve test_iarg_preserve2 test_iarg_partial_context checkexecuting \
-                                    test_iarg_preserve_probe test_iarg_preserve_mxcsr1 test_iarg_preserve_mxcsr, \
-                                    $(TEST_TOOL_ROOTS))
-    TEST_ROOTS := $(filter-out reg_context_xmm_const_context set_fp_context_xmm_regs_const_context reppredicate \
-                               reg_context_ymm_const_context test_iarg_preserve1 test_iarg_preserve3, $(TEST_ROOTS))
-    APP_ROOTS := $(filter-out sse xmmapp set_fp_context_xmm_regs_app inline_opt_test_app test_iarg_preserve_app \
-                              test_iarg_preserve_app2 test_iarg_partial_context_app test_iarg_preserve_probe_app \
-                              test_iarg_preserve_mxcsr_app cmovstest, $(APP_ROOTS))
-    OBJECT_ROOTS := $(filter-out sse-ref inline_opt_test_app_asm, $(OBJECT_ROOTS))
-endif
-
-# TODO: These tests fail - fix and remove the following:
-# See Mantis 3073 for safecopy_mxcsr
-# See Mantis 2963 for all the rest
-ifeq ($(TARGET),mic)
-    TEST_TOOL_ROOTS := $(filter-out soloadrange soload internal_exception_handler_lin safecopy_mxcsr fp_args \
-                                    branch_target_addr inlined-stack-arg1 inlined-stack-arg1-noopt, $(TEST_TOOL_ROOTS))
-    TEST_ROOTS := $(filter-out cancel reservemem statica_locktest, $(TEST_ROOTS))
-endif
-
-# TODO: These tests fail on KNC because GetSourceLocation is not currently supported on this platform.
-# See mantis 2960
-ifeq ($(TARGET),mic)
-    TEST_TOOL_ROOTS := $(filter-out line, $(TEST_TOOL_ROOTS))
-endif
-
-
-ifeq ($(TARGET_OS),android)
-    # incebx increments the ebx as a counter, but ebx is the PIC register, which makes the build fail see mantis 2901.
-    # statica_locktest - has compilation issues on Android - need to investigate.
-    # rewritememop relies on tstcmpxchg8b app which crashes on Android. see mantis 2914
-    # See Mantis 2907 for: spawntool
-    # sse-ref cause memory corruption. See mantis 3210.
-    # test_iarg_partial_context fails frequently in android, disabled for now.
-    # thread_usestack asserts when -slow_asserts is used. See mantis 3211.
-    # mtstatic cannot be tested in 64 bit because newer android versions don't support mtstatic's app, which is nonpie.
-    # inline_opt_test needs to be PIE to run on the latest Android systems, but making an ia32 PIE is difficult.
-    TEST_TOOL_ROOTS := $(filter-out test_iarg_partial_context rewritememop spawntool sse-ref incebx, $(TEST_TOOL_ROOTS))
-    TEST_ROOTS := $(filter-out statica_locktest, $(TEST_ROOTS))
-    APP_ROOTS := $(filter-out test_iarg_partial_context_app, $(APP_ROOTS))
-    SA_TOOL_ROOTS := $(filter-out statica_locktest, $(SA_TOOL_ROOTS))
-    ifeq ($(TARGET)-$(NDK_VERSION),ia32-10)
-        TEST_TOOL_ROOTS := $(filter-out inline_opt_test, $(TEST_TOOL_ROOTS))
-        TEST_ROOTS := $(filter-out mtstatic, $(TEST_ROOTS))
-        APP_ROOTS := $(filter-out thread_static inline_opt_test_app, $(APP_ROOTS))
-        OBJECT_ROOTS := $(filter-out inline_opt_test_app_asm, $(OBJECT_ROOTS))
-    endif
-    ifeq ($(TARGET),intel64)
-        TEST_ROOTS := $(filter-out mtstatic, $(TEST_ROOTS))
-        APP_ROOTS := $(filter-out thread_static, $(APP_ROOTS))
+        ifeq ($(TARGET),ia32)
+            TEST_TOOL_ROOTS := $(filter-out check_acall_inline_opt, $(TEST_TOOL_ROOTS))    
+        endif
     endif
 endif
 
@@ -357,7 +259,7 @@ ifeq ($(TARGET_OS),linux)
         # The loader test doesn't run cross-architecture
         TEST_ROOTS := $(filter-out loader, $(TEST_ROOTS))
     endif
-    
+
     ifeq ($(shell $(TOOLS_ROOT)/Utils/testStaticLibs),1)
         TEST_ROOTS := $(filter-out mtstatic, $(TEST_ROOTS))
         APP_ROOTS := $(filter-out thread_static, $(APP_ROOTS))
@@ -371,6 +273,12 @@ ifeq ($(TARGET_OS),mac)
     TEST_TOOL_ROOTS := $(filter-out set_fp_context_xmm_regs test_iarg_preserve_probe, $(TEST_TOOL_ROOTS))
     APP_ROOTS := $(filter-out test_iarg_preserve_probe_app, $(APP_ROOTS))
     OBJECT_ROOTS := $(filter-out test_iarg_preserve_asm, $(OBJECT_ROOTS))
+# mt_tool - Due to bug in OS X* older than Mavericks this test crashes the machine causing it to restart
+    MAVERICKS_OR_OLDER := $(shell /usr/bin/sw_vers | $(GREP) ProductVersion: | $(AWK) '{split($$2, a, "."); print (a[2] <= 9)}')
+    ifeq ($(MAVERICKS_OR_OLDER),1)
+        TEST_TOOL_ROOTS := $(filter-out mt_tool, $(TEST_TOOL_ROOTS))
+        TEST_ROOTS := $(filter-out internal_thread mt_tool_safe_start, $(TEST_ROOTS))
+    endif
 endif
 
 # These tests fail - fix and remove the following:
@@ -390,28 +298,27 @@ ifeq ($(TARGET_OS),windows)
         SKIP_XMM_TEST_CASE := /DSKIP_XMM_TEST_CASE
     endif
     ifeq ($(HOST_ARCH),intel64)
-        # This test passes when running on a native 32 bit Windows system but fails when running on WOW64. 
+        # This test passes when running on a native 32 bit Windows system but fails when running on WOW64.
         TEST_ROOTS := $(filter-out test_sysenter_win, $(TEST_ROOTS))
     endif
     ifeq ($(TARGET),ia32)
         # Disable some tests that fail on Windows 8. See Mantis 3062.
         # Explicitly add set_fp_context_xmm_regs to TOOL_ROOTS because it is disabled from TEST_TOOL_ROOTS but it is
         # used in other tests.
-        TEST_TOOL_ROOTS := $(filter-out set_fp_context_xmm_regs x87_regs_in_context, $(TEST_TOOL_ROOTS)) 
+        TEST_TOOL_ROOTS := $(filter-out set_fp_context_xmm_regs x87_regs_in_context, $(TEST_TOOL_ROOTS))
         TEST_ROOTS := $(filter-out win_exception_context win_exception_detect, $(TEST_ROOTS))
         TOOL_ROOTS += set_fp_context_xmm_regs
+    endif
+    ifeq ($(TARGET),intel64)
+        ifeq ($(VisualStudioVersion),15.0)
+            # See Mantis 4214
+            TEST_TOOL_ROOTS := $(filter-out emu_stack, $(TEST_TOOL_ROOTS))
+        endif
     endif
 endif
 
 ifeq ($(TARGET_OS),windows)
     ifeq ($(WIN_VER_MAJOR),10)
-        # See mantis #3612 for why these tests are disabled.
-        TEST_TOOL_ROOTS := $(filter-out checkinline checkreps context ea_verifier_addr16 inline_opt_test_df3 \
-                                        inlined-stack-arg1-noopt inlined-stack-arg1 mt partialinline \
-                                        returnflags_and_ref segmented_ea_verifier syscall thread_count, $(TEST_TOOL_ROOTS)) 
-        TEST_ROOTS := $(filter-out checkinline_nocmov move_then_test_inline win_load_library \
-                                   move_then_test_noinline_bridge move_then_test_noinline partialinline2 \
-                                   suspend_context_win thread_count_thread_creation win_early_injection1, $(TEST_ROOTS))
         # See mantis #3678 for why this tests was disabled.
         ifeq ($(TARGET),intel64)
             TEST_ROOTS := $(filter-out callapp_perf, $(TEST_ROOTS))
@@ -428,6 +335,13 @@ APP_ROOTS := $(filter-out sigmaskstatic sigmask, $(APP_ROOTS))
 # This defines the list of tests that should run in sanity. It should include all the tests listed in
 # TEST_TOOL_ROOTS and TEST_ROOTS excluding only unstable tests.
 SANITY_SUBSET := $(TEST_TOOL_ROOTS) $(TEST_ROOTS)
+
+ifeq ($(TARGET_OS),windows)
+    ifeq ($(WIN_VER_MAJOR),10)
+        # See Mantis 4005
+        SANITY_SUBSET := $(filter-out win_early_injection2_probed, $(SANITY_SUBSET))
+    endif
+endif
 
 
 ##############################################################
@@ -458,7 +372,7 @@ symserv_lowmem.test: $(OBJDIR)line$(PINTOOL_SUFFIX) $(HELLO_APP)
 	    -- $(HELLO_APP)
 	$(DIFF) line.output line.reference
 	$(QGREP) "SM:: Unloaded" $(OBJDIR)symserv.log.server*
-	$(RM) $(OBJDIR)symserv.log.server* line.output 
+	$(RM) $(OBJDIR)symserv.log.server* line.output
 
 sympath.test: $(OBJDIR)line$(PINTOOL_SUFFIX) $(HELLO_APP)
 	mkdir -p sympath$(OBJDIR)
@@ -491,12 +405,6 @@ ea_verifier_bt.test: $(OBJDIR)ea_verifier_bt$(PINTOOL_SUFFIX) $(OBJDIR)btc_app$(
 	$(PIN) -t $(OBJDIR)ea_verifier_bt$(PINTOOL_SUFFIX) -o $(OBJDIR)ea_verifier_bt.out \
 	  -- $(OBJDIR)btc_app$(EXE_SUFFIX) > $(OBJDIR)ea_verifier_bt.app.out 2>&1
 	$(RM) $(OBJDIR)ea_verifier_bt.out $(OBJDIR)ea_verifier_bt.app.out
-
-mt.test: $(OBJDIR)mt$(PINTOOL_SUFFIX) $(OBJDIR)thread$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)mt$(PINTOOL_SUFFIX) -o $(OBJDIR)mt.out -- $(OBJDIR)thread$(EXE_SUFFIX)
-	$(SORT) $(OBJDIR)mt.out | $(GREP) -v 5 > $(OBJDIR)mt.sort.out
-	$(DIFF) $(OBJDIR)mt.sort.out mt.reference
-	$(RM) $(OBJDIR)mt.out $(OBJDIR)mt.sort.out
 
 kthread.test: $(OBJDIR)kthread$(EXE_SUFFIX)
 	$(PIN) -- $(OBJDIR)kthread$(EXE_SUFFIX) > $(OBJDIR)kthread.out 2>&1
@@ -611,26 +519,26 @@ df_test2_inline.test: $(OBJDIR)df_test_tool2$(PINTOOL_SUFFIX) $(OBJDIR)df_test_a
 
 move_then_test_inline.test: $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -xyzzy -region_max_bbls 1 -inline 1 -inline_bridge 1 -t $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) \
-	  -- $(TESTAPP) makefile $(OBJDIR)move_then_test_inline.makefile.copy
+	  -exception 0 -- $(TESTAPP) makefile $(OBJDIR)move_then_test_inline.makefile.copy
 	$(CMP) makefile $(OBJDIR)move_then_test_inline.makefile.copy
 	$(RM) $(OBJDIR)move_then_test_inline.makefile.copy
 
 move_then_test_noinline.test: $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -xyzzy -region_max_bbls 1 -inline 0 -t $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) \
-	  -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline.makefile.copy
+	  -exception 0 -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline.makefile.copy
 	$(CMP) makefile $(OBJDIR)move_then_test_noinline.makefile.copy
 	$(RM) $(OBJDIR)move_then_test_noinline.makefile.copy
 
 move_then_test_noinline_bridge.test: $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -xyzzy -region_max_bbls 1 -inline 0 -inline_bridge 0 -t $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) \
-	  -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline_bridge.makefile.copy
+	  -exception 0 -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline_bridge.makefile.copy
 	$(CMP) makefile $(OBJDIR)move_then_test_noinline_bridge.makefile.copy
 	$(RM) $(OBJDIR)move_then_test_noinline_bridge.makefile.copy
 
 move_then_test_inline_exception.test: $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) $(TESTAPP)
 	-$(PIN) -xyzzy -region_max_bbls 1 -inline 1 -inline_bridge 1 -generate_then_code_exception 1 \
 	  -mesgon warning -logfile $(OBJDIR)move_then_test_inline_exception.log -t $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) \
-	    -- $(TESTAPP) makefile $(OBJDIR)move_then_test_inline_exception.makefile.copy \
+	    -exception 1 -- $(TESTAPP) makefile $(OBJDIR)move_then_test_inline_exception.makefile.copy \
 	      > $(OBJDIR)move_then_test_inline_exception.out 2>&1
 	echo "move_then_test_inline_exception.test pin execution should fail. Ignore the error (above, but not one below!)."
 	$(QGREP) "Exception occurred in the code-cache but NOT in any code section" $(OBJDIR)move_then_test_inline_exception.log
@@ -639,7 +547,7 @@ move_then_test_inline_exception.test: $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) $
 move_then_test_noinline_exception.test: $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) $(TESTAPP)
 	-$(PIN) -xyzzy -region_max_bbls 1 -inline 0 -inline_bridge 1 -generate_then_code_exception 1 \
 	  -mesgon warning -logfile $(OBJDIR)move_then_test_noinline_exception.log -t $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) \
-	    -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline_exception.makefile.copy \
+	    -exception 1 -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline_exception.makefile.copy \
 	      > $(OBJDIR)move_then_test_noinline_exception.out 2>&1
 	echo "move_then_test_noinline_exception.test pin execution should fail. Ignore the error (above, but not one below!)."
 	$(QGREP) "Exception occurred in the code-cache but NOT in any code section" $(OBJDIR)move_then_test_noinline_exception.log
@@ -649,7 +557,7 @@ move_then_test_noinline_bridge_exception.test: $(OBJDIR)move_then_test$(PINTOOL_
 	-$(PIN) -xyzzy -region_max_bbls 1 -inline 0 -inline_bridge 0 -generate_then_code_exception 1 \
 	  -mesgon warning -logfile $(OBJDIR)move_then_test_noinline_bridge_exception.log \
 	    -t $(OBJDIR)move_then_test$(PINTOOL_SUFFIX) \
-	      -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline_bridge_exception.makefile.copy \
+	      -exception 1 -- $(TESTAPP) makefile $(OBJDIR)move_then_test_noinline_bridge_exception.makefile.copy \
 	        > $(OBJDIR)move_then_test_noinline_bridge_exception.out 2>&1
 	echo "move_then_test_noinline_bridge_exception.test pin execution should fail. Ignore the error (above, but not one below!)."
 	$(QGREP) "Exception occurred in the code-cache but NOT in any code section" $(OBJDIR)move_then_test_noinline_bridge_exception.log
@@ -664,7 +572,7 @@ set_fp_context_xmm_regs.test: $(OBJDIR)set_fp_context_xmm_regs$(PINTOOL_SUFFIX) 
 
 set_fp_context_xmm_regs_const_context.test: $(OBJDIR)set_fp_context_xmm_regs$(PINTOOL_SUFFIX) $(OBJDIR)set_fp_context_xmm_regs_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)set_fp_context_xmm_regs$(PINTOOL_SUFFIX) -const_context 1 \
-	  -- $(OBJDIR)set_fp_context_xmm_regs_app$(EXE_SUFFIX) > $(OBJDIR)set_fp_context_xmm_regs_const_context.out 2>&1 
+	  -- $(OBJDIR)set_fp_context_xmm_regs_app$(EXE_SUFFIX) > $(OBJDIR)set_fp_context_xmm_regs_const_context.out 2>&1
 	$(DIFF) $(OBJDIR)set_fp_context_xmm_regs_const_context.out set_fp_context_xmm_regs_$(TARGET).reference
 	$(RM) $(OBJDIR)set_fp_context_xmm_regs_const_context.out
 
@@ -760,21 +668,21 @@ insert_if_then_call.test: $(OBJDIR)insert_if_then_call$(PINTOOL_SUFFIX) $(OBJDIR
 	echo "insert_if_then_call.test pin execution should fail. Ignore the error (above, but not one below!)."
 	$(QGREP) "Inserting IPOINT_ANYWHERE is not a valid action for INS_InsertIfCall API" $(OBJDIR)error_log_output0
 	$(RM) $(OBJDIR)error_log_output0
- 
+
 insert_if_then_call1.test: $(OBJDIR)insert_if_then_call1$(PINTOOL_SUFFIX) $(OBJDIR)insert_if_then_call_app$(EXE_SUFFIX)
 	-$(PIN) -error_file $(OBJDIR)error_log_output1 -t $(OBJDIR)insert_if_then_call1 \
 	  -- $(OBJDIR)insert_if_then_call_app$(EXE_SUFFIX)
 	echo "insert_if_then_call1.test pin execution should fail. Ignore the error (above, but not one below!)."
 	$(QGREP) "Inserting IPOINT_ANYWHERE is not a valid action for INS_InsertThenCall API" $(OBJDIR)error_log_output1
 	$(RM) $(OBJDIR)error_log_output1
- 
+
 insert_if_then_call2.test: $(OBJDIR)insert_if_then_call2$(PINTOOL_SUFFIX) $(OBJDIR)insert_if_then_call_app$(EXE_SUFFIX)
 	-$(PIN) -error_file $(OBJDIR)error_log_output2 -t $(OBJDIR)insert_if_then_call2$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)insert_if_then_call_app$(EXE_SUFFIX)
 	echo "insert_if_then_call2.test pin execution should fail. Ignore the error (above, but not one below!)."
 	$(QGREP) "cannot insert IPOINT_AFTER on an instruction without a fall-through path" $(OBJDIR)error_log_output2
 	$(RM) $(OBJDIR)error_log_output2
-    
+
 memory_displacement_int64.test: $(OBJDIR)memory_displacement$(PINTOOL_SUFFIX) $(OBJDIR)memory_displacement_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)memory_displacement$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)memory_displacement_app$(EXE_SUFFIX) 0 > $(OBJDIR)memory_displacement_int64.out
@@ -794,7 +702,7 @@ memory_displacement_uint64.test: $(OBJDIR)memory_displacement$(PINTOOL_SUFFIX) $
 	  -- $(OBJDIR)memory_displacement_app$(EXE_SUFFIX) 1 > $(OBJDIR)memory_displacement_uint64.out
 	$(QGREP) "7" $(OBJDIR)memory_displacement_uint64.out
 	$(RM) $(OBJDIR)memory_displacement_uint64.out
- 
+
 memory_displacement_int32.test: $(OBJDIR)memory_displacement$(PINTOOL_SUFFIX) $(OBJDIR)memory_displacement_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)memory_displacement$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)memory_displacement_app$(EXE_SUFFIX) 2 > $(OBJDIR)memory_displacement_int32.out
@@ -899,7 +807,7 @@ flag_ac_inline.test: $(OBJDIR)flag_ac_tool$(PINTOOL_SUFFIX) $(OBJDIR)flag_ac_app
 	  -- $(OBJDIR)flag_ac_app$(EXE_SUFFIX) > $(OBJDIR)flag_ac_inline.out 2>&1
 	$(DIFF) $(OBJDIR)flag_ac_inline.out flag_ac_inline.reference
 	$(RM) $(OBJDIR)flag_ac_inline.out
- 
+
 flag_ac_win_noinline_bridge.test: $(OBJDIR)flag_ac_win_tool$(PINTOOL_SUFFIX) $(OBJDIR)flag_ac_win_app$(EXE_SUFFIX)
 	$(PIN) -xyzzy -inline 0 -inline_bridge 0 -t $(OBJDIR)flag_ac_win_tool$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)flag_ac_win_app$(EXE_SUFFIX) > $(OBJDIR)flag_ac_win_noinline_bridge.out 2>&1
@@ -1084,11 +992,6 @@ fp_context_set_const_context.test: $(OBJDIR)fp_context_set_const_context$(PINTOO
 	$(QGREP) "SetContextFPState is NOT supported for IARG_CONST_CONTEXT" $(OBJDIR)fp_context_set_const_context.log
 	$(RM) $(OBJDIR)fp_context_set_const_context.log $(OBJDIR)fp_context_set_const_context.out
 
-smallpush_pic.test: $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	# This test should exit with status zero. Any other exit code tells you which
-	# test failed.
-	$(PIN) -- $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-
 smallpush.test: $(OBJDIR)smallpush$(EXE_SUFFIX)
 	# This test should exit with status zero. Any other exit code tells you which
 	# test failed.
@@ -1100,20 +1003,9 @@ smallpush_iarg_branch_target_addr.test: $(OBJDIR)indirect_call_branch_target_add
 	  -- $(OBJDIR)smallpush$(EXE_SUFFIX)
 	$(RM) $(OBJDIR)smallpush_iarg_branch_target_addr.out
 
-smallpush_pic_iarg_branch_target_addr.test: $(OBJDIR)indirect_call_branch_target_addr$(PINTOOL_SUFFIX) $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	# This test should exit with status zero
-	$(PIN) -t $(OBJDIR)indirect_call_branch_target_addr$(PINTOOL_SUFFIX) -o $(OBJDIR)smallpush_iarg_branch_target_addr.out \
-	  -- $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	$(RM) $(OBJDIR)smallpush_iarg_branch_target_addr.out
-
 popea_verifier.test: $(OBJDIR)popea_verifier$(PINTOOL_SUFFIX) $(OBJDIR)smallpush$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)popea_verifier$(PINTOOL_SUFFIX) -o $(OBJDIR)popea_verifier_tool.out \
 	  -- $(OBJDIR)smallpush$(EXE_SUFFIX) > $(OBJDIR)popea_verifier.out 2>&1
-	$(RM) $(OBJDIR)popea_verifier.out $(OBJDIR)popea_verifier_tool.out
-
-popea_verifier_pic.test: $(OBJDIR)popea_verifier$(PINTOOL_SUFFIX) $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)popea_verifier$(PINTOOL_SUFFIX) -o $(OBJDIR)popea_verifier_tool.out \
-	  -- $(OBJDIR)smallpush_pie$(EXE_SUFFIX) > $(OBJDIR)popea_verifier.out 2>&1
 	$(RM) $(OBJDIR)popea_verifier.out $(OBJDIR)popea_verifier_tool.out
 
 # Memory address rewriting tests which use the new memory rewriting interface
@@ -1158,11 +1050,6 @@ rwm_smallpush.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)smallpush$(
 	  -- $(OBJDIR)smallpush$(EXE_SUFFIX) > $(OBJDIR)rwm_smallpush.out 2>&1
 	$(RM) $(OBJDIR)rwm_smallpush_tool.out $(OBJDIR)rwm_smallpush.out
 
-rwm_smallpush_pic.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) -o $(OBJDIR)rwm_smallpush_tool.out \
-	  -- $(OBJDIR)smallpush_pie$(EXE_SUFFIX) > $(OBJDIR)rwm_smallpush.out 2>&1
-	$(RM) $(OBJDIR)rwm_smallpush_tool.out $(OBJDIR)rwm_smallpush.out
-
 # Tests rewriting only the first memory operand
 rwm1_str1.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)stringtest$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) -2 -o $(OBJDIR)rwm1_str1.out \
@@ -1187,11 +1074,6 @@ rwm_pushtest1.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)pushtest$(E
 rwm_smallpush1.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)smallpush$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) -2 -o $(OBJDIR)rwm_smallpush1_tool.out \
 	  -- $(OBJDIR)smallpush$(EXE_SUFFIX) > $(OBJDIR)rwm_smallpush1.out 2>&1
-	$(RM) $(OBJDIR)rwm_smallpush1_tool.out $(OBJDIR)rwm_smallpush1.out
-
-rwm_smallpush_pic1.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) -2 -o $(OBJDIR)rwm_smallpush1_tool.out \
-	  -- $(OBJDIR)smallpush_pie$(EXE_SUFFIX) > $(OBJDIR)rwm_smallpush1.out 2>&1
 	$(RM) $(OBJDIR)rwm_smallpush1_tool.out $(OBJDIR)rwm_smallpush1.out
 
 rwm_bitops.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)btc_app$(EXE_SUFFIX)
@@ -1230,11 +1112,6 @@ rwm_smallpush2.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)smallpush$
 	  -- $(OBJDIR)smallpush$(EXE_SUFFIX) > $(OBJDIR)rwm_smallpush2.out 2>&1
 	$(RM) $(OBJDIR)rwm_smallpush2_tool.out $(OBJDIR)rwm_smallpush2.out
 
-rwm_smallpush_pic2.test: $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) $(OBJDIR)smallpush_pie$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)rewritememop1$(PINTOOL_SUFFIX) -1 -o $(OBJDIR)rwm_smallpush_pic2_tool.out \
-	  -- $(OBJDIR)smallpush_pie$(EXE_SUFFIX) > $(OBJDIR)rwm_smallpush_pic2.out 2>&1
-	$(RM) $(OBJDIR)rwm_smallpush_pic2_tool.out $(OBJDIR)rwm_smallpush_pic2.out
-
 tstcmpxchg8b_with_explicit_ebx.test: $(OBJDIR)tstcmpxchg8b_with_explicit_ebx$(EXE_SUFFIX)
 	$(PIN) -- $(OBJDIR)tstcmpxchg8b_with_explicit_ebx$(EXE_SUFFIX) > $(OBJDIR)tstcmpxchg8b_with_explicit_ebx.out 2>&1
 	$(DIFF) $(OBJDIR)tstcmpxchg8b_with_explicit_ebx.out tstcmpxchg8b_with_explicit_ebx.reference
@@ -1263,7 +1140,7 @@ create_rtn_probed.test: $(OBJDIR)create_rtn$(PINTOOL_SUFFIX) $(OBJDIR)create_rtn
 claim_regs.test: $(OBJDIR)claim_regs$(PINTOOL_SUFFIX)
 	$(PIN) -t $(OBJDIR)claim_regs$(PINTOOL_SUFFIX) -- $(TESTAPP) > $(OBJDIR)claim_regs.out 2>&1
 	$(QGREP) "Passed" $(OBJDIR)claim_regs.out
-	$(RM) $(OBJDIR)claim_regs.out 
+	$(RM) $(OBJDIR)claim_regs.out
 
 checkerrorfile.test: $(OBJDIR)checkerrorfile$(PINTOOL_SUFFIX)
 	- $(PIN) -t $(OBJDIR)checkerrorfile$(PINTOOL_SUFFIX) -- $(TESTAPP) > $(OBJDIR)checkerrorfile.out 2>&1
@@ -1283,12 +1160,6 @@ soloadrange.test: $(OBJDIR)soloadrange$(PINTOOL_SUFFIX) $(OBJDIR)dltest2$(EXE_SU
 	$(CMP) soloadrange.out $(OBJDIR)soloadrange.reference
 	$(RM) soloadrange.out $(OBJDIR)soloadrange.reference
 
-# Test that flushing an MT app happens in a timely manner
-mtflush.test: $(OBJDIR)mtflush$(PINTOOL_SUFFIX) $(OBJDIR)mtflush_app$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)mtflush$(PINTOOL_SUFFIX) -- $(OBJDIR)mtflush_app$(EXE_SUFFIX)
-	$(DIFF) mtflush.out mtflush.reference
-	$(RM) mtflush.out
-
 # Test the automatic resizing of stripes
 resize.test: $(TESTAPP)
 	$(PIN) -xyzzy -max_rtn 1024 -recycle_rtn 0 -- $(TESTAPP) makefile $(OBJDIR)resize.makefile.copy
@@ -1297,9 +1168,9 @@ resize.test: $(TESTAPP)
 
 # Test the small secondary stack
 nosahflahf.test: $(TESTAPP)
-	$(PIN) -xyzzy -use_sahf 0 -- $(TESTAPP) makefile $(OBJDIR)nosahflahf.makefile.copy 
+	$(PIN) -xyzzy -use_sahf 0 -- $(TESTAPP) makefile $(OBJDIR)nosahflahf.makefile.copy
 	$(DIFF) makefile $(OBJDIR)nosahflahf.makefile.copy
-	$(RM) $(OBJDIR)nosahflahf.makefile.copy 
+	$(RM) $(OBJDIR)nosahflahf.makefile.copy
 
 # Test reserve memory
 reservemem.test: $(TESTAPP)
@@ -1316,6 +1187,9 @@ reservemem64.test: $(OBJDIR)reserve_memory$(EXE_SUFFIX) $(TESTAPP)
 	  -- $(OBJDIR)reserve_memory$(EXE_SUFFIX) bigrange.address 1 > $(OBJDIR)reservemem64.pin.out
 	$(CMP) $(OBJDIR)reservemem64.native.out $(OBJDIR)reservemem64.pin.out
 	$(RM) $(OBJDIR)reservemem64.native.out $(OBJDIR)reservemem64.pin.out
+
+rip_relative_prefix_67.test: $(OBJDIR)rip_relative_prefix_67_app_intel64$(EXE_SUFFIX)
+	$(PIN) -- $(OBJDIR)rip_relative_prefix_67_app_intel64$(EXE_SUFFIX)
 
 partialinline2.test: $(OBJDIR)partialinline$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -xyzzy -inline 0 -t $(OBJDIR)partialinline$(PINTOOL_SUFFIX) \
@@ -1428,7 +1302,7 @@ failed_attach_with_error_file.test:
 	-$(PIN) -error_file $(OBJDIR)failed_attach_with_error_file.xml -pid 1 > $(OBJDIR)failed_attach_with_error_file.out 2>&1
 	echo "failed_attach_with_error_fileshould fail. Ignore the error."
 	$(QGREP) "Attach to pid" $(OBJDIR)failed_attach_with_error_file.xml
-	$(RM) $(OBJDIR)failed_attach_with_error_file.out $(OBJDIR)failed_attach_with_error_file.xml 
+	$(RM) $(OBJDIR)failed_attach_with_error_file.out $(OBJDIR)failed_attach_with_error_file.xml
 
 executeat_lock.test: $(OBJDIR)executeat_lock$(PINTOOL_SUFFIX) $(OBJDIR)threadtest_$(OS_TYPE)$(EXE_SUFFIX)
 	-$(PIN) -t $(OBJDIR)executeat_lock$(PINTOOL_SUFFIX) \
@@ -1563,14 +1437,14 @@ callapp1.test: $(OBJDIR)callapp1$(PINTOOL_SUFFIX) $(OBJDIR)simplefoo1_$(OS_TYPE)
 	$(RM) $(OBJDIR)callapp1.out
 
 callapp_perf.test: $(OBJDIR)callapp_perf_tool$(PINTOOL_SUFFIX) $(OBJDIR)callapp_perf_$(OS_TYPE)$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)callapp_perf_tool$(PINTOOL_SUFFIX) \
+	$(PIN) -t $(OBJDIR)callapp_perf_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) \
 	  -- $(OBJDIR)callapp_perf_$(OS_TYPE)$(EXE_SUFFIX) > $(OBJDIR)callapp_perf.out 2>&1
-	$(RM) $(OBJDIR)callapp_perf.out
+	$(RM) $(OBJDIR)callapp_perf.out $(OBJDIR)$(@:test=tool.out)
 
 callapp_nested.test: $(OBJDIR)callapp_nested_tool$(PINTOOL_SUFFIX) $(OBJDIR)callapp_nested$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)callapp_nested_tool$(PINTOOL_SUFFIX) \
+	$(PIN) -t $(OBJDIR)callapp_nested_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) \
 	  -- $(OBJDIR)callapp_nested$(EXE_SUFFIX) > $(OBJDIR)callapp_nested.out 2>&1
-	$(RM) $(OBJDIR)callapp_nested.out
+	$(RM) $(OBJDIR)callapp_nested.out $(OBJDIR)$(@:test=tool.out)
 
 callapp1i.test: $(OBJDIR)callapp1i$(PINTOOL_SUFFIX) $(OBJDIR)simplefoo1_$(OS_TYPE)$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)callapp1i$(PINTOOL_SUFFIX) \
@@ -1697,9 +1571,9 @@ callapp13.test: $(OBJDIR)callapp13$(PINTOOL_SUFFIX) $(OBJDIR)simplefoo13_$(OS_TY
 	$(RM) $(OBJDIR)callapp13.out
 
 callapp14.test: $(OBJDIR)callapp14$(PINTOOL_SUFFIX) $(OBJDIR)simplefoo14$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)callapp14$(PINTOOL_SUFFIX) \
+	$(PIN) -t $(OBJDIR)callapp14$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) \
 	  -- $(OBJDIR)simplefoo14$(EXE_SUFFIX) > $(OBJDIR)callapp14.out 2>&1
-	$(RM) $(OBJDIR)callapp14.out
+	$(RM) $(OBJDIR)callapp14.out $(OBJDIR)$(@:test=tool.out)
 
 # on windows, you must have the correct version of dbghelp.dll in $PIN_HOME\intel64\bin
 # for this test to replace the functions. sanity doesn't, so this is not tested on windows.
@@ -1834,47 +1708,55 @@ deepbind.test: $(OBJDIR)deepbind$(PINTOOL_SUFFIX) $(OBJDIR)deepbind_app$(EXE_SUF
 
 thread_count_thread_creation.test: $(OBJDIR)thread_count$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
 	mkdir -p $(OBJDIR)"I Need My Space"
-	$(PIN) -xyzzy -logfile $(OBJDIR)"I Need My Space/pin.log" -mesgon log_win -t $(OBJDIR)thread_count$(PINTOOL_SUFFIX) \
+	$(PIN) -xyzzy -logfile $(OBJDIR)"I Need My Space"/pin.log -mesgon log_win -t $(OBJDIR)thread_count$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc.out 2>&1
 	$(DIFF) $(OBJDIR)win_thread_create_apc.out win_thread_create_apc.reference
 	$(DIFF) thread_count.out thread_count_thread_creation.reference
-	$(RM) thread_count.out $(OBJDIR)win_thread_create_apc.out $(OBJDIR)"I Need My Space/pin.log"
+	$(RM) thread_count.out $(OBJDIR)win_thread_create_apc.out $(OBJDIR)"I Need My Space"/pin.log*
 	rmdir $(OBJDIR)"I Need My Space"
 
 win_multi_dll_pintool.test: $(OBJDIR)main_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)dynamic_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)main_dll$(PINTOOL_SUFFIX) \
-	  -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc.out 2>&1
-	$(QGREP) -F -i -f win_thread_create_apc.reference $(OBJDIR)win_thread_create_apc.out
+	  -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc_multi.out 2>&1
+	$(QGREP) -F -i -f win_thread_create_apc.reference $(OBJDIR)win_thread_create_apc_multi.out
 	$(DIFF) static_secondary_dll.out dynamic_secondary_dll.out
-	-$(RM) static_secondary_dll.out dynamic_secondary_dll.out $(OBJDIR)win_thread_create_apc.out
+	-$(RM) static_secondary_dll.out dynamic_secondary_dll.out $(OBJDIR)win_thread_create_apc_multi.out
+
+# Check that the same Pin loader instance is available in any Pin tool DLL.
+win_multi_dll_pintool_enumerate.test: $(OBJDIR)main_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)dynamic_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
+	$(PIN) -t $(OBJDIR)main_dll$(PINTOOL_SUFFIX) -enumerate \
+	  -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc_enumerate.out 2>&1
+	$(QGREP) -F -i -f win_thread_create_apc.reference $(OBJDIR)win_thread_create_apc_enumerate.out
+	$(DIFF) static_secondary_dll.out dynamic_secondary_dll.out
+	-$(RM) static_secondary_dll.out dynamic_secondary_dll.out $(OBJDIR)win_thread_create_apc_enumerate.out
 
 # Check that name of missing secondary tool DLL appears in Pin error message
 win_multi_dll_pintool_no_dll.test: $(OBJDIR)main_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)dynamic_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
 	-($(MV) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll_temp$(PINTOOL_SUFFIX) && \
 	  $(PIN) -t $(OBJDIR)main_dll$(PINTOOL_SUFFIX) \
-	    -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc.out 2>&1 ; \
+	    -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc_no_dll.out 2>&1 ; \
 	  $(MV) $(OBJDIR)static_secondary_dll_temp$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX))
 	@# Check for load failure of secondary DLL
-	$(GREP) -i static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc.out
+	$(GREP) -i static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc_no_dll.out
 	@# Check for "file not found" system error
-	$(GREP) -i "System error 2" $(OBJDIR)win_thread_create_apc.out
+	$(GREP) -i "System error 2 " $(OBJDIR)win_thread_create_apc_no_dll.out
 	@# Check that the failure was propagated to and reported for main DLL
-	$(GREP) -i main_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc.out
-	-$(RM) $(OBJDIR)win_thread_create_apc.out pin.log
+	$(GREP) -i main_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc_no_dll.out
+	-$(RM) $(OBJDIR)win_thread_create_apc_no_dll.out pin.log
 
 # Check that secondary tool DLL has no proper export
 win_multi_dll_pintool_bad_dll.test: $(OBJDIR)main_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)dynamic_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
 	-($(MV) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll_temp$(PINTOOL_SUFFIX) && \
 	  $(CP) $(OBJDIR)main_dll$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) && \
 	  $(PIN) -t $(OBJDIR)main_dll$(PINTOOL_SUFFIX) \
-	    -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc.out 2>&1 ; \
+	    -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX) > $(OBJDIR)win_thread_create_apc_bad_dll.out 2>&1 ; \
 	  $(RM) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX) ; \
 	  $(MV) $(OBJDIR)static_secondary_dll_temp$(PINTOOL_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX))
 	@# Check for initialization failure of secondary DLL
-	$(GREP) -i static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc.out
+	$(GREP) -i static_secondary_dll$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_create_apc_bad_dll.out
 	@# Check for "Bad ordinal" system error (e.g. secondary DLL lacks proper export)
-	$(GREP) -i "System error 182" $(OBJDIR)win_thread_create_apc.out
-	-$(RM) $(OBJDIR)win_thread_create_apc.out pin.log
+	$(GREP) -i "System error 182" $(OBJDIR)win_thread_create_apc_bad_dll.out
+	-$(RM) $(OBJDIR)win_thread_create_apc_bad_dll.out pin.log
 
 thread_creation_late_injection.test: $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
 	$(PIN) -xyzzy -late_injection -- $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX)
@@ -1889,7 +1771,7 @@ reg_inst_gx.test: $(OBJDIR)reg_inst_gx$(PINTOOL_SUFFIX) $(OBJDIR)thread$(EXE_SUF
 win_queue_apc.test: $(OBJDIR)apc_monitor$(PINTOOL_SUFFIX) $(OBJDIR)win_queue_apc$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)apc_monitor$(PINTOOL_SUFFIX) -- $(OBJDIR)win_queue_apc$(EXE_SUFFIX) > $(OBJDIR)win_queue_apc.out 2>&1
 	$(DIFF) $(OBJDIR)win_queue_apc.out win_queue_apc.reference
-	$(DIFF) apc_monitor.out apc_monitor.reference 
+	$(DIFF) apc_monitor.out apc_monitor.reference
 	$(RM) apc_monitor.out $(OBJDIR)win_queue_apc.out
 
 win_divide_by_zero_exception.test: $(OBJDIR)exception_monitor$(PINTOOL_SUFFIX) $(OBJDIR)win_divide_by_zero_exception$(EXE_SUFFIX)
@@ -1930,11 +1812,11 @@ win_code_on_reused_memory.test: $(OBJDIR)win_code_on_reused_memory$(EXE_SUFFIX)
 	$(DIFF) $(OBJDIR)win_code_on_reused_memory.out win_code_on_reused_memory.reference
 	$(RM) $(OBJDIR)win_code_on_reused_memory.out
 
-win_exception_context.test: $(OBJDIR)winapp_exception_context$(EXE_SUFFIX) $(OBJDIR)exception_context_monitor$(PINTOOL_SUFFIX) 
+win_exception_context.test: $(OBJDIR)winapp_exception_context$(EXE_SUFFIX) $(OBJDIR)exception_context_monitor$(PINTOOL_SUFFIX)
 	$(PIN) -t $(OBJDIR)exception_context_monitor$(PINTOOL_SUFFIX) -checkfp 1 \
 	  -- $(OBJDIR)winapp_exception_context$(EXE_SUFFIX)
 
-win_exception_detect.test: $(OBJDIR)win_exception_test$(EXE_SUFFIX) $(OBJDIR)exception_context_monitor$(PINTOOL_SUFFIX) 
+win_exception_detect.test: $(OBJDIR)win_exception_test$(EXE_SUFFIX) $(OBJDIR)exception_context_monitor$(PINTOOL_SUFFIX)
 	$(PIN) -t $(OBJDIR)exception_context_monitor$(PINTOOL_SUFFIX) -checkfp 1 \
 	  -- $(OBJDIR)win_exception_test$(EXE_SUFFIX)
 
@@ -1947,10 +1829,10 @@ win_mxcsr.test: $(OBJDIR)thread_count$(PINTOOL_SUFFIX) $(OBJDIR)win_mxcsr_app$(E
 
 win_hello_c_sharp.test: $(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX)
 	$(PIN) -- $(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX) > $(OBJDIR)win_hello_c_sharp.out 2>&1
-	$(QGREP) "Hello world!" $(OBJDIR)win_hello_c_sharp.out 
+	$(QGREP) "Hello world!" $(OBJDIR)win_hello_c_sharp.out
 	$(RM) $(OBJDIR)win_hello_c_sharp.out
 	$(PIN) -xyzzy -late_injection -- $(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX) > $(OBJDIR)win_hello_c_sharp.out 2>&1
-	$(QGREP) "Hello world!" $(OBJDIR)win_hello_c_sharp.out 
+	$(QGREP) "Hello world!" $(OBJDIR)win_hello_c_sharp.out
 	$(RM) $(OBJDIR)win_hello_c_sharp.out
 
 win_early_injection1.test: $(OBJDIR)image_load$(PINTOOL_SUFFIX) $(OBJDIR)win_early_thread$(EXE_SUFFIX)
@@ -2027,32 +1909,33 @@ image_entry_jit.test: $(OBJDIR)image_entry$(PINTOOL_SUFFIX) $(OBJDIR)win_thread_
 	$(RM) $(OBJDIR)win_thread_create_apc_jit.out $(OBJDIR)image_entry_jit.out
 
 mt_tool.test: $(OBJDIR) $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) $(TESTAPP)
-	$(PIN) -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -- $(TESTAPP) makefile \
-	  $(OBJDIR)$(@:.test=.makefile.copy) > $(OBJDIR)$(@:.test=.out) 2>&1
+	$(PIN) -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) -- $(TESTAPP) makefile \
+	  $(OBJDIR)$(@:.test=.makefile.copy)
 	$(CMP) makefile $(OBJDIR)$(@:.test=.makefile.copy)
 	$(RM) $(OBJDIR)$(@:.test=.makefile.copy)
-	-$(RM) $(OBJDIR)$(@:.test=.out)
+	-$(RM) $(OBJDIR)$(@:.test=.tool.out)
 
 # The test checks graceful exit of internal threads with late exit disabled
 mt_tool_early_exit.test: $(OBJDIR) $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) $(TESTAPP)
-	$(PIN) -xyzzy -at_exit 0 -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -- $(TESTAPP) makefile \
-	  $(OBJDIR)$(@:.test=.makefile.copy) > $(OBJDIR)$(@:.test=.out) 2>&1
+	$(PIN) -xyzzy -at_exit 0 -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) -- \
+	   $(TESTAPP) makefile $(OBJDIR)$(@:.test=.makefile.copy)
 	$(CMP) makefile $(OBJDIR)$(@:.test=.makefile.copy)
 	$(RM) $(OBJDIR)$(@:.test=.makefile.copy)
-	-$(RM) $(OBJDIR)$(@:.test=.out)
+	-$(RM) $(OBJDIR)$(@:.test=.tool.out)
 
 # The tool safely starts all internal threads prior to application exit
 mt_tool_safe_start.test: $(OBJDIR) $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) $(OBJDIR)mt_app$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -safestart 1 \
+	$(PIN) -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) -safestart 1 \
 	  -- $(OBJDIR)mt_app$(EXE_SUFFIX) > $(OBJDIR)$(@:.test=.out) 2>&1
-	-$(RM) $(OBJDIR)$(@:.test=.out)
+	$(RM) $(OBJDIR)$(@:.test=.out)
+	-$(RM) $(OBJDIR)$(@:.test=.tool.out)
 
 # The tool safely starts all internal threads prior to application exit
 # The test checks graceful exit of internal threads with late exit disabled
 mt_tool_safe_start_early_exit.test: $(OBJDIR) $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) $(OBJDIR)mt_app$(EXE_SUFFIX)
-	$(PIN) -xyzzy -at_exit 0 -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -safestart 1 \
-	  -- $(OBJDIR)mt_app$(EXE_SUFFIX) > $(OBJDIR)$(@:.test=.out) 2>&1
-	-$(RM) $(OBJDIR)$(@:.test=.out)
+	$(PIN) -xyzzy -at_exit 0 -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) -safestart 1 \
+	  -- $(OBJDIR)mt_app$(EXE_SUFFIX)
+	-$(RM) $(OBJDIR)$(@:.test=.tool.out)
 
 funreplace_alert.test: $(OBJDIR)funreplace_alert$(PINTOOL_SUFFIX) $(OBJDIR)socket_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)funreplace_alert$(PINTOOL_SUFFIX) \
@@ -2092,11 +1975,14 @@ sw_interrupt.test: $(OBJDIR)sw_interrupt$(PINTOOL_SUFFIX) $(OBJDIR)sw_interrupt_
 	$(PIN) -t $(OBJDIR)sw_interrupt$(PINTOOL_SUFFIX) -- $(OBJDIR)sw_interrupt_app$(EXE_SUFFIX)
 
 internal_thread.test: $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) $(OBJDIR)mt_app$(EXE_SUFFIX)
-	$(PIN) -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -- $(OBJDIR)mt_app$(EXE_SUFFIX)
+	$(PIN) -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) -- $(OBJDIR)mt_app$(EXE_SUFFIX)
+	-$(RM) $(OBJDIR)$(@:.test=.tool.out)
 
 # Test does not support graceful exit of internal thread, thus late exit is disabled
 internal_thread_early_exit.test: $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) $(OBJDIR)mt_app$(EXE_SUFFIX)
-	$(PIN) -xyzzy -at_exit 0 -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -- $(OBJDIR)mt_app$(EXE_SUFFIX)
+	$(PIN) -xyzzy -at_exit 0 -t $(OBJDIR)mt_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)$(@:test=tool.out) \
+	    -- $(OBJDIR)mt_app$(EXE_SUFFIX)
+	-$(RM) $(OBJDIR)$(@:.test=.tool.out)
 
 win_callback.test: $(OBJDIR)win_callback$(PINTOOL_SUFFIX) $(OBJDIR)win_callback_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)win_callback$(PINTOOL_SUFFIX) -- $(OBJDIR)win_callback_app$(EXE_SUFFIX)
@@ -2121,7 +2007,7 @@ reppredicate.test: $(OBJDIR)checkexecuting$(PINTOOL_SUFFIX) $(OBJDIR)rep$(EXE_SU
 	$(DIFF) $(OBJDIR)reppredicate.out reppredicate_$(TARGET).reference
 	$(RM) $(OBJDIR)reppredicate.out
 
-repcmpsz_tool.test: $(OBJDIR)repcmpsz_tool$(PINTOOL_SUFFIX) $(OBJDIR)repcmpsz_$(TARGET_OS)$(EXE_SUFFIX) 
+repcmpsz_tool.test: $(OBJDIR)repcmpsz_tool$(PINTOOL_SUFFIX) $(OBJDIR)repcmpsz_$(TARGET_OS)$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)repcmpsz_tool$(PINTOOL_SUFFIX) -o $(OBJDIR)repcmpsz_tool.out \
 	  -- $(OBJDIR)repcmpsz_$(TARGET_OS)$(EXE_SUFFIX)
 	$(DIFF) $(OBJDIR)repcmpsz_tool.out repcmpsz_tool.reference
@@ -2138,7 +2024,7 @@ big_bss.test: $(OBJDIR)big_bss$(EXE_SUFFIX)
 statica_locktest.test: $(OBJDIR)statica_locktest$(SATOOL_SUFFIX)
 	$(SET_DLL_PATH) $(OBJDIR)statica_locktest$(SATOOL_SUFFIX) -i $(OBJDIR)statica_locktest$(SATOOL_SUFFIX)
 
-win_syscallenum.test: $(OBJDIR)win_syscallenum$(PINTOOL_SUFFIX) $(TESTAPP) 
+win_syscallenum.test: $(OBJDIR)win_syscallenum$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -t $(OBJDIR)win_syscallenum$(PINTOOL_SUFFIX) -- $(TESTAPP)
 
 segmented_ea_verifier.test: $(OBJDIR)segmented_ea_verifier$(PINTOOL_SUFFIX) $(OBJDIR)thread_segmented_ea$(EXE_SUFFIX)
@@ -2154,17 +2040,17 @@ segmented_ea_verifier.test: $(OBJDIR)segmented_ea_verifier$(PINTOOL_SUFFIX) $(OB
 ea_verifier_addr16.test: $(OBJDIR)ea_verifier_addr16$(PINTOOL_SUFFIX) $(OBJDIR)thread_ea_addr16$(EXE_SUFFIX)
 	$(PIN) -xyzzy -virtual_segments 0 -t $(OBJDIR)ea_verifier_addr16$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)thread_ea_addr16$(EXE_SUFFIX) > $(OBJDIR)ea_verifier_addr16.out 2>&1
-	$(QGREP) "SUCCESS" $(OBJDIR)ea_verifier_addr16.out 
+	$(QGREP) "SUCCESS" $(OBJDIR)ea_verifier_addr16.out
 	$(RM) $(OBJDIR)ea_verifier_addr16.out
 	$(PIN) -xyzzy -virtual_segments 1 -t $(OBJDIR)ea_verifier_addr16$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)thread_ea_addr16$(EXE_SUFFIX) > $(OBJDIR)ea_verifier_addr16.out 2>&1
-	$(QGREP) "SUCCESS" $(OBJDIR)ea_verifier_addr16.out 
+	$(QGREP) "SUCCESS" $(OBJDIR)ea_verifier_addr16.out
 	$(RM) $(OBJDIR)ea_verifier_addr16.out
 
 seg_override_win1.test: $(OBJDIR)segmented_ea_verifier$(PINTOOL_SUFFIX) $(OBJDIR)seg_override_app1$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)segmented_ea_verifier$(PINTOOL_SUFFIX) \
 	  -- $(OBJDIR)seg_override_app1$(EXE_SUFFIX) > $(OBJDIR)seg_override_win1.out 2>&1
-	$(QGREP) "SUCCESS" $(OBJDIR)seg_override_win1.out 
+	$(QGREP) "SUCCESS" $(OBJDIR)seg_override_win1.out
 	$(RM) $(OBJDIR)seg_override_win1.out
 
 # Tests proper delivery of symbols for rebased dll in JIT mode
@@ -2226,7 +2112,7 @@ secname.test: $(OBJDIR)secname_tool$(PINTOOL_SUFFIX) $(OBJDIR)secname_app$(EXE_S
 
 elf_symbols.test: $(OBJDIR)elf_symbols$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -t $(OBJDIR)elf_symbols$(PINTOOL_SUFFIX) -o $(OBJDIR)elf_symbols.out \
-	  -- $(TESTAPP) makefile $(OBJDIR)elf_symbols.makefile.copy 
+	  -- $(TESTAPP) makefile $(OBJDIR)elf_symbols.makefile.copy
 	$(QGREP) "passed successfully" $(OBJDIR)elf_symbols.out
 	$(RM) $(OBJDIR)elf_symbols.out $(OBJDIR)elf_symbols.makefile.copy
 
@@ -2310,6 +2196,15 @@ inlined-stack-arg1-noopt.test: $(OBJDIR)inlined-stack-arg1-noopt$(PINTOOL_SUFFIX
 	$(DIFF) $(OBJDIR)inlined-stack-arg1-noopt.out inlined-stack-arg1.reference
 	$(RM) $(OBJDIR)inlined-stack-arg1-noopt.makefile.copy $(OBJDIR)inlined-stack-arg1-noopt.out
 
+check_acall_inline_opt.test: $(OBJDIR)check_acall_inline_opt$(PINTOOL_SUFFIX) $(TESTAPP)
+	$(PIN) -xyzzy -mesgon log_inline \
+          -t $(OBJDIR)check_acall_inline_opt$(PINTOOL_SUFFIX) -o $(OBJDIR)check_acall_inline_opt.out \
+            -- $(TESTAPP) makefile $(OBJDIR)check_acall_inline_opt.makefile.copy
+	$(CMP) makefile $(OBJDIR)check_acall_inline_opt.makefile.copy
+	$(QGREP) "Analyze Analysis function from check_acall_inline_opt" pin.log
+	$(QGREP) "INSERT_BEFORE_INSTRUCTION" pin.log
+	$(RM) $(OBJDIR)check_acall_inline_opt.makefile.copy $(OBJDIR)check_acall_inline_opt.out
+
 inlined-stack-arg2.test: $(OBJDIR)inlined-stack-arg2$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -xyzzy -inline 1 $(OPT_STACK_PARAM_FAILURE_ASSERT) \
 	  -t $(OBJDIR)inlined-stack-arg2$(PINTOOL_SUFFIX) -o $(OBJDIR)inlined-stack-arg2.out \
@@ -2328,7 +2223,7 @@ emu_stack.test: $(OBJDIR)emu_stack$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -log_inline -xyzzy -logfile $(OBJDIR)emu_stack.log -inline_maxlen 50 -t $(OBJDIR)emu_stack$(PINTOOL_SUFFIX) \
 	  -- $(TESTAPP) makefile $(OBJDIR)emu_stack.makefile.copy
 	$(BASHTEST) `$(CGREP) "NOT INLINED" $(OBJDIR)emu_stack.log ` -le "4"
-	$(GREP) "INLINED" $(OBJDIR)emu_stack.log > $(OBJDIR)emu_stack_grep.txt 
+	$(GREP) "INLINED" $(OBJDIR)emu_stack.log > $(OBJDIR)emu_stack_grep.txt
 	$(RM) $(OBJDIR)emu_stack.makefile.copy $(OBJDIR)emu_stack.log $(OBJDIR)emu_stack_grep.txt
 
 passthru_context_xmm_regs_callapp.test: $(OBJDIR)passthru_context_xmm_regs_callapp$(PINTOOL_SUFFIX) $(OBJDIR)passthru_context_xmm_regs_app$(EXE_SUFFIX)
@@ -2397,18 +2292,11 @@ x87_regs_in_context.test: $(OBJDIR)x87_regs_in_context$(PINTOOL_SUFFIX) $(OBJDIR
 test_sysenter_win.test: $(OBJDIR)test_sysenter_win$(EXE_SUFFIX)
 	$(PIN) -- $(OBJDIR)test_sysenter_win$(EXE_SUFFIX)
 
-# Busybox's sh causes a failure when it runs check_tool_malloc, so we make an exception and call regular sh for now.
 tool_malloc.test: $(OBJDIR)tool_malloc$(PINTOOL_SUFFIX) $(TESTAPP)
 	$(PIN) -t $(OBJDIR)tool_malloc$(PINTOOL_SUFFIX) -o $(OBJDIR)tool_malloc.out -xyzzy -statistic \
 	  -- $(TESTAPP) makefile $(OBJDIR)tool_malloc.makefile.copy
 	$(SH) ./check_tool_malloc.sh $(OBJDIR)tool_malloc.out pintool.log
-	$(RM) $(OBJDIR)tool_malloc.out pintool.log $(OBJDIR)tool_malloc.makefile.copy 
-
-tool_malloc_android.test: $(OBJDIR)tool_malloc$(PINTOOL_SUFFIX) $(TESTAPP)
-	$(PIN) -t $(OBJDIR)tool_malloc$(PINTOOL_SUFFIX) -o $(OBJDIR)tool_malloc.out -xyzzy -statistic \
-	  -- $(TESTAPP) makefile $(OBJDIR)tool_malloc.makefile.copy
-	sh ./check_tool_malloc.sh $(OBJDIR)tool_malloc.out pintool.log $(CMD_PREFIX)
-	$(RM) $(OBJDIR)tool_malloc.out pintool.log $(OBJDIR)tool_malloc.makefile.copy 
+	$(RM) $(OBJDIR)tool_malloc.out pintool.log $(OBJDIR)tool_malloc.makefile.copy
 
 iret.test: $(OBJDIR)iret$(EXE_SUFFIX)
 	$(PIN) -- $(OBJDIR)iret$(EXE_SUFFIX)
@@ -2417,14 +2305,6 @@ iret.test: $(OBJDIR)iret$(EXE_SUFFIX)
 loader.test: $(OBJDIR)fini$(PINTOOL_SUFFIX) $(TESTAPP)
 	if ! $(BASHTEST) -f /etc/apparmor.d/usr.bin.ldd; then \
 	$(PIN) -follow_execv -t $(OBJDIR)fini$(PINTOOL_SUFFIX) -- ldd $(TESTAPP); fi
-
-secure_scl.test: secure_scl_test.cpp
-	echo $(CXX) $(TOOL_CXXFLAGS) /D_SECURE_SCL=1 secure_scl_test.cpp > compile_secure_scl.bat
-	echo "dir compile_secure_scl.bat" >> compile_secure_scl.bat
-	chmod +x compile_secure_scl.bat
-	$(CMD) compile_secure_scl.bat > $(OBJDIR)secure_scl_test.out
-	$(QGREP) "PIN is compiled with /D_SECURE_SCL=0 so tool must also be compiled with /D_SECURE_SCL=0" $(OBJDIR)secure_scl_test.out
-	$(RM) $(OBJDIR)secure_scl_test.out compile_secure_scl.bat
 
 check_legal_callbacks.test: $(OBJDIR)check_legal_callbacks$(PINTOOL_SUFFIX) $(TESTAPP)
 	-$(PIN) -t $(OBJDIR)check_legal_callbacks$(PINTOOL_SUFFIX) -logfile $(OBJDIR)check_legal_callbacks.out \
@@ -2475,25 +2355,16 @@ knob_help.test:
 
 knob_version.test:
 	$(PIN) -version > $(OBJDIR)knob_version.out
-	$(CGREP) "Rev:" $(OBJDIR)knob_version.out | $(QGREP) -v "0"
+	$(QGREP) "pin-" $(OBJDIR)knob_version.out
+	$(QGREP) "Copyright" $(OBJDIR)knob_version.out
 	$(CGREP) "Usage" $(OBJDIR)knob_version.out | $(QGREP) "0"
 	$(CGREP) "E: Missing application name" $(OBJDIR)knob_version.out | $(QGREP) "0"
 	$(RM) $(OBJDIR)knob_version.out
 
-knob_version_long.test:
-	$(PIN) -version_long > $(OBJDIR)knob_version_long.out
-	$(CGREP) "Rev:" $(OBJDIR)knob_version_long.out | $(QGREP) -v "0"
-	$(CGREP) "/proc/version" $(OBJDIR)knob_version_long.out | $(QGREP) -v "0"
-	$(CGREP) "/proc/meminfo" $(OBJDIR)knob_version_long.out | $(QGREP) -v "0"
-	$(CGREP) "/proc/cpuinfo" $(OBJDIR)knob_version_long.out | $(QGREP) -v "0"
-	$(CGREP) "Usage" $(OBJDIR)knob_version_long.out | $(QGREP) "0"
-	$(CGREP) "E: Missing application name" $(OBJDIR)knob_version_long.out | $(QGREP) "0"
-	$(RM) $(OBJDIR)knob_version_long.out
-
 funcarg_ep.test: $(OBJDIR)funcarg_ep$(PINTOOL_SUFFIX) $(OBJDIR)funcarg_ep_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)funcarg_ep$(PINTOOL_SUFFIX) -o $(OBJDIR)funcarg_ep.out -- $(OBJDIR)funcarg_ep_app$(EXE_SUFFIX)
 	$(DIFF) $(OBJDIR)funcarg_ep.out funcarg_ep_$(TARGET).reference
-	$(RM) $(OBJDIR)funcarg_ep.out 
+	$(RM) $(OBJDIR)funcarg_ep.out
 
 fp_args.test: $(OBJDIR)fp_args$(PINTOOL_SUFFIX) $(OBJDIR)fp_args_app$(EXE_SUFFIX)
 	$(PIN) -t $(OBJDIR)fp_args$(PINTOOL_SUFFIX) -- $(OBJDIR)fp_args_app$(EXE_SUFFIX) > $(OBJDIR)fp_args.out
@@ -2554,7 +2425,7 @@ code_cache_block_overflow2.test: $(OBJDIR)code_cache_block_overflow2$(PINTOOL_SU
 # the MXCSR value on Intel64. Since the CONTEXT.MxCsr field is not well documented by Microsoft, we
 # run the test natively too to make sure Pin is emulating the same behavior as a native application.
 #
-suspend-mxcsr.test: $(OBJDIR)suspend-mxcsr$(EXE_SUFFIX) 
+suspend-mxcsr.test: $(OBJDIR)suspend-mxcsr$(EXE_SUFFIX)
 	$(OBJDIR)suspend-mxcsr$(EXE_SUFFIX)
 	$(PIN) -- $(OBJDIR)suspend-mxcsr$(EXE_SUFFIX)
 
@@ -2611,7 +2482,7 @@ $(OBJDIR)insertand$(PINTOOL_SUFFIX): $(OBJDIR)insertand$(OBJ_SUFFIX) $(OBJDIR)an
 $(OBJDIR)clobber$(PINTOOL_SUFFIX): $(OBJDIR)clobber$(OBJ_SUFFIX) $(OBJDIR)clobber_asm$(OBJ_SUFFIX)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
 
-$(OBJDIR)mt_tool$(PINTOOL_SUFFIX): $(OBJDIR)mt_tool$(OBJ_SUFFIX) $(OBJDIR)sys_memory_tool$(OBJ_SUFFIX)
+$(OBJDIR)mt_tool$(PINTOOL_SUFFIX): $(OBJDIR)mt_tool$(OBJ_SUFFIX)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
 
 $(OBJDIR)main_dll$(PINTOOL_SUFFIX): $(OBJDIR)main_dll$(OBJ_SUFFIX) $(OBJDIR)static_secondary_dll$(PINTOOL_SUFFIX)
@@ -2626,7 +2497,7 @@ $(OBJDIR)test_iarg_preserve$(PINTOOL_SUFFIX): $(OBJDIR)test_iarg_preserve$(OBJ_S
 $(OBJDIR)test_iarg_preserve_probe$(PINTOOL_SUFFIX): $(OBJDIR)test_iarg_preserve_probe$(OBJ_SUFFIX) $(OBJDIR)test_iarg_preserve_asm$(OBJ_SUFFIX) $(SUPPORTS_AVX_OBJ)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
 
-$(OBJDIR)test_iarg_preserve2$(PINTOOL_SUFFIX): $(OBJDIR)test_iarg_preserve2$(OBJ_SUFFIX) $(OBJDIR)test_iarg_preserve_asm$(OBJ_SUFFIX) 
+$(OBJDIR)test_iarg_preserve2$(PINTOOL_SUFFIX): $(OBJDIR)test_iarg_preserve2$(OBJ_SUFFIX) $(OBJDIR)test_iarg_preserve_asm$(OBJ_SUFFIX)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
 
 $(OBJDIR)test_iarg_preserve_mxcsr$(PINTOOL_SUFFIX): $(OBJDIR)test_iarg_preserve_mxcsr$(OBJ_SUFFIX) $(OBJDIR)test_iarg_preserve_asm$(OBJ_SUFFIX) $(SUPPORTS_AVX_OBJ)
@@ -2695,6 +2566,9 @@ $(OBJDIR)inlined-stack-arg1$(PINTOOL_SUFFIX): $(OBJDIR)inlined-stack-arg1$(OBJ_S
 $(OBJDIR)inlined-stack-arg1-noopt$(PINTOOL_SUFFIX): $(OBJDIR)inlined-stack-arg1-noopt$(OBJ_SUFFIX)
 	$(LINKER) $(TOOL_LDFLAGS_NOOPT) $(LINK_EXE)$@ $< $(TOOL_LPATHS) $(TOOL_LIBS)
 
+$(OBJDIR)check_acall_inline_opt$(PINTOOL_SUFFIX): $(OBJDIR)check_acall_inline_opt$(OBJ_SUFFIX)
+	$(LINKER) $(TOOL_LDFLAGS_NOOPT) $(LINK_EXE)$@ $< $(TOOL_LPATHS) $(TOOL_LIBS)
+
 $(OBJDIR)inlined-stack-arg2$(PINTOOL_SUFFIX): $(OBJDIR)inlined-stack-arg2$(OBJ_SUFFIX) $(OBJDIR)inlined-stack-arg2_win$(OBJ_SUFFIX)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
 
@@ -2713,6 +2587,9 @@ $(OBJDIR)xmmtest$(PINTOOL_SUFFIX): $(OBJDIR)xmmtest$(OBJ_SUFFIX) $(SET_XMM_SCRAT
 endif
 
 $(OBJDIR)internal_exception_handler_lin$(PINTOOL_SUFFIX): $(OBJDIR)internal_exception_handler_lin$(OBJ_SUFFIX) $(OBJDIR)exception_tool_asm$(OBJ_SUFFIX)
+	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
+
+$(OBJDIR)mmap$(PINTOOL_SUFFIX): $(OBJDIR)mmap$(OBJ_SUFFIX) $(OBJDIR)get_mmap_flags$(OBJ_SUFFIX)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
 
 $(OBJDIR)exceptionAddress_lin$(PINTOOL_SUFFIX): $(OBJDIR)exceptionAddress_lin$(OBJ_SUFFIX) $(OBJDIR)exception_tool_asm$(OBJ_SUFFIX)
@@ -2739,7 +2616,7 @@ $(OBJDIR)swizzlealloc$(EXE_SUFFIX): swizzlealloc.c
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
 $(OBJDIR)tool_fetch_app$(EXE_SUFFIX): tool_fetch_app.c
-	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
+	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(NO_PIC) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
 $(OBJDIR)df_test_app$(EXE_SUFFIX): df_test_app.c $(OBJDIR)df_test_app_win$(OBJ_SUFFIX)
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
@@ -2769,7 +2646,7 @@ $(OBJDIR)test_iarg_preserve_app2$(EXE_SUFFIX): test_iarg_preserve_app2.cpp $(OBJ
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(SSE2) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
 
 $(OBJDIR)test_iarg_partial_context_app$(EXE_SUFFIX): test_iarg_partial_context_app.cpp $(OBJDIR)test_iarg_preserve_asm$(OBJ_SUFFIX) $(OBJDIR)sse-ref_asm$(OBJ_SUFFIX)
-	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(SSE2) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
+	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(SSE2) $(NO_PIC) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
 
 $(OBJDIR)x87_regs_in_context_app$(EXE_SUFFIX): x87_regs_in_context_app.cpp $(OBJDIR)sse-ref_asm$(OBJ_SUFFIX)
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(SSE2) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
@@ -2786,11 +2663,11 @@ $(OBJDIR)flag_ac_app$(EXE_SUFFIX): flag_ac_app.c  $(OBJDIR)flag_ac_app_asm$(OBJ_
 $(OBJDIR)flag_ac_win_app$(EXE_SUFFIX): flag_ac_win_app.c $(OBJDIR)flag_ac_app_asm$(OBJ_SUFFIX)
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
-$(OBJDIR)jcx_addr16_app$(EXE_SUFFIX): jcx_addr16_app.c  
+$(OBJDIR)jcx_addr16_app$(EXE_SUFFIX): jcx_addr16_app.c
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
 $(OBJDIR)tstcmpxchg8b$(EXE_SUFFIX): tstcmpxchg8b.c $(OBJDIR)cmpxchg8b_asm$(OBJ_SUFFIX)
-	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $^ $(APP_LDFLAGS) $(APP_LIBS)
+	$(APP_CC) $(APP_CXXFLAGS) $(NO_PIC) $(COMP_EXE)$@ $^ $(APP_LDFLAGS) $(APP_LIBS)
 
 $(OBJDIR)tstcmpxchg8b_with_explicit_ebx$(EXE_SUFFIX): tstcmpxchg8b_with_explicit_ebx.c $(OBJDIR)cmpxchg8b_with_explicit_ebx_asm$(OBJ_SUFFIX)
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $^ $(APP_LDFLAGS) $(APP_LIBS)
@@ -2798,11 +2675,7 @@ $(OBJDIR)tstcmpxchg8b_with_explicit_ebx$(EXE_SUFFIX): tstcmpxchg8b_with_explicit
 # This application is written completely in asm, it has no main and we don't want it to be linked
 # to any library, just use the bare asm file. So we add the NO_STDLIBS flag
 $(OBJDIR)smallpush$(EXE_SUFFIX): smallpush_$(TARGET)$(ASM_SUFFIX)
-	$(ASMBLR) $(ASM_FLAGS) $(NO_STDLIBS) $(COMP_EXE)$@ $<
-
-# The same as smallpush, but position independent. Need nonPIC version since PIC version fails on rwm_smallpush2.
-$(OBJDIR)smallpush_pie$(EXE_SUFFIX): smallpush_$(TARGET)$(ASM_SUFFIX)
-	$(ASMBLR) $(ASM_FLAGS) $(PIC) $(NO_STDLIBS) $(COMP_EXE)$@ $<
+	$(ASMBLR) $(ASM_FLAGS) $(NO_STDLIBS) $(LDFLAGS_DEFAULT_NO_PIE) $(COMP_EXE)$@ $<
 
 $(OBJDIR)kthread$(EXE_SUFFIX): kthread.c $(THREADLIB)
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $^ $(APP_LDFLAGS) $(APP_LIBS)
@@ -2832,10 +2705,6 @@ $(OBJDIR)create_rtn_app_linux$(EXE_SUFFIX): create_rtn_app.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) -Wl,--strip-all $(APP_LIBS) \
 	  $(CXX_LPATHS) $(CXX_LIBS)
 
-$(OBJDIR)create_rtn_app_android$(EXE_SUFFIX): create_rtn_app.cpp
-	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) -Wl,--strip-all $(APP_LIBS) \
-	  $(CXX_LPATHS) $(CXX_LIBS)
-
 $(OBJDIR)create_rtn_app_mac$(EXE_SUFFIX): create_rtn_app.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) -Wl,-non_global_symbols_strip_list,create_rtn.strip $(APP_LIBS) \
 	  $(CXX_LPATHS) $(CXX_LIBS)
@@ -2843,19 +2712,16 @@ $(OBJDIR)create_rtn_app_mac$(EXE_SUFFIX): create_rtn_app.cpp
 $(OBJDIR)create_rtn_app_windows$(EXE_SUFFIX): create_rtn_app.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
-$(OBJDIR)mtflush_app$(EXE_SUFFIX): mtflushapp_$(OS_TYPE).cpp
-	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
-
 $(OBJDIR)reserve_memory$(EXE_SUFFIX): reserve_memory.c
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS) $(APP_LIBS)
 
-$(OBJDIR)inner$(EXE_SUFFIX): inner.c 
+$(OBJDIR)inner$(EXE_SUFFIX): inner.c
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
 $(OBJDIR)set_fp_context_xmm_regs_app$(EXE_SUFFIX): set_fp_context_xmm_regs_app.cpp $(OBJDIR)sse-ref_asm$(OBJ_SUFFIX) $(THREADLIB)
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(SSE2) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
 
-$(OBJDIR)callapp_perf_unix$(EXE_SUFFIX): callapp_perf_app.c callapp_perf_app1.c 
+$(OBJDIR)callapp_perf_unix$(EXE_SUFFIX): callapp_perf_app.c callapp_perf_app1.c
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $^ $(APP_LDFLAGS) $(APP_LIBS)
 
 $(OBJDIR)callapp_perf_win$(EXE_SUFFIX): callapp_perf_app.c callapp_perf_app1.c
@@ -2936,7 +2802,7 @@ $(OBJDIR)winfast10$(EXE_SUFFIX): simplefast10.c $(OBJDIR)simplebar$(OBJ_SUFFIX)
 $(OBJDIR)winstd10$(EXE_SUFFIX): simplestd10.c $(OBJDIR)simplebar$(OBJ_SUFFIX)
 	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
-$(OBJDIR)callapp_64bit_param_app$(EXE_SUFFIX): callapp_64bit_param_app_1.c callapp_64bit_param_app_2.c 
+$(OBJDIR)callapp_64bit_param_app$(EXE_SUFFIX): callapp_64bit_param_app_1.c callapp_64bit_param_app_2.c
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $^ $(APP_LDFLAGS) $(APP_LIBS)
 
 $(OBJDIR)threadtest_unix$(EXE_SUFFIX): thread_wait.c addit.c
@@ -3031,7 +2897,7 @@ $(OBJDIR)funcarg_ep_app$(EXE_SUFFIX): funcarg_ep_app.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
 
 $(OBJDIR)win_thread_create_apc$(EXE_SUFFIX): win_thread_create_apc.cpp $(OBJDIR)$(DLL_PREFIX)win_tls_dll$(DLL_SUFFIX)
-	$(APP_CXX) $(APP_CXXFLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS) $(APP_LIBS) $(OBJDIR)win_tls_dll$(LIB_SUFFIX)
+	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS) $(OBJDIR)win_tls_dll$(LIB_SUFFIX)
 
 $(OBJDIR)win_cpp_exception$(EXE_SUFFIX): win_cpp_exception.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
@@ -3042,9 +2908,9 @@ $(OBJDIR)winapp_exception_context$(EXE_SUFFIX): winapp_exception_context.cpp
 $(OBJDIR)win_mxcsr_app$(EXE_SUFFIX): win_mxcsr_app.cpp
 	$(APP_CXX) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $< $(APP_LDFLAGS_NOOPT) $(APP_LIBS)
 
-$(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX): win_hello_c_sharp_app_bin
+$(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX):
 	#csc /optimize+ /out:$@ win_hello_c_sharp_app.cs
-	cp win_hello_c_sharp_app_bin $(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX)
+	cp win_hello_c_sharp_app$(EXE_SUFFIX) $(OBJDIR)win_hello_c_sharp_app$(EXE_SUFFIX)
 
 $(OBJDIR)win_early_thread$(EXE_SUFFIX): win_early_thread.cpp $(OBJDIR)$(DLL_PREFIX)win_early_thread_dll$(DLL_SUFFIX)
 	$(APP_CXX) $(APP_CXXFLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS) $(APP_LIBS) Advapi32.lib Dbghelp.lib \
@@ -3069,9 +2935,6 @@ $(OBJDIR)btc_app$(EXE_SUFFIX): btc_app.c $(OBJDIR)btc_asm$(OBJ_SUFFIX)
 # to the default _start routine. Therefore compile with -nostartfiles flag.
 $(OBJDIR)repcmpsz_linux$(EXE_SUFFIX): repcmpsz$(ASM_SUFFIX)
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS) -nostartfiles $(APP_LIBS)
-
-$(OBJDIR)repcmpsz_android$(EXE_SUFFIX): repcmpsz$(ASM_SUFFIX)
-	$(ASMBLR) $(ASM_FLAGS) $(NO_STDLIBS) $(COMP_EXE)$@ $<
 
 # This application is written in asm and already defines the _start routine so it can't be linked
 # to the default _start routine. Also on OS X*, binaries that have their own start routine cannot
@@ -3148,16 +3011,14 @@ $(OBJDIR)check_fpstate_app$(EXE_SUFFIX): check_fpstate_app.c
 
 ###### Special objects' build rules ######
 
-# On Android, ebx is the PIC register. This build makes sure the relevant code isn't PIC code.
 $(OBJDIR)incebx$(OBJ_SUFFIX): incebx.cpp
-	$(CXX) $(TOOL_CXXFLAGS) $(NO_PIC) $(COMP_OBJ)$@ $<
-
-$(OBJDIR)sys_memory_tool$(OBJ_SUFFIX): sys_memory_$(OS_TYPE).c sys_memory.h
-	$(CC) $(TOOL_CFLAGS) $(COMP_OBJ)$@ $<
+	$(CXX) $(TOOL_CXXFLAGS) $(COMP_OBJ)$@ $<
 
 $(OBJDIR)sys_memory$(OBJ_SUFFIX): sys_memory_$(OS_TYPE).c sys_memory.h
 	$(APP_CC) $(APP_CXXFLAGS) $(COMP_OBJ)$@ $< $(CXX_LPATHS) $(CXX_LIBS)
 
+$(OBJDIR)get_mmap_flags$(OBJ_SUFFIX): get_mmap_flags.c
+	$(APP_CC) $(APP_CXXFLAGS) $(PIC) $(COMP_OBJ)$@ $< $(CXX_LPATHS) $(CXX_LIBS)
 
 # must manually enable sse2 for older gcc verions used in sanity
 $(OBJDIR)intrin$(OBJ_SUFFIX): intrin.cpp
@@ -3177,6 +3038,9 @@ $(OBJDIR)inlined-stack-arg-noopt$(OBJ_SUFFIX): inlined-stack-arg.cpp
 
 $(OBJDIR)inlined-stack-arg1-noopt$(OBJ_SUFFIX): inlined-stack-arg1.cpp
 	$(CXX) $(TOOL_CXXFLAGS_NOOPT) $(COMP_OBJ)$@ $<
+
+$(OBJDIR)check_acall_inline_opt$(OBJ_SUFFIX): check_acall_inline_opt.cpp
+	$(CXX) $(TOOL_CXXFLAGS_NOOPT) -fPIC  $(COMP_OBJ)$@ $<
 
 $(OBJDIR)main_dll$(OBJ_SUFFIX): main_dll.cpp
 	$(CXX) $(TOOL_CXXFLAGS) /DDYN_LOAD $(COMP_OBJ)$@ $<
@@ -3201,6 +3065,9 @@ $(OBJDIR)one$(OBJ_SUFFIX): one.c
 
 $(OBJDIR)two$(OBJ_SUFFIX): two.c
 	$(APP_CC) $(APP_CXXFLAGS) $(DLL_CXXFLAGS) $(COMP_OBJ)$@ $<
+
+$(OBJDIR)rip_relative_prefix_67_app_intel64$(EXE_SUFFIX): rip_relative_prefix_67_app_intel64.c $(OBJDIR)rip_relative_prefix_67_asm_intel64$(OBJ_SUFFIX)
+	$(APP_CC) $(APP_CXXFLAGS_NOOPT) $(COMP_EXE)$@ $^ $(APP_LDFLAGS_NOOPT)
 
 ###### Special dlls' build rules ######
 

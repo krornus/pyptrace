@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -32,6 +32,13 @@ END_LEGAL */
 #include <stdlib.h>
 
 #include "pin.H"
+
+THREADID myThread = INVALID_THREADID;
+
+ADDRINT IfMyThread(THREADID threadId)
+{
+    return threadId == myThread;
+}
 
 // Test that using (IARG_REG_REFERENCE, REG_GAX) and (IARG_RETURN_REGS, REG_GFLAGS) to an anlysis function does not
 // result in unexpected values in either register 
@@ -90,11 +97,11 @@ void CompareGaxAndGFlags(ADDRINT app_flags, ADDRINT gaxVal)
 int instrumentationNum=1;
 
 VOID Instruction(INS ins, VOID *v)
-{
-    
+{   
     if (instrumentationNum&0x1)
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(SetGaxAndReturnGFlagsNoInline),
+        INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, AFUNPTR(SetGaxAndReturnGFlagsNoInline),
                        IARG_REG_VALUE, REG_GFLAGS,
                        IARG_REG_VALUE, REG_GAX,
                        IARG_REG_REFERENCE, REG_GAX,
@@ -103,27 +110,38 @@ VOID Instruction(INS ins, VOID *v)
 
     else  
     {
-        INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(SetGaxAndReturnGFlagsInline),
+        INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, AFUNPTR(SetGaxAndReturnGFlagsInline),
                        IARG_REG_VALUE, REG_GFLAGS,
                        IARG_REG_VALUE, REG_GAX,
                        IARG_REG_REFERENCE, REG_GAX,
                        IARG_RETURN_REGS, REG_GFLAGS, IARG_END);
     }
+    
+    INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+    INS_InsertThenCall(ins, IPOINT_BEFORE, AFUNPTR(CompareGaxAndGFlags), IARG_REG_VALUE, REG_GFLAGS,
+                        IARG_REG_VALUE, REG_GAX,IARG_END);                   
+    instrumentationNum++;      
+}
 
-    INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(CompareGaxAndGFlags), IARG_REG_VALUE, REG_GFLAGS,
-                        IARG_REG_VALUE, REG_GAX,IARG_END);
-    instrumentationNum++;
-       
+VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
+{
+    if (myThread == INVALID_THREADID)
+    {
+        myThread = threadid;
+    }
 }
 
 int main(int argc, char * argv[])
 {
     PIN_Init(argc, argv);
 
+    PIN_AddThreadStartFunction(ThreadStart, NULL);
+
     INS_AddInstrumentFunction(Instruction, 0);
-    
+
     // Never returns
     PIN_StartProgram();
-    
-    return 0;
+
+    return 1;
 }

@@ -33,7 +33,7 @@
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-APIs to implement multiple types of instrumentation on traces and switch between them. Trace versioning allows the same code to be instrumented multiple times. For example, a trace can have both heavyweight and lightweight instrumentation and pin can switch between the two while the application is running. See tests in the tools/InstrumentationOrderAndVersion directory for examples that use the versioning API's.<p>
+APIs to implement multiple types of instrumentation on traces and switch between them. Trace versioning allows the same code to be instrumented multiple times. For example, a trace can have both heavyweight and lightweight instrumentation and Pin can switch between the two while the application is running. See tests in the tools/InstrumentationOrderAndVersion directory for examples that use the versioning API's.<p>
 Versions are user-defined integer values. By default, all traces have a version value of 0. Tool writers insert instrumentation that switch the application between different versions values. A trace with version value N only transfers control to successor traces with version value N.<p>
 There are 2 ways to switch between versions. By calling <a class="el" href="group__TRACE__VERSION__API.html#g2fced180c997736f54ceaa9a2bf9a673">BBL_SetTargetVersion</a> on a BBL, all successor BBL's (taken and not taken path) will have the new version. BBL_SetTargetVersion can only be called once for a BBL, but it can be applied to every BBL in a trace, allowing all the exits to have different versions.<p>
 In addition to <a class="el" href="group__TRACE__VERSION__API.html#g2fced180c997736f54ceaa9a2bf9a673">BBL_SetTargetVersion</a>, it is possible to insert a dynamic test to jump to a different version based on the value of a Pin virtual register with <a class="el" href="group__TRACE__VERSION__API.html#g62f005fa4da982ad464d827b6f1e7a5e">INS_InsertVersionCase</a><p>
@@ -189,7 +189,7 @@ Returns the version for this trace. See <a class="el" href="group__TRACE__VERSIO
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Mar 17 10:18:45 2016 for Pin by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Aug 27 14:28:10 2017 for Pin by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.6 </small></address>
 </body>

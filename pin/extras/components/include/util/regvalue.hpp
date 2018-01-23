@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,7 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: util
 // <FILE-TYPE>: component public header
 
@@ -39,7 +38,6 @@ END_LEGAL */
 
 #include <string.h>
 #include <algorithm>
-#include "fund.hpp"
 #include "util/data.hpp"
 
 
@@ -74,7 +72,7 @@ public:
      *
      *  @param[in] val  Value of the register.
      */
-    REGVALUE(FUND::ADDRINT val)
+    REGVALUE(ADDRINT val)
     {
         SetAddress(val);
     }
@@ -85,7 +83,7 @@ public:
      *  @param[in] val      Value of the register.
      *  @param[in] size     Size (bits) of the register.
      */
-    REGVALUE(FUND::UINT64 val, unsigned size)
+    REGVALUE(UINT64 val, unsigned size)
     {
         Set64(val, size);
     }
@@ -97,7 +95,7 @@ public:
      *  @param[in] hi       High 64 bits of register value.
      *  @param[in] size     Size (bits) of the register.
      */
-    REGVALUE(FUND::UINT64 lo, FUND::UINT64 hi, unsigned size)
+    REGVALUE(UINT64 lo, UINT64 hi, unsigned size)
     {
         Set128(lo, hi, size);
     }
@@ -162,7 +160,7 @@ public:
      *
      *  @param[in] val  Value of the register.
      */
-    void Assign(FUND::ADDRINT val)
+    void Assign(ADDRINT val)
     {
         ClearIfNeeded();
         SetAddress(val);
@@ -174,7 +172,7 @@ public:
      *  @param[in] val      Value of the register.
      *  @param[in] size     Size (bits) of the register.
      */
-    void Assign(FUND::UINT64 val, unsigned size)
+    void Assign(UINT64 val, unsigned size)
     {
         ClearIfNeeded();
         Set64(val, size);
@@ -187,7 +185,7 @@ public:
      *  @param[in] hi       High 64 bits of register value.
      *  @param[in] size     Size (bits) of the register.
      */
-    void Assign(FUND::UINT64 lo, FUND::UINT64 hi, unsigned size)
+    void Assign(UINT64 lo, UINT64 hi, unsigned size)
     {
         ClearIfNeeded();
         Set128(lo, hi, size);
@@ -231,7 +229,7 @@ public:
      */
     void Resize(unsigned size)
     {
-        if (_size <= 8*sizeof(FUND::PTRINT))
+        if (_size <= 8*sizeof(PTRINT))
         {
             Set64(_value, size);
         }
@@ -259,7 +257,7 @@ public:
      */
     void CopyToData(UTIL::DATA *data) const
     {
-        if (_size <= 8*sizeof(FUND::PTRINT))
+        if (_size <= 8*sizeof(PTRINT))
             data->Assign(&_value, GetByteSize());
         else
             data->Assign(*_bigValue);
@@ -275,7 +273,7 @@ public:
      */
     void CopyToBuffer(void *data) const
     {
-        if (_size <= 8*sizeof(FUND::PTRINT))
+        if (_size <= 8*sizeof(PTRINT))
             memcpy(data, &_value, GetByteSize());
         else
             memcpy(data, _bigValue->GetBuf<void>(), _bigValue->GetSize());
@@ -290,7 +288,7 @@ public:
      */
     template<typename T> T GetValueAs() const
     {
-        if (_size <= 8*sizeof(FUND::PTRINT))
+        if (_size <= 8*sizeof(PTRINT))
             return static_cast<T>(_value);
         return GetIndexedWord<T>(0);
     }
@@ -307,7 +305,7 @@ public:
     template<typename T> T GetIndexedWord(unsigned index) const
     {
         size_t byteSize = GetByteSize();
-        const FUND::UINT8 *buf = static_cast<const FUND::UINT8 *>(GetBuffer());
+        const UINT8 *buf = static_cast<const UINT8 *>(GetBuffer());
         size_t offset = index * sizeof(T);
         if (offset + sizeof(T) <= byteSize)
         {
@@ -336,7 +334,7 @@ private:
     void SetCopy(const REGVALUE &other)
     {
         _size = other._size;
-        if (_size <= 8*sizeof(FUND::PTRINT))
+        if (_size <= 8*sizeof(PTRINT))
             _value = other._value;
         else
             _bigValue = new UTIL::DATA(*other._bigValue);
@@ -347,13 +345,13 @@ private:
      *
      *  @param[in] val  Register value.
      */
-    void SetAddress(FUND::ADDRINT val)
+    void SetAddress(ADDRINT val)
     {
-        _size = 8*sizeof(FUND::ADDRINT);
-#if defined(FUND_ADDRINT_SIZE) && (FUND_ADDRINT_SIZE <= FUND_PTRINT_SIZE)
+        _size = 8*sizeof(ADDRINT);
+#if defined(ADDRINT_SIZE_IN_BITS) && (ADDRINT_SIZE_IN_BITS <= PTRINT_SIZE)
         _value = val;
 #else
-        _bigValue = new DATA(&val, sizeof(FUND::ADDRINT));
+        _bigValue = new DATA(&val, sizeof(ADDRINT));
 #endif
     }
 
@@ -363,30 +361,30 @@ private:
      *  @param[in] val      Register value.
      *  @param[in] size     Size (bits).
      */
-    void Set64(FUND::UINT64 val, unsigned size)
+    void Set64(UINT64 val, unsigned size)
     {
         _size = size;
-        if (size == 8*sizeof(FUND::PTRINT))
+        if (size == 8*sizeof(PTRINT))
         {
-            _value = static_cast<FUND::PTRINT>(val);
+            _value = static_cast<PTRINT>(val);
         }
-        else if (size < 8*sizeof(FUND::PTRINT))
+        else if (size < 8*sizeof(PTRINT))
         {
-            FUND::PTRINT mask = FUND::PTRINT(1);
-            _value = static_cast<FUND::PTRINT>(val) & ((mask << size) - FUND::PTRINT(1));
+            PTRINT mask = PTRINT(1);
+            _value = static_cast<PTRINT>(val) & ((mask << size) - PTRINT(1));
         }
-        else if (size == 8*sizeof(FUND::UINT64))
+        else if (size == 8*sizeof(UINT64))
         {
             _bigValue = new DATA(&val, 8);
         }
-        else if (size > 8*sizeof(FUND::UINT64))
+        else if (size > 8*sizeof(UINT64))
         {
             // Size of DATA > sizeof(val), so top bytes of DATA need to be zeroed.
             //
             unsigned byteSize = (size + 7) >> 3;
             _bigValue = new DATA(byteSize);
             memcpy(_bigValue->GetWritableBuf<void>(), static_cast<void *>(&val), sizeof(val));
-            FUND::UINT8 *rest = _bigValue->GetWritableBuf<FUND::UINT8>() + sizeof(val);
+            UINT8 *rest = _bigValue->GetWritableBuf<UINT8>() + sizeof(val);
             memset(static_cast<void *>(rest), 0, byteSize - sizeof(val));
             _bigValue->ReleaseWritableBuf();
         }
@@ -395,8 +393,8 @@ private:
             // Register size < UINT64 and > PTRINT.
             // This can't happen on 64-bit hosts.
             //
-            FUND::UINT64 mask = FUND::UINT64(1);
-            val = val & ((mask << size) - FUND::UINT64(1));
+            UINT64 mask = UINT64(1);
+            val = val & ((mask << size) - UINT64(1));
             unsigned byteSize = (size + 7) >> 3;
             _bigValue = new DATA(&val, byteSize);
         }
@@ -409,9 +407,9 @@ private:
      *  @param[in] hi       High 64 bits of register value.
      *  @param[in] size     Size (bits).
      */
-    void Set128(FUND::UINT64 lo, FUND::UINT64 hi, unsigned size)
+    void Set128(UINT64 lo, UINT64 hi, unsigned size)
     {
-        FUND::UINT64 buf[2];
+        UINT64 buf[2];
         buf[0] = lo;
         buf[1] = hi;
         SetBuffer(static_cast<const void *>(buf), sizeof(buf), size);
@@ -428,26 +426,26 @@ private:
     void SetBuffer(const void *buf, size_t byteSizeIn, unsigned size)
     {
         if (!size)
-            size = 8*byteSizeIn;
+            size = static_cast<unsigned>(8*byteSizeIn);
         _size = size;
         size_t byteSize = (size + 7) >> 3;
 
-        if (size == 8*sizeof(FUND::PTRINT))
+        if (size == 8*sizeof(PTRINT))
         {
             // The input buffer might be smaller than PTRINT, so zero out '_value' first to zero-
             // extend the buffer's value.
             //
             _value = 0;
-            memcpy(static_cast<void *>(&_value), buf, std::min(byteSizeIn, sizeof(FUND::PTRINT)));
+            memcpy(static_cast<void *>(&_value), buf, std::min(byteSizeIn, sizeof(PTRINT)));
         }
-        else if (size < 8*sizeof(FUND::PTRINT))
+        else if (size < 8*sizeof(PTRINT))
         {
             // Same as above, but we also need to mask the final value down to the register size.
             //
             _value = 0;
             memcpy(static_cast<void *>(&_value), buf, std::min(byteSizeIn, byteSize));
-            FUND::PTRINT mask = FUND::PTRINT(1);
-            _value &= ((mask << size) - FUND::PTRINT(1));
+            PTRINT mask = PTRINT(1);
+            _value &= ((mask << size) - PTRINT(1));
         }
         else
         {
@@ -457,7 +455,7 @@ private:
             _bigValue = new DATA(byteSize);
             size_t sizeCopied = std::min(byteSizeIn, byteSize);
             memcpy(_bigValue->GetWritableBuf<void>(), buf, sizeCopied);
-            memset(static_cast<void *>(_bigValue->GetWritableBuf<FUND::UINT8>()+sizeCopied), 0, byteSize-sizeCopied);
+            memset(static_cast<void *>(_bigValue->GetWritableBuf<UINT8>()+sizeCopied), 0, byteSize-sizeCopied);
 
             // The last byte in the DATA might need to be masked if the register size is not an even
             // multiple of bytes.  However, if the buffer size is less than the DATA size, the last
@@ -465,10 +463,10 @@ private:
             //
             if ((byteSize <= byteSizeIn) && (size < 8*byteSize))
             {
-                unsigned numBitsLast = 8 - (8*byteSize - size);
-                FUND::UINT8 *last = &_bigValue->GetWritableBuf<FUND::UINT8>()[_bigValue->GetSize()-1];
-                FUND::UINT8 mask = FUND::UINT8(1);
-                *last &= ((mask << numBitsLast) - FUND::UINT8(1));
+                unsigned numBitsLast = static_cast<unsigned>(8 - (8*byteSize - size));
+                UINT8 *last = &_bigValue->GetWritableBuf<UINT8>()[_bigValue->GetSize()-1];
+                UINT8 mask = UINT8(1);
+                *last &= ((mask << numBitsLast) - UINT8(1));
             }
             _bigValue->ReleaseWritableBuf();
         }
@@ -479,7 +477,7 @@ private:
      */
     void ClearIfNeeded()
     {
-        if (_size > 8*sizeof(FUND::PTRINT))
+        if (_size > 8*sizeof(PTRINT))
             delete _bigValue;
     }
 
@@ -498,7 +496,7 @@ private:
      */
     const void *GetBuffer() const
     {
-        if (_size <= 8*sizeof(FUND::PTRINT))
+        if (_size <= 8*sizeof(PTRINT))
             return static_cast<const void *>(&_value);
         else
             return _bigValue->GetBuf<void>();
@@ -512,7 +510,7 @@ private:
     //
     union
     {
-        FUND::PTRINT _value;    // Value if size <= sizeof(void *)
+        PTRINT _value;    // Value if size <= sizeof(void *)
         UTIL::DATA *_bigValue;  // Value if size > sizeof(void *), in host byte order
     };
 };

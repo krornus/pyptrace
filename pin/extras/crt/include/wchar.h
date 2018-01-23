@@ -39,9 +39,14 @@
 
 __BEGIN_DECLS
 
-#if defined(__cplusplus) && (__cplusplus < 201103L) && (!defined(_MSC_VER) || (_MSC_VER < 1900))
+#if defined(__cplusplus) && (__cplusplus < 201103L)
+# if defined(__clang__) && (__clang_major__ >= 9)
+typedef __char16_t char16_t;
+typedef __char32_t char32_t;
+# elif !defined(_MSC_VER) || (_MSC_VER < 1900)
 typedef unsigned short int char16_t;
 typedef long int char32_t;
+# endif
 #endif
 
 typedef __WINT_TYPE__  wint_t;

@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,25 +28,21 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-// <ORIGINAL-AUTHOR>: Greg Lueck
 // <COMPONENT>: atomic
 // <FILE-TYPE>: component public header
 
 #ifndef ATOMIC_OPS_HPP
 #define ATOMIC_OPS_HPP
 
-#include "fund.hpp"
 #include "atomic/exponential-backoff.hpp"
 #include "atomic/ops-enum.hpp"
 #include "atomic/private/ops-common-impl.hpp"
 #include "atomic/private/backoff-impl.hpp"
 
-#if defined(FUND_HOST_IA32)
+#if defined(HOST_IA32)
 #   include "atomic/private/ia32/ops-impl.hpp"
-#elif defined(FUND_HOST_INTEL64) || defined(FUND_HOST_MIC)
+#elif defined(HOST_IA32E)
 #   include "atomic/private/intel64/ops-impl.hpp"
-#elif defined(FUND_HOST_IA64)
-#   include "atomic/private/ia64/ops-impl.hpp"
 #endif
 
 
@@ -127,7 +123,7 @@ class /*<UTILITY>*/ OPS
         BARRIER_SWAP barrier = BARRIER_SWAP_NONE)
     {
         T oldVal;
-        
+
         OPS_IMPL::Swap<sizeof(T)>(static_cast<volatile void*>(location),
             static_cast<void*>(&oldVal),
             static_cast<const void*>(&newVal),
@@ -211,7 +207,7 @@ class /*<UTILITY>*/ OPS
      */
     static void Delay(unsigned delay)
     {
-        ATOMIC_SpinDelay(static_cast<FUND::UINT32>(delay));
+        ATOMIC_SpinDelay(static_cast<UINT32>(delay));
     }
 };
 

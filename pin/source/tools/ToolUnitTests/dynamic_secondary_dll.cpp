@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -32,16 +32,37 @@ END_LEGAL */
  *  pin tool combined from multi-DLLs (main_dll, dynamic_secondary_dll, static_secondary_dll). 
  */
 
+#include <link.h>
+#include <dlfcn.h>
+
 #include <iostream>
 #include <fstream>
 using namespace std;
 
 ofstream outfile;
 
-extern "C" __declspec( dllexport ) void Init2()
+// This function gets info of an image loaded by Pin loader.
+// Invoked by dl_iterate_phdr()
+int dl_iterate_callback(struct dl_phdr_info * info, size_t size, VOID * data)
 {
+    // Increment module counter.
+    ++(*reinterpret_cast<int *>(data));
+    return 0;
+}
+
+
+extern "C" __declspec( dllexport ) int Init2(bool enumerate)
+{
+    int nModules = 0;
+    if (enumerate)
+    {
+        // Enumerate DLLs currently loaded by Pin loader.
+        dl_iterate_phdr(dl_iterate_callback, &nModules);
+    }
     outfile.open("dynamic_secondary_dll.out");
     outfile << hex << showbase;
+
+    return nModules;
 }
 
 extern "C" __declspec( dllexport ) void BeforeBBL2(void * ip)

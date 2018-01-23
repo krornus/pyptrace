@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,38 +28,33 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-#include <stdio.h>
-#include "pin.H"
-#include "instlib.H"
-#include "portability.H"
+#include <cstdio>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <fstream>
 #include <cstdlib>
 
+#ifdef TARGET_LINUX
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <errno.h>
+# ifdef TARGET_IA32E
+# include <asm/prctl.h>
+# include <sys/prctl.h>
+# endif // TARGET_IA32E
+#endif // TARGET_LINUX
 
+#include "pin.H"
+#include "instlib.H"
+
+// windows.h must be included after pin.H
 #ifdef TARGET_WINDOWS
 namespace WIND
 {
 #include <windows.h>
 }
-
-
-
-#endif
-
-#ifdef TARGET_LINUX
-#include <unistd.h>
-#include <sys/syscall.h>
-#include <errno.h>
-
-#ifdef TARGET_IA32E
-#include <asm/prctl.h> 
-#include <sys/prctl.h> 
-
-#endif
-#endif
+#endif // TARGET_WINDOWS
 
 FILE  *log_inl;
 KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE,         "pintool",
@@ -89,6 +84,23 @@ AnalysisInfo accessInfo;
 AnalysisInfo accessInfoNonFastCall;
 AnalysisInfo accessInfoFastCall;
 
+//main app thread utils
+
+THREADID myThread = INVALID_THREADID;
+
+VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
+{
+    if (myThread == INVALID_THREADID)
+    {
+        myThread = threadid;
+    }
+}
+
+ADDRINT IfMyThread(THREADID threadId)
+{
+    return threadId == myThread;
+}
+
 
 
 static char nibble_to_ascii_hex(UINT8 i) {
@@ -117,15 +129,15 @@ disassemble(UINT64 start, UINT64 stop) {
     xed_error_enum_t xed_error;
     xed_decoded_inst_t xedd;
     ostringstream os;
-    if (sizeof(ADDRINT) == 4) 
-        xed_state_init(&dstate,     
+    if (sizeof(ADDRINT) == 4)
+        xed_state_init(&dstate,
                        XED_MACHINE_MODE_LEGACY_32,
-                       XED_ADDRESS_WIDTH_32b, 
+                       XED_ADDRESS_WIDTH_32b,
                        XED_ADDRESS_WIDTH_32b);
     else
         xed_state_init(&dstate,
                        XED_MACHINE_MODE_LONG_64,
-                       XED_ADDRESS_WIDTH_64b, 
+                       XED_ADDRESS_WIDTH_64b,
                        XED_ADDRESS_WIDTH_64b);
 
     /*while( pc < stop )*/ {
@@ -160,7 +172,7 @@ disassemble(UINT64 start, UINT64 stop) {
             os << " ";
             memset(buffer,0,200);
             int dis_okay = xed_format_context(syntax, &xedd, buffer, 200, pc, 0, 0);
-            if (dis_okay) 
+            if (dis_okay)
                 os << buffer << endl;
             else
                 os << "Error disasassembling pc 0x" << std::hex << pc << std::dec << endl;
@@ -182,7 +194,7 @@ disassemble(UINT64 start, UINT64 stop) {
 }
 
 VOID RecordInstructionInfo(
-                UINT32 dummy1, UINT32 dummy2, UINT32 dummy3, UINT32 dummy4, 
+                UINT32 dummy1, UINT32 dummy2, UINT32 dummy3, UINT32 dummy4,
                 ADDRINT tid,
                 ADDRINT pcval,
                 ADDRINT flagsval,
@@ -215,7 +227,6 @@ VOID RecordInstructionInfo(
     accessInfoNonFastCall.readValue4 = readValue4;
     accessInfoNonFastCall.readValue5 = readValue5;
     accessInfoNonFastCall.readValue6 = readValue6;
-    
 }
 
 VOID PIN_FAST_ANALYSIS_CALL RecordInstructionInfoFastCall(
@@ -467,17 +478,22 @@ CONTEXT contextAtRecordNonFastCall;
 
 
 VOID RecordContext(
-                UINT32 dummy1, UINT32 dummy2, UINT32 dummy3, UINT32 dummy4, 
-                CONTEXT * context)
+                UINT32 dummy1, UINT32 dummy2, UINT32 dummy3, UINT32 dummy4,
+                CONTEXT * context, THREADID tid)
 {
-    PIN_SaveContext (context, &contextAtRecordNonFastCall);
-    
+    if (tid == myThread)
+    {
+        PIN_SaveContext (context, &contextAtRecordNonFastCall);
+    }
 }
 
 VOID PIN_FAST_ANALYSIS_CALL RecordContextFastCall(
-                CONTEXT * context)
+                CONTEXT * context, THREADID tid)
 {
-    PIN_SaveContext (context, &contextAtRecordFastCall);  
+    if (tid == myThread)
+    {
+        PIN_SaveContext (context, &contextAtRecordFastCall);
+    }
 }
 
 
@@ -653,7 +669,7 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
     {
         fprintf (log_inl,"_cs ERROR\n");
         compareOk = FALSE;
-    } 
+    }
     if ( fpContextPtr1->fxsave_legacy._fpudp != fpContextPtr2->fxsave_legacy._fpudp)
     {
         fprintf (log_inl,"_fpudp ERROR\n");
@@ -665,7 +681,7 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
     {
         fprintf (log_inl,"_ds ERROR\n");
         compareOk = FALSE;
-    }  
+    }
     if ( fpContextPtr1->fxsave_legacy._mxcsr != fpContextPtr2->fxsave_legacy._mxcsr)
     {
         fprintf (log_inl,"_mxcsr ERROR\n");
@@ -686,11 +702,11 @@ BOOL CompareFpContext(CONTEXT *context1, CONTEXT *context2)
             compareOk = FALSE;
         }
     }
-    for (i=0; 
+    for (i=0;
 #ifdef TARGET_IA32E
         i< 16;
 #else
-        i< 8; 
+        i< 8;
 #endif
         i++)
     {
@@ -712,32 +728,33 @@ BOOL CompareContext (CONTEXT *context1, CONTEXT *context2)
     return (compareIntOk && compareFpOk);
 }
 
-VOID VerifyContext(               
+VOID VerifyContext(
                 ADDRINT pcval,
-                CONTEXT * context)
+                CONTEXT * context, THREADID tid)
 {
-    
-    PIN_SaveContext(context, &contextAtVerify); 
-    
-    BOOL hadError = FALSE;
-    if (!CompareContext (&contextAtVerify,&contextAtRecordFastCall))
+    if (tid == myThread)
     {
-        fprintf (log_inl,"contextAtRecordFastCall ERROR\n");
-        hadError = TRUE;
+        PIN_SaveContext(context, &contextAtVerify);
+
+        BOOL hadError = FALSE;
+        if (!CompareContext (&contextAtVerify,&contextAtRecordFastCall))
+        {
+            fprintf (log_inl,"contextAtRecordFastCall ERROR\n");
+            hadError = TRUE;
+        }
+
+        if (!CompareContext (&contextAtVerify,&contextAtRecordNonFastCall))
+        {
+            fprintf (log_inl,"contextAtRecordNonFastCall ERROR\n");
+            hadError = TRUE;
+        }
+        if (hadError)
+        {
+            string s = disassemble ((pcval),(pcval)+15);
+            fprintf (log_inl,"    %s\n", s.c_str());
+            exit (-1);
+        }
     }
-    
-    if (!CompareContext (&contextAtVerify,&contextAtRecordNonFastCall))
-    {
-        fprintf (log_inl,"contextAtRecordNonFastCall ERROR\n"); 
-        hadError = TRUE;
-    }
-    if (hadError)
-    {
-        string s = disassemble ((pcval),(pcval)+15);
-        fprintf (log_inl,"    %s\n", s.c_str());
-        exit (-1);
-    }
-    
 }
 
 
@@ -752,8 +769,8 @@ INT32 Usage()
     return -1;
 }
 
-int numContextsInstrumented = 0; 
-int numRegularInstrumented = 0; 
+int numContextsInstrumented = 0;
+int numRegularInstrumented = 0;
 ADDRINT readValue1;
 
 
@@ -775,21 +792,22 @@ VOID Instruction(INS ins, VOID *v)
         INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordContext,
                        // 4 dummy params to get the real params to be pushed on the stack in Intel64
                        IARG_UINT32, 1, IARG_UINT32, 2, IARG_UINT32, 3, IARG_UINT32, 4,
-                       IARG_CONTEXT,
+                       IARG_CONTEXT, IARG_THREAD_ID,
                        IARG_END);
         INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordContextFastCall,
                        IARG_FAST_ANALYSIS_CALL,
-                       IARG_CONTEXT,
+                       IARG_CONTEXT, IARG_THREAD_ID,
                        IARG_END);
         INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)VerifyContext,
                        IARG_INST_PTR,
-                       IARG_CONTEXT,
+                       IARG_CONTEXT, IARG_THREAD_ID,
                        IARG_END);
     }
     else if (numRegularInstrumented < 100)
     {
         numRegularInstrumented++;
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordInstructionInfoFastCall,
+        INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordInstructionInfoFastCall,
                    IARG_FAST_ANALYSIS_CALL,
                    IARG_THREAD_ID,
                    IARG_INST_PTR,
@@ -811,7 +829,8 @@ VOID Instruction(INS ins, VOID *v)
                    IARG_REG_VALUE, REG_GDX,
                    IARG_END);
 
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordInstructionInfo,
+        INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordInstructionInfo,
                    // 4 dummy params to get the real params to be pushed on the stack in Intel64
                    IARG_UINT32, 1, IARG_UINT32, 2, IARG_UINT32, 3, IARG_UINT32, 4,
                    IARG_THREAD_ID,
@@ -835,8 +854,8 @@ VOID Instruction(INS ins, VOID *v)
                    IARG_END);
 
 
-
-        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)VerifyInstructionInfo,
+        INS_InsertIfCall(ins, IPOINT_BEFORE, AFUNPTR(IfMyThread), IARG_THREAD_ID, IARG_END);
+        INS_InsertThenCall(ins, IPOINT_BEFORE, (AFUNPTR)VerifyInstructionInfo,
                    IARG_THREAD_ID,
                    IARG_INST_PTR,
                    IARG_REG_VALUE, REG_GFLAGS,
@@ -847,7 +866,7 @@ VOID Instruction(INS ins, VOID *v)
 #ifdef TARGET_IA32E
                    IARG_ADDRINT, 0xdeadbeefdeadbeefLL,
 #else
-                   IARG_ADDRINT, 0xdeadbeef, 
+                   IARG_ADDRINT, 0xdeadbeef,
 #endif
                    IARG_REG_VALUE, REG_GDX,
                    IARG_REG_VALUE, REG_GDX,
@@ -877,13 +896,15 @@ int main(int argc, char *argv[])
 
     log_inl = fopen(logfile.c_str(), "w");
 
-    INS_AddInstrumentFunction(Instruction, 0);
-    PIN_AddFiniFunction(Fini, 0);
+    INS_AddInstrumentFunction(Instruction, NULL);
+    PIN_AddFiniFunction(Fini, NULL);
+
+    PIN_AddThreadStartFunction(ThreadStart, NULL);
 
     // Never returns
     PIN_StartProgram();
-    
-    return 0;
+
+    return 1;
 }
 
 /* ===================================================================== */

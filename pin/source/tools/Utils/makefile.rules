@@ -15,7 +15,7 @@
 ###### Place all generic definitions here ######
 
 # This defines all the applications that will be run during the tests.
-APP_ROOTS := cp-pin hello avx_check avx2_check tsx_check avx512f_check
+APP_ROOTS := cp-pin hello avx_check avx2_check tsx_check avx512f_check thread_app
 
 # This defines any additional object files that need to be compiled.
 OBJECT_ROOTS := regvalue_utils supports_avx threadlib avx_check_$(TARGET) supports_avx2 tsx_check_$(TARGET) supports_avx512f \
@@ -25,15 +25,6 @@ OBJECT_ROOTS := regvalue_utils supports_avx threadlib avx_check_$(TARGET) suppor
 LIB_ROOTS := regvallib
 
 ###### Place OS-specific definitions here ######
-
-# Android
-ifeq ($(TARGET_OS),android)
-    APP_ROOTS += attachLauncher
-    # Only recent NDK versions (>=10) have support for personality.
-    ifeq ($(NDK_VERSION),10)
-        APP_ROOTS += disable-aslr
-    endif
-endif
 
 # Linux
 ifeq ($(TARGET_OS),linux)
@@ -97,6 +88,9 @@ $(OBJDIR)avx512f_check$(EXE_SUFFIX): avx512f_check.c $(OBJDIR)supports_avx512f$(
 $(OBJDIR)attachLauncher$(EXE_SUFFIX): attachLauncher_$(OS_TYPE).cpp
 	$(APP_CXX) $(APP_CXXFLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS) $(APP_LIBS) $(CXX_LPATHS) $(CXX_LIBS)
 
+$(OBJDIR)thread_app$(EXE_SUFFIX): thread_$(OS_TYPE).c
+	$(APP_CC) $(APP_CXXFLAGS) $(COMP_EXE)$@ $< $(APP_LDFLAGS) $(APP_LIBS)
+
 ###### Special objects' build rules ######
 
 $(OBJDIR)threadlib$(OBJ_SUFFIX): threadlib_$(OS_TYPE).c threadlib.h
@@ -115,5 +109,5 @@ $(OBJDIR)regvalue_utils$(OBJ_SUFFIX): regvalue_utils.h
 
 ###### Special libs' build rules ######
 
-$(OBJDIR)regvallib$(LIB_SUFFIX): $(OBJDIR)regvalue_utils$(OBJ_SUFFIX) $(OBJDIR)supports_avx$(OBJ_SUFFIX)
+$(OBJDIR)regvallib$(LIB_SUFFIX): $(OBJDIR)regvalue_utils$(OBJ_SUFFIX) $(OBJDIR)supports_avx$(OBJ_SUFFIX) $(OBJDIR)supports_avx512f$(OBJ_SUFFIX)
 	$(ARCHIVER)$(OBJDIR)regvallib$(LIB_SUFFIX) $^

@@ -40,6 +40,7 @@ obj-%:
 # These dependencies do not mandate rebuilding the target if the dependency changed,
 # only that the dependended-on file exists.
 # In this case, we require that $(OBJDIR) exist, but we don't care if it has changed.
+$(TEST_TOOL_ROOTS:%=%.test) $(TEST_ROOTS:%=%.test): %: | dir
 $(TESTS) $(SANITY): %: | dir
 $(TOOLS) $(TOOLS:%$(PINTOOL_SUFFIX)=%$(OBJ_SUFFIX)) $(SA_TOOLS) $(SA_TOOLS:%=%$(OBJ_SUFFIX)): %: | dir
 $(APPS) $(OBJECTS) $(DLLS) $(LIBS): %: | dir
@@ -75,7 +76,7 @@ avx512fcheck: $(CHECKAVX512F)
 
 ###### Install ######
 
-# On certain machines (e.g. mic, android), this would also copy the binaries to the remote target.
+# Build all and run a predefined installer where applicable.
 install: all
 	$(INSTALLER) $(INSTALL_FLAGS)
 	@echo install complete!
@@ -116,6 +117,9 @@ $(DISABLE_ASLR):
 
 $(ATTACH_LAUNCHER):
 	$(MAKE) -C $(TOOLS_ROOT)/Utils dir $(OBJDIR)attachLauncher$(EXE_SUFFIX)
+
+$(THREAD_APP):
+	$(MAKE) -C $(TOOLS_ROOT)/Utils dir $(OBJDIR)thread_app$(EXE_SUFFIX)
 
 $(CHECKAVX):
 	$(MAKE) -C $(TOOLS_ROOT)/Utils dir $(OBJDIR)avx_check$(EXE_SUFFIX)
@@ -171,7 +175,7 @@ $(OBJDIR)%.failed:
 .PRECIOUS: $(OBJDIR)%.tested $(OBJDIR)%.failed
 
 # Don't delete the files generated in the Utils directory.
-.PRECIOUS: $(TESTAPP) $(HELLO_APP) $(HELLO_APP_DWARF4) $(DISABLE_ASLR) $(ATTACH_LAUNCHER)
+.PRECIOUS: $(TESTAPP) $(HELLO_APP) $(HELLO_APP_DWARF4) $(DISABLE_ASLR) $(ATTACH_LAUNCHER) $(THREAD_APP)
 .PRECIOUS: $(CHECKAVX) $(CHECKAVX2) $(CHECKTSX) $(CHECKAVX512F)
 .PRECIOUS: $(THREADLIB) $(SUPPORTS_AVX_OBJ) $(SUPPORTS_AVX2_OBJ) $(SUPPORTS_AVX512F_OBJ) $(SET_XMM_SCRATCHES_OBJ)
 .PRECIOUS: $(RUNNABLE) $(THREADPOOL) $(SYSMEMORY)

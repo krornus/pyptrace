@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,13 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-
-/* ===================================================================== */
-/*
-  @ORIGINAL_AUTHOR: Nadav Chachmon
-*/
-
-/* ===================================================================== */
 /*! @file
  * Replace main's executable entry point and DLL entry point
  */
@@ -95,7 +88,7 @@ typedef WIND::BOOLEAN  (WINAPI * DLL_ENTRY_POINT)(WIND::HINSTANCE hDllHandle,
 //output file
 ofstream traceFile;
 //lock
-PIN_LOCK lock;
+PIN_LOCK pinLock;
 //counter of number of exe entry point entrances
 UINT32 exeEntryCounter = 0;
 //counter of number of DLL entry point entrances, reason = THREAD_ATTACH
@@ -156,13 +149,13 @@ VOID AppStart(VOID *v)
 //Used in JIT mode
 void BeforeExeEntry()
 {
-    PIN_GetLock(&lock, PIN_GetTid());
+    PIN_GetLock(&pinLock, PIN_GetTid());
     exeEntryCounter++;
     if(KnobVerbose)
     {
         traceFile << "In exe entry point, threadid = " << PIN_GetTid() << endl;
     }
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 }
 
 //Used in PROBE mode
@@ -170,13 +163,13 @@ int MyExeEntry(
     CONTEXT * context,
     EXE_ENTRY_POINT orig_exeEntry )
 {
-    PIN_GetLock(&lock, PIN_GetTid());
+    PIN_GetLock(&pinLock, PIN_GetTid());
     exeEntryCounter++;
     if(KnobVerbose)
     {
         traceFile << "In exe entry point, threadid = " << PIN_GetTid() << endl;
     }
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 
     return orig_exeEntry();  
 }
@@ -191,7 +184,7 @@ WIND::BOOLEAN WINAPI MyDllEntry(
     WIND::DWORD     nReason,    
     WIND::LPVOID    Reserved )
 {
-    PIN_GetLock(&lock, PIN_GetTid());
+    PIN_GetLock(&pinLock, PIN_GetTid());
     if(nReason == DLL_THREAD_ATTACH)
     {
         dllEntryCounterThreadAttach++;
@@ -205,7 +198,7 @@ WIND::BOOLEAN WINAPI MyDllEntry(
         traceFile << "In DLL entry point,  threadid = " << PIN_GetTid() <<
                      ", dll handle = " << hDllHandle << ", reason  = " << nReason << endl;
     }
-    PIN_ReleaseLock(&lock);
+    PIN_ReleaseLock(&pinLock);
 
     WIND::BOOLEAN ret;
     if (PIN_IsProbeMode())
@@ -362,7 +355,7 @@ int main(int argc, CHAR *argv[])
     traceFile << hex;
     traceFile.setf(ios::showbase);
 
-    PIN_InitLock(&lock);
+    PIN_InitLock(&pinLock);
     
     IMG_AddInstrumentFunction(ImageLoad, 0);
     

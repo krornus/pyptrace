@@ -1,8 +1,5 @@
 /*
  * os_specific_a.c
- *
- *  Created on: Aug 20, 2012
- *      Author: Michal Nir
  */
 
 #include "os_specific.h"

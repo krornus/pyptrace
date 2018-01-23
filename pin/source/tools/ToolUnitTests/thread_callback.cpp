@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -28,9 +28,6 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 END_LEGAL */
-//
-//  ORIGINAL_AUTHOR: Kim Hazelwood
-//
 //  Sample usage:
 //    pin -mt -t thread_callback -- thread_wait
 
@@ -39,7 +36,7 @@ END_LEGAL */
 #include "pin.H"
 
 FILE * out;
-PIN_LOCK lock;
+PIN_LOCK pinLock;
 int numThreads;
 typedef int (*FUNCPTR_ADD)(int, int);
 AFUNPTR pf_Add=0;
@@ -120,7 +117,7 @@ VOID ImageLoad(IMG img, VOID *v)
 
 int main(INT32 argc, CHAR **argv)
 {
-    PIN_InitLock(&lock);
+    PIN_InitLock(&pinLock);
 
     out = fopen("thread_callback.out", "w");
     numThreads = 1;

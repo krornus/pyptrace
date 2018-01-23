@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -65,8 +65,13 @@ VOID ImageUnload(IMG img, VOID *v)
 
 VOID ThreadStart(THREADID threadid, CONTEXT *ctxt, INT32 flags, VOID *v)
 {
-    printf("Got thread start notification\n");
-    fflush(stdout);    
+    static THREADID myThread = INVALID_THREADID;
+    if (INVALID_THREADID == myThread)
+    {
+        myThread = threadid;
+        printf("Got thread start notification\n");
+    }
+    fflush(stdout);
 }
 
 void FiniCore()
@@ -95,6 +100,23 @@ VOID AppStart(VOID *v)
     fflush(stdout);
 }
 
+VOID AppThreadStart()
+{
+    printf("Got thread start notification\n");
+    fflush(stdout);
+}
+
+//Instrument the app thread rtn
+VOID InstrumentRtn(RTN rtn, VOID *)
+{
+    if (PIN_UndecorateSymbolName(RTN_Name(rtn), UNDECORATION_NAME_ONLY) == "ThreadProc")
+    {
+        RTN_Open(rtn);
+        RTN_InsertCall(rtn, IPOINT_BEFORE, AFUNPTR(AppThreadStart), IARG_END);
+        RTN_Close(rtn);
+    }
+}
+
 // argc, argv are the entire command line, including pin -t <toolname> -- ...
 int main(int argc, char * argv[])
 { 
@@ -104,11 +126,13 @@ int main(int argc, char * argv[])
     // Initialize pin
     PIN_Init(argc, argv);
     
+    RTN_AddInstrumentFunction(InstrumentRtn, NULL);
+    
     // Register ImageLoad to be called when an image is loaded
-    IMG_AddInstrumentFunction(ImageLoad, 0);
+    IMG_AddInstrumentFunction(ImageLoad, NULL);
 
     // Register ImageUnload to be called when an image is unloaded
-    IMG_AddUnloadFunction(ImageUnload, 0);
+    IMG_AddUnloadFunction(ImageUnload, NULL);
     
     printf("In tool's main, probed = %d\n", PIN_IsProbeMode()); 
     
@@ -147,16 +171,16 @@ int main(int argc, char * argv[])
     if ( PIN_IsProbeMode() )
     {
         static PROBE_FINI_OBJECT finiObject;      
-        PIN_AddApplicationStartFunction(AppStart, 0);     
+        PIN_AddApplicationStartFunction(AppStart, NULL);     
         PIN_StartProgramProbed();
     }
     else
     {
-        PIN_AddThreadStartFunction(ThreadStart, 0);
-        PIN_AddFiniFunction(Fini, 0);     
+        PIN_AddThreadStartFunction(ThreadStart, NULL);
+        PIN_AddFiniFunction(Fini, NULL);
         PIN_StartProgram();
     }    
     // Never returns
 
-    return 0;
+    return 1;
 }

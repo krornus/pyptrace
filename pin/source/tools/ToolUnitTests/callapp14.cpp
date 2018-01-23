@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -42,7 +42,10 @@ END_LEGAL */
 #include "pin.H"
 #include <iostream>
 #include <stdlib.h>
+#include <fstream>
 using namespace std;
+
+static KNOB<string> KnobOutput(KNOB_MODE_WRITEONCE, "pintool", "o", "callapp14.out", "output file");
 
 ADDRINT functionCalledByFunctionToBeReplacedAddr = 0;
 ADDRINT functionToBeReplacedAddr = 0;
@@ -52,6 +55,7 @@ BOOL functionToBeReplacedInstrumented = FALSE;
 BOOL functionToBeReplacedInstrumentationCalled = FALSE;
 BOOL functionCalledByFunctionToBeReplacedInstrumented = FALSE;
 BOOL functionCalledByFunctionToBeReplacedInstrumentationCalled = FALSE;
+static ofstream out;
 
 
 
@@ -59,10 +63,10 @@ BOOL functionCalledByFunctionToBeReplacedInstrumentationCalled = FALSE;
 
 int MyReplacementFunction( CONTEXT * ctxt,  AFUNPTR origPtr, int one, int two )
 {
-    cout << " MyReplacementFunction: PIN_CallApplicationFunction Replaced Function at address " << hexstr(ADDRINT(origPtr)) << endl;
-    
+    out << " MyReplacementFunction: PIN_CallApplicationFunction Replaced Function at address " << hexstr(ADDRINT(origPtr)) << endl;
+
     int res;
-    
+
     replacementFunctionCalled = TRUE;
     PIN_CallApplicationFunction( ctxt, PIN_ThreadId(),
                                  CALLINGSTD_DEFAULT, origPtr, NULL,
@@ -70,8 +74,8 @@ int MyReplacementFunction( CONTEXT * ctxt,  AFUNPTR origPtr, int one, int two )
                                  PIN_PARG(int), one,
                                  PIN_PARG(int), two,
                                  PIN_PARG_END() );
-    
-    cout << " MyReplacementFunction: Returned from Replaced Function res = " << res << endl;
+
+    out << " MyReplacementFunction: Returned from Replaced Function res = " << res << endl;
 
     return res;
 }
@@ -87,7 +91,7 @@ VOID ImageLoad(IMG img, VOID *v)
     RTN rtn = RTN_FindByName(img, "FunctionToBeReplaced");
     if (RTN_Valid(rtn))
     {
-        cout << " RTN_ReplaceSignature " << RTN_Name(rtn) << " in " << IMG_Name(img) << " at address "
+        out << " RTN_ReplaceSignature " << RTN_Name(rtn) << " in " << IMG_Name(img) << " at address "
              << hexstr(RTN_Address(rtn)) << " with MyReplacementFunction" << endl;
 
         functionToBeReplacedAddr = RTN_Address(rtn);
@@ -144,34 +148,45 @@ VOID Fini(INT32 code, VOID *v)
     BOOL hadError = FALSE;
     if (!replacementDone)
     {
-        cout << "***Error !replacementDone" << endl;
+        out << "***Error !replacementDone" << endl;
         hadError = TRUE;
     }
     if (!functionToBeReplacedInstrumented)
     {
-        cout << "***Error !functionToBeReplacedInstrumented" << endl;
+        out << "***Error !functionToBeReplacedInstrumented" << endl;
         hadError = TRUE;
     }
     if (!functionCalledByFunctionToBeReplacedInstrumented)
     {
-        cout << "***Error !functionCalledByFunctionToBeReplacedInstrumented" << endl;
+        out << "***Error !functionCalledByFunctionToBeReplacedInstrumented" << endl;
         hadError = TRUE;
     }
     if (!functionToBeReplacedInstrumentationCalled)
     {
-        cout << "***Error !functionToBeReplacedInstrumentationCalled" << endl;
+        out << "***Error !functionToBeReplacedInstrumentationCalled" << endl;
         hadError = TRUE;
     }
     if (!functionCalledByFunctionToBeReplacedInstrumentationCalled)
     {
-        cout << "***Error !functionCalledByFunctionToBeReplacedInstrumentationCalled" << endl;
+        out << "***Error !functionCalledByFunctionToBeReplacedInstrumentationCalled" << endl;
         hadError = TRUE;
     }
     if (hadError)
     {
-        cout << "***Error hadError" << endl;
+        out << "***Error hadError" << endl;
         exit (-1);
     }
+}
+
+/* ===================================================================== */
+/* Print Help Message                                                    */
+/* ===================================================================== */
+
+INT32 Usage()
+{
+    cerr << "Tool: callapp14" << endl;
+    cerr << endl << KNOB_BASE::StringKnobSummary() << endl;
+    return -1;
 }
 
 /* ===================================================================== */
@@ -179,7 +194,9 @@ int main(INT32 argc, CHAR *argv[])
 {
     PIN_InitSymbols();
 
-    PIN_Init(argc, argv);
+    if (PIN_Init(argc, argv)) return Usage();
+
+    out.open(KnobOutput.Value().c_str());
 
     IMG_AddInstrumentFunction(ImageLoad, 0);
 

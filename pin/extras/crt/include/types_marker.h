@@ -1,4 +1,3 @@
-// <ORIGINAL-AUTHOR>: Robert Muth
 // <COMPONENT>: os-apis
 // <FILE-TYPE>: component private header
 
@@ -14,7 +13,9 @@
 #ifndef TYPES_MARKER_H
 #define TYPES_MARKER_H
 
-/* 
+#ifndef ASM_ONLY
+
+/*
  PIN_MS_COMPATIBLE, PIN_GNU_COMPATIBLE
  These defines serve as guards for compiler-specific stuff. The intel compiler
  acts like a microsoft compiler on windows and like a gnu compiler on linux.
@@ -27,11 +28,11 @@
 # error "Could not find suitable compiler (MS or GNU)"
 #endif
 
-/* 
+/*
  SECTION
- Definition of the section attribute. 
- The macro is deprecated since it can not be appropriately defined for all supported 
- compilers and platforms. Use macros  DATA_SECTION, DATA_CONST_SECTION and CODE_SECTION 
+ Definition of the section attribute.
+ The macro is deprecated since it can not be appropriately defined for all supported
+ compilers and platforms. Use macros  DATA_SECTION, DATA_CONST_SECTION and CODE_SECTION
  instead.
 */
 #if defined(PIN_GNU_COMPATIBLE)
@@ -49,24 +50,24 @@
 
 #endif
 
-/* 
- CODE_SECTION(name), DATA_SECTION(name), DATA_CONST_SECTION(name) 
+/*
+ CODE_SECTION(name), DATA_SECTION(name), DATA_CONST_SECTION(name)
  Names a section in which the following function/data/constant data item will be allocated.
- The macro should appear immediately before the item's type qualifier. 
+ The macro should appear immediately before the item's type qualifier.
 
  SECTION_END
  Designates the end of the most recent data or code section.
  The macro should appear immediately after the data or function definition.
 
  Only one data or function definition is allowed inside the section. Nested sections are
- disallowed. 
+ disallowed.
 
- Usage: 
- DATA_SECTION("mydata") 
- LOCALVAR int myInt = 0; 
+ Usage:
+ DATA_SECTION("mydata")
+ LOCALVAR int myInt = 0;
  SECTION_END
 
- CODE_SECTION("mycode") 
+ CODE_SECTION("mycode")
  GLOBALFUN void MyFunc ()
  {
     ......
@@ -75,40 +76,42 @@
 
  NOTE: Currently, the <extern "C"> type qualifiers, like GLOBALCFUN are not supported
  inside sections. One can fix the issue by allowing section macro to appear after
- the type qualifier, like GLOBALCFUN CODE_SECTION("mycode") void MyFunc () {...} SECTION_END. 
+ the type qualifier, like GLOBALCFUN CODE_SECTION("mycode") void MyFunc () {...} SECTION_END.
  This, however, will require a change in the script generating headers, so the section macro
  will be excluded from the item declaration in the generated header.
 */
 #if defined(PIN_GNU_COMPATIBLE)
 
 #if defined(TARGET_MAC)
-#define CODE_SECTION(name)          __attribute__ ((section ("__TEXT, " name))) 
-#define DATA_SECTION(name)          __attribute__ ((section ("__DATA, " name))) 
-#define DATA_CONST_SECTION(name)    __attribute__ ((section ("__TEXT, " name))) 
+#define CODE_SECTION(name)          __attribute__ ((section ("__TEXT, " name)))
+#define DATA_SECTION(name)          __attribute__ ((section ("__DATA, " name)))
+#define DATA_CONST_SECTION(name)    __attribute__ ((section ("__TEXT, " name)))
 #else
-#define CODE_SECTION(name)          __attribute__ ((section (name))) 
-#define DATA_SECTION(name)          __attribute__ ((section (name))) 
-#define DATA_CONST_SECTION(name)    __attribute__ ((section (name))) 
+#define CODE_SECTION(name)          __attribute__ ((section (name)))
+#define DATA_SECTION(name)          __attribute__ ((section (name)))
+#define DATA_CONST_SECTION(name)    __attribute__ ((section (name)))
 #endif
-#define SECTION_END 
+#define SECTION_END
 
 #elif defined(PIN_MS_COMPATIBLE)
 
-#define PUSH_SECTIONS__ __pragma(code_seg(push)) __pragma(data_seg(push)) __pragma(const_seg(push))
-#define POP_SECTIONS__  __pragma(code_seg(pop))  __pragma(data_seg(pop))  __pragma(const_seg(pop))
+#define PUSH_SECTIONS__ __pragma(code_seg(push)) __pragma(data_seg(push)) __pragma(const_seg(push))  __pragma(bss_seg(push))
+#define POP_SECTIONS__  __pragma(code_seg(pop))  __pragma(data_seg(pop))  __pragma(const_seg(pop))  __pragma(bss_seg(pop))
 
 #define CODE_SECTION(name)          PUSH_SECTIONS__  __pragma(code_seg(name))
 #define DATA_SECTION(name)          PUSH_SECTIONS__  __pragma(data_seg(name))
 #define DATA_CONST_SECTION(name)    PUSH_SECTIONS__  __pragma(const_seg(name))
+#define BSS_SECTION(name)           PUSH_SECTIONS__  __pragma(bss_seg(name))
 #define SECTION_END                 POP_SECTIONS__
 
 #endif
 
-/* 
+/*
  UNUSED     - designates possibly unused variable
+ ALIGNED_TO - designates type of variable that should be aligned to a specific alignment.
  NORETURN   - designates function that never returns
  REGPARM    - on x86, designates function whose first arguments are passed in registers
-              instead of on the stack. 
+              instead of on the stack.
               The registers used to pass arguments are compiler-dependent:
               GCC: EAX, EDX, and ECX
               MS:  ECX and EDX
@@ -116,6 +119,7 @@
 #if defined(PIN_GNU_COMPATIBLE)
 
 #define UNUSED __attribute__ ((__unused__))
+#define ALIGNED_TO(c) __attribute__ ((aligned(c)))
 #define NORETURN __attribute__ ((noreturn))
 #define REGPARM __attribute__ ((regparm (3)))
 #define NO_SANITIZE_ADDRESS __attribute__((no_sanitize_address))
@@ -123,8 +127,9 @@
 #elif defined(PIN_MS_COMPATIBLE)
 
 #define UNUSED
+#define ALIGNED_TO(c) __declspec ( align(c) )
 #define NORETURN __declspec(noreturn)
-#define REGPARM __fastcall     
+#define REGPARM __fastcall
 #define NO_SANITIZE_ADDRESS
 
 #endif
@@ -143,7 +148,7 @@
 # endif
 #endif
 
-/*! @ingroup MISC 
+/*! @ingroup MISC
    Apply this macro to deprecated interface definitions to cause warnings when users refer to them.
    When using this macro, also do the following:\n
    [1] change the interface group to DEPRECATED_PIN_API.\n
@@ -164,8 +169,8 @@
 # endif
 #endif
 
-/* 
- Type qualifiers. 
+/*
+ Type qualifiers.
  Serve as keywords in generating headers and code conventions checks.
 */
 #define GLOBALFUN extern
@@ -197,6 +202,7 @@
 #define IMPORTVAR extern
 #define CONSTRUCTOR_FUN(fun) int fun(void) __attribute__((constructor)); \
                              static int fun(void)
+#define WEAK_CFUN_DECL(fun_signature) GLOBALCFUN fun_signature __attribute__((weak))
 
 #define CONST_COMDATVAR(type,name,val) extern const __attribute__((weak)) type name; \
                                        const type name = val
@@ -227,10 +233,10 @@
 #define MEMBERFUN
 
 #define MEMBERVAR
-#define GLOBALVAR 
+#define GLOBALVAR
 #define LOCALVAR static
 
-#define LOCALTYPE 
+#define LOCALTYPE
 #define GLOBALTYPE
 
 #define GLOBALCONST const
@@ -238,9 +244,11 @@
 
 #define STATIC static
 
-#define LOCALOPERATOR static 
+#define LOCALOPERATOR static
 
 #define GLOBALTEMPLATEFUN
 #define LOCALTEMPLATEFUN
+
+#endif // ASM_ONLY
 
 #endif

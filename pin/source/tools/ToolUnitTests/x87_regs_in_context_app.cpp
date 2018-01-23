@@ -1,7 +1,7 @@
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
-Copyright (c) 2002-2016 Intel Corporation. All rights reserved.
+Copyright (c) 2002-2017 Intel Corporation. All rights reserved.
  
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -31,27 +31,26 @@ END_LEGAL */
 // this application is for use in the x87_regs_in_context.test, in conjunction with the
 // x87_regs_in_context tool
 #if defined(TARGET_WINDOWS)
-#include <windows.h>
-#include <string>
-#include <iostream>
-#include <memory.h>
+# include <windows.h>
+# include <string>
+# include <iostream>
+# include <memory.h>
+
 using namespace std;
-#define EXPORT_CSYM extern "C" __declspec( dllexport )
-#else
-//Linux:
-#if defined(TARGET_ANDROID)
-#include "android_ucontext.h"
-#else
-#include <ucontext.h>
-#endif
-#include <signal.h>
-#include <stdio.h>
-#include <setjmp.h>
-#include <assert.h>
-#include <sys/mman.h>
-#include <stdlib.h>
-#include <memory.h>
-#define EXPORT_CSYM extern "C"
+# define EXPORT_CSYM extern "C" __declspec( dllexport )
+
+#else // not TARGET_WINDOWS
+
+# include <ucontext.h>
+# include <signal.h>
+# include <stdio.h>
+# include <setjmp.h>
+# include <assert.h>
+# include <sys/mman.h>
+# include <stdlib.h>
+# include <memory.h>
+
+# define EXPORT_CSYM extern "C"
 #endif
 
 #include <stdio.h>
@@ -176,7 +175,7 @@ typedef FPSTATE_STRUCT FPSTATE;
 
 
 
-#elif (defined(TARGET_IA32E) || defined(TARGET_MIC))
+#elif defined(TARGET_IA32E)
 typedef UINT64 ADDRINT;
 
 struct /*<POD>*/ FXSAVE_STRUCT
@@ -218,16 +217,16 @@ typedef FPSTATE_STRUCT FPSTATE;
  Retrieve the X87 registers and print their contents
  */
 void DumpX87Regs()
-{ 
+{
     static char buffer[2048 + 16];
-    static char* aligned_bufp =reinterpret_cast<char*> 
+    static char* aligned_bufp =reinterpret_cast<char*>
                                (((reinterpret_cast<ADDRINT>(buffer) + 16) >> 4) << 4);
     FPSTATE *fpVerboseContext1 = reinterpret_cast <FPSTATE *>(aligned_bufp);
     mmx_save(aligned_bufp);
 
     printf ("_mxcsr %x\n", fpVerboseContext1->fxsave_legacy._mxcsr);
-        
-    
+
+
     int i;
     for (i=0; i< 8; i++)
     {
@@ -242,7 +241,7 @@ void DumpX87Regs()
 void SetX87Regs(unsigned int val)
 {
     static char buffer[2048 + 16];
-    static char* aligned_bufp =reinterpret_cast<char*> 
+    static char* aligned_bufp =reinterpret_cast<char*>
                                (((reinterpret_cast<ADDRINT>(buffer) + 16) >> 4) << 4);
     FPSTATE *fpVerboseContext1 = reinterpret_cast <FPSTATE *>(aligned_bufp);
     mmx_save(aligned_bufp);
@@ -274,7 +273,7 @@ void SetX87Regs(unsigned int val)
         printf ("***Error divide by zero should be unmasked\n");
         exit (-1);
     }
-   
+
 
     for (i=0; i<8; i++)
     {
@@ -291,7 +290,7 @@ void SetX87Regs(unsigned int val)
 void VerifyAndDumpX87RegsAtReplacedFunction()
 {
     static char buffer[2048 + 16];
-    static char* aligned_bufp =reinterpret_cast<char*> 
+    static char* aligned_bufp =reinterpret_cast<char*>
                                (((reinterpret_cast<ADDRINT>(buffer) + 16) >> 4) << 4);
     FPSTATE *fpVerboseContext1 = reinterpret_cast <FPSTATE *>(aligned_bufp);
     mmx_save(aligned_bufp);
@@ -331,8 +330,8 @@ void VerifyAndDumpX87RegsAtReplacedFunction()
 
 
 /* when run with the x87_regs_in_context tool, the tool will have replaced this
-   function with a function that calls this original but first the tool 
-   replacement function sets the x87 regs in the context used  
+   function with a function that calls this original but first the tool
+   replacement function sets the x87 regs in the context used
    in the PIN_CallApplicationFunction used to call this original function
 */
 EXPORT_CSYM void ReplacedX87Regs()
@@ -345,7 +344,7 @@ EXPORT_CSYM void ReplacedX87Regs()
 void VerifyAndDumpX87RegsAtExecutedAtFunction()
 {
     static char buffer[2048 + 16];
-    static char* aligned_bufp =reinterpret_cast<char*> 
+    static char* aligned_bufp =reinterpret_cast<char*>
                                (((reinterpret_cast<ADDRINT>(buffer) + 16) >> 4) << 4);
     FPSTATE *fpVerboseContext1 = reinterpret_cast <FPSTATE *>(aligned_bufp);
     mmx_save(aligned_bufp);
@@ -384,7 +383,7 @@ void VerifyAndDumpX87RegsAtExecutedAtFunction()
 }
 
 /* when run with the set_fp_context_xmm_regs tool, the tool will call this
-   function via the PIN_ExecuteAt, but first the tool will 
+   function via the PIN_ExecuteAt, but first the tool will
    sets the x87 regs in the context used to in the PIN_ExecuteAt call
 */
 EXPORT_CSYM void ExecutedAtFunc()
@@ -396,7 +395,7 @@ EXPORT_CSYM void ExecutedAtFunc()
 void VerifyAndDumpX87RegsAtFunctionCalledFromToolExceptionCatcher()
 {
     static char buffer[2048 + 16];
-    static char* aligned_bufp =reinterpret_cast<char*> 
+    static char* aligned_bufp =reinterpret_cast<char*>
                                (((reinterpret_cast<ADDRINT>(buffer) + 16) >> 4) << 4);
     FPSTATE *fpVerboseContext1 = reinterpret_cast <FPSTATE *>(aligned_bufp);
     mmx_save(aligned_bufp);
@@ -437,7 +436,7 @@ void VerifyAndDumpX87RegsAtFunctionCalledFromToolExceptionCatcher()
 // the tool's OnException function directs execution to here after changing the values in the xmm registers
 EXPORT_CSYM void DumpX87RegsAtException()
 {
-   
+
     VerifyAndDumpX87RegsAtExecutedAtFunction();
     // and exit OK
     exit (0);
@@ -511,7 +510,7 @@ int main()
 #if !defined(TARGET_WINDOWS)
 // Linux
     // define a handler so that the tool gets the  context change callback with the CONTEXT_CHANGE_REASON_SIGNAL
-    // and a valid ctxtTo 
+    // and a valid ctxtTo
     struct sigaction sigact;
 
     sigact.sa_sigaction = handle;
@@ -524,9 +523,9 @@ int main()
     }
 #endif
 
-    
 
-    
+
+
     char * p = 0;
     p++;
     printf ("x87 regs as set to values just before app causes exception\n");
@@ -534,5 +533,5 @@ int main()
     Fld1_b();  // tool will insert analysis function to cause the x87 state to
                // be in the spill area at the time of the following exception
     // the gpf here will cause the invocation of the tool's OnException function
-    *p = 0;   
+    *p = 0;
 }
