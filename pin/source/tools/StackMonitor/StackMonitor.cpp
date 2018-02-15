@@ -107,7 +107,6 @@ INT32 Usage()
 
 VOID StackPtr(VOID *ip, const CONTEXT *ctxt, string *disasm)
 {
-    /* TODO: Add maskable flag integer for sending */
 
     uintptr_t len;
     uintptr_t flag;
@@ -528,7 +527,7 @@ int main(int argc, char *argv[])
 
     PIN_AddFiniFunction(Finish, 0);
     PIN_AddContextChangeFunction(OnSig, 0);
-    PIN_AddForkFunction(FPOINT_BEFORE, ForkNotify, 0);
+    //PIN_AddForkFunction(FPOINT_BEFORE, ForkNotify, 0);
 
     PIN_AddFollowChildProcessFunction(FollowChild, 0);
 
