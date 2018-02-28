@@ -9,7 +9,7 @@ def main():
 
     for x in stackmonitor.monitor("./tool/binaries/test-app"):
         s.update(x)
-        s.print_in_range(0x4005e1,0x4005f7)
+        s.print_in_range(0x40075d,0x400775)
 
         # test input: "Computer Sabotage:  Programmed to Sneeze aaaaa"
         # apparently gets reads one char (C)

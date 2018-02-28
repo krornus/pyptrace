@@ -10,8 +10,8 @@ def execv():
 
 def rust():
     for x in stackmonitor.monitor("./tool/binaries/rust-dbg"):
-        if x['ip'] in range(0x00400592, 0x004005a6+1):
+        if x['ip'] in range(0x004005d0, 0x004005d0+20):
             print "{}: {}".format(hex(x['ip']), x['disassembly'])
 
 execv()
-rust()
+#rust()
